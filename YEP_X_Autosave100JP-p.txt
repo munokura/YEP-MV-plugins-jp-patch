@@ -1,0 +1,320 @@
+/*:ja
+ * @plugindesc v1.00 (要YEP_SaveCore)自動保存機能を追加します
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_SaveCoreを必要とします。
+ * このプラグインがプラグイン管理の
+ * YEP_SaveCoreの下にあることを確認してください。
+ *
+ * 自動保存は、今日の標準RPGに見られる共通の機能です。
+ * 手動で保存するのを忘れた場合にゲームが進行状況を失うことがないように、
+ * ゲームは特定のトリガーまたはマップの変更時に保存されます。
+ * このプラグインはあなたのゲームに自動保存機能を追加し、
+ * 自動保存するタイミングを制御したり、
+ * 特定の条件下で自動的に実行するように設定したりすることができます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * このプラグインを使って自動保存を実行する方法は3つあります。
+ * あなたのゲームに最も適したものを決めてください。
+ *
+ * ---
+ *
+ * Manual:
+ * - デフォルトでは、自動保存はこのプラグインで自動的には行われません。
+ * ゲーム制作者は自動保存を実行したい場所に
+ * プラグインコマンド：Autosave を挿入する必要があります。
+ * これは最もコントロールが詳細に出来ます。
+ *
+ * ---
+ *
+ * Autosave on Map Load:
+ * - これはプラグインパラメータです。
+ * trueに設定すると、マップシーンがロードされる度に自動保存されます。
+ * 新しいマップをロードすること、
+ * メニューから出ること、
+ * または戦闘を終えることを意味します。
+ * これら3つの条件すべてにより、自動保存機能がアクティブになります。
+ *
+ * ---
+ *
+ * Autosave on Main Menu:
+ * - これはプラグインパラメータです。
+ * trueに設定されていると、プレイヤーがマップシーンから
+ * メインメニューに入る度にゲームは自動保存されます。
+ * メインメニューに関して自動保存は他の方法では行われません。
+ * アイテムシーンからメインメニューに移動しても自動保存は有効になりません。
+ *
+ * ---
+ *
+ * プレーヤーが自動保存を無効にしている場合、自動保存は行われません。
+ * プレーヤに自動保存を無効にする機能を与えたくない場合、
+ * プラグインパラメータ "Show Option"をfalseに設定することができます。
+ *
+ * 自動保存の3つの方法すべてを並行して使用できます。
+ * あなたはそれを手動ですることができ、
+ * マップをロードするときに自動保存し、
+ * メインメニューを呼び出すときに自動保存できます。
+ *
+ * *注:3つの方法すべてを同時に使用できますが、注意してください。
+ * ゲームをセーブすることはセーブファイルサイズが大きくなると、
+ * 若干の遅れを引き起こすかもしれません。
+ * 自動保存と普通の保存の動作に違いはありません。
+ * これはプラグインで修正できないものです。
+ *
+ * *注:自動保存は、最初の1回はプレーヤーが手動で保存するまで行われません。
+ * その後、自動保存は保存に使用されたスロットを使用して保存し続けるか、
+ * またはプレーヤーが後で移動したいずれかの保存スロットに保存します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 自動保存は、プラグインコマンドを使用してゲーム制作者によって制御されます。
+ * 自動保存を制御できる他のプラグインコマンドもあります。
+ *
+ *   プラグインコマンド:
+ *
+ *    Autosave
+ *    - プレイヤーが最後に保存したファイルスロットに自動的に保存されます。
+ *    プレイヤーが新しいゲームを始めてまだスロットにセーブしていなければ、
+ *    何も起こりません。
+ *    自動保存が[オプション]メニューでプレーヤーによって無効にされている場合、
+ *    またはプラグインコマンドでシステムによって無効にされている場合、
+ *    何も起こりません。
+ *
+ *    EnableAutosave
+ *    DisableAutosave
+ *    - ゲームによって行われる自動保存を強制的に有効または無効にします。
+ *    有効にしようとしても、
+ *    自動保存を無効にするというプレイヤーのオプションは無視されません。
+ *    自動保存を無効にするというプレイヤーの決定は、
+ *    ゲーム開発者よりも優先されます。
+ *    このオプションをプレーヤから外したい場合、
+ *    プラグインパラメータでそれを変更してください。
+ *
+ * ===========================================================================
+ * Options Core 設定 - 新しいオプションの追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCore を使用している場合、
+ * このプラグインを使用して新しいオプションを追加できます。
+ * これはあなたがそれと共に使用できる以下のコード/パラメータ設定です。
+ *
+ * ---------
+ * Settings:
+ * ---------
+ *
+ * Name:
+ * \i[231]Autosave
+ *
+ * Help Description:
+ * Enables \c[4]Autosaving\c[0] for your game if ON.
+ * You can still manually save your game.
+ *
+ * Symbol:
+ * autosave
+ *
+ * Show/Hide:
+ * show = Imported.AutosaveShowOpt;
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ * this.drawOptionsOnOff(index);
+ *
+ * Process OK Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, !value);
+ *
+ * Cursor Right Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, true);
+ *
+ * Cursor Left Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, false);
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---自動設定---
+ * @default
+ *
+ * @param OnMapLoad
+ * @text マップ読込時
+ * @parent ---自動設定---
+ * @type boolean
+ * @on 保存する
+ * @off 保存しない
+ * @desc マップがロードされる度に自動保存
+ * 保存する:true / 保存しない:false
+ * @default false
+ *
+ * @param OnMainMenu
+ * @text メインメニュー時
+ * @parent ---自動設定---
+ * @type boolean
+ * @on 保存する
+ * @off 保存しない
+ * @desc メインメニューが呼び出される度に自動保存
+ * 保存する:true / 保存しない:false
+ * @default false
+ *
+ * @param ---オプションメニュー---
+ * @default
+ *
+ * @param Show Option
+ * @text 表示
+ * @parent ---オプションメニュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 自動保存を有効/無効にするオプション
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param Option Name
+ * @text 表示テキスト
+ * @parent ---オプションメニュー---
+ * @desc オプションコマンドの表示テキスト
+ * @default オートセーブ
+ *
+ * @param Default
+ * @text デフォルト有効化
+ * @parent ---オプションメニュー---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc 自動保存をデフォルトで有効
+ * 有効:true / 無効:false
+ * @default true
+ *
+ * @param ---ビジュアル---
+ * @default
+ *
+ * @param ShowAutosave
+ * @text 自動保存メッセージ
+ * @parent ---ビジュアル---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 自動保存が発生した時、メッセージを表示
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param AutosaveMsgSave
+ * @text 自動保存時テキスト
+ * @parent ShowAutosave
+ * @desc 自動保存メッセージ。
+ * 制御文字を使用できます。
+ * @default \i[83]オートセーブ完了!
+ *
+ * @param AutosaveMsgLoad
+ * @text ロード時の自動保存メッセージ
+ * @parent ShowAutosave
+ * @desc 自動保存メッセージ。
+ * 制御文字を使用できます。
+ * @default \i[83]ロード時セーブ完了!
+ *
+ * @param MsgGradient1
+ * @text メッセージグラデーション1
+ * @parent ShowAutosave
+ * @desc グラデーション色に使用される16進色
+ * rgba(0, 0, 0, 0) 参照: 赤, 緑, 青, アルファ
+ * @default rgba(0, 0, 0, 0)
+ *
+ * @param MsgGradient2
+ * @text メッセージグラデーション2
+ * @parent ShowAutosave
+ * @desc グラデーション色に使用される16進色
+ * rgba(0, 0, 0, 0) 参照: 赤, 緑, 青, アルファ
+ * @default rgba(0, 0, 0, 0.6)
+ *
+ * @param MsgGradientCode
+ * @text メッセージグラデーションコード
+ * @parent ShowAutosave
+ * @type note
+ * @desc グラデーション表示をJavaScriptで設定
+ * @default "var textWidth = this.textWidthEx(this.message());\nvar half = this.textPadding() + Math.ceil(textWidth / 2);\nvar height = this.lineHeight();\nvar color1 = Yanfly.Param.AutosaveMsgColor1;\nvar color2 = Yanfly.Param.AutosaveMsgColor2;\nthis.contents.gradientFillRect(0, 0, half, height, color1, color2);\nthis.contents.gradientFillRect(half, 0, this.width - half, height, color2, color1);"
+ *
+ * @param MsgX
+ * @text メッセージX位置
+ * @parent ShowAutosave
+ * @desc メッセージのX位置
+ * コードを使うことができます。
+ * @default Graphics.boxWidth - 270
+ *
+ * @param MsgY
+ * @text メッセージY位置
+ * @parent ShowAutosave
+ * @desc メッセージのY位置
+ * コードを使うことができます。
+ * @default Graphics.boxHeight - this.fittingHeight(1) * 2
+ *
+ * @param MsgDuration
+ * @text メッセージ表示時間
+ * @parent ShowAutosave
+ * @type number
+ * @desc メッセージ表示時間（フレーム）
+ * @default 120
+ *
+ * @param FadeSpeed
+ * @text メッセージフェード速度
+ * @parent ShowAutosave
+ * @desc ウィンドウのフェード速度(数字)
+ * 小さい:ゆっくり / 大きい:早い
+ * @default 16
+ *
+ */

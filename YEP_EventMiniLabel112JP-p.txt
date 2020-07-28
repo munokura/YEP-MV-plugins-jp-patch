@@ -1,0 +1,170 @@
+/*:ja
+ * @plugindesc v1.12 イベントの上に小さなラベルを作成し、好きなテキストを表示できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Default Show
+ * @text デフォルト表示
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでミニラベルを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Minimum Width
+ * @text 最小幅
+ * @type number
+ * @min 1
+ * @desc ミニラベルの最小幅(ピクセル)
+ * @default 136
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @type number
+ * @min 1
+ * @desc ミニラベル内のテキストのフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param X Buffer
+ * @text X位置
+ * @type number
+ * @desc ラベルのX位置を変更
+ * @default 0
+ *
+ * @param Y Buffer
+ * @text Y位置
+ * @type number
+ * @desc ラベルのY位置を変更
+ * @default 36
+ *
+ * @param Battle Transition
+ * @text 戦闘移行中
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 戦闘移行中にミニラベルを表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、コメントタグに従ってイベントの上に文章を表示できます。
+ *
+ * ===========================================================================
+ * 注釈タグ
+ * ===========================================================================
+ *
+ * 注釈タグは、イベントの注釈で使用される「ノートタグ」です。
+ * 私がメモタグの代わりに注釈タグを使っているのは、
+ * イベントの各ページで異なる名前を生み出すことができるからです。
+ *
+ * ミニラベルを作成したいイベント内に注釈を付け、以下を挿入します。
+ *
+ *   <Mini Label: text>
+ *   イベントの上に「テキスト」が表示されます。
+ *   注釈タグには制御文字が使用可能で、変化する文章を作成できます。
+ *
+ *   <Mini Label Font Size: x>
+ *   ミニラベルに使用されるフォントサイズを x に変更します。
+ *   このタグが使用されていない場合、
+ *   フォントサイズがプラグインの設定値になります。
+ *
+ *   <Mini Label X Buffer: +x>
+ *   <Mini Label X Buffer: -x>
+ *   ミニラベル用の X 位置 を x 値で調整します。
+ *   このタグが使用されていない場合、X 位置がプラグインの設定値になります。
+ *
+ *   <Mini Label Y Buffer: +x>
+ *   <Mini Label Y Buffer: -x>
+ *   これはミニラベルの Y 位置を x の値で調整します。
+ *   このタグが使用されていない場合、Y 位置がプラグインの設定値になります。
+ *
+ *   <Always Show Mini Label>
+ *   ミニラベルを常に表示するようにします。
+ *   非表示にするにはプラグインコマンドを使用します。
+ *
+ *   <Mini Label Range: x>
+ *   プレーヤーがこのイベントの x タイル以内に来た時に
+ *   ミニラベルが表示されます。
+ *
+ *   <Mini Label Require Facing>
+ *   プレーヤーがイベントの方向を向いている時にミニラベルが表示されます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲーム中にミニラベルをオフ/オンにしたい場合、
+ * 次のプラグインコマンドを使用します。
+ *
+ * プラグインコマンド
+ *
+ *   HideMiniLabel
+ *   全てのミニラベルを非表示にします。
+ *
+ *   ShowMiniLabel
+ *   全てのミニラベルを表示します。
+ *
+ *   RefreshMiniLabel
+ *   マップ上の全てのミニラベルを更新します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.12:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.11:
+ * - Added 'Battle Transition' plugin parameter. Enabling this will allow you
+ * to show the Event Mini Labels during the battle transition. Keeping it
+ * disabled will hide them during the transition.
+ *
+ * Version 1.10:
+ * - Mini Windows will now readjust their size to show at normal scale if the
+ * map is zoomed in.
+ *
+ * Version 1.09:
+ * - Fixed a bug that caused Mini Labels that started off as hidden to remain
+ * hidden even after turning the Mini Labels on.
+ *
+ * Version 1.08:
+ * - Added <Mini Label Require Facing> comment tag.
+ * - Moved the priority of the Mini Labels to be later added to the spriteset
+ * so they can stay on top of more effects.
+ *
+ * Version 1.07:
+ * - Added more padding space so text doesn't get cut off.
+ *
+ * Version 1.06:
+ * - Fixed a bug that caused some mini labels to show if the event was loaded
+ * onto the map without any currently active pages.
+ *
+ * Version 1.05:
+ * - Added 'X Buffer' plugin parameter and the <Mini Label X Buffer: +x> and
+ * <Mini Label X Buffer: -x> comment tags to alter the X position of the event
+ * mini label.
+ *
+ * Version 1.04:
+ * - Added 'RefreshMiniLabel' plugin command to allow you to manually refresh
+ * all mini labels on the map.
+ *
+ * Version 1.03:
+ * - Optimized updating performance to reduce lag on maps with many events.
+ *
+ * Version 1.01:
+ * - Fixed a bug that didn't update event labels under certain page
+ * conditions.
+ * - Added <Mini Label Range: x> notetag.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

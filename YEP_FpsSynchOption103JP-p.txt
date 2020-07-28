@@ -1,0 +1,149 @@
+/*:ja
+ * @plugindesc v1.03 オプションメニューにモニターのFPS同期を選択するコマンドを追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Command Name
+ * @text オプション表示名
+ * @desc オプションメニュー内で使用される表示名
+ * @default シンクモニターFPS
+ *
+ * @param Default Setting
+ * @text デフォルト設定
+ * @type boolean
+ * @on ON
+ * @off OFF
+ * @desc シンクモニターFPS のデフォルト設定
+ * OFF:false(おすすめ) / ON:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはRPG Maker MVバージョン1.1.0以降で使用できます。
+ *
+ * RPGツクールMVは、エンジンの各更新が
+ * フレーム更新毎に1回行われるように構成されています。
+ * これは通常は問題ありませんが、
+ * 多くのプレイヤーは 60fps でゲームを見ますが、
+ * ハードウェアの動作速度が 60fps よりも高いため、
+ * ゲームの使い方が異なるプレイヤーもいます。
+ *
+ * RPGツクールMVバージョン1.1.0が実装されると、
+ * Galenmerethの流動的なタイムステップが実装され、
+ * 常に 60fps であるかのようにゲームがプレイされます。
+ * 実際には、これは誰にとっても素晴らしいことです。
+ * 60fps を超える経験をしたプレーヤーは、
+ * 60fps であるかのようにゲームをプレイできるからです。
+ *
+ * ただし、プレーヤーのハードウェアがRPGツクールMVを 60fps で
+ * ネイティブにサポートするのに十分な性能がない場合
+ * （古いコンピューターや弱いモバイルデバイスの場合など）や、
+ * プレーヤーがビデオ録画ソフトウェアを使用している場合は問題があります。
+ * 60fps ゲームは入力コマンドからの反応が遅れて
+ * ジャンプしているように見えたり、
+ * プレーヤーが特定の視覚的フレームの更新を見逃してしまうことさえあります。
+ *
+ * このプラグインは、オプションメニューに選択肢を追加します。
+ * 流体タイムステップの追加を有効または無効にしたり、
+ * 以前のRPGツクールMVエンジン更新機能を利用するための設定を行います。
+ * このようにして、プレーヤーはそれを扱うことができないかもしれない全ての人に
+ * それを強制するのではなく、流動的タイムステップを使うか、
+ * あるいは使わないという選択肢を得るでしょう。
+ *
+ * ===========================================================================
+ * Options Core 設定 - 新しいオプションの追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCore.js を使用している場合、
+ * このプラグインを使用して新しいオプションを追加できます。
+ * 下記は使用できるコード/パラメータ設定です。
+ *
+ * ---------
+ * 設定:
+ * ---------
+ *
+ * Name:
+ * \i[302]Synch Monitor FPS
+ *
+ * Help Description:
+ * Turn this ON if your monitor runs above 60 FPS
+ * to synchronize the game to run at 60 FPS.
+ *
+ * Symbol:
+ * synchFps
+ *
+ * Show/Hide:
+ * show = Imported.YEP_SynchFpsOption;
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ * this.drawOptionsOnOff(index);
+ *
+ * Process OK Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, !value);
+ *
+ * Cursor Right Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, true);
+ *
+ * Cursor Left Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, false);
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Compatibility update with YEP_OptionsCore.js.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.01:
+ * - The plugin is now prevented if the project's core files are under version
+ * RPG Maker MV 1.1.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

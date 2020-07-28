@@ -1,0 +1,169 @@
+/*:ja
+ * @plugindesc v1.04 イベントのセルフスイッチ・セルフ変数を追加、拡張できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGツクールMVにはセルフスイッチ機能が付いています。
+ * ただし、提供されているセルフスイッチの数は合計4個にすぎず、
+ * より複雑なイベントには不十分です。
+ * このプラグインを使用すると、
+ * セルフスイッチの数を増やすことができます。
+ * 一方、自己変数はRPGツクールMVには存在しないため、
+ * このプラグインはそのための機能も提供します。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * カスタムセルフスイッチ・セルフ変数を設定するには、
+ * まずいくつかのことを行う必要があります。
+ *
+ *   1. エディタでスイッチ/変数リストを開きます。
+ *   2. スイッチに'Self Sw'を含めた名前を付けます。
+ *      または、変数に'Self Var'を含めた名前を付けます。
+ *
+ * 例えば、イベントの出現条件に上記で設定したスイッチ・変数を指定すると、
+ * そのイベントのセルフスイッチ・変数として動作します。
+ *
+ * また、以下のイベントコマンドを使用する時、
+ * セルフスイッチ・セルフ変数が対象であれば、
+ * 通常のスイッチ・変数ではなく、セルフスイッチ・変数として動作します。
+ *
+ *   セルフスイッチ
+ *     - スイッチの操作
+ *     - 条件分岐
+ *     - 移動ルートの設定(スイッチオン/オフ)
+ *
+ *   セルフ変数
+ *     - 文章の表示(\v[x]コードを使用)
+ *     - 数値入力
+ *     - アイテム選択
+ *     - 変数の操作
+ *     - 条件分岐
+ *     - 所持金の増減
+ *     - アイテムの増減
+ *     - 武器の増減
+ *     - 防具の増減
+ *     - HPの増減
+ *     - MPの増減
+ *     - TPの増減
+ *     - 全回復
+ *     - 経験値の増減
+ *     - レベルの増減
+ *     - 能力値の増減
+ *     - スキルの増減
+ *     - 装備の変更
+ *     - 敵キャラのHP増減
+ *     - 敵キャラのMP増減
+ *     - 敵キャラのTP増減
+ *     - 場所移動
+ *     - 乗り物の位置設定
+ *     - イベントの位置設定
+ *     - ピクチャの表示
+ *     - ピクチャの移動
+ *     - 指定位置の情報取得
+ *
+ * 変数を使用する全てのプラグインが、
+ * カスタムメイドのセルフスイッチ・変数と
+ * 必ずしも互換性があるとは限らないことに注意してください。
+ * YEPライブラリのプラグインはこのプラグインと互換性があります。
+ *
+ *   - YEP_EventMiniLabel
+ *   - YEP_MapSelectSkill
+ *
+ * 非Yanflyエンジンプラグインは互換性がある場合とない場合があります。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * セルフスイッチとセルフ変数をリモート制御したい人は、
+ * 次のプラグインコマンドを使用できます。
+ *
+ * プラグインコマンド
+ *
+ *   SelfSwitch Map x, Event y, Switch z to true
+ *   SelfSwitch Map x, Event y, Switch z to false
+ *   SelfSwitch Map x, Event y, Switch z to code
+ *   - マップ'x'、イベント'y'に使用されるセルフスイッチを変更し、
+ *   'z'を'code'値の値に切り替えます。
+ *   'code'を'true'・'false'の値・'$gameSwitches.value(4)'のようなコードに
+ *   置き換えることができます。
+ *
+ *   SelfVariable Map x, Event y, Variable z to 12345
+ *   SelfVariable Map x, Event y, Variable z to value + 100
+ *   SelfVariable Map x, Event y, Variable z to code
+ *   - マップ'x'、イベント'y'に使用されるセルフ変数を変更し、
+ *   'z'を'code'値の値に切り替えます。
+ *   'code'を'12345'のような数字、'value'(セルフ変数の現在の値)を使った計算、
+ *   '$gameVariables.value(4)'のようなコードに置き換えることができます。
+ *
+ * ===========================================================================
+ * ルナティックモード - スクリプトコール
+ * ===========================================================================
+ *
+ * 代わりにスクリプトコールイベント内でセルフスイッチ・変数を変更したい場合、
+ * 次のスクリプトコールを使用できます。
+ *
+ * スクリプトコール
+ *
+ *   this.getSelfSwitchValue(mapId, eventId, switchId)
+ *   - mapIdをイベントが存在するマップIDに置き換えます。
+ *   eventIdをイベントIDに置き換えます。
+ *   switchIdをスイッチIDに置き換えます。
+ *   そのイベントのセルフスイッチの true/false を取得します。
+ *
+ *   this.getSelfVariableValue(mapId, eventId, varId)
+ *   -mapIdをイベントが存在するマップIDに置き換えます。
+ *   eventIdをイベントIDに置き換えます。
+ *   varIdを変数IDに置き換えます。
+ *   これはそのイベントのセルフ変数の値を取得します。
+ *
+ *   this.setSelfSwitchValue(mapId, eventId, switchId, true)
+ *   this.setSelfSwitchValue(mapId, eventId, switchId, false)
+ *   - mapIdをイベントが存在するマップIDに置き換えます。
+ *   eventIdをイベントIDに置き換えます。
+ *   switchIdをスイッチIDに置き換えます。
+ *   これにより、そのセルフスイッチが true/false に設定されます。
+ *
+ *   this.setSelfVariableValue(mapId, eventId, varId, value)
+ *   - mapIdをイベントが存在するマップIDに置き換えます。
+ *   eventIdをイベントIDに置き換えます。
+ *   varIdを変数IDに置き換えます。
+ *   これはそのセルフ変数を挿入された値に設定します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02a:
+ * - Lunatic Mode fail safes added.
+ * - Documentation updated for the script calls. Previously used incorrect
+ * function names. Function names should now be fixed.
+ *
+ * Version 1.01:
+ * - Fixed a conflict that made self variables not work properly with the
+ * Input Number event, select item event while a parallel process has a
+ * variable being changed in the background.
+ * - Added Self-Variable support for Transfer Player, Set Vehicle Location,
+ * Set Event Location, Show Picture, Move Picture, and Get Location Info
+ * events.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

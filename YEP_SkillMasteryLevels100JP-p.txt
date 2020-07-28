@@ -1,0 +1,554 @@
+/*:ja
+ * @plugindesc v1.00 スキルを使用するとスキル習熟レベルが上がるシステムを導入できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 注: YEP_SkillCore、YEP_X_SkillCooldowns を使用している場合、
+ * プラグイン管理でこのプラグインを上記の下に配置します。
+ * このプラグインはこれらのプラグインが無くても機能しますが、
+ * この特定の順序で配置されているとより上手く機能します。
+ *
+ * RPGの中には、スキルを繰り返し使用することで何らかの形のスキル習熟による、
+ * ダメージの増加、スキルのコスト減少、
+ * スキルのクールダウンターン短縮がもたらされるものもあります。
+ * このプラグインを使用すると、これらを実現できます。
+ *
+ * スキル習熟レベルのシステムはこのような働きをします。
+ * アクターや敵が戦闘でスキルを使うと、スキル経験値を得ます。
+ * スキル経験値が一定の閾値に達すると、そのスキル習熟レベルが上がり、
+ * その結果、ダメージ増加、スキルコスト減少、クールダウンターン短縮など、
+ * 望ましいスキル習熟レベル効果が得られます。
+ * これらの各機能は、レベル毎に必要な経験値に使用される式で調整できます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * スキル習熟レベル・他の様々な習熟関連の特性を決定するには、
+ * スキルに次のメモタグを使用します。
+ *
+ * ---
+ *
+ * スキルのメモタグ
+ *
+ *   <Max Mastery Level: x>
+ *   - 'x'をスキルに設定したい最大の習熟レベルに置き換えます。
+ *   スキルに習熟レベルを設定したくない場合、0に置き換えます。
+ *
+ *   <Mastery Effect: +x Damage Per Level>
+ *   <Mastery Effect: +x HP Cost Per Level>
+ *   <Mastery Effect: +x MP Cost Per Level>
+ *   <Mastery Effect: +x TP Cost Per Level>
+ *   <Mastery Effect: +x Cooldown Per Level>
+ *   <Mastery Effect: -x Damage Per Level>
+ *   <Mastery Effect: -x HP Cost Per Level>
+ *   <Mastery Effect: -x MP Cost Per Level>
+ *   <Mastery Effect: -x TP Cost Per Level>
+ *   <Mastery Effect: -x Cooldown Per Level>
+ *   - スキル習熟レベルに応じて、
+ *   ダメージ、HPコスト、MPコスト、TPコスト、クールダウンターンが増減します。
+ *   'x'をスキル習熟レベルに応じて変化させたい数値に置き換えます。
+ *   - 注: HPコストにはYEP_SkillCoreが必要です。
+ *   - 注: クールダウンにはYEP_X_SkillCooldownsが必要です。
+ *
+ *   <Mastery Effect: +x% Damage Per Level>
+ *   <Mastery Effect: +x% HP Cost Per Level>
+ *   <Mastery Effect: +x% MP Cost Per Level>
+ *   <Mastery Effect: +x% TP Cost Per Level>
+ *   <Mastery Effect: +x% Cooldown Per Level>
+ *   <Mastery Effect: -x% Damage Per Level>
+ *   <Mastery Effect: -x% HP Cost Per Level>
+ *   <Mastery Effect: -x% MP Cost Per Level>
+ *   <Mastery Effect: -x% TP Cost Per Level>
+ *   <Mastery Effect: -x% Cooldown Per Level>
+ *   - スキル習熟レベルに応じて、
+ *   ダメージ、HPコスト、MPコスト、TPコスト、クールダウンターンが増減します。
+ *   'x'をスキル習熟レベルに応じて変化させたい割合値で置き換えます。
+ *   - 注: HPコストにはYEP_SkillCoreが必要です。
+ *   - 注: クールダウンにはYEP_X_SkillCooldownsが必要です。
+ *
+ *   <No Damage Mastery Effect>
+ *   <No HP Cost Mastery Effect>
+ *   <No MP Cost Mastery Effect>
+ *   <No TP Cost Mastery Effect>
+ *   <No Cooldown Mastery Effect>
+ *   - メモタグはデフォルト設定からスキル習熟レベル効果を無効にします。
+ *   それらはデフォルト値が設定されるだけで、何も変わりません。
+ *   - 注: HPコストにはYEP_SkillCoreが必要です。
+ *   - 注: クールダウンにはYEP_X_SkillCooldownsが必要です。
+ *
+ *   <Custom EXP Mastery Formula: x>
+ *   -スキル用のカスタム経験値スキル習熟レベル効果計算式を作成します。
+ *   使用したい式で'x'を置き換えます。
+ *   - 例: <Custom EXP Mastery Formula: level * 20 + 5>
+ *
+ *   <Custom Damage Mastery Formula: x>
+ *   -スキルのためにカスタムダメージスキル習熟レベル効果計算式を作ります。
+ *   使用したい式で'x'を置き換えます。
+ *   - 例: <Custom Damage Mastery Formula: value * (1.00 + (level * 0.20))>
+ *
+ *   <Custom HP Cost Mastery Formula: x>
+ *   -スキルのためのカスタムHPコストスキル習熟レベル効果計算式を作ります。
+ *   使用したい式で'x'を置き換えます。
+ *   - 例: <Custom HP Cost Mastery Formula: cost * (1.00 - (level * 0.05))>
+ *   - 注:HP CostにはYEP_SkillCoreが必要です。
+ *
+ *   <Custom MP Cost Mastery Formula: x>
+ *   - スキルのためのカスタムMPコストスキル習熟レベル効果計算式を作ります。
+ *   使用したい式で'x'を置き換えます。
+ *   - 例: <Custom MP Cost Mastery Formula: cost * (1.00 - (level * 0.05))>
+ *
+ *   <Custom TP Cost Mastery Formula: x>
+ *   - スキルのためのカスタムTPコストスキル習熟レベル効果計算式を作ります。
+ *   使用したい式で'x'を置き換えます。
+ *   - 例: <Custom TP Cost Mastery Formula: cost * (1.00 - (level * 0.05))>
+ *
+ *   <Custom Cooldown Mastery Formula: x>
+ *   - スキルのカスタムクールダウンスキル習熟レベル効果計算式を作ります。
+ *   使用したい式で'x'を置き換えます。
+ *   - 例: <Custom Cooldown Mastery Formula: turns - (level * 1.5)>
+ *
+ * ---
+ *
+ * アクター、敵のメモタグ
+ *
+ *   <Starting Skill Masteries>
+ *    list
+ *    list
+ *    list
+ *   </Starting Skill Masteries>
+ *   - アクターや敵に初期のスキル習熟レベルを設定したい場合、
+ *   上記のメモタグを使用してください。
+ *   新規にゲームを開始したり初期化したりする時、アクターにのみ適用されます。
+ *   'list'を以下のいずれかに置き換えます。
+ *
+ *   Skill x: level
+ *   Skill x: level, exp
+ *   name: level
+ *   name: level, exp
+ *   - 'x'を開始習熟レベルを変更したいスキルのIDに置き換えます。
+ *   スキル'x'を'名前'に置き換えることもできます。
+ *   複数のスキルがデータベース内で同じ名前がある場合、
+ *   その名前がある最初のスキルエントリに適用されます。
+ *   - 'level'を始めのレベルに置き換えます。
+ *   これは0を下回ったり、スキルの最大レベルを超えたりすることはできません。
+ *   - 'exp'を現在開始時の経験値の量に置き換えます。
+ *   これはスキル習熟レベルの経験値の最大値以上にすることはできません。
+ *   使用しない場合、デフォルトの0になります。
+ *
+ *   例:
+ *
+ *   <Starting Skill Masteries>
+ *    Skill 5: 2
+ *    Skill 6: 3, 4
+ *    Firaga: 7
+ *    Firaja: 8, 10
+ *   </Starting Skill Masteries>
+ *   - 上記の例では、始めにアクター/敵は
+ *   スキル5と6を習熟レベル2と3で設定されます。
+ *   スキル6は4のスキル経験値も設定されます。
+ *   アクター/敵の'Firaga'と'Firaja'のスキルはレベル7と8で設定されます。
+ *   'Firaja'は10のスキル経験値を設定されます。
+ *
+ * ---
+ *
+ * ===========================================================================
+ * スクリプトコール
+ * ===========================================================================
+ *
+ * 次のスクリプトコールを使用して、
+ * スキル習熟レベルを好みに合わせて変更できます。
+ *
+ * スクリプトコール
+ *
+ *   battler.skillMasteryLevel(skillId)
+ *   - 'battler'はアクター/敵を表す変数です。
+ *   'skillId'を習熟レベルを習熟したいスキルのIDに置き換えます。
+ *   そのスキル習熟レベルを返します。
+ *
+ *   battler.setSkillMasteryLevel(skillId, level)
+ *   - 'battler'はアクター/敵を表す変数です。
+ *   'skillId'を、習熟レベルを変更したいスキルのIDに置き換えます。
+ *   'level'を設定したいスキルのレベルに置き換えます。
+ *   スキル習熟レベルが0を下回ったり
+ *   最大レベルを超えたりすることを許しません。
+ *   その場合、レベルは0に設定されます。
+ *
+ *   battler.gainSkillMasteryLevel(skillId, value)
+ *   - 'battler'はアクター/敵を表す変数です。
+ *   'skillId'を、習熟レベルを上げたいスキルのIDに置き換えます。
+ *   'value'をスキルの現在の習熟レベルを増加(減少)させる
+ *   レベルの量に置き換えます。
+ *
+ *   battler.skillMasteryUses(skillId)
+ *   - 'battler'はアクター/敵を表す変数です。
+ *   'skillId'を、現在の習熟経験値を取得したいスキルのIDに置き換えます。
+ *   そのスキルの現在の習熟経験値を返します。
+ *
+ *   battler.setSkillMasteryUses(skillId, value)
+ *   - 'battler'はアクター/敵を表す変数です。
+ *   'skillId'を、現在の習熟経験値を変更するスキルのIDに置き換えます。
+ *   'value'を設定する値で置き換えます。
+ *   経験値が次のレベルに到達する必要性を超えると、
+ *   スキルは自動的に次の習熟レベルに更新し、習熟経験値を0に設定します。
+ *
+ *   battler.gainSkillMasteryUses(skillId, value)
+ *   - 'battler'はアクター/敵を表す変数です。
+ *   'skillId'を、現在の習熟経験値を変更するスキルのIDに置き換えます。
+ *   'value'を増減する値に置き換えます。
+ *   経験値が次のレベルに到達する必要性を超えると、
+ *   スキルは自動的に次の習熟レベルに更新し、習熟経験値を0に設定します。
+ *
+ * ===========================================================================
+ * ルナティックモード - 要 YEP_SkillCore
+ * ===========================================================================
+ *
+ * 特定のスキル習熟レベルはありませんが、ヘルプファイルのこの部分は、
+ * バトラーの習熟レベルに基づいて特殊効果を追加する方法について
+ * 潜在的な質問に答えるための手段として役立ちます。
+ *
+ * これらは SkillCore のルナティックメモタグを使うので
+ * YEP_SkillCoreを必要とします。
+ *
+ * YEP_SkillCore のスキルのメモタグ例
+ *
+ * ---
+ *
+ * <After Eval>
+ * if (user.skillMasteryLevel(item.id) >= 5) {
+ *   target.addState(10);
+ *   target.removeState(9);
+ * }
+ * <After Eval>
+ *
+ * 上記のコードは、
+ * 使用者の現在のスキル習熟レベルが5以上であるかどうかを確認します。
+ * データベースのステート10も対象に適用されます。
+ * ステート9は対象から削除されます。
+ *
+ * ---
+ *
+ * <After Eval>
+ * if (user.skillMasteryLevel(item.id) >= 2) {
+ *   user.addBuff(3, 5);
+ *   user.addDebuff(5, 8);
+ * }
+ * <After Eval>
+ *
+ * 上記のコードは、
+ * スキルの現在の習熟レベルが2以上であるかどうかを確認します。
+ * もしそうであれば、使用者は5ターンの間DEFのバフを獲得し、
+ * 使用者は8ターンMDFのデバフを受けることになります。
+ *
+ * パラメータIDのリファレンス
+ *
+ * 0 = MaxHP
+ * 1 = MaxMP
+ * 2 = ATK
+ * 3 = DEF
+ * 4 = MAT
+ * 5 = MDF
+ * 6 = AGI
+ * 7 = LUK
+ *
+ * ---
+ *
+ * <After Eval>
+ * if (user.skillMasteryLevel(item.id) >= 3) {
+ *   $gameTemp.reserveCommonEvent(5)
+ * }
+ * <After Eval>
+ *
+ * 上記のコードは、
+ * 使用者の現在のスキル習熟レベルが3以上であるかどうかを確認します。
+ * そうであれば、コモンイベント5が予約され、適用されると実行されます。
+ *
+ * ---
+ *
+ * ここにリストされている例だけではなく、
+ * ルナティックコードの使用方法にも多くの可能性があります。
+ * いくつかのアイデアについては、
+ * Yanfly.moeのTips&Tricksをチェックしてください。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---設定---
+ * @text ---設定---
+ * @default
+ *
+ * @param Default Max Mastery
+ * @text 最大習熟レベル
+ * @parent ---設定---
+ * @type number
+ * @desc スキルのデフォルトの最大習熟レベル
+ * @default 10
+ *
+ * @param Level Formula
+ * @text スキル習熟レベル式
+ * @parent ---設定---
+ * @type combo
+ * @option 5  // 5回使用毎にアップ
+ * @option 10 // 10回使用毎にアップ
+ * @option 20 // 20回使用毎にアップ
+ * @option level * 5  // レベルアップ毎に5増加
+ * @option level * 10 // レベルアップ毎に10増加
+ * @option level * 20 // レベルアップ毎に20増加
+ * @desc 次のスキル習熟レベルに到達に必要な経験。level:習熟レベル
+ * @default level * 5  // レベルアップ毎に5増加
+ *
+ * @param Damage Formula
+ * @text ダメージ式
+ * @parent ---設定---
+ * @type combo
+ * @option value // 習熟レベルによる変更なし
+ * @option value * (1.00 + (level * 0.05)) // +5% / レベル
+ * @option value * (1.00 + (level * 0.10)) // +10% / レベル
+ * @option value * (1.00 + (level * 0.20)) // +20% / レベル
+ * @option value + (level * 1)  // +1 MP / レベル
+ * @option value + (level * 5)  // +5 MP / レベル
+ * @option value + (level * 10) // +10 MP / レベル
+ * @desc レベルに基づくダメージ率 値:元のダメージlevel:習熟レベル
+ * @default value * (1.00 + (level * 0.20)) // +20% / レベル
+ *
+ * @param MP Cost Formula
+ * @text MPコスト式
+ * @parent ---設定---
+ * @type combo
+ * @option cost // 習熟レベルによる変更なし
+ * @option cost * (1.00 - (level * 0.05)) // -5% / レベル
+ * @option cost * (1.00 - (level * 0.10)) // -10% / レベル
+ * @option cost * (1.00 - (level * 0.20)) // -20% / レベル
+ * @option cost - (level * 1)  // -1 MP / レベル
+ * @option cost - (level * 5)  // -5 MP / レベル
+ * @option cost - (level * 10) // -10 MP / レベル
+ * @desc MPコストはレベルに基づきます。コスト:元のコスト / level:習熟レベル
+ * @default cost * (1.00 + (level * 0.10)) // -10% / レベル
+ *
+ * @param Minimum MP Cost
+ * @text 最小MPコスト
+ * @parent MP Cost Formula
+ * @desc スキルの最小MPコスト。スキルにMPコスト設定がない場合、無視されます。
+ * @default 1
+ *
+ * @param TP Cost Formula
+ * @text TPコスト式
+ * @parent ---設定---
+ * @type combo
+ * @option cost // 習熟レベルによる変更なし
+ * @option cost * (1.00 - (level * 0.05)) // -5% / レベル
+ * @option cost * (1.00 - (level * 0.10)) // -10% / レベル
+ * @option cost * (1.00 - (level * 0.20)) // -20% / レベル
+ * @option cost - (level * 1)  // -1 TP / レベル
+ * @option cost - (level * 5)  // -5 TP / レベル
+ * @option cost - (level * 10) // -10 TP / レベル
+ * @desc レベルに基づくTPコスト。コスト:元のコストlevel:習熟レベル
+ * @default cost * (1.00 + (level * 0.10)) // -10% / レベル
+ *
+ * @param Minimum TP Cost
+ * @parent TP Cost Formula
+ * @desc スキルが減少した場合のスキルの最低TPコスト。スキルにTPコスト設定がない場合、無視されます。
+ * @default 1
+ *
+ * @param (YEP_SkillCore)
+ * @text 要 YEP Skill Core
+ * @parent ---設定---
+ *
+ * @param HP Cost Formula
+ * @text HPコスト式
+ * @parent (YEP_SkillCore)
+ * @type combo
+ * @option cost // 習熟レベルによる変更なし
+ * @option cost * (1.00 - (level * 0.05)) // -5% / レベル
+ * @option cost * (1.00 - (level * 0.10)) // -10% / レベル
+ * @option cost * (1.00 - (level * 0.20)) // -20% / レベル
+ * @option cost - (level * 1)  // -1 HP / レベル
+ * @option cost - (level * 5)  // -5 HP / レベル
+ * @option cost - (level * 10) // -10 HP / レベル
+ * @desc HPのコストはレベルに基づいています。コスト:元のコスト / level:習熟レベル
+ * @default cost * (1.00 + (level * 0.10)) // -10% / レベル
+ *
+ * @param Minimum HP Cost
+ * @text HP最小コスト
+ * @parent HP Cost Formula
+ * @desc それが減少した場合、スキルのHPの最小コスト。スキルにHPのコストがない場合、無視されます。
+ * @default 1
+ *
+ * @param (YEP_X_SkillCooldowns)
+ * @text 要 YEP X SkillCooldowns
+ * @parent ---設定---
+ *
+ * @param Cooldown Formula
+ * @text クールダウン式
+ * @parent (YEP_X_SkillCooldowns)
+ * @type combo
+ * @option turns // 習熟レベルによる変更なし
+ * @option turns * (1.00 - (level * 0.05)) // -5% / レベル
+ * @option turns * (1.00 - (level * 0.10)) // -10% / レベル
+ * @option turns * (1.00 - (level * 0.20)) // -20% / レベル
+ * @option turns - (level * 1)  // -1 turn / レベル
+ * @option turns - (level * 5)  // -5 turns / レベル
+ * @option turns - (level * 10) // -10 turns / レベル
+ * @desc レベルに基づいて変わります。turns:オリジナルのターン / level:習熟レベル
+ * @default turns - (level * 1)  // -1 turn / レベル
+ *
+ * @param Minimum Cooldown
+ * @text 最小クールダウン
+ * @parent Cooldown Formula
+ * @desc それが減少した場合のスキルの最小クールダウンは何ですか？ スキルにクールダウン設定がない場合、無視されます。
+ * @default 1
+ *
+ * @param ---ビジュアル---
+ * @text ---ビジュアル---
+ * @default
+ *
+ * @param Level Up Animation
+ * @text レベルアップ時アニメ
+ * @parent ---ビジュアル---
+ * @type animation
+ * @desc スキル習熟レベルが上がると指定IDのアニメーションが再生されます。表示しない場合、0に
+ * @default 0
+ *
+ * @param Mirror Actor
+ * @text アクター表示
+ * @parent Level Up Animation
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターのレベルアップアニメ表示
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param Mirror Enemy
+ * @text 敵表示
+ * @parent Level Up Animation
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵のレベルアップアニメ表示
+ * 表示:true / 非表示:false
+ * @default false
+ *
+ * @param Draw Gauge
+ * @text ゲージ表示
+ * @parent ---ビジュアル---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc スキル習熟レベルのゲージ表示
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param Gauge Color 1
+ * @text 習熟ゲージ色1
+ * @parent Draw Gauge
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 習熟ゲージに使用される文字色1
+ * @default 12
+ *
+ * @param Gauge Color 2
+ * @text 習熟ゲージ色2
+ * @parent Draw Gauge
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 習熟ゲージに使用される文字色2
+ * @default 4
+ *
+ * @param Gauge Height
+ * @text ゲージ高
+ * @parent Draw Gauge
+ * @type number
+ * @min 1
+ * @desc ゲージの高さ
+ * @default 6
+ *
+ * @param Gauge Outline
+ * @text ゲージ輪郭
+ * @parent Draw Gauge
+ * @type boolean
+ * @on 有り
+ * @off 無し
+ * @desc ゲージの輪郭の有無
+ * 有り:true / 無し:false
+ * @default true
+ *
+ * @param Draw Level
+ * @text レベル表示
+ * @parent ---ビジュアル---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 習熟レベルの表示
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param Show Level 0
+ * @text レベル0
+ * @parent Draw Level
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc スキル習熟レベルが0の時レベルを表示
+ * 表示:true / 非表示:false
+ * @default false
+ *
+ * @param Text Color
+ * @text 文字色
+ * @parent Draw Level
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 習熟レベルの文字色
+ * @default 29
+ *
+ * @param Text Align
+ * @text 文字揃え
+ * @parent Draw Level
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc 習熟レベルの文字揃え
+ * 左:left / 中央:center / 右:right
+ * @default right
+ *
+ * @param Text Format
+ * @text 表示形式
+ * @parent Draw Level
+ * @desc 習熟レベルの表示形式
+ * %1:値
+ * @default Lv %1
+ *
+ * @param Text Size
+ * @text フォントサイズ
+ * @parent Draw Level
+ * @type number
+ * @desc 習熟レベルのフォントサイズ
+ * @default 14
+ *
+ * @param Text Y Offset
+ * @text テキストY位置
+ * @parent Draw Level
+ * @desc Y位置をオフセット
+ * @default -8
+ *
+ */

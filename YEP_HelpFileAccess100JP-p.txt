@@ -1,0 +1,123 @@
+/*:ja
+ * @plugindesc v1.00 ゲーム中にヘルプファイルを開く機能を追加
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Help File Path
+ * @text ヘルプファイルのパス
+ * @parent ---一般---
+ * @desc ヘルプファイルへのパス。 HTMLファイルへのローカルパスまたはオンラインWebサイトのURLを使用します。
+ * @default /help/index.htm
+ *
+ * @param Enable F1 Key
+ * @text F1キー有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc F1キーでヘルプファイルを開く許可
+ * 許可:true / 禁止:false
+ * @default true
+ *
+ * @param ---メニュー---
+ * @text ---メニュー---
+ * @default
+ *
+ * @param Help Command
+ * @text 表示テキスト
+ * @parent ---メニュー---
+ * @desc メニューコマンドでの表示テキスト
+ * @default ヘルプ
+ *
+ * @param Auto Add Menu
+ * @text 自動追加
+ * @parent ---メニュー---
+ * @type boolean
+ * @on 追加
+ * @off なし
+ * @desc メインメニューにヘルプコマンドを自動的に追加
+ * なし:false / 追加:true
+ * @default true
+ *
+ * @param Show Command
+ * @text コマンド表示
+ * @parent ---メニュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでメインメニューにヘルプコマンドを表示しますか？
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Auto Place Command
+ * @text 自動配置許可
+ * @parent ---メニュー---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc このプラグインがメニューの配置位置を決めることを許可
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 最近のゲームで、ゲームに付属のマニュアルやゲーム内でアクセス可能な
+ * 独自のヘルプマニュアルがあるのは当然のことです。
+ * RPGツクールMVは、デフォルトでそのようなものを何も提供していません。
+ * ただし、このプラグインを使用すると、F1キーやゲーム内メニューを使用して、
+ * ゲーム内からヘルプファイルにアクセスする方法を作成できます。
+ *
+ * このヘルプファイルは、ディレクトリ内のローカルHTMLファイル、
+ * またはWikiページなどのオンラインのWebサイトURLにリンクできます。
+ * この設定は 'Help File Path'プラグインパラメータで変更する必要があります。
+ *
+ * ===========================================================================
+ * Main Menu Manager - ヘルプコマンドの配置
+ * ===========================================================================
+ *
+ * YEP_MainMenuManager を使用していて、
+ * ヘルプコマンドを好きな場所に配置したい場合、
+ * 次の形式を使用します。
+ *
+ *       Name: Yanfly.Param.HelpCmd
+ *     Symbol: help
+ *       Show: $gameSystem.isShowHelpCommand()
+ *    Enabled: true
+ *        Ext:
+ *  Main Bind: this.commandHelp.bind(this)
+ * Actor Bind:
+ *
+ * YEP_MainMenuManager のスロットに上記の設定を挿入します。
+ * 正確な設定を必要な場所にコピーすると、
+ * プラグインパラメータによって行われた設定が表示されます。
+ *
+ * プラグインパラメータから 'Auto Add Menu'をオフにするのを忘れないでください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 下記のプラグインコマンドを使って、
+ * ヘルプファイルへのアクセス方法をゲーム中で調整できます。
+ *
+ * プラグインコマンド:
+ *
+ *   OpenHelp
+ *   - ゲームのヘルプファイルまたはURLが開きます。
+ *
+ *   ShowMenuHelpCommand
+ *   - メインメニューに[ヘルプ]コマンドが表示されます。
+ *
+ *   HideMenuHelpCommand
+ *   - メインメニューの[ヘルプ]コマンドを非表示にします。
+ */

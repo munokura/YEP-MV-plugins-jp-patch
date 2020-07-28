@@ -1,0 +1,231 @@
+/*:ja
+ * @plugindesc v1.03 (要YEP_BattleEngineCore)ターン制戦闘システムの行動順を表示し、様々な表示オプションを可能にします
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---デフォルト---
+ * @default
+ *
+ * @param Show Turn Order
+ * @text 行動順の表示
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでの行動順の表示設定
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param ---設定---
+ * @default
+ *
+ * @param Icon Size
+ * @text アイコンのサイズ
+ * @parent ---設定---
+ * @type number
+ * @min 0
+ * @desc 行動順表示のアイコンのサイズ
+ * Default: 32
+ * @default 32
+ *
+ * @param Position X
+ * @text 行動順X位置
+ * @parent ---設定---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc 行動順の表示X位置
+ * 左:left / 中央:center / 右:right
+ * @default right
+ *
+ * @param Position Y
+ * @text 行動順Y位置
+ * @parent ---設定---
+ * @type number
+ * @min 0
+ * @desc 行動順の表示Y位置
+ * @default 54
+ *
+ * @param Turn Direction
+ * @text アイコン移動方向
+ * @parent ---設定---
+ * @type combo
+ * @option left
+ * @option right
+ * @desc 行動順アイコンの動く方向
+ * 左:left / 右:right
+ * @default left
+ *
+ * @param Performed Spacing
+ * @text 行動前後の余白
+ * @parent ---設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 行動前と後のアイコンとの間に入れるスペース
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param ---味方---
+ * @default
+ *
+ * @param Ally Border Color
+ * @text 境界線色
+ * @parent ---味方---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 味方アイコンの境界線の色
+ * @default 4
+ *
+ * @param Ally Back Color
+ * @text 背景色
+ * @parent ---味方---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 味方アイコンの背景色
+ * @default 22
+ *
+ * @param Ally Icon
+ * @text アイコン
+ * @parent ---味方---
+ * @type number
+ * @min 0
+ * @desc 味方のデフォルトアイコン。0の場合、アイコンは顔画像
+ * @default 0
+ *
+ * @param ---敵---
+ * @default
+ *
+ * @param Enemy Border Color
+ * @text 境界線色
+ * @parent ---敵---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 敵アイコンの境界線の色
+ * @default 2
+ *
+ * @param Enemy Back Color
+ * @text 背景色
+ * @parent ---敵---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 敵アイコンの背景色
+ * @default 19
+ *
+ * @param Enemy Icon
+ * @text アイコン
+ * @parent ---敵---
+ * @type number
+ * @min 0
+ * @desc 敵のデフォルトアイコン。0の場合、アイコンは敵の戦闘画像
+ * @default 0
+ *
+ * @param Enemy SV Battlers
+ * @text 敵SV戦闘キャラ
+ * @parent ---敵---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc Animated SV Enemies使用中、アイコン無指定の場合、SV戦闘キャラを表示。重い場合があります。 非表示:false / 表示:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_BattleEngineCore が必要です。
+ * プラグイン管理でこのプラグインが
+ * YEP_BattleEngineCore の下にあることを確認してください。
+ *
+ * ターン制の戦闘システムでは、プレイヤーにターンの順番を
+ * 視覚的に見せることで、戦闘システムに多くの深みを加えることができます。
+ * このプラグインは、画面の隅にプレイヤーのパーティーと
+ * 敵のパーティーの行動順を示すアイコンの表示を追加します（変更可能）。
+ *
+ * 注意！ このプラグインはATBやCTBのようなティックベースの戦闘システムでは
+ * 動作しません！
+ * ターン制の戦闘システムでのみ機能するように特別に作られています。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * アクターと敵に個別の順番表示アイコンを設定するために、
+ * 以下のメモタグを使います。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * アクター、敵のメモタグ:
+ *
+ *   <Turn Order Icon: x>
+ *   - アクター/敵に使用されるアイコンを x に設定します。
+ *
+ *   <Turn Order Border Color: x>
+ *   - アクター/敵に使用される境界色をテキスト色 x に設定します。
+ *
+ *   <Turn Order Background Color: x>
+ *   - アクター/敵に使用される背景色をテキスト色 x に設定します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * アクターのメモタグ:
+ *
+ *   <Class x Turn Order Icon: y>
+ *   - もしそのアクターが特定のクラスであるならば、
+ *   そのアクターはターンオーダー表示に使用される特定のアイコンを
+ *   表示するように設定します。
+ *   アクターがクラス x の場合、アイコン y を表示します。
+ *
+ *   <Hero Turn Order Icon: x>
+ *   <Warrior Turn Order Icon: x>
+ *   <Mage Turn Order Icon: x>
+ *   <Priest Turn Order Icon: x>
+ *   - クラスIDの代わりに名前を使用したい場合、
+ *   上記のメモタグを使用できます。
+ *   アクターが名前付きクラスの場合、アイコン x を表示します。
+ *   同じ名前のクラスが複数ある場合は、最も高いIDを持つクラスが優先されます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下のプラグインコマンドを使用して、ターン順表示を制御します。
+ *
+ * プラグインコマンド:
+ *
+ *   EnableTurnOrderDisplay
+ *   - 戦闘がターンベースの戦闘システムである場合、
+ *     ターン順を表示します。
+ *
+ *   DisableTurnOrderDisplay
+ *    - ターン順を非表示にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Fixed a bug that caused enemies to endlessly have turns if dynamic actions
+ * were enabled.
+ *
+ * Version 1.01:
+ * - Fixed some bugs that caused crashes when returning to the battle scene.
+ * - Fixed a bug that altered the order flow during a Surprise Attack or a
+ * Preemptive Attack for battle advantage.
+ * - Made turn order display not cover up certain windows.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

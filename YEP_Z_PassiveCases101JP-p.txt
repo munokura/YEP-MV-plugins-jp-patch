@@ -1,0 +1,313 @@
+/*:ja
+ * @plugindesc v1.01 (Lunatic Pack) 詳細な条件付きパッシブステートを作ります。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは以下のプラグインを必要とします。
+ * - YEP_AutoPassiveStates
+ *
+ * パッシブステートはゲームに強力に影響する場合がありますが、
+ * 戦闘中ずっと有効である場合、少し強力すぎる場合があります。
+ * パッシブステートに条件付きのケースを課すことによって
+ * パッシブになる範囲を制限したいと思うこともあるでしょう。
+ * パッシブの条件付きケースが全て満たされた場合、
+ * パッシブは有効になります。
+ * このプラグインは特定のパッシブステートの効果が
+ * 常に有効であることを制限するための多数の条件付きケースを追加します。
+ *
+ * *注意*:このプラグインはRPGツクールMVバージョン1.5.0以降でよく使われます。
+ * まだより低いバージョンでこのプラグインを使用することができます、
+ * しかし、プラグインパラメータを変更することはずっと困難になるでしょう。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 次のようなメモタグをステートのメモ欄に挿入して、パッシブステートにします。
+ *
+ * ステートのメモタグ
+ *
+ *   <Passive Condition Cases>
+ *    condition
+ *    condition
+ *   </Passive Condition Cases>
+ *   - パッシブステートに条件を追加するために
+ *   上記のフォーマットを使用してください。
+ *   <PassiveConditionCases>と</PassiveConditionCases>のメモタグの間にある
+ *   'condition'のテキストを、
+ *   以下のいずれかの条件に置き換えて条件タイプを入力します。
+ *   複数の条件を挿入して、
+ *   パッシブステートが有効になる前に、満たすべき条件を必要にできます。
+ *
+ * =-=-=-= 条件リスト =-=-=-=
+ *
+ *   --- スイッチのオン/オフ ---
+ *
+ *   Switch x On
+ *   Switch x Off
+ *   - 'x'を数値で置き換えます。
+ *   イベントスイッチxがオンかオフかを条件付きでチェックします。
+ *   条件付きチェックが満たされると、パッシブが有効になります。
+ *   提案者:Yanfly
+ *
+ *   --- 数値比較チェック ---
+ *
+ *   x >= y
+ *   x <= y
+ *   x > y
+ *   x < y
+ *   x != y
+ *   x = y
+ *   - xとyの単純な比較チェックをするための条件を必要とします。
+ *   これらの数の比較は'>='、'<='、'>'、'<'、'!='、'='
+ *   となります。
+ *   'x'と'y'を数字、パーセント、'HP'、'MP'、'TP'、'HP%'、'MP%'、'TP%'、
+ *   'MAXHP'、'MAXMP'で置き換えます。
+ *   比較に'ATK'、'DEF'、'MAT'、'MDF'、'AGI'、'LUK'、'VARIABLEX'を指定します。
+ *   パーセントがチェックされている場合、
+ *   %が省略されたようにチェックされます。
+ *   例えば、'50%'は'50'になります。
+ *   提案者:Yanfly
+ *
+ *   --- ステートの有無 ---
+ *
+ *   Has State x
+ *   - 'x'を確認したいステートのIDに置き換えます。
+ *   使用者がそのステートの影響を受けている場合、
+ *   他の全ての条件が満たされている限り、
+ *   この条件付きパッシブは有効になります。
+ *   提案者:Goldschuss
+ *
+ *   Not State x
+ *   - 'x'を確認したいステートのIDに置き換えます。
+ *   使用者がそのステートの影響を受けていない場合、
+ *   他の全ての条件が満たされている限り、
+ *   この条件付きパッシブは有効になります。
+ *   提案者:Goldschuss
+ *
+ *   --- バフ/デバフの有無 ---
+ *
+ *   Has x Buff
+ *   - 'x'を'MAXHP'、'MAXMP'、'ATK'、'DEF'、'MAT'、'MDF'、
+ *   'AGI'、'LUK'に置き換えます。
+ *   使用者が現在そのパラメータでバフされているかどうかを確認します。
+ *   使用者がいる場合、他の全ての条件が満たされている限り、
+ *   条件付きパッシブは有効になります。
+ *   提案者:Yanfly
+ *
+ *   Has x Debuff
+ *   - 'x'を'MAXHP'、'MAXMP'、'ATK'、'DEF'、'MAT'、'MDF'、
+ *   'AGI'、'LUK'に置き換えます。
+ *   使用者が現在そのパラメータでデバフされているかどうかを確認します。
+ *   使用者がいる場合、他の全ての条件が満たされている限り、
+ *   条件付きパッシブは有効になります。
+ *   提案者:Yanfly
+ *
+ *   Not x Buff
+ *   - 'x'を'MAXHP'、'MAXMP'、'ATK'、'DEF'、'MAT'、'MDF'、
+ *   'AGI'、'LUK'に置き換えます。
+ *   使用者が現在そのパラメータでバフされていないかどうかを確認します。
+ *   使用者がいる場合、他の全ての条件が満たされている限り、
+ *   条件付きパッシブは有効になります。
+ *   提案者:Yanfly
+ *
+ *   Not x Debuff
+ *   - 'x'を'MAXHP'、'MAXMP'、'ATK'、'DEF'、'MAT'、'MDF'、
+ *   'AGI'、'LUK'に置き換えます。
+ *   使用者がそのパラメータで現在デバフされていないかどうかを確認します。
+ *   使用者がいる場合、他の全ての条件が満たされている限り、
+ *   条件付きパッシブは有効になります。
+ *   提案者:Yanfly
+ *
+ *   --- 合計バフ/デバフ ---
+ *
+ *   Total Buffs >= x
+ *   Total Buffs <= x
+ *   Total Buffs > x
+ *   Total Buffs < x
+ *   Total Buffs != x
+ *   Total Buffs = x
+ *   - 'x'を、使用者が現在影響を受けているバフの数を
+ *   確認したい数値に置き換えます。
+ *   ターンチェックをパスした場合、他の条件が満たされると、
+ *   条件付きパッシブは有効になります。
+ *   提案者:AlejandroSQ
+ *
+ *   Total Debuffs >= x
+ *   Total Debuffs <= x
+ *   Total Debuffs > x
+ *   Total Debuffs < x
+ *   Total Debuffs != x
+ *   Total Debuffs = x
+ *   - 'x'を、使用者が現在影響を受けているデバフの数を
+ *   確認したい数値に置き換えます。
+ *   ターンチェックをパスした場合、他の条件が満たされると、
+ *   条件付きパッシブは有効になります。
+ *   提案者:AlejandroSQ
+ *
+ *   --- 生死 ---
+ *
+ *   Alive Actors/Enemies/Allies/Foes >= x
+ *   Alive Actors/Enemies/Allies/Foes <= x
+ *   Alive Actors/Enemies/Allies/Foes > x
+ *   Alive Actors/Enemies/Allies/Foes < x
+ *   Alive Actors/Enemies/Allies/Foes != x
+ *   Alive Actors/Enemies/Allies/Foes = x
+ *   - 'x'をパーティで生きているアクターの数、
+ *   敵グループ、仲間、敵と比較して調べたい数値に置き換えてください。
+ *   上記の4つのキーワード('actors'、'enemies'、'allies'、'foes')のうち
+ *   1つだけを使用してください。
+ *   メンバー数チェックをパスすると、他の全ての条件が満たされている限り、
+ *   条件付きパッシブは有効になります。
+ *   提案者:Yanfly
+ *
+ *   Dead Actors/Enemies/Allies/Foes >= x
+ *   Dead Actors/Enemies/Allies/Foes <= x
+ *   Dead Actors/Enemies/Allies/Foes > x
+ *   Dead Actors/Enemies/Allies/Foes < x
+ *   Dead Actors/Enemies/Allies/Foes != x
+ *   Dead Actors/Enemies/Allies/Foes = x
+ *   - 'x'を死んでいるアクター、敵グループ、仲間、敵と比較して
+ *   確認したい数値に置き換えてください。
+ *   上記の4つのキーワード('actors'、'enemies'、'allies'、'foes')のうち
+ *   1つだけを使用してください。
+ *   メンバー数チェックをパスすると、他の全ての条件が満たされている限り、
+ *   条件付きパッシブは有効になります。
+ *   提案者:Yanfly
+ *
+ *   --- ターン数 ---
+ *
+ *   Battle Turns >= x
+ *   Battle Turns <= x
+ *   Battle Turns > x
+ *   Battle Turns < x
+ *   Battle Turns != x
+ *   Battle Turns = x
+ *   - 'x'を戦闘で経過ターンの数に関連してチェックしたい数値で置き換えます。
+ *   ターンチェックをパスすると、他の全ての条件が満たされている限り、
+ *   条件付きパッシブは有効になります。
+ *   提案者:Yanfly
+ *
+ *   --- 武器/防具所持 ---
+ *
+ *   Has Weapon x
+ *   - 使用者はアクターでなければなりません。
+ *   そうでなければ、この条件はfalseを返します。
+ *   使用者が持っているかどうかを確認したい武器IDで'x'を置き換えます。
+ *   使用者がそれを装備している場合、条件は合格し、
+ *   他の全ての条件が満たされている限り有効になります。
+ *   提案者:Yanfly
+ *
+ *   Not Weapon x
+ *   - 使用者はアクターでなければなりません。
+ *   そうでなければ、この条件はfalseを返します。
+ *   使用者が持っているかをチェックしたい武器IDで'x'を置き換えてください。
+ *   使用者がそれを装備していない場合、条件は合格し、
+ *   他の全ての条件が満たされている限り有効になります。
+ *   提案者:Yanfly
+ *
+ *   Has Armor x
+ *   - 使用者はアクターでなければなりません。
+ *   そうでなければ、この条件はfalseを返します。
+ *   使用者が持っているかチェックしたい防具IDと'x'を取り替えてください。
+ *   使用者がそれを装備している場合、条件をパスし、
+ *   他の全ての条件が満たされている限り有効になります。
+ *   提案者:Yanfly
+ *
+ *   Not Armor x
+ *   - 使用者はアクターでなければなりません。
+ *   そうでなければ、この条件はfalseを返します。
+ *   使用者が持っているかをチェックしたい防具IDで'x'を置き換えてください。
+ *   使用者がそれを装備していない場合、条件をパスし、
+ *   他の全ての条件が満たされている限り有効になります。
+ *   提案者:Yanfly
+ *
+ * ===========================================================================
+ * ルナティックモード - 効果コード
+ * ===========================================================================
+ *
+ * RPGツクールMV1.5.0+を使用しているJavaScript経験豊富な使用者に、
+ * プラグインで使用できる新しいメモタグ効果を追加するか、
+ * プラグインパラメーターから現在存在するメモタグ効果の効果を変更できます。
+ * 次のようになります。
+ *
+ * ---
+ *
+ * // -------------
+ * // Switch On/Off
+ * // -------------
+ * if (data.match(/SWITCH[ ](\d+)[ ]ON/i)) {
+ *   var switchId = parseInt(RegExp.$1);
+ *   condition = $gameSwitches.value(switchId);
+ *
+ * } else if (data.match(/SWITCH[ ](\d+)[ ]OFF/i)) {
+ *   var switchId = parseInt(RegExp.$1);
+ *   condition = !$gameSwitches.value(switchId);
+ *
+ * ...
+ *
+ * // -------------------------------
+ * // Add new effects above this line
+ * // -------------------------------
+ * } else {
+ *   skip = true;
+ * }
+ *
+ * ---
+ *
+ * このコードビットで使用されている各変数は、次のとおりです。
+ *
+ *   --------------------   --------------------------------------------------
+ *   変数:                  参照:
+ *   --------------------   --------------------------------------------------
+ *   condition              現在の条件設定でtrueが返されると、
+ *                          現在の条件のケースは成功します。
+ *                          パッシブステートが有効になるには、
+ *                          その全ての条件が必要です。
+ *
+ *
+ *   a                      アクション使用者を返す
+ *   user                   アクション使用者を返す
+ *   subject                アクション使用者を返す
+ *
+ *   s[x]                   スイッチxを返す(true / false)
+ *   v[x]                   変数xの現在値を返す
+ *
+ *   skip                   デフォルト:false trueの場合、前のレートを返す
+ *
+ * ---
+ *
+ * 効果コードを元のステートに戻す必要がある場合、
+ * プラグイン管理からプラグインを削除してから、もう一度追加してください。
+ * コードはデフォルトに戻ります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param Effect Code
+ * @text 効果コード
+ * @type note
+ * @desc 各メモタグ効果のコードです。
+ * @default "// -------------\n// Switch On/Off\n// -------------\nif (data.match(/SWITCH[ ](\\d+)[ ]ON/i)) {\n  var switchId = parseInt(RegExp.$1);\n  condition = $gameSwitches.value(switchId);\n\n} else if (data.match(/SWITCH[ ](\\d+)[ ]OFF/i)) {\n  var switchId = parseInt(RegExp.$1);\n  condition = !$gameSwitches.value(switchId);\n\n// -------------\n// Has/Not State\n// -------------\n} else if (data.match(/HAS[ ]STATE[ ](\\d+)/i)) {\n  var stateId = parseInt(RegExp.$1);\n  condition = user.isStateAffected(stateId);\n\n} else if (data.match(/NOT[ ]STATE[ ](\\d+)/i)) {\n  var stateId = parseInt(RegExp.$1);\n  condition = !user.isStateAffected(stateId);\n\n// -------------------\n// Has/Not Buff/Debuff\n// -------------------\n} else if (data.match(/HAS[ ](.*)[ ]BUFF/i)) {\n  var str = String(RegExp.$1);\n  var paramId = DataManager.getParamId(str);\n  condition = user.isBuffAffected(paramId);\n\n} else if (data.match(/HAS[ ](.*)[ ]DEBUFF/i)) {\n  var str = String(RegExp.$1);\n  var paramId = DataManager.getParamId(str);\n  condition = user.isDebuffAffected(paramId);\n\n// --------------------\n// Has/Not Weapon/Armor\n// --------------------\n} else if (data.match(/HAS[ ]WEAPON[ ](\\d+)/i)) {\n  if (user.isActor()) {\n    var id = parseInt(RegExp.$1);\n    var item = $dataWeapons[id];\n    condition = user.hasWeapon(item);\n  } else {\n    condition = false;\n  }\n\n} else if (data.match(/NOT[ ]WEAPON[ ](\\d+)/i)) {\n  if (user.isActor()) {\n    var id = parseInt(RegExp.$1);\n    var item = $dataWeapons[id];\n    condition = !user.hasWeapon(item);\n  } else {\n    condition = false;\n  }\n\n} else if (data.match(/HAS[ ]ARMOR[ ](\\d+)/i)) {\n  if (user.isActor()) {\n    var id = parseInt(RegExp.$1);\n    var item = $dataArmors[id];\n    condition = user.hasArmor(item);\n  } else {\n    condition = false;\n  }\n\n} else if (data.match(/NOT[ ]ARMOR[ ](\\d+)/i)) {\n  if (user.isActor()) {\n    var id = parseInt(RegExp.$1);\n    var item = $dataArmors[id];\n    condition = !user.hasArmor(item);\n  } else {\n    condition = false;\n  }\n\n// ----------------------\n// Param Above/Below Stat\n// ----------------------\n} else if (data.match(/(.*)[ ](?:>|<|>=|<=|=|!=)[ ](.*)/i)) {\n  var check1 = String(RegExp.$1);\n  var check2 = String(RegExp.$2);\n  var value1 = DataManager.numberParameterCheck(check1, user);\n  var value2 = DataManager.numberParameterCheck(check2, user);\n  if (value1 !== null && value2 !== null) {\n    if (data.match(/>=/i)) {\n      condition = value1 >= value2;\n    } else if (data.match(/</i)) {\n      condition = value1 <= value2;\n    } else if (data.match(/>/i)) {\n      condition = value1 > value2;\n    } else if (data.match(/</i)) {\n      condition = value1 < value2;\n    } else if (data.match(/!=/i)) {\n      condition = value1 !== value2;\n    } else if (data.match(/=/i)) {\n      condition = value1 === value2;\n    } else {\n      skip = true;\n    }\n  } else {\n    condition = false;\n  }\n\n// -------------------------------\n// Add new effects above this line\n// -------------------------------\n} else {\n  skip = true;\n}"
+ *
+ */

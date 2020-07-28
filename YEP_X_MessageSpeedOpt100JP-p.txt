@@ -1,0 +1,144 @@
+/*:ja
+ * @plugindesc v1.00 (要YEP_MessageCore)(要修正)メッセージウィンドウのテキスト表示速度を調整できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_MessageCoreを必要とします。
+ * このプラグインがプラグイン管理で
+ * YEP_MessageCoreの下にあることを確認してください。
+ *
+ * メッセージの速度を制御するオプションは、最近RPGにはよくあることです。
+ * このプラグインはオプションメニューに
+ * 'メッセージスピード'オプションを追加します。
+ * それは0（最も遅い）から10（最も速い）までのスピードと、
+ * 瞬間であることの「11番目の」スピードも可能とします。
+ *
+ * ===========================================================================
+ * Options Core 設定 - 新しいオプションの追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCore.js を使用している場合、
+ * このプラグインを使用して新しいオプションを追加できます。
+ * これは共に使用できる以下のコード/パラメータ設定です。
+ *
+ * ---------
+ * Settings:
+ * ---------
+ *
+ * Name:
+ * \i[87]Message Speed
+ *
+ * Help Description:
+ * Changes the speed text is displayed during messages.
+ *
+ * Symbol:
+ * messageSpeed
+ *
+ * Show/Hide:
+ * show = Imported.YEP_X_MessageSpeedOpt;
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ * var value = this.getConfigValue(symbol);
+ * var rate = ((value) / 10).clamp(0, 1);
+ * if (value > 10) {
+ *   var gaugeColor1 = this.textColor(14);
+ *   var gaugeColor2 = this.textColor(6);
+ * } else {
+ *   var gaugeColor1 = this.textColor(20);
+ *   var gaugeColor2 = this.textColor(21);
+ * }
+ * this.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);
+ * this.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');
+ *
+ * Process OK Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value += 1;
+ * if (value > 11) value = 0;
+ * value = value.clamp(0, 11);
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Right Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value += 1;
+ * value = value.clamp(0, 11);
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Left Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value -= 1;
+ * value = value.clamp(0, 11);
+ * this.changeValue(symbol, value);
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version BETA:
+ * - Started Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param OptionsCommand
+ * @text オプション表示テキスト
+ * @desc オプションでの表示テキスト
+ * @default メッセージ表示速度
+ *
+ * @param DefaultSpeed
+ * @text デフォルト速度
+ * @type number
+ * @min 0
+ * @max 11
+ * @desc デフォルトのメッセージ表示速度。
+ * 0:最も遅い / 10:最も速い / 11:瞬時
+ * @default 8
+ *
+ * @param InstantText
+ * @text 瞬間表示テキスト
+ * @desc 一度に表示する速度の表示テキスト
+ * @default 瞬時
+ *
+ */

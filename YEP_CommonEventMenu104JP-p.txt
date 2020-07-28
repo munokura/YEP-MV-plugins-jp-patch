@@ -1,0 +1,525 @@
+/*:ja
+ * @plugindesc v1.04 コモンイベントを呼び出すウィンドウを作成できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---デフォルト---
+ * @text ---デフォルト---
+ * @default
+ *
+ * @param Default Icon
+ * @text アイコン
+ * @parent ---デフォルト---
+ * @type number
+ * @min 0
+ * @desc デフォルトのアイコン
+ * @default 160
+ *
+ * @param Default Help
+ * @text ヘルプ
+ * @parent ---デフォルト---
+ * @desc デフォルトのヘルプテキスト
+ * @default ヘルプ説明を追加するには<Help Description>注釈タグを使用
+ *
+ * @param Default Subtext
+ * @text サブテキスト
+ * @parent ---デフォルト---
+ * @desc デフォルトのサブテキスト
+ * @default サブテキスト
+ *
+ * @param Default Cancel Event
+ * @text キャンセルイベント
+ * @parent ---デフォルト---
+ * @type common_event
+ * @desc キャンセルに使用されるデフォルトのコモンイベント。イベントを適用しない場合0に、無効の場合-1に
+ * @default 0
+ *
+ * @param ---メイン設定---
+ * @text ---ウィンドウ設定---
+ * @default
+ *
+ * @param Window X
+ * @text X位置
+ * @parent ---メイン設定---
+ * @desc ウィンドウのデフォルトX位置
+ * 式を使えます。
+ * @default 0
+ *
+ * @param Window Y
+ * @text Y位置
+ * @parent ---メイン設定---
+ * @desc ウィンドウのデフォルトY位置
+ * 式を使えます。
+ * @default this.fittingHeight(2)
+ *
+ * @param Window Width
+ * @text 幅
+ * @parent ---メイン設定---
+ * @desc ウィンドウのデフォルト幅
+ * 式を使えます。
+ * @default Graphics.boxWidth / 2
+ *
+ * @param Window Height
+ * @text 高さ
+ * @parent ---メイン設定---
+ * @desc ウィンドウのデフォルト高さ
+ * 式を使えます。
+ * @default Graphics.boxHeight - this.fittingHeight(2)
+ *
+ * @param Window Columns
+ * @text 列数
+ * @parent ---メイン設定---
+ * @desc ウィンドウの列数
+ * 式を使えます。
+ * @default 1
+ *
+ * @param Window Opacity
+ * @text 不透明度
+ * @parent ---メイン設定---
+ * @desc ウィンドウの不透明度
+ * 式を使えます。
+ * @default 255
+ *
+ * @param ---ヘルプ設定---
+ * @text ---ヘルプウィンドウ設定----
+ * @default
+ *
+ * @param Show Help
+ * @text 表示
+ * @parent ---ヘルプ設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトのヘルプウィンドウ表示
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param Help X
+ * @text X位置
+ * @parent ---ヘルプ設定---
+ * @desc ヘルプウィンドウのデフォルトX位置
+ * 式を使えます。
+ * @default 0
+ *
+ * @param Help Y
+ * @text Y位置
+ * @parent ---ヘルプ設定---
+ * @desc ヘルプウィンドウのデフォルトY位置
+ * 式を使えます。
+ * @default 0
+ *
+ * @param Help Width
+ * @text 幅
+ * @parent ---ヘルプ設定---
+ * @desc ヘルプウィンドウのデフォルト幅
+ * 式を使えます。
+ * @default Graphics.boxWidth
+ *
+ * @param Help Height
+ * @text 高さ
+ * @parent ---ヘルプ設定---
+ * @desc ヘルプウィンドウのデフォルト行数
+ * 式を使えます。
+ * @default this.fittingHeight(2)
+ *
+ * @param Help Opacity
+ * @text 不透明度
+ * @parent ---ヘルプ設定---
+ * @desc ヘルプウィンドウの不透明度
+ * 式を使えます。
+ * @default 255
+ *
+ * @param ---画像設定---
+ * @text ---画像ウィンドウ設定---
+ * @default
+ *
+ * @param Show Picture
+ * @text 表示
+ * @parent ---画像設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでの画像ウィンドウの表示設定
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param Picture X
+ * @text X位置
+ * @parent ---画像設定---
+ * @desc 画像ウィンドウのデフォルトX位置
+ * 式を使えます。
+ * @default Graphics.boxWidth / 2
+ *
+ * @param Picture Y
+ * @text Y位置
+ * @parent ---画像設定---
+ * @desc 画像ウィンドウのデフォルトのY位置
+ * 式を使えます。
+ * @default this.fittingHeight(2)
+ *
+ * @param Picture Width
+ * @text 幅
+ * @parent ---画像設定---
+ * @desc 画像ウィンドウのデフォルト幅
+ * 式を使えます。
+ * @default Graphics.boxWidth / 2
+ *
+ * @param Picture Height
+ * @text 高さ
+ * @parent ---画像設定---
+ * @desc 画像ウィンドウのデフォルトの行数
+ * 式を使えます。
+ * @default this.fittingHeight(10)
+ *
+ * @param Picture Opacity
+ * @text 不透明度
+ * @parent ---画像設定---
+ * @desc 画像ウィンドウの不透明度
+ * 式を使えます。
+ * @default 255
+ *
+ * @param ---サブテキスト設定---
+ * @text ---サブテキスト設定---
+ * @default
+ *
+ * @param Show Subtext
+ * @text 表示
+ * @parent ---サブテキスト設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでのサブテキストウィンドウの表示設定
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param Subtext X
+ * @text X位置
+ * @parent ---サブテキスト設定---
+ * @desc サブテキストウィンドウのデフォルトX位置
+ * 式を使えます。
+ * @default Graphics.boxWidth / 2
+ *
+ * @param Subtext Y
+ * @text Y位置
+ * @parent ---サブテキスト設定---
+ * @desc サブテキストウィンドウのデフォルトY位置
+ * 式を使えます。
+ * @default Graphics.boxHeight - height
+ *
+ * @param Subtext Width
+ * @text 幅
+ * @parent ---サブテキスト設定---
+ * @desc サブテキストウィンドウのデフォルト幅
+ * 式を使えます。
+ * @default Graphics.boxWidth / 2
+ *
+ * @param Subtext Height
+ * @text 高さ
+ * @parent ---サブテキスト設定---
+ * @desc サブテキストウィンドウのデフォルトの行数
+ * 式を使えます。
+ * @default Graphics.boxHeight - this.fittingHeight(2) - this.fittingHeight(10)
+ *
+ * @param Subtext Opacity
+ * @text 不透明度
+ * @parent ---サブテキスト設定---
+ * @desc サブテキストウィンドウの不透明度
+ * 式を使えます。
+ * @default 255
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、独自のカスタムメニュー設定を作成できます。
+ * あなたが望むどんなコモンイベントでもリストアップして、
+ * メニューコマンドを選択するとき、
+ * それがコモンイベントを走らせるメニューを生成することができます。
+ * このコモンイベントメニュー設定を使用すると、
+ * コモンイベントウィンドウを使用する時、
+ * ヘルプウィンドウ、画像ウィンドウ、サブテキストウィンドウを使用して
+ * 自分の個人的なタッチを可能にすることができます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * コモンイベントメニューはプラグインコマンドで構成されています。
+ * コモンイベントリストを望み通りに表示するには、
+ * 各プラグインコマンドを慎重に作成する必要があります。
+ * 以下は、
+ * デフォルトのウィンドウレイアウトでコモンイベントメニューを設定する例です。
+ *
+ *    SetCommonEventMenuSettings Default Setup
+ *    ClearCommonEventMenu
+ *    AddCommonEventMenu 1, 2, 3, 4, 5
+ *    SetCommonEventMenuCancel 0
+ *    OpenCommonEventMenu
+ *
+ * コモンイベントメニューの設定方法に関する詳細を調べるには、
+ * ヘルプファイルをよく読んでください。
+ *
+ * ===========================================================================
+ * 注釈タグ
+ * ===========================================================================
+ *
+ * RPGツクールMVのコモンイベントには独自のメモタグはありません。
+ * それを補うために、代わりに注釈を使用します。
+ * メニュー内で使用されるコモンイベント内に注釈イベントを作成し、
+ * これらの注釈タグのいずれかを使用するだけです。
+ *
+ * コモンイベント注釈タグ
+ *
+ *   <Menu Name: x>
+ *   - コモンイベントのメニューリストに表示されている時、
+ *   コモンイベントのテキスト表示を変更します。
+ *   このタグが使用されていない場合、
+ *   表示されるテキストはコモンイベントの名前になります。
+ *   あなたはテキストコードを使うことができます。
+ *
+ *   <Icon: x>
+ *   - コモンイベントのアイコンがxに変わります。
+ *   このタグが使用されていない場合、
+ *   使用されるアイコンはプラグインのパラメータで設定したものになります。
+ *
+ *   <Picture: x>
+ *   - ハイライト表示された時、
+ *   このコモンイベントに関連付けられるように画像を設定します。
+ *   これが使用されていない場合、画像は表示されず、空のままになります。
+ *
+ *   <Help Description>
+ *    text
+ *    text
+ *   </Help Description>
+ *   - コモンイベントメニューリストで選択された時、
+ *   使用されるヘルプの説明を設定します。
+ *   このタグが使用されていない場合、
+ *   表示テキストはプラグインのパラメータのデフォルトのテキストになります。
+ *
+ *   <Subtext>
+ *    text
+ *    text
+ *   </Subtext>
+ *   - コモンイベントメニューリストでコモンイベントを選択している時、
+ *   コモンイベントメニューのサブテキストウィンドウに使用する
+ *   サブテキストを設定します。
+ *   このテキストが使用されていない場合、
+ *   表示テキストはプラグインのパラメータのデフォルトのテキストになります。
+ *
+ * ===========================================================================
+ * ルナティックモード - コモンイベントの有効化/無効化
+ * ===========================================================================
+ *
+ * JavaScript を使って、
+ * コモンイベントを有効・無効にするために次の注釈タグを使用できます。
+ *
+ * コモンイベント注釈タグ
+ *
+ *   <Menu Enable Eval>
+ *    if ($gameSwitches.value(10)) {
+ *      enabled = true;
+ *    } else {
+ *      enabled = false;
+ *    }
+ *   </Menu Enable Eval>
+ *   - 'enabled'変数は、コモンイベントを選択できるかどうかを決定します。
+ *   上記の例では、
+ *   このコモンイベントを選択するためにスイッチ10をオンにする必要があります。
+ *
+ * ===========================================================================
+ * ルナティックモード - コモンイベントの表示/非表示
+ * ===========================================================================
+ *
+ * JavaScript を使って、
+ * コモンイベントを表示・非表示にするために次の注釈タグを使用できます。
+ *
+ * コモンイベント注釈タグ
+ *
+ *   <Menu Visible Eval>
+ *    if ($gameSwitches.value(20)) {
+ *      visible = true;
+ *    } else {
+ *      visible = false;
+ *    }
+ *   </Menu Visible Eval>
+ *   -'visible'変数は、コモンイベントがコモンイベントメニューリストでの
+ *   表示/非表示を決定します。
+ *   上記の例では、このコモンイベントを表示して表示するには、
+ *   スイッチ20をオンにする必要があります。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 次のプラグインコマンドはこのプラグインを操作するために使用されます。
+ *
+ * プラグインコマンド
+ *
+ *   ---
+ *
+ *   ClearCommonEventMenu
+ *   - このプラグインのDataプールからリストされている
+ *   全てのコモンイベントが消去され、再度入力する必要があります。
+ *   次のプラグインコマンドでそれを行うことができます。
+ *
+ *   ---
+ *
+ *   AddCommonEventMenu 1
+ *      - or -
+ *   AddCommonEventMenu 2, 3, 4, 5
+ *      - or -
+ *   AddCommonEventMenu 6 through 10
+ *   - 表示されているコモンイベント番号が、
+ *   コモンイベントメニューに表示されるコモンイベントリストに追加されます。
+ *
+ *   ---
+ *
+ *   SetCommonEventMenuCancel 20
+ *   - キャンセルされた時、
+ *   コモンイベント20を実行するようにコモンイベントメニューを設定します。
+ *   0のままにしておくと、イベントは実行されませんが、
+ *   メニューでキャンセルボタンを押すことができます(そして途中で終了します)。
+ *
+ *   ---
+ *
+ *   DisableCommonEventMenuCancel
+ *   EnableCommonEventMenuCancel
+ *   - コモンイベントメニューのキャンセルボタンが押されないようにします。
+ *   コモンイベントメニューがアクティブな時、キャンセルを押しても、
+ *   何も起こりません。
+ *   キャンセルボタンを再度有効にするには、
+ *   'SetCommonEventMenuCancel x'を使用します。
+ *   有効バージョンは、キャンセル機能を0として再度有効にします。
+ *
+ *   DisableCommonEventMenuConfirm
+ *   EnableCommonEventMenuConfirm
+ *   - コモンイベントメニューの確認ボタンが押されないようにします。
+ *   メニューをリストとしてのみ使用し、
+ *   選択可能なメニューを使用しないことを希望する人のために作られています。
+ *   有効バージョンは確認機能を再び有効にします。
+ *
+ *   ---
+ *
+ *   OpenCommonEventMenu
+ *   - 全ての設定が終わったら、
+ *   このコマンドを使ってコモンイベントメニューを開きます。
+ *   これはマップ上で使用できます。
+ *   BattleEngineCore.js を使用している場合、
+ *   このメニューも戦闘中に開くことができます。
+ *   'AddCommonEventMenu'プラグインコマンドによってリストされた
+ *   全てのコモンイベントがこのリストに表示されます。
+ *
+ *   ---
+ *
+ *   CommonEventMenuX 0
+ *   CommonEventMenuY this.fittingHeight(2)
+ *   CommonEventMenuWidth Graphics.boxWidth / 2
+ *   CommonEventMenuHeight Graphics.boxHeight - this.fittingHeight(2)
+ *   CommonEventMenuOpacity 255
+ *   CommonEventMenuColumns 1
+ *   - これらのプラグインコマンドを使用すると、
+ *   メインのコモンイベントメニューリストに使用する
+ *   x、y、幅、高さ、不透明度、列数を調整できます。
+ *   'OpenCommonEventMenu'プラグインコマンドを使用して
+ *   コモンイベントメニューを開く前に、
+ *   これらの設定が全て行われていることを確認してください。
+ *
+ *   ---
+ *
+ *   ShowCommonEventMenuHelp
+ *   HideCommonEventMenuHelp
+ *   - 次の'OpenCommonEventMenu'プラグインコマンドの使用時に
+ *   ヘルプウィンドウを表示するか非表示にするかを決定できます。
+ *
+ *   ---
+ *
+ *   CommonEventMenuHelpX 0
+ *   CommonEventMenuHelpY 0
+ *   CommonEventMenuHelpWidth Graphics.boxWidth
+ *   CommonEventMenuHelpHeight this.fittingHeight(2)
+ *   CommonEventMenuHelpOpacity 255
+ *   -これらのプラグインコマンドを使用すると、
+ *   コモンイベントメニューリストのヘルプウィンドウの
+ *   x、y、幅、高さ、不透明度を調整できます。
+ *   'OpenCommonEventMenu'プラグインコマンドを使用して
+ *   コモンイベントメニューを開く前に、
+ *   これらの設定が全て行われていることを確認してください。
+ *
+ *   ---
+ *
+ *   ShowCommonEventMenuPicture
+ *   HideCommonEventMenuPicture
+ *   - 次の'OpenCommonEventMenu'プラグインコマンドの使用時に
+ *   ヘルプウィンドウを表示するか非表示にするかを決定できます。
+ *
+ *   ---
+ *
+ *   CommonEventMenuPictureX Graphics.boxWidth / 2
+ *   CommonEventMenuPictureY this.fittingHeight(2)
+ *   CommonEventMenuPictureWidth Graphics.boxWidth / 2
+ *   CommonEventMenuPictureHeight this.fittingHeight(10)
+ *   CommonEventMenuPictureOpacity 255
+ *   -これらのプラグインコマンドを使用すると、
+ *   コモンイベントメニューリストの画像ウィンドウの
+ *   x、y、幅、高さ、不透明度を調整できます。
+ *   'OpenCommonEventMenu'プラグインコマンドを使用して
+ *   コモンイベントメニューを開く前に、
+ *   これらの設定が全て行われていることを確認してください。
+ *
+ *   ---
+ *
+ *   ShowCommonEventMenuSubtext
+ *   HideCommonEventMenuSubtext
+ *   - 次の'OpenCommonEventMenu'プラグインコマンドの使用時に
+ *   ヘルプウィンドウを表示するか非表示にするかを決定できます。
+ *
+ *   ---
+ *
+ *   CommonEventMenuSubtextX Graphics.boxWidth / 2
+ *   CommonEventMenuSubtextY Graphics.boxHeight - height
+ *   CommonEventMenuSubtextWidth Graphics.boxWidth / 2
+ *   CommonEventMenuSubtextHeight Graphics.boxHeight - this.fittingHeight(2) -
+ *     this.fittingHeight(10)
+ *   CommonEventMenuSubtextOpacity 255
+ *   - これらのプラグインコマンドを使用すると、
+ *   コモンイベントメニューリストのサブテキストウィンドウの
+ *   x、y、幅、高さ、不透明度を調整できます。
+ *   'OpenCommonEventMenu'プラグインコマンドを使用して
+ *   コモンイベントメニューを開く前に、
+ *   これらの設定が全て行われていることを確認してください。
+ *
+ *   ---
+ *
+ *   SetCommonEventMenuSettings Default Setup
+ *   SetCommonEventMenuSettings Basic Setup
+ *   - プラグインパラメータのデフォルト設定、
+ *   メインリストとヘルプウィンドウのみで構成されている基本設定に
+ *   コモンイベントウィンドウを設定できます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02a:
+ * - Added 'EnableCommonEventMenuCancel' and 'EnableCommonEventMenuConfirm' for
+ * users who don't wish to clear out their whole common event menu.
+ * - Documentation fix.
+ *
+ * Version 1.01:
+ * - Added 'DisableCommonEventMenuConfirm' plugin command for those who wish to
+ * use the Common Event Menu as a list rather than a menu.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

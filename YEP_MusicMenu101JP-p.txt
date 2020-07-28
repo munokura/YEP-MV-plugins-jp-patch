@@ -1,0 +1,850 @@
+/*:ja
+ * @plugindesc v1.01 メニューから音楽を再生できます。
+ * @author Yanfly Engine Plugins + Chickie Collaboration
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Music Icon
+ * @text 音楽アイコン
+ * @parent ---一般---
+ * @desc このアイコンは各曲のエントリの横に表示されます。
+ * @default 80
+ *
+ * @param Hidden Name
+ * @text 非表示の代替名
+ * @parent ---一般---
+ * @desc 曲のロックが解除されていない場合、曲リスト内の曲名になります。
+ * @default ? ? ? ? ?
+ *
+ * @param Hidden Help
+ * @text 非表示のヘルプ
+ * @parent ---一般---
+ * @desc 曲のロックが解除されていない場合、ページ上部のヘルプウィンドウに表示されます。
+ * @default この曲はまだロック解除されていません。
+ *
+ * @param ---曲リスト---
+ * @text ---曲リスト---
+ * @default
+ *
+ * @param Song 1 Data
+ * @text 曲データ1
+ * @parent ---曲リスト---
+ * @desc エントリの曲データ。 形式:
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Theme1; Title Theme; 90; 100; 0; ゲームのタイトルテーマ
+ *
+ * @param Song 2 Data
+ * @text 曲データ2
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Battle1; Let's Battle; 100; 100; 0; 警戒
+ *
+ * @param Song 3 Data
+ * @text 曲データ3
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Field1; World of Fantasy; 90; 110; 0; 世界のテーマ
+ *
+ * @param Song 4 Data
+ * @text 曲データ4
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Town1; Calm, Peaceful Days; 90; 100; 0; 町のテーマ
+ *
+ * @param Song 5 Data
+ * @text 曲データ5
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Castle1; Castle Royalty; 90; 100; 0; 王族の生活
+ *
+ * @param Song 6 Data
+ * @text 曲データ6
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Dungeon1; Depths of Dungeon Diving; 90; 100; 0; とても不思議
+ *
+ * @param Song 7 Data
+ * @text 曲データ7
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Scene1; Day to Day; 90; 100; 0; 日々の生活
+ *
+ * @param Song 8 Data
+ * @text 曲データ8
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default Ship1; Let's Set Sail!; 90; 100; 0; 出航
+ *
+ * @param Song 9 Data
+ * @text 曲データ9
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 10 Data
+ * @text 曲データ10
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 11 Data
+ * @text 曲データ11
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 12 Data
+ * @text 曲データ12
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 13 Data
+ * @text 曲データ13
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 14 Data
+ * @text 曲データ14
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 15 Data
+ * @text 曲データ15
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 16 Data
+ * @text 曲データ16
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 17 Data
+ * @text 曲データ17
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 18 Data
+ * @text 曲データ18
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 19 Data
+ * @text 曲データ19
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 20 Data
+ * @text 曲データ20
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 21 Data
+ * @text 曲データ21
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 22 Data
+ * @text 曲データ22
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 23 Data
+ * @text 曲データ23
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 24 Data
+ * @text 曲データ24
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 25 Data
+ * @text 曲データ25
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 26 Data
+ * @text 曲データ26
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 27 Data
+ * @text 曲データ27
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 28 Data
+ * @text 曲データ28
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 29 Data
+ * @text 曲データ29
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 30 Data
+ * @text 曲データ30
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 31 Data
+ * @text 曲データ31
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 32 Data
+ * @text 曲データ32
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 33 Data
+ * @text 曲データ33
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 34 Data
+ * @text 曲データ34
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 35 Data
+ * @text 曲データ35
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 36 Data
+ * @text 曲データ36
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 37 Data
+ * @text 曲データ37
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 38 Data
+ * @text 曲データ38
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 39 Data
+ * @text 曲データ39
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 40 Data
+ * @text 曲データ40
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 41 Data
+ * @text 曲データ41
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 42 Data
+ * @text 曲データ42
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 43 Data
+ * @text 曲データ43
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 44 Data
+ * @text 曲データ44
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 45 Data
+ * @text 曲データ45
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 46 Data
+ * @text 曲データ46
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 47 Data
+ * @text 曲データ47
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 48 Data
+ * @text 曲データ48
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 49 Data
+ * @text 曲データ49
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 50 Data
+ * @text 曲データ50
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 51 Data
+ * @text 曲データ51
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 52 Data
+ * @text 曲データ52
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 53 Data
+ * @text 曲データ53
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 54 Data
+ * @text 曲データ54
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 55 Data
+ * @text 曲データ55
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 56 Data
+ * @text 曲データ56
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 57 Data
+ * @text 曲データ57
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 58 Data
+ * @text 曲データ58
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 59 Data
+ * @text 曲データ59
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 60 Data
+ * @text 曲データ60
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 61 Data
+ * @text 曲データ61
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 62 Data
+ * @text 曲データ62
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 63 Data
+ * @text 曲データ63
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 64 Data
+ * @text 曲データ64
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 65 Data
+ * @text 曲データ65
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 66 Data
+ * @text 曲データ66
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 67 Data
+ * @text 曲データ67
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 68 Data
+ * @text 曲データ68
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 69 Data
+ * @text 曲データ69
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 70 Data
+ * @text 曲データ70
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 71 Data
+ * @text 曲データ71
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 72 Data
+ * @text 曲データ72
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 73 Data
+ * @text 曲データ73
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 74 Data
+ * @text 曲データ74
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 75 Data
+ * @text 曲データ75
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 76 Data
+ * @text 曲データ76
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 77 Data
+ * @text 曲データ77
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 78 Data
+ * @text 曲データ78
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 79 Data
+ * @text 曲データ79
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 80 Data
+ * @text 曲データ80
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 81 Data
+ * @text 曲データ81
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 82 Data
+ * @text 曲データ82
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 83 Data
+ * @text 曲データ83
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 84 Data
+ * @text 曲データ84
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 85 Data
+ * @text 曲データ85
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 86 Data
+ * @text 曲データ86
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 87 Data
+ * @text 曲データ87
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 88 Data
+ * @text 曲データ88
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 89 Data
+ * @text 曲データ89
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 90 Data
+ * @text 曲データ90
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 91 Data
+ * @text 曲データ91
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 92 Data
+ * @text 曲データ92
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 93 Data
+ * @text 曲データ93
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 94 Data
+ * @text 曲データ94
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 95 Data
+ * @text 曲データ95
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 96 Data
+ * @text 曲データ96
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 97 Data
+ * @text 曲データ97
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 98 Data
+ * @text 曲データ98
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 99 Data
+ * @text 曲データ99
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @param Song 100 Data
+ * @text 曲データ100
+ * @parent ---曲リスト---
+ * @desc
+ * ファイル名; 表示名; ボリューム; ピッチ; パン; 説明
+ * @default
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは新しいメニューを追加します。
+ * プレーヤーはゲーム内の曲を再生できます。
+ * ファイル名、曲の表示名、音量、ピッチ、パン、
+ * 曲を再生するときのヘルプの説明を設定できます。
+ *
+ * これは、YanflyEnginePlugins ライブラリとの互換性を確保するための、
+ * Chickie と Yanfly によるコラボレーションプラグインです。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * 選曲メニューに表示される曲は、
+ * Song x Data プラグインパラメータ内にリストした曲だけになります。
+ *
+ * 曲データを入力するときは、特定の形式で入力する必要があります。
+ *
+ *   filename; display name; volume; pitch; pan; description
+ *
+ * 各データセグメントは、; で区切られています。
+ * 全てのデータの順序を正しく保ち、正しく読み取るためには、
+ * その特定の順序で入力する必要があります。
+ * 各エントリを適用する方法は次のとおりです。
+ *
+ *   filename
+ *   - これは曲のファイル名です。
+ *   これは大文字と小文字を区別し、ファイル拡張子を含んではいけません。
+ *   例えば、theme.mp3 はパラメータに theme と書きます。
+ *
+ *   display name
+ *   - 音楽メニューに表示される名前です。実際の曲自体には影響しません。
+ *
+ *   volume
+ *   - ミュージックメニューシーン内で曲が再生される音量になります。
+ *   プラグインパラメータには0から100までの整数値を使用します。
+ *
+ *   pitch
+ *   - ミュージックメニュー内の曲に対して再生されるピッチです。
+ *   プラグインパラメータには0から200までの整数値を使用してください。
+ *
+ *   pan
+ *   - ミュージックメニュー内のソングに適用されるパンです。
+ *   プラグインパラメータには-100から100までの値を使用してください。
+ *
+ *   description
+ *   - 曲が選択された時、表示されるヘルプの説明。
+ *   ヘルプの説明が画面の上部に表示されます。
+ *   この設定には任意の種類のテキストコードを使用できます。
+ *
+ * ===========================================================================
+ * Main Menu Manager - Music Menuの位置
+ * ===========================================================================
+ *
+ * YEP_MainMenuManager を使用していて、
+ * ミュージックメニューコマンドを好きな場所に配置したい場合、
+ * 次の形式を使用します。
+ *
+ *       Name: "Music Menu"
+ *     Symbol: musicMenu
+ *       Show: $gameSwitches.value(Insert a Switch ID to show this command)
+ *    Enabled: $gameSwitches.value(Insert a Switch ID to enable this command)
+ *        Ext:
+ *  Main Bind: this.commandMusicMenu.bind(this)
+ * Actor Bind:
+ *
+ * YEP_MainMenuManager のスロットに上記の設定を挿入します。
+ * 正確な設定を必要な場所にコピーすると、
+ * 全ての命名の使用、有効化、無効化、非表示、
+ * プラグインパラメータによって行われた効果の表示中にその設定が表示されます。
+ *
+ * プラグインパラメータから 'Auto Add Menu'を必ずオフにしてください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * プラグインコマンドで、ゲームのミュージックメニュー設定を変更できます。
+ *
+ * プラグインコマンド
+ *
+ *   GoToMusicMenu
+ *   - プレーヤーをミュージックメニューシーンに送ります。
+ *
+ *   AllMusicMenuSongs
+ *   - プレイヤーが少なくとも一度はゲームでそれを聞く必要なしに、
+ *   プレイヤーのためのすべての音楽をアンロックします。
+ *
+ *   NormalMusicMenuSongs
+ *   - 全ロック解除設定を削除します。
+ *   プレーヤーは曲のロックを解除するために、
+ *   少なくとも1回ゲーム内の音楽を聴く必要があります。
+ *   これは既にロック解除されている曲のエントリを削除するわけではありません。
+ *
+ *   UnlockMusicMenuSong x
+ *   UnlockMusicMenuSong x x x
+ *   - ゲームの曲IDxのロックが解除されます。
+ *   複数のxを使用して、一度に曲のグループをロック解除します。
+ *   xはプラグインのパラメータにあるIDを参照します。
+ *   参照された曲は、プレーヤーがゲーム内でその曲を
+ *   少なくとも1回聞く必要なしにロック解除されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

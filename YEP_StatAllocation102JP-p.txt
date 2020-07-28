@@ -1,0 +1,703 @@
+/*:ja
+ * @plugindesc v1.02 パーティーメンバーに能力値を割り当てるメニューを追加します。能力値はAP、JP、アイテムを通して割り当てることができます。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 多くのプレイヤーは、ゲームのカスタマイズが大好きです。
+ * それは彼らがゲームに少し個人的な接触を置くことを可能にします、
+ * そしてそれを行うために能力値割り当て機能を通してより良い方法は何ですか？
+ * このプラグインでは、
+ * プレイヤーは割り当てポイントを表す新しいリソースAPを通して、
+ * MaxHP、MaxMP、ATK、DEFなどの量を変更することができます。
+ * APは通常レベルアップで獲得され、その後能力値を高めるために使用されます。
+ *
+ * しかし、APがあなたのものではない場合、
+ * JP(JobPointsプラグインを使用)・アイテムを通じて
+ * 能力値を割り当てることもできます。
+ * このプラグインは、能力値を割り当てる3つの方法を提供します。
+ *
+ * このプラグインの能力値割り当て機能は、
+ * 全体としてアクターではなく職業に結び付けられています。
+ * アクターが現在割り当てている職業によって
+ * アクターが割り当てられる配分が異なることを意味します。
+ * 職業の変更が必要な場合、
+ * プレーヤーは1サイズではなく複数の割り当てサイズを試すことができます。
+ *
+ * 職業は、ポイントを割り当てるための様々なパラメータも提供できます。
+ * バトラー職業はATKとDEFのオプションを与えることができますが、
+ * 魔術師職業はMaxMP・MATのオプションを与えることができます。
+ * これは各職業のためのメモタグの使用を通してすることができます。
+ *
+ * 各能力値の名前、アイコン、コスト、効果、能力値の最大割り当て回数の
+ * 割り当て規則を調整することもできます。
+ * これらは全てプラグインパラメータを通じて実行できます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 特定の職業に異なる能力値を割り当てたい場合、
+ * 次のメモタグ設定を使用してください。
+ *
+ * 職業のメモタグ
+ *
+ *   <Stat Allocation: x, x, x>
+ *
+ *   または
+ *
+ *   <Stat Allocation>
+ *    x
+ *    x
+ *    x
+ *   </Stat Allocation>
+ * - プレイヤーがポイントを割り当てられる能力値のリストに追加するには、
+ * 'x'をstatに置き換えます。
+ * 必要なだけ'x'エントリを挿入してください。
+ * それらは配置された順にメニューに表示されます。
+ * 関連のない能力値はメニューに表示されません。
+ * 以下のいずれかの能力値を使用してください。
+ *
+ *   ---
+ *
+ *   通常能力値
+ *
+ *   mhp       最大HP
+ *   mmp       最大MP
+ *   atk       攻撃力
+ *   def       防御力
+ *   mat       魔法力
+ *   mdf       魔法防御
+ *   agi       敏捷性
+ *   luk       運
+ *
+ *   追加能力値
+ *
+ *   hit       命中率
+ *   eva       回避率
+ *   cri       会心率
+ *   cev       会心回避率
+ *   mev       魔法回避率
+ *   mrf       魔法反射率
+ *   cnt       反撃率
+ *   hrg       HP再生率
+ *   mrg       MP再生率
+ *   trg       TP再生率
+ *
+ *   特殊能力値
+ *
+ *   tgr       狙われ率
+ *   grd       防御効果率
+ *   rec       回復効果率
+ *   pha       薬の知識
+ *   mcr       MP消費率
+ *   tcr       TPチャージ率
+ *   pdr       物理ダメージ率
+ *   mdr       魔法ダメージ率
+ *   fdr       床ダメージ率
+ *   exr       経験獲得率
+ *
+ *   ---
+ *
+ * これらを'Default Parameters'プラグインパラメータに挿入して、
+ * デフォルトリストを変更し、
+ * 独自の固有のメモタグ設定を持たない全ての職業に適用することもできます。
+ *
+ * ===========================================================================
+ * Main Menu Manager - 割り当てコマンドの配置
+ * ===========================================================================
+ *
+ * YEP_MainMenuManagerを使用していて、
+ * Allocateコマンドを好きな場所に配置したい場合、
+ * 次の形式を使用します。
+ *
+ *       Name: Yanfly.Param.StatAlcCmdName
+ *     Symbol: statAllocate
+ *       Show: $gameSystem.isShowStatAllocate()
+ *    Enabled: $gameSystem.isEnableStatAllocate()
+ *        Ext:
+ *  Main Bind: this.commandPersonal.bind(this)
+ * Actor Bind: SceneManager.push(Scene_StatAllocation)
+ *
+ * YEP_MainMenuManagerのスロットに上記の設定を挿入します。
+ * 正確な設定を必要な場所にコピーすると、
+ * 全ての命名の使用、有効化、無効化、非表示、
+ * プラグインパラメータによって行われた効果の表示中にその設定が表示されます。
+ *
+ * プラグインパラメータから'Auto Add Menu'をオフにするのを忘れないでください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * あなたのゲームで様々な能力値割り当て機能関連の効果を得るために
+ * 以下のプラグインコマンドを使うことができます。
+ *
+ * プラグインコマンド
+ *
+ *   ShowStatAllocate
+ *   HideStatAllocate
+ *   - メインメニューの割り当てコマンドを表示/非表示にします。
+ *
+ *   EnableStatAllocate
+ *   DisableStatAllocate
+ *   - メインメニューの割り当てコマンドを有効/無効にします。
+ *
+ *   ShowRevertAllocate
+ *   HideRevertAllocate
+ *   - 割り当てシーンの 'Revert'コマンドを表示/非表示にします。
+ *
+ *   EnableRevertAllocate
+ *   DisableRevertAllocate
+ *   - 割り当てシーンの 'Revert'コマンドを有効/無効にします。
+ *
+ *   OpenStatAllocate x
+ *   -インデックスがxに等しいパーティーメンバーのための
+ *   ステータス割り当てメニューを開きます。
+ *   0が最初のスロットです。
+ *
+ * ===========================================================================
+ * ルナティックモード - スクリプトコール
+ * ===========================================================================
+ *
+ * 次のスクリプトコールを使用して、
+ * アクターに追加のAPを使用させることができます。
+ *
+ * スクリプトコール
+ *
+ *   var actor = $gameActors.actor(actorId);
+ *   actor.gainBonusAp(x, classId);
+ *   - 'actorId'をあなたが影響を与えたいアクターのIDに置き換えてください。
+ *   アクターに適用したいAPの量で'x'を置き換えます。
+ *   'classId'をAPに適用したい職業のIDに置き換えます。
+ *   アクターの現在の職業に影響を与えるために
+ *   'classId'を0のままにすることができます。
+ *
+ *   var actor = $gameActors.actor(actorId);
+ *   actor.setBonusAp(x, classId);
+ *   - 'actorId'をあなたが影響を与えたいアクターのIDに置き換えてください。
+ *   アクターのAPを設定したいAPの量で'x'を置き換えます。
+ *   'classId'をAPに適用したい職業のIDに置き換えます。
+ *   アクターの現在の職業に影響を与えるために
+ *   'classId'を0のままにすることができます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Fixed an exploit that would allow actors to fully regain HP/MP.
+ *
+ * Version 1.01:
+ * - Bugfixed for those who didn't have Allocate appear.
+ * - Added plugin command to open up Stat Allocation scene.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Command Text
+ * @text コマンドテキスト
+ * @parent ---一般---
+ * @desc メニューコマンドに使用されるテキスト
+ * @default 能力割り当て
+ *
+ * @param Auto Add Menu
+ * @text 自動追加メニュー
+ * @parent ---一般---
+ * @type boolean
+ * @on 追加する
+ * @off 追加しない
+ * @desc メインメニューに能力値割り当てコマンドを自動的に追加
+ * 追加しない:false / 追加する:true
+ * @default true
+ *
+ * @param Show Command
+ * @text 表示コマンド
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @on 非表示
+ * @desc デフォルトでメインメニューに能力値割り当てコマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Command
+ * @text コマンド有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @on 無効
+ * @desc メインメニューの能力値割り当てコマンドをデフォルトで有効
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Auto Place Command
+ * @text 自動配置コマンド
+ * @parent ---一般---
+ * @type boolean
+ * @on 自動
+ * @off 手動
+ * @desc メニューの位置を自動配置
+ * 手動:false / 自動:true
+ * @default true
+ *
+ * @param Left/Right Allocate
+ * @text 左/右割り当て
+ * @parent ---一般---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc 左/右キーで割り当て（割り当て解除）を許可
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @param ---AP---
+ * @text ---AP---
+ * @default
+ *
+ * @param AP Name
+ * @text APテキスト
+ * @parent ---AP---
+ * @desc 'AP'の表示テキスト
+ * @default AP
+ *
+ * @param AP Icon
+ * @text APアイコン
+ * @parent ---AP---
+ * @desc APに使用されるアイコン
+ * @default 87
+ *
+ * @param AP Formula
+ * @text AP計算式
+ * @parent ---AP---
+ * @desc 計算されたレベルでアクターに必要なAPの公式コード
+ * @default (level - 1) * 5
+ *
+ * @param AP Amount Format
+ * @text AP表示形式
+ * @parent ---AP---
+ * @desc 利用可能なAPの表示形式
+ * %1:数量 / %2:APテキスト / %3:APアイコン
+ * @default \c[0]%3\c[4]%2 x %1
+ *
+ * @param Show AP in Menu
+ * @text メニューにAP表示
+ * @parent ---AP---
+ * @type boolean
+ * @on 表示
+ * @on 非表示
+ * @desc メニューにAPを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---コマンドウィンドウ---
+ * @text ---コマンドウィンドウ---
+ * @default
+ *
+ * @param Text Alignment
+ * @text 文字揃え
+ * @parent ---コマンドウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc コマンドウィンドウの文字揃え
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Allocate Command
+ * @text 割り当てテキスト
+ * @parent ---コマンドウィンドウ---
+ * @desc 割り当てに使用される表示テキスト
+ * @default 割り当て
+ *
+ * @param Revert Command
+ * @text 解除テキスト
+ * @parent ---コマンドウィンドウ---
+ * @desc 割り当てを解除に使用される表示テキスト
+ * @default 解除
+ *
+ * @param Show Revert
+ * @text 解除表示
+ * @parent Revert Command
+ * @type boolean
+ * @on 表示
+ * @on 非表示
+ * @desc デフォルトで[解除]コマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Revert
+ * @text 解除有効
+ * @parent Revert Command
+ * @type boolean
+ * @on 有効
+ * @on 無効
+ * @desc デフォルトで解除コマンドを有効
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Finish Command
+ * @text 完了テキスト
+ * @parent ---コマンドウィンドウ---
+ * @desc シーンの終了/終了に使用される表示テキスト
+ * 含まない場合は、空白のままに
+ * @default 完了
+ *
+ * @param ---割り当てウィンドウ---
+ * @text ---割り当てウィンドウ---
+ * @default
+ *
+ * @param Default Parameters
+ * @text デフォルト能力値
+ * @parent ---割り当てウィンドウ---
+ * @type string[]
+ * @desc 割り当てウィンドウに表示される能力値のリスト。能力値のリストについてはヘルプ参照
+ * @default ["mhp","mmp","atk","def","mat","mdf","agi","luk"]
+ *
+ * @param Allocate Refresh
+ * @text 割当後更新
+ * @parent ---割り当てウィンドウ---
+ * @type boolean
+ * @on 更新する
+ * @off 更新しない
+ * @desc 各割り当て後にアクターを更新。オンにすることをお勧めしますが、遅れる可能性があります
+ * @default false
+ *
+ * @param Small Item Names
+ * @text アイテム名を小さく
+ * @parent ---割り当てウィンドウ---
+ * @type boolean
+ * @on 小さくする
+ * @off 小さくしない
+ * @desc コストのアイテム名を小さく表示
+ * @default false
+ *
+ * @param drawCode
+ * @text 表示コード
+ * @parent ---割り当てウィンドウ---
+ * @type note
+ * @desc 能力値を表示するために使用されるコード
+ * @default "// Initialize Variables\nvar param = this._list[index].ext;\nvar data = this.paramData(param);\nvar rect = this.itemRectForText(index);\n// Draw Gauge\nvar gaugeColor1 = data.gaugeColor1 || '#000000';\nvar gaugeColor2 = data.gaugeColor2 || '#000000';\nvar rate = this.paramAllocationRate(param);\nvar width = this.contentsWidth() - 330;\nthis.drawGauge(rect.x, rect.y, width, rate, gaugeColor1, gaugeColor2);\n// Draw Parameter Name\nthis.drawParamName(param, rect.x + this.textPadding(), rect.y, width);\n// Draw Parameter Values\nthis.drawParamValues(param, rect.x + this.textPadding(), rect.y, width);\n// Draw Parameter Cost\nthis.drawParamCost(param, rect.x + rect.width - width, rect.y, width);"
+ *
+ * @param Base Parameters
+ * @text 通常能力値
+ * @parent ---割り当てウィンドウ---
+ *
+ * @param mhp Settings
+ * @text 最大HP設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの最大HPを+10\"","gaugeColor1":"#e08040","gaugeColor2":"#f0c040","allocationBonus":"10","maxAllocations":"100","apCost":"\"cost = 1 + Math.floor(times / 10);\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mmp Settings
+ * @text 最大MP設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの最大MPを+5\"","gaugeColor1":"#4080c0","gaugeColor2":"#40c0f0","allocationBonus":"5","maxAllocations":"100","apCost":"\"cost = 1 + Math.floor(times / 10);\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param atk Settings
+ * @text 攻撃力設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの攻撃力を+1\"","gaugeColor1":"#ed1c24","gaugeColor2":"#f26c4f","allocationBonus":"1","maxAllocations":"100","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param def Settings
+ * @text 防御力設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの防御力を+1\"","gaugeColor1":"#f7941d","gaugeColor2":"#fdc689","allocationBonus":"1","maxAllocations":"100","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mat Settings
+ * @text 魔法力設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの魔法力を+1\"","gaugeColor1":"#605ca8","gaugeColor2":"#bd8cbf","allocationBonus":"1","maxAllocations":"100","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mdf Settings
+ * @text 魔法防御設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの魔法防御を+1\"","gaugeColor1":"#448ccb","gaugeColor2":"#a6caf4","allocationBonus":"1","maxAllocations":"100","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param agi Settings
+ * @text 敏捷性設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの敏捷性を+1\"","gaugeColor1":"#39b54a","gaugeColor2":"#82ca9c","allocationBonus":"1","maxAllocations":"100","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param luk Settings
+ * @text 運設定
+ * @parent Base Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの運を+1\"","gaugeColor1":"#fff568","gaugeColor2":"#fffac3","allocationBonus":"1","maxAllocations":"100","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param Extra Parameters
+ * @text 追加能力値
+ * @parent ---割り当てウィンドウ---
+ *
+ * @param hit Settings
+ * @text 命中率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの命中率を+0.5%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.005","maxAllocations":"10","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param eva Settings
+ * @text 回避率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの回避率を+0.5%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.005","maxAllocations":"10","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param cri Settings
+ * @text 会心率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの会心率を+0.5%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.005","maxAllocations":"10","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param cev Settings
+ * @text 会心回避率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの会心回避率を+0.5%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.005","maxAllocations":"10","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mev Settings
+ * @text 魔法回避率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの魔法回避率を+0.5%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.005","maxAllocations":"10","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mrf Settings
+ * @text 魔法反射率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの魔法反射率を+1%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.01","maxAllocations":"10","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param cnt Settings
+ * @text 反撃率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの反撃率を+1%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.01","maxAllocations":"10","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param hrg Settings
+ * @text HP再生率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットのHP再生率を+1%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.01","maxAllocations":"20","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mrg Settings
+ * @text MP再生率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットのMP再生率を+1%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.01","maxAllocations":"20","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param trg Settings
+ * @text TP再生率設定
+ * @parent Extra Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットのTP再生率を+1%\"","gaugeColor1":"#ca3c7a","gaugeColor2":"#ff9fc9","allocationBonus":"0.01","maxAllocations":"20","apCost":"\"cost = 3;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param Special Parameters
+ * @text 特殊能力値
+ * @parent ---割り当てウィンドウ---
+ *
+ * @param tgr Settings
+ * @text 狙われ率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの狙われ率を-1%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"0.01","maxAllocations":"10","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param grd Settings
+ * @text 防御効果率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの防御効果率を+5%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"0.05","maxAllocations":"20","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param rec Settings
+ * @text 回復効果率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの回復効果率を+5%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"0.05","maxAllocations":"20","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param pha Settings
+ * @text 薬の知識設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの薬の知識を+5%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"0.05","maxAllocations":"20","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mcr Settings
+ * @text MP消費率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットのMP消費率を-1%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"-0.01","maxAllocations":"50","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param tcr Settings
+ * @text TPチャージ率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットのTPチャージ率を+1%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"0.01","maxAllocations":"50","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param pdr Settings
+ * @text 物理ダメージ率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの物理ダメージ率を-1%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"-0.01","maxAllocations":"50","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param mdr Settings
+ * @text 魔法ダメージ率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの魔法ダメージ率を-1%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"-0.01","maxAllocations":"50","apCost":"\"cost = 5;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param fdr Settings
+ * @text 床ダメージ率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの床ダメージ率を-1%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"-0.01","maxAllocations":"50","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param exr Settings
+ * @text 経験獲得率設定
+ * @parent Special Parameters
+ * @type struct<paramSettings>
+ * @desc この能力値の設定
+ * @default {"name":"auto","iconIndex":"0","description":"\"ユニットの経験獲得率を+1%\"","gaugeColor1":"#8c6239","gaugeColor2":"#c69c6d","allocationBonus":"0.01","maxAllocations":"100","apCost":"\"cost = 1;\"","jpCost":"\"cost = 0;\"","itemId":"0","itemCost":"\"cost = 1;\""}
+ *
+ * @param ---解除---
+ * @default
+ *
+ * @param RevertConfirmationText
+ * @text 確認テキスト
+ * @parent ---解除---
+ * @type note
+ * @desc 解除ウィンドウの表示テキスト
+ * @default "割り当てられている全ての能力値を元に戻しますか？\n全ての \\c[4]AP\\c[0], \\c[4]JP\\c[0],  \\c[4]Items\\c[0] は戻ります。"
+ *
+ * @param RevertWinWidth
+ * @text ウィンドウ幅
+ * @parent ---解除---
+ * @type number
+ * @min 1
+ * @desc 解除ウィンドウの幅
+ * @default 700
+ *
+ * @param RevertYes
+ * @text はい表示
+ * @parent ---解除---
+ * @desc 解除確認ウィンドウの'はい'の表示
+ * @default 解除する
+ *
+ * @param RevertNo
+ * @text いいえ表示
+ * @parent ---解除---
+ * @desc 解除確認ウィンドウの'いいえ'の表示
+ * @default 解除しない
+ *
+ */
+/*~struct~paramSettings:ja
+ * @param Name
+ * @text 名前
+ * @desc この能力値に使用する名前 自動命名には 'auto'を使用
+ * @default auto
+ *
+ * @param iconIndex
+ * @text アイコン
+ * @desc この能力値に使用するアイコン
+ * @default 0
+ *
+ * @param description
+ * @text ヘルプ説明文
+ * @type note
+ * @desc この能力値に使用されるヘルプの説明
+ * @default "1行\n2行"
+ *
+ * @param gaugeColor1
+ * @text ゲージ色1
+ * @desc この能力値のゲージ色1 (16進数色フォーマット) #rrggbb
+ * @default #ffffff
+ *
+ * @param gaugeColor2
+ * @text ゲージ色2
+ * @desc この能力値のゲージ色2 (16進数色フォーマット) #rrggbb
+ * @default #ffffff
+ *
+ * @param allocationBonus
+ * @text 割当ボーナス
+ * @desc 割り当て毎に追加されたボーナス値
+ * @default 1
+ *
+ * @param maxAllocations
+ * @text 最大割当回数
+ * @type number
+ * @min 1
+ * @desc この能力値を割り当てることができる最大回数
+ * @default 100
+ *
+ * @param apCost
+ * @text APコスト
+ * @type note
+ * @desc この能力値をアップグレードするためのAPコスト
+ * cost:最終値 / times:アップグレード回数
+ * @default "cost = 1 + times;"
+ *
+ * @param jpCost
+ * @text JPコスト
+ * @type note
+ * @desc この能力値をアップグレードするためのJPコスト。必須:YEP_JobPoints
+ * cost:最終値 / times:アップグレード回数
+ * @default "cost = 0;"
+ *
+ * @param itemId
+ * @text アイテムID
+ * @type item
+ * @desc コストに使用されたアイテムID。アイテムのコストが不要なら0
+ * @default 0
+ *
+ * @param itemCost
+ * @text アイテムコスト
+ * @type note
+ * @desc この能力値をアップグレードするためのアイテムコスト
+ * cost:最終値 / times:アップグレード回数
+ * @default "cost = 1;"
+ *
+ */

@@ -1,0 +1,133 @@
+/*:ja
+ * @plugindesc v1.01 装備の選択ウィンドウを作成し、装備IDを変数へ代入します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Default Columns
+ * @text デフォルト列数
+ * @type number
+ * @min 1
+ * @desc ウィンドウのデフォルトの列数
+ * @default 2
+ *
+ * @param Default Rows
+ * @text デフォルト行数
+ * @type number
+ * @min 1
+ * @desc ウィンドウのデフォルトの行数
+ * @default 4
+ *
+ * @param Default X Position
+ * @text デフォルトX位置
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc デフォルトのウィンドウX位置
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Default Y Position
+ * @text デフォルトY位置
+ * @type select
+ * @option 上
+ * @value top
+ * @option 中央
+ * @value middle
+ * @option 下
+ * @value bottom
+ * @desc デフォルトのウィンドウY位置
+ * 上:top / 中央:middle / 下:bottom
+ * @default bottom
+ *
+ * @param Default Width
+ * @text デフォルト幅
+ * @type number
+ * @desc ウィンドウのデフォルト幅
+ * 0に設定すると、ウィンドウ幅は画面幅になります。
+ * @default 0
+ *
+ * @param Default Enable
+ * @text 全装備を有効
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトで全ての装備を有効
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Default Quantity
+ * @text 装備数を表示
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトで装備の数を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、装備の選択ウィンドウを作成し、
+ * 装備IDを変数へ代入する機能を提供します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * このプラグインを利用するには、次のプラグインコマンドを使用します。
+ *
+ * プラグインコマンド
+ *
+ * MapSelectEquip var type
+ * - マップ装備選択ウィンドウが開きます。
+ * 選択したアイテムに設定したい変数のIDで'var'を置き換えます。
+ * 'type'を'weapon'、'armor'、'both'に置き換えてください。
+ * 'type'がリストの種類を決定します。
+ *
+ * MapSelectEquipColumns x
+ * - マップ装備選択ウィンドウの列数をxに設定します。
+ *
+ * MapSelectEquipRows x
+ * - マップ装備選択ウィンドウの行数をxに設定します。
+ *
+ * MapSelectEquipWidth x
+ * - マップ装備選択ウィンドウの幅をxに設定します。
+ * 0を使用すると、ウィンドウ幅は画面幅になります。
+ *
+ * MapSelectEquipX left
+ * MapSelectEquipX center
+ * MapSelectEquipX right
+ * -マップ装備選択ウィンドウを
+ * 画面の左側、画面の中央、画面の右側に配置します。
+ *
+ * MapSelectEquipY top
+ * MapSelectEquipY middle
+ * MapSelectEquipY bottom
+ * - マップ装備選択ウィンドウを
+ * 画面の上部、画面の中央、画面の下部に配置します。
+ *
+ * ShowMapSelectEquipQuantity
+ * - マップ装備選択ウィンドウに装備品の数を表示します。
+ *
+ * HideMapSelectEquipQuantity
+ * - マップ装備選択ウィンドウで装備品の数量を隠します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

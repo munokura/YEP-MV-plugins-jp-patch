@@ -1,0 +1,958 @@
+/*:ja
+ * @plugindesc v1.00 (要YEP_MessageCore) 文章表示用にゲームデータを表示する制御文字を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_MessageCoreを必要とします。
+ * このプラグインがプラグイン管理のYEP_MessageCoreの下にあることを
+ * 確認してください。
+ *
+ * このプラグインは、制御文字を追加します。
+ * プレイヤーが所有するアイテム、武器、防具の量や
+ * アクターや敵の通常能力値、追加能力値、特別能力値を渡すことができます。
+ * 新しい制御文字では、文字を色付けする条件付けに、
+ * 2つの数値比較に基づいて決定することもできます。
+ * 条件付き色に加えて、テキストはスイッチ値またはカスタム条件に基づいて
+ * 表示することもできます。
+ *
+ * 注:このプラグインはRPGツクールMV 1.5.0以降で正常に機能します。
+ * RPGツクールMVの低いバージョンはまだこのプラグインで動作しますが、
+ * あなたは快適にプラグインパラメータ機能を
+ * 十分に利用することができないでしょう。
+ *
+ * ===========================================================================
+ * 制御文字
+ * ===========================================================================
+ *
+ * メッセージに特定の制御文字を使用することで、
+ * それらを次のコードに置き換えることができます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  量          効果:
+ *  \qi[x]      - パーティーが現在持っているアイテムxの数を返します。
+ *  \qw[x]      - パーティーが現在持っている武器xの数を返します。
+ *  \qa[x]      - パーティーが現在持っている防具xの数を返します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  比較             効果: xとyに基づいて文字色を変更   デフォルト:
+ *  \compare<x:y>    - x >= y = Green                   x < y = Red
+ *  \compare1<x:y>   - x >= y = Red                     x < y = White
+ *  \compare2<x:y>   - x >= y = Yellow                  x < y = White
+ *  \compare3<x:y>   - x >= y = Green                   x < y = White
+ *  \compare4<x:y>   - x >= y = Blue                    x < y = Purple
+ *  \compare5<x:y>   - x >= y = White                   x < y = Grey
+ *  \compare6<x:y>   - x >= y = White                   x < y = Red
+ *  \compare7<x:y>   - x >= y = White                   x < y = Purple
+ *  \compare8<x:y>   - x >= y = White                   x < y = Dark Blue
+ *  \compare9<x:y>   - x >= y = White                   x < y = Brown
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  ケース                効果: 条件に基づいて異なる文字列を返します。
+ *
+ *  \caseSwitch{s?x:y}  - スイッチsがオンの場合、テキストxを返します。
+ *                        スイッチsがオフの場合、テキストyを返します。
+ *
+ *  \caseEval{e?x:y}    - 評価コードeがtrueの場合、テキストxを返します。
+ *                        評価コードeがfalseの場合、テキストyを返します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  アクター通常能力  効果:
+ *  \amhp[x]          - アクターxのMaxHP値を返します。
+ *  \ahp[x]           - アクターxの現在のHP値を返します。
+ *  \ahp%[x]          - アクターxのHP率を返します。
+ *  \ammp[x]          - アクターxのMaxMP値を返します。
+ *  \amp[x]           - アクターxの現在のMP値を返します。
+ *  \amp%[x]          - アクターxのMP率を返します。
+ *  \amtp[x]          - アクターxのMaxTP値を返します。
+ *  \atp[x]           - アクターxの現在のTP値を返します。
+ *  \atp%[x]          - アクターxのTP率を返します。
+ *  \aatk[x]          - アクターxのATK値を返します。 攻撃力
+ *  \adef[x]          - アクターxのDEF値を返します。 防衛力
+ *  \amat[x]          - アクターxのMAT値を返します。 魔法力
+ *  \amdf[x]          - アクターxのMDF値を返します。 魔法防御
+ *  \aagi[x]          - アクターxのAGI値を返します。 敏捷性
+ *  \aluk[x]          - アクターxのLUK値を返します。 運
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  アクター追加能力  効果:
+ *  \ahit[x]          - アクターxのHIT率を返します。 命中率
+ *  \aeva[x]          - アクターxのEVA率を返します。 回避率
+ *  \acri[x]          - アクターxのCRI率を返します。 会心率
+ *  \acev[x]          - アクターxのCEV率を返します。 会心回避率
+ *  \amev[x]          - アクターxのMEV率を返します。 魔法回避率
+ *  \amrf[x]          - アクターxのMRF率を返します。 魔法反射率
+ *  \acnt[x]          - アクターxのCNT率を返します。 反撃率
+ *  \ahrg[x]          - アクターxのHRG率を返します。 HP再生率
+ *  \amrg[x]          - アクターxのMRG率を返します。 MP再生率
+ *  \atrg[x]          - アクターxのTRG率を返します。 TP再生率
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  アクター特殊能力  効果:
+ *  \atgr[x]          - アクターxのTGR率を返します。 狙われ率
+ *  \agrd[x]          - アクターxのGRD率を返します。 防御効果率
+ *  \arec[x]          - アクターxのREC率を返します。 回復効果率
+ *  \apha[x]          - アクターxのPHA率を返します。 薬の知識率
+ *  \amcr[x]          - アクターxのMCR率を返します。 MP消費率
+ *  \atcr[x]          - アクターxのTCR率を返します。 TPチャージ率
+ *  \apdr[x]          - アクターxのPDR率を返します。 物理ダメージ率
+ *  \amdr[x]          - アクターxのMDR率を返します。 魔法ダメージ率
+ *  \afdr[x]          - アクターxのFDR率を返します。 床ダメージ率
+ *  \aexr[x]          - アクターxのEXR率を返します。 経験値獲得率
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  敵キャラ通常能力  効果:
+ *  \emhp[x]          - 敵xの MaxHP 値を返します。
+ *  \ehp[x]           - 敵xの 現在のHP 値を返します。
+ *  \ehp%[x]          - 敵xの HP敵xの
+ *  \emmp[x]          - 敵xの MaxMP 値を返します。
+ *  \emp[x]           - 敵xの 現在のMP 値を返します。
+ *  \emp%[x]          - 敵xの MP敵xの
+ *  \emtp[x]          - 敵xの MaxTP 値を返します。
+ *  \etp[x]           - 敵xの 現在のTP 値を返します。
+ *  \etp%[x]          - 敵xの TP敵xの
+ *  \eatk[x]          - 敵xの ATK 値を返します。 攻撃力
+ *  \edef[x]          - 敵xの DEF 値を返します。 防御力
+ *  \emat[x]          - 敵xの MAT 値を返します。 魔法力
+ *  \emdf[x]          - 敵xの MDF 値を返します。 魔法防御
+ *  \eagi[x]          - 敵xの AGI 値を返します。 俊敏性
+ *  \eluk[x]          - 敵xの LUK 値を返します。 運
+ *  \eexp[x]          - 敵xの EXP 値を返します。 経験値
+ *  \egold[x]         - 敵xの GOLD 値を返します。 所持金
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  敵キャラ追加能力  効果:
+ *  \ehit[x]          - 敵xのHIT率を返します。 命中率
+ *  \eeva[x]          - 敵xのEVA率を返します。 回避率
+ *  \ecri[x]          - 敵xのCRI率を返します。 会心率
+ *  \ecev[x]          - 敵xのCEV率を返します。 会心回避率
+ *  \emev[x]          - 敵xのMEV率を返します。 魔法回避率
+ *  \emrf[x]          - 敵xのMRF率を返します。 魔法反射率
+ *  \ecnt[x]          - 敵xのCNT率を返します。 反撃率
+ *  \ehrg[x]          - 敵xのHRG率を返します。 HP再生率
+ *  \emrg[x]          - 敵xのMRG率を返します。 MP再生率
+ *  \etrg[x]          - 敵xのTRG率を返します。 TP再生率
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  敵キャラ特殊能力  効果:
+ *  \etgr[x]          - 敵xのTGR率を返します。 狙われ率
+ *  \egrd[x]          - 敵xのGRD率を返します。 防御効果率
+ *  \erec[x]          - 敵xのREC率を返します。 回復効果率
+ *  \epha[x]          - 敵xのPHA率を返します。 薬の知識率
+ *  \emcr[x]          - 敵xのMCR率を返します。 MP消費率
+ *  \etcr[x]          - 敵xのTCR率を返します。 TPチャージ率
+ *  \epdr[x]          - 敵xのPDR率を返します。 物理ダメージ率
+ *  \emdr[x]          - 敵xのMDR率を返します。 魔法ダメージ率
+ *  \efdr[x]          - 敵xのFDR率を返します。 床ダメージ率
+ *  \eexr[x]          - 敵xのEXR率を返します。 経験値獲得率
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ===========================================================================
+ * ルナティックモード - 制御文字の構造
+ * ===========================================================================
+ *
+ * JavaScript を使って、このプラグインをカスタマイズしたい場合、
+ * プラグインパラメータ内の各制御文字に使用されているコードを
+ * 変更できます。
+ *
+ * プラグインパラメータの中には、各制御文字が
+ * メッセージ関数によって変換されるときに使用されるコードが存在します。
+ * 各コードの上部にあるコメントに表示されている変数を参照して、
+ * どの変数が使用されているか、
+ * またどのように使用されているかを理解してください。
+ *
+ * デフォルト:
+ *
+ *   x
+ *   - 制御文字に挿入されているx変数を参照します。
+ *   制御文字に応じて、これは数字または文字列になります。
+ *
+ *   y
+ *   - 制御文字に挿入されているy変数を参照します。
+ *   制御文字に応じて、これは数字または文字列になります。
+ *
+ *   text
+ *   - メッセージシステムによって表示されるテキストを参照します。
+ *   上記の制御文字を使用した最終結果になります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---数量制御文字---
+ * @default
+ *
+ * @param TextCode QI
+ * @text \qi[x]
+ * @parent ---数量制御文字---
+ * @type note
+ * @desc アイテムxの数を返す制御文字
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar item = $dataItems[x];\nif (Imported.YEP_ItemCore && DataManager.isIndependent(item)) {\n  var quantity = $gameParty.numIndependentItems(item);\n} else {\n  var quantity = $gameParty.numItems(item);\n}\ntext = this.groupDigits(quantity);"
+ *
+ * @param TextCode QW
+ * @text \qw[x]
+ * @parent ---数量制御文字---
+ * @type note
+ * @desc 武器xの数を返す制御文字
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar weapon = $dataWeapons[x];\nif (Imported.YEP_ItemCore && DataManager.isIndependent(weapon)) {\n  var quantity = $gameParty.numIndependentItems(weapon);\n} else {\n  var quantity = $gameParty.numItems(weapon);\n}\ntext = this.groupDigits(quantity);"
+ *
+ * @param TextCode QA
+ * @text \qa[x]
+ * @parent ---数量制御文字---
+ * @type note
+ * @desc 防具xの数を返す制御文字
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar armor = $dataArmors[x];\nif (Imported.YEP_ItemCore && DataManager.isIndependent(armor)) {\n  var quantity = $gameParty.numIndependentItems(armor);\n} else {\n  var quantity = $gameParty.numItems(armor);\n}\ntext = this.groupDigits(quantity);"
+ *
+ * @param ---比較制御文字---
+ * @default
+ *
+ * @param TextCode Compare
+ * @text \compare<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = Green   x < y = Red
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 24;\n} else if (x < y) {\n  var colorId = 25;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare1
+ * @text \compare1<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = Red   x < y = White
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 2;\n} else if (x < y) {\n  var colorId = 0;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare2
+ * @text \compare2<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = Yellow   x < y = White
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 14;\n} else if (x < y) {\n  var colorId = 0;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare3
+ * @text \compare3<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = Green   x < y = White
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 3;\n} else if (x < y) {\n  var colorId = 0;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare4
+ * @text \compare4<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = Blue   x < y = Purple
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 4;\n} else if (x < y) {\n  var colorId = 0;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare5
+ * @text \compare5<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = White   x < y = Grey
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 0;\n} else if (x < y) {\n  var colorId = 7;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare6
+ * @text \compare6<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = White   x < y = Red
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 0;\n} else if (x < y) {\n  var colorId = 25;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare7
+ * @text \compare7<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = White   x < y = Purple
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 0;\n} else if (x < y) {\n  var colorId = 13;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare8
+ * @text \compare8<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = White   x < y = Dark Blue
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 0;\n} else if (x < y) {\n  var colorId = 9;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param TextCode Compare9
+ * @text \compare9<x:y>
+ * @parent ---比較制御文字---
+ * @type note
+ * @desc xとyを比較するときに使用する色を決定します。
+ * デフォルト: x >= y = White   x < y = Brown
+ * @default "// Variables:\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\nif (x >= y) {\n  var colorId = 0;\n} else if (x < y) {\n  var colorId = 20;\n}\ntext = '\\x1bc[' + colorId + ']';"
+ *
+ * @param ---条件制御文字---
+ * @default
+ *
+ * @param TextCode CaseSwitch
+ * @text \caseSwitch{s?x:y}
+ * @parent ---条件制御文字---
+ * @type note
+ * @desc スイッチをチェックし、条件付きテキストを表示する制御文字
+ * @default "// Variables:\n//   s - The switch ID (number) to be checked.\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\ntext = (s) ? x : y;"
+ *
+ * @param TextCode CaseEval
+ * @text \caseEval{e?x:y}
+ * @parent ---条件制御文字---
+ * @type note
+ * @desc eval code をチェックし、条件付きテキストを表示する制御文字
+ * @default "// Variables:\n//   e - The eval code to be checked.\n//   x - The 1st value inserted into the text code.\n//   y - The 2nd value inserted into the text code.\n//   text - The text to be returned.\n\ntext = (e) ? x : y;"
+ *
+ * @param ---アクター能力値コード---
+ * @default
+ *
+ * @param ---Actor Params---
+ * @text 通常能力
+ * @parent ---アクター能力値コード---
+ * @default
+ *
+ * @param ---Actor XParams---
+ * @text 追加能力
+ * @parent ---アクター能力値コード---
+ * @default
+ *
+ * @param ---Actor SParams---
+ * @text 特殊能力
+ * @parent ---アクター能力値コード---
+ * @default
+ *
+ * @param TextCode ALvl
+ * @text \alvl[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのLVLを返す制御文字
+ * LVL: Level
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.level;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AMhp
+ * @text \amhp[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのMHPを返す制御文字
+ * MHP: MaxHP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mhp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AHp
+ * @text \ahp[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのHPを返す制御文字
+ * HP: 現在のHP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.hp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AHp%
+ * @text \ahp%[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのHP率を返す制御文字
+ * HP率: 現在のHP / MaxHP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.hpRate();\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AMmp
+ * @text \ammp[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのMMPを返す制御文字
+ * MMP: MaxMP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mmp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AMp
+ * @text \amp[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのMPを返す制御文字
+ * MP: 現在のMP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AMp%
+ * @text \amp%[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのMP率を返す制御文字
+ * MP率: 現在のMP / MaxMP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mpRate();\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AMtp
+ * @text \amtp[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのMTPを返す制御文字
+ * MTP: MaxTP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.maxTp();\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode ATp
+ * @text \atp[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのTPを返す制御文字
+ * TP: 現在のTP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.tp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode ATp%
+ * @text \atp%[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのTP率を返す制御文字
+ * TP率: 現在のTP / MaxTP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.tpRate();\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AAtk
+ * @text \aatk[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのATKを返す制御文字
+ * ATK: 攻撃力
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.atk;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode ADef
+ * @text \adef[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのDEFを返す制御文字
+ * DEF: 防御力
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.def;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AMat
+ * @text \amat[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのMATを返す制御文字
+ * MAT: 魔法力
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mat;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AMdf
+ * @text \amdf[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのMDFを返す制御文字
+ * MDF: 魔法防御
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mdf;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AAgi
+ * @text \aagi[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのAGIを返す制御文字
+ * AGI: 俊敏性
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.agi;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode ALuk
+ * @text \aluk[x]
+ * @parent ---Actor Params---
+ * @type note
+ * @desc アクターxのLUKを返す制御文字
+ * LUK: 運
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.luk;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode AHit
+ * @text \ahit[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのHITを返す制御文字
+ * HIT: 命中率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.hit;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AEva
+ * @text \aeva[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのEVAを返す制御文字
+ * EVA: 回避率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.eva;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ACri
+ * @text \acri[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのCRIを返す制御文字
+ * CRI: 会心率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.cri;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ACev
+ * @text \acev[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのCEVを返す制御文字
+ * CEV: 会心回避率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.cev;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AMev
+ * @text \amev[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのMEVを返す制御文字
+ * MEV: 魔法回避率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mev;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AMrf
+ * @text \amrf[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのMRFレートを返す制御文字
+ * MRF: 魔法反射率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mrf;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ACnt
+ * @text \acnt[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのCNTを返す制御文字
+ * CNT: 反撃率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.cnt;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AHrg
+ * @text \ahrg[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのHRGを返す制御文字
+ * HRG: HP再生率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.hrg;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AMrg
+ * @text \amrg[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのMRGを返す制御文字
+ * MRG: MP再生率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mrg;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ATrg
+ * @text \atrg[x]
+ * @parent ---Actor XParams---
+ * @type note
+ * @desc アクターxのTRGを返す制御文字
+ * TRG: TP再生率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.trg;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ATgr
+ * @text \atgr[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのTGRを返す制御文字
+ * TGR: 狙われ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.tgr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AGrd
+ * @text \agrd[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのGRDを返す制御文字
+ * GRD: 防御効果率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.grd;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ARec
+ * @text \arec[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのRECを返す制御文字
+ * REC: 回復効果率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.rec;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode APha
+ * @text \apha[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのPHAを返す制御文字
+ * PHA: 薬の知識
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.pha;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AMcr
+ * @text \amcr[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのMCRを返す制御文字
+ * MCR: MP消費率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mcr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ATcr
+ * @text \atcr[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのTCRを返す制御文字
+ * TCR: TPチャージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.tcr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode APdr
+ * @text \apdr[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのPDRを返す制御文字
+ * PDR: 物理ダメージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.pdr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AMdr
+ * @text \amdr[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのMDRを返す制御文字
+ * MDR: 魔法ダメージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.mdr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AFdr
+ * @text \afdr[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのFDRを返す制御文字
+ * FDR: 床ダメージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.fdr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode AExr
+ * @text \aexr[x]
+ * @parent ---Actor SParams---
+ * @type note
+ * @desc アクターxのEXRを返す制御文字
+ * EXR: 経験獲得率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar actor = $gameActors.actor(x);\nvar value = actor.exr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param ---敵能力値コード---
+ * @default
+ *
+ * @param ---Enemy Params---
+ * @text 通常能力
+ * @parent ---敵能力値コード---
+ * @default
+ *
+ * @param ---Enemy XParams---
+ * @text 追加能力
+ * @parent ---敵能力値コード---
+ * @default
+ *
+ * @param ---Enemy SParams---
+ * @text 特殊能力
+ * @parent ---敵能力値コード---
+ * @default
+ *
+ * @param TextCode ELvl
+ * @text \elvl[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのLVLを返す制御文字
+ * LVL: Level
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nif (Imported.YEP_EnemyLevels) {\n  var enemy = $gameTroop.members()[x];\n  var value = enemy.level;\n  text = this.groupDigits(value);\n} else {\n  text = $gameParty.highestLevel();\n}"
+ *
+ * @param TextCode EMhp
+ * @text \emhp[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのMHPを返す制御文字
+ * MHP: MaxHP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mhp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EHp
+ * @text \ehp[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのHPを返す制御文字
+ * HP: 現在のHP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.hp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EHp%
+ * @text \ehp%[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのHP率を返す制御文字
+ * HP率: 現在のHP / MaxHP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.hpRate();\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EMmp
+ * @text \emmp[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのMMPを返す制御文字
+ * MMP: MaxMP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mmp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EMp
+ * @text \emp[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのMPを返す制御文字
+ * MP: 現在のMP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EMp%
+ * @text \emp%[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのMP率を返す制御文字
+ * MP率: 現在のMP / MaxMP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mpRate();\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EMtp
+ * @text \emtp[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのMTPを返す制御文字
+ * MTP: MaxTP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.maxTp();\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode ETp
+ * @text \etp[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのTPを返す制御文字
+ * TP: 現在のTP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.tp;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode ETp%
+ * @text \etp%[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのTP率を返す制御文字
+ * TP率: 現在のTP / MaxTP
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.tpRate();\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EAtk
+ * @text \eatk[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのATKを返す制御文字
+ * ATK: 攻撃力
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.atk;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EDef
+ * @text \edef[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのDEFを返す制御文字
+ * DEF: 防衛力
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.def;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EMat
+ * @text \emat[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのMATを返す制御文字
+ * MAT: 魔法力
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mat;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EMdf
+ * @text \emdf[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのMDFを返す制御文字
+ * MDF: 魔法防御
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mdf;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EAgi
+ * @text \eagi[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのAGIを返す制御文字
+ * AGI: 敏捷性
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.agi;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode ELuk
+ * @text \eluk[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのLUKを返す制御文字
+ * LUK: 運
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.luk;\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EExp
+ * @text \eexp[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのEXPを返す制御文字
+ * EXP: 経験値
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.exp();\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EGold
+ * @text \egold[x]
+ * @parent ---Enemy Params---
+ * @type note
+ * @desc 敵xのGOLDを返す制御文字
+ * GOLD: 所持金
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.gold();\ntext = this.groupDigits(value);"
+ *
+ * @param TextCode EHit
+ * @text \ehit[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのHITを返す制御文字
+ * HIT: 命中率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.hit;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EEva
+ * @text \eeva[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのEVAを返す制御文字
+ * EVA: 回避率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.eva;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ECri
+ * @text \ecri[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのCRIを返す制御文字
+ * CRI: 会心率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.cri;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ECev
+ * @text \ecev[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのCEVを返す制御文字
+ * CEV: 会心回避率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.cev;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EMev
+ * @text \emev[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのMEVを返す制御文字
+ * MEV: 魔法回避率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mev;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EMrf
+ * @text \emrf[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのMRFを返す制御文字
+ * MRF: 魔法反射率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mrf;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ECnt
+ * @text \ecnt[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのCNTを返す制御文字
+ * CNT: 反撃率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.cnt;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EHrg
+ * @text \ehrg[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのHRGを返す制御文字
+ * HRG: HP再生率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.hrg;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EMrg
+ * @text \emrg[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのMRGを返す制御文字
+ * MRG: MP再生率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mrg;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ETrg
+ * @text \etrg[x]
+ * @parent ---Enemy XParams---
+ * @type note
+ * @desc 敵xのTRGを返す制御文字
+ * TRG: TP再生率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.trg;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ETgr
+ * @text \etgr[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのTGRを返す制御文字
+ * TGR: 狙われ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.tgr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EGrd
+ * @text \egrd[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのGRDを返す制御文字
+ * GRD: 防御効果率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.grd;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ERec
+ * @text \erec[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのRECを返す制御文字
+ * REC: 回復効果率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.rec;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EPha
+ * @text \epha[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのPHAを返す制御文字
+ * PHA: 薬の知識
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.pha;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EMcr
+ * @text \emcr[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのMCRを返す制御文字
+ * MCR: MP消費率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mcr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode ETcr
+ * @text \etcr[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのTCRを返す制御文字
+ * TCR: TPチャージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.tcr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EPdr
+ * @text \epdr[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのPDRを返す制御文字
+ * PDR: 物理ダメージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.pdr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EMdr
+ * @text \emdr[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのMDRを返す制御文字
+ * MDR: 魔法ダメージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.mdr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EFdr
+ * @text \efdr[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのFDRを返す制御文字
+ * FDR: 床ダメージ率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.fdr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ * @param TextCode EExr
+ * @text \eexr[x]
+ * @parent ---Enemy SParams---
+ * @type note
+ * @desc 敵xのEXRを返す制御文字
+ * EXR: 経験獲得率
+ * @default "// Variables:\n//   x - The value inserted into the text code.\n//   text - The string to be shown in the message window.\n\nvar enemy = $gameTroop.members()[x];\nvar value = enemy.exr;\ntext = Math.floor(value * 100) + '%';"
+ *
+ */

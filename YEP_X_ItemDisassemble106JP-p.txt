@@ -1,0 +1,357 @@
+/*:ja
+ * @plugindesc v1.06 (要YEP_ItemCore) アイテムを他のアイテムに分解できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Disassemble Command
+ * @text 分解コマンド
+ * @parent ---一般---
+ * @desc アイテムの分解コマンドの表示テキスト
+ * %1:アイテム名
+ * @default %1 を分解
+ *
+ * @param Disassemble List
+ * @text 分解リスト
+ * @parent ---一般---
+ * @desc 分解の表示テキスト
+ * @default アイテム分解
+ *
+ * @param Item Quantity 1
+ * @text アイテム数形式1
+ * @parent ---一般---
+ * @desc アイテム一覧に表示されるアイテム数量の形式
+ * %1:数量 / %2:アイテム名
+ * @default x %1 %2
+ *
+ * @param Item Quantity 2
+ * @text アイテム数形式2
+ * @parent ---一般---
+ * @desc アイテム一覧に表示されるアイテム数量の形式
+ * %1:数量1 / %2:数量2 / %3:アイテム名
+ * @default x %1 - x %2 %3
+ *
+ * @param Rate Font Size
+ * @text 成功率フォントサイズ
+ * @type number
+ * @min 1
+ * @desc 成功率のフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param ---分解音---
+ * @text ---分解音---
+ * @default
+ *
+ * @param Disassemble Sound
+ * @text 分解SE
+ * @parent ---分解音---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc デフォルトの分解音ファイル名。大文字と小文字を区別します。ファイル拡張子を含めないでください。
+ * @default Break
+ *
+ * @param Disassemble Volume
+ * @text 分解音量
+ * @parent ---分解音---
+ * @desc デフォルトの分解音量
+ * @default 100
+ *
+ * @param Disassemble Pitch
+ * @text 分解ピッチ
+ * @parent ---分解音---
+ * @desc デフォルトの分解音ピッチ
+ * @default 150
+ *
+ * @param Disassemble Pan
+ * @text 分解パン
+ * @parent ---分解音---
+ * @desc デフォルトの分解音パン
+ * @default 0
+ *
+ * @param ---結果音---
+ * @text ---結果音---
+ * @default
+ *
+ * @param Result Sound
+ * @text 結果SE
+ * @parent ---結果音---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc デフォルトの結果の音ファイル名。大文字と小文字を区別します。 ファイル拡張子を含めないでください。
+ * @default Item1
+ *
+ * @param Result Volume
+ * @text 結果音量
+ * @parent ---結果音---
+ * @desc デフォルトの結果音量
+ * @default 100
+ *
+ * @param Result Pitch
+ * @text 結果ピッチ
+ * @parent ---結果音---
+ * @desc デフォルトの結果音ピッチ
+ * @default 100
+ *
+ * @param Result Pan
+ * @text 結果パン
+ * @parent ---結果音---
+ * @desc デフォルトの結果音パン
+ * @default 0
+ *
+ * @param ---失敗音---
+ * @text ---失敗音---
+ * @default
+ *
+ * @param Empty Sound
+ * @text 失敗SE
+ * @parent ---失敗音---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc 分解失敗の音ファイル名。大文字と小文字を区別します。ファイル拡張子を含めないでください。
+ * @default Buzzer2
+ *
+ * @param Empty Volume
+ * @text 失敗ボリューム
+ * @parent ---失敗音---
+ * @desc 分解失敗の音量
+ * @default 100
+ *
+ * @param Empty Pitch
+ * @text 失敗ピッチ
+ * @parent ---失敗音---
+ * @desc 分解失敗音のピッチ
+ * @default 100
+ *
+ * @param Empty Pan
+ * @text 失敗パン
+ * @parent ---失敗音---
+ * @desc 分解失敗音のパン
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_ItemCoreを必要とします。
+ * プラグイン管理のYEP_ItemCoreの下にこのプラグインがあることを
+ * 確認してください。
+ *
+ * 時々、プレーヤーにとって、もはや役に立たないアイテムがあります。
+ * その場合、
+ * プレーヤーにアイテムをもう少し便利なものに分解するオプションを
+ * 与えないで良いでしょうか。
+ * このプラグインを使用すると、
+ * プレイヤーはアイテム、武器、防具を分解し、他のものにできます。
+ * 分解を使用して、プレーヤーは元のアイテムを取り戻すこともできます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * アイテムを分解可能にするには下記のメモタグで設定できます。
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <Disassemble Pool>
+ *    item
+ *    item
+ *   </Disassemble Pool>
+ *   分解を使用する時、与えられるアイテムのプールです。
+ *   メモタグ設定の'item'を、
+ *   以下のメモタグ Item Pool Format 一覧の構文の1つに置き換えてください。
+ *
+ *   <Disassemble Pool: type>
+ *    item
+ *    item
+ *   </Disassemble Pool: type>
+ *   分解タイプに特別に作られたアイテムのプールです。
+ *   このプールにリストされているアイテムは、
+ *   分解タイプがこのプールのタイプと一致する場合のみドロップされます。
+ *   メモタグ設定の'item'を、
+ *   以下のメモタグ Item Pool Format 一覧の構文の1つに置き換えてください。
+ *
+ *   --- アイテムプールの形式 ---
+ *
+ *   item x
+ *   weapon x
+ *   armor x
+ *   name
+ *   - アイテム、武器、防具ID x が分解プールに追加されます。
+ *   アイテムの名前を使用する予定で、
+ *   データベース内の複数のオブジェクトが同じ名前を持つ場合、
+ *   アイテム、武器、防具の順で優先されます。
+ *   そして、最も高いIDを持つエントリが優先されます。
+ *
+ *   item x: y%
+ *   weapon x: y%
+ *   armor x: y%
+ *   name: y%
+ *   - 分解する時、100%の確率でアイテムを取得するのではなく、
+ *   アイテムを取得する機会がある場合、この形式を使用できます。
+ *   分解する時、アイテムを得る y% の可能性になります。
+ *
+ *   x2 item y
+ *   x3 weapon y
+ *   x4 armor y
+ *   x5 name
+ *   - 分解する時、複数のアイテムを生み出すことができます。
+ *   この設定を使って分解する時、与えられるアイテムの数を設定できます。
+ *
+ *   x2-3 item y
+ *   x3-5 weapon y
+ *   x5-8 armor y
+ *   x8-10 name
+ *   - ランダムであることを望むならば、
+ *   最小量から最大量までアイテムに得られる数を設定するのに、
+ *   この分解フォーマットを使うことができます。
+ *
+ *   x2 item y: z%
+ *   x3 weapon y: z%
+ *   x4 armor y: z%
+ *   x5 name: z%
+ *   - アイテムが1よりも多い数を生産するようにするには、
+ *   ランダムな成功率でアイテムラインを作成します。
+ *
+ *   x2-3 item y: z%
+ *   x3-5 weapon y: z%
+ *   x5-8 armor y: z%
+ *   x8-10 name: z%
+ *   - 分解中にアイテムをランダムに獲得する成功率を持ちながら、
+ *   ランダムな数のアイテムを与えるには、上記の明細行フォーマットを使用します。
+ *
+ *   ---
+ *
+ *   注:アイテムを逆分解で変換すると、
+ *   そのアイテムは独立していないアイテムになります。
+ *
+ *   <Disassembler>
+ *   - このアイテムは全てのタイプのアイテムを逆分解するのに使用できます。
+ *   'All'のカテゴリに分類されます。
+ *
+ *   <Disassembler: +x%>
+ *   <Disassembler: -x%>
+ *   - このアイテムは、全てのタイプのアイテムを逆分解する時に
+ *   通常よりも+/-x%の成功率にできます。
+ *   'All'のカテゴリに分類されます。
+ *
+ *   <Disassembler: type>
+ *   - このアイテムは'All'と'type'のアイテムカテゴリを逆分解できます。
+ *   'type'は逆プールタイプです。
+ *   このアイテムがより多くのプールタイプを逆分解できるようにするには、
+ *   このメモタグの複数行を挿入します。
+ *
+ *   <Disassembler: type +x%>
+ *   <Disassembler: type -x%>
+ *   - このアイテムは'All'と'type'のアイテムカテゴリを逆分解できます。
+ *   'type'は逆プールタイプです。
+ *   通常よりも+/-%の成功率の変化があります。
+ *   このアイテムがより多くのプールタイプを逆分解できるようにするには、
+ *   このメモタグの複数行を挿入します。
+ *
+ *   <Disassemble Sound Name: filename>
+ *   <Disassemble Sound Volume: x>
+ *   <Disassemble Sound Pitch: x>
+ *   <Disassemble Sound Pan: +x> / <Disassemble Sound Pan: -x>
+ *   - このアイテムを分解すると、この効果音が再生されます。
+ *   ファイル名は大文字と小文字が区別されます。
+ *   ファイル名拡張子を含めないでください。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム分解効果
+ * ===========================================================================
+ *
+ * JavaScriptを使ってアイテムが以下のメモタグを設定すると、
+ * 分解される時、カスタム効果が起こせます。
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <Custom Disassembled Effect>
+ *    if (targetItem.name === 'Great Sword') {
+ *      results.push($dataItems[1]);
+ *    } else if (effectItem.name === 'Salvage Kit') {
+ *      results.push($dataItems[2]);
+ *    }
+ *   </Custom Disassembled Effect>
+ *   - 'results'変数は、収集された全ての項目を含む配列です。
+ *   変数'targetItem'は分解されているアイテムを指し、
+ *   'effectItem'は分解結果のアイテムを指します。
+ *   カスタム分解効果の前に発生します。
+ *   注:これには、最初に分解する時、
+ *   獲得するアイテムがアイテムに含まれている必要があります。
+ *   そうしないと、アイテムを分解できません。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム逆分解効果
+ * ===========================================================================
+ *
+ * JavaScriptを使ってアイテムが以下のメモタグを設定すると、
+ * 逆分解される時、カスタム効果が起こせます。
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <Custom Disassembler Effect>
+ *    if (targetItem.name === 'Great Sword') {
+ *      results.push($dataItems[1]);
+ *    } else if (effectItem.name === 'Salvage Kit') {
+ *      results.push($dataItems[2]);
+ *    }
+ *   </Custom Disassembler Effect>
+ *   - 'results'変数は、収集された全ての項目を含む配列です。
+ *   変数'targetItem'は分解されているアイテムを指し、
+ *   'effectItem'は分解結果のアイテムを指します。
+ *   カスタムの分解が発生した後に発生します。
+ *   注:この項目は分解タイプが必要です。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 次のプラグインコマンドを使用して、
+ * ゲーム中のItem Disassemble 関連の設定を変更できます。
+ *
+ * プラグインコマンド
+ *
+ *   ShowItemDisassemble
+ *   - アイテムの分解を許可している場合、
+ *   アイテムメニューに[分解]コマンドを表示します。
+ *
+ *   HideItemDisassemble
+ *   - アイテムメニューの[分解]コマンドを非表示にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.06:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.04:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.03:
+ * - Fixed a bug that caused NaN values to appear for the displayed rates.
+ *
+ * Version 1.02:
+ * - Fixed a typo within the code. Please update Item Core, Item Disassemble,
+ * Attachable Augments, and More Currencies if you are using those plugins.
+ *
+ * Version 1.01:
+ * - Fixed a bug that didn't update the info window properly.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

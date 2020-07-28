@@ -1,0 +1,275 @@
+/*:ja
+ * @plugindesc v1.05 (要YEP_SkillCore.) スキル使用にアイテム消費が必要になる機能を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Cost Style
+ * @text コスト表示形式
+ * @parent ---一般---
+ * @type select
+ * @option 無し
+ * @value 0
+ * @option アイコン上に量を重ねる
+ * @value 1
+ * @option 量・アイコンと並べる
+ * @value 2
+ * @desc コスト表示形式
+ * 0:無し / 1:アイコン上に量を重ねる / 2:量・アイコンと並べる
+ * @default 2
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc アイテムコストのフォントサイズ
+ * デフォルト: 28
+ * @default 20
+ *
+ * @param Amount Format
+ * @text コスト表示
+ * @parent ---一般---
+ * @desc コストの表示
+ * %1:必要量 / %2:所有量
+ * @default x%1
+ *
+ * @param Amount Y Buffer
+ * @text コストYバッファー
+ * @parent ---一般---
+ * @type number
+ * @desc コスト表示するYバッファー
+ * @default 4
+ *
+ * @param ---ゲージ---
+ * @text ---ゲージ---
+ * @default
+ *
+ * @param Gauge Color 1
+ * @text ゲージ色1
+ * @parent ---ゲージ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アイテムゲージ色に使用する文字色
+ * @default 13
+ *
+ * @param Gauge Color 2
+ * @text ゲージ色2
+ * @parent ---ゲージ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アイテムゲージ色に使用する文字色
+ * @default 5
+ *
+ * @param Display Name
+ * @text アイテム名表示
+ * @parent ---ゲージ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc ゲージのデフォルトでアイテム名を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Text Color
+ * @text ゲージ名の色
+ * @parent ---ゲージ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ゲージ名の文字色
+ * デフォルト: 16
+ * @default 16
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_SkillCoreを必要とします。
+ * このプラグインがプラグイン管理のYEP_SkillCoreの
+ * 下にあることを確認してください。
+ *
+ * このプラグインを使用すると、
+ * スキルのコストをアイテムを使用する設定ができます。
+ * アイテムコストは他のスキルコストの隣に表示され、
+ * 必要なアイテムのアイコンと使用するアイテムの量が表示されます。
+ * このプラグインを使用しているアイテムのコストは、
+ * 代替アイテムに完全に置き換えられることに加えて、
+ * 設定およびパーセンタイル金額によって変更することができます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 下記のメモタグでスキルがアイテムをコストとして利用できるようにします。
+ *
+ * スキルのメモタグ:
+ *   <Item x Cost: y>
+ *   <Weapon x Cost: y>
+ *   <Armor x Cost: y>
+ *   これにより、アイテム、武器、または防具 x のコストが、
+ *   使用できるようになる前にそれの y を要求するように設定されます。
+ *   YEP_ItemCoreを使用している場合、
+ *   どの独立アイテムが使用に適しているかを区別できないため、
+ *   独立アイテムをアイテムコストとして使用することはできません。
+ *   これらのタグを複数使用している場合、
+ *   スキルはリストされている全てのアイテムを
+ *   使用できる必要があります。
+ *
+ *   <Item Cost: x Potion>
+ *   <Item Cost: x Sword>
+ *   <Item Cost: x Feather Cap>
+ *   アイテムの名前を使用したい場合は、上記のメモタグを使用できます。
+ *   これにより、スキルは命名されたアイテム、武器、防具を x 個必要とします。
+ *   同じ名前のアイテムが複数ある場合は、
+ *   この注釈タグがアイテム、武器、防具の順で最も高いID値を優先します。
+ *   YEP_ItemCoreを使用している場合、
+ *   どの独立アイテムが使用に適しているかを区別できないため、
+ *   独立アイテムをアイテムコストとして使用することはできません。
+ *   これらのタグを複数使用している場合、
+ *   スキルはリストされている全てのアイテムを
+ *   使用できる必要があります。
+ *
+ * 職業、武器、防具、ステートのメモタグ:
+ *   <Swap Gauge x: Item y>
+ *   <Swap Gauge x: Weapon y>
+ *   <Swap Gauge x: Armor y>
+ *   ゲージ x と交換して、プレイヤー/パーティーが持っている
+ *   アイテム、武器、防具の量を表示します。
+ *   優先順位は、武器、防具、ステート、職業、敵の順です。
+ *
+ *   <Swap Gauge x: Item Potion>
+ *   <Swap Gauge x: Item Sword>
+ *   <Swap Gauge x: Item Feather Cap>
+ *   ゲージ x と交換して、パーティーが持っている
+ *   アイテム、武器、防具の量を表示します。
+ *   優先順位は、武器、防具、ステート、職業、敵の順です。
+ *
+ * アクター、職業、武器、防具、ステートのメモタグ:
+ *   <Item x Cost: +y>
+ *   <Item x Cost: -y>
+ *   <Weapon x Cost: +y>
+ *   <Weapon x Cost: -y>
+ *   <Armor x Cost: +y>
+ *   <Armor x Cost: -y>
+ *   y の値で要求され、アイテム、武器、または防具 x のコストを増減します。
+ *   アイテム、武器、防具が必要ない場合、
+ *   この効果はスキルコストには適用されません。
+ *
+ *   <Item Cost: +x Potion>
+ *   <Item Cost: -x Sword>
+ *   <Item Cost: +x Feather Cap>
+ *   アイテムの名前を使用したい場合は、上記のメモタグを使用できます。
+ *   アイテムがコストとして必要とされる場合、
+ *   これはリストされたアイテムを x 量だけ増減させます。
+ *   同じ名前のアイテムが複数ある場合は、
+ *   アイテム、武器、防具が必要ない場合、
+ *   この効果はスキルコストには適用されません。
+ *
+ *   <Item x Cost: y%>
+ *   <Weapon x Cost: y%>
+ *   <Armor x Cost: y%>
+ *   アイテム、武器、防具 x のコストを y% で変更します。
+ *   アイテム、武器、防具が必要ない場合、
+ *   この効果はスキルコストには適用されません。
+ *
+ *   <Item Cost: x% Potion>
+ *   <Item Cost: x% Sword>
+ *   <Item Cost: x% Feather Cap>
+ *   アイテムの名前を使用したい場合は、上記のメモタグを使用できます。
+ *   アイテムがコストとして必要とされる場合、
+ *   これはリストされたアイテムのコスト率をx％だけ調整します。
+ *   同じ名前のアイテムが複数ある場合は、
+ *   メモタグがアイテム、武器、防具の順で最も高いID値を優先します。
+ *
+ *   <Replace Type x Cost: Type y>
+ *   Typeを 'item'、 'weapon'、'armor'のいずれかに置き換えてください。
+ *   これにより、特定の品目に使用されたコストを
+ *   別の品目（品目y）と交換することができます。
+ *   置き換えは、ステート、武器、防具、職業、アクターの順に優先されます。
+ *
+ *   <Replace Potion Cost: Ether>
+ *   <Replace Sword Cost: Dagger>
+ *   <Replace Feather Cap Cost: Bandana>
+ *   アイテムの名前を使用したい場合、上記のメモタグを使用できます。
+ *   これにより、特定のアイテムに使用されているコストを
+ *   別のアイテムに交換できます。
+ *   置き換えは、ステート、武器、防具、職業、アクターの順に優先されます。
+ *   同じ名前のアイテムが複数ある場合は、
+ *   このメモタグがアイテム、武器、防具の順で最も高いID値を優先します。
+ *
+ * アイテム、武器、防具のメモタグ
+ *   <Item Gauge Color 1: x>
+ *   <Item Gauge Color 2: x>
+ *   この項目がゲージ表示として使用される項目である場合、
+ *   文字色 x を使用して指定の色で表示させることができます。
+ *
+ *   <Item Gauge Text: x>
+ *   このアイテムがゲージ表示として使用されているアイテムである場合、
+ *   名前以外の別のテキストを表示させることができます。
+ *   x を書きたいものに置き換えます。
+ *
+ *   <Item Gauge Text Color: x>
+ *   プラグインのパラメータで事前定義されているもの以外の
+ *   文字色を使用したい場合、
+ *   このメモタグを使用して x をゲージのラベル付けに使用する
+ *   文字色に置き換えます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムアイテムコスト
+ * ===========================================================================
+ *
+ * JavaScript を使って、動的なアイテムを作成することができます。
+ * 以下のメモタグを使ってスキルのコストを設定できます。
+ *
+ * スキルのメモタグ:
+ *
+ *   <Custom Type x Cost>
+ *    cost = user.level;
+ *   </Custom Type x Cost>
+ *   Typeを 'item'、 'weapon'、'armor'のいずれかに置き換え、
+ *   x をそのアイテムタイプのIDとして使用します。
+ *   'cost'変数は、必要なアイテムタイプのうち
+ *   コストとしてどれだけが必要かを決定します。
+ *
+ *   <Custom Item Cost: name>
+ *    cost = user.level;
+ *   </Custom Item Cost: name>
+ *   名前を使用したい場合、
+ *   'name'をコストとして使用するアイテムの名前に置き換えてください。
+ *   'cost'変数は、名前付きアイテムがコストとしてどれだけが必要か決定します。
+ *   データベースに同じ名前のアイテムが複数ある場合、
+ *   アイテム、武器、防具の順にIDが最も高いアイテムが優先されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.03:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.01:
+ * - Fixed a bug that would display the wrong cost amount for multiple items.
+ * - Shifted item icon cost 2 pixels down to match the skill icon Y level.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

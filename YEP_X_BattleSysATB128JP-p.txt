@@ -1,0 +1,772 @@
+/*:ja
+ * @plugindesc v1.28 (要YEP_BattleEngineCore.js) ATB (アクティブターンバトル)を追加します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---ATB 全般---
+ * @default
+ *
+ * @param Per Tick
+ * @text ティック速度
+ * @parent ---ATB 全般---
+ * @desc ティック毎に得られるスピード
+ * @default user.agi
+ *
+ * @param Initial Speed
+ * @text 開始位置
+ * @parent ---ATB 全般---
+ * @desc 戦闘開始時のバトラーのスピードポジション。evalとして処理される式
+ * @default 0
+ *
+ * @param Full Gauge
+ * @text ゲージ速度
+ * @parent ---ATB 全般---
+ * @desc 対象のATBゲージが満たされる速度。evalとして処理される式
+ * @default Math.max(5000, BattleManager.highestBaseAgi() * 100)
+ *
+ * @param Charge Gauge
+ * @text アクション後チャージ
+ * @parent ---ATB 全般---
+ * @desc アクションを選択した後の巻き上げ時間。evalとして処理される式
+ * @default Math.max(2000, BattleManager.highestBaseAgi() * 20)
+ *
+ * @param Pre-Emptive Bonuses
+ * @text 事前ボーナス
+ * @parent ---ATB 全般---
+ * @type number
+ * @decimals 1
+ * @desc ATB事前ボーナス設定。0から1まで
+ * @default 0.8
+ *
+ * @param Surprise Bonuses
+ * @text 特別ボーナス
+ * @parent ---ATB 全般---
+ * @type number
+ * @decimals 1
+ * @desc ATB特別ボーナス。0から1まで
+ * @default 0.8
+ *
+ * @param ---逃走---
+ * @default
+ *
+ * @param Escape Ratio
+ * @text 逃走成功率
+ * @parent ---逃走---
+ * @desc ATBによる逃走率の計算方法。デフォルト:0.5 * $gameParty.agility() / $gameTroop.agility()
+ * @default 0.125 * $gameParty.agility() / $gameTroop.agility()
+ *
+ * @param Fail Escape Boost
+ * @text 逃走ブースト
+ * @parent ---逃走---
+ * @type number
+ * @decimals 3
+ * @desc プレイヤーが脱出に失敗すると上がる成功率。式です。デフォルト:0.1
+ * @default 0.025
+ *
+ * @param ---ターン---
+ * @default
+ *
+ * @param Full Turn
+ * @text ターン相当ティック
+ * @parent ---ターン---
+ * @desc 戦闘ターンで満たされるに相当するティック数。evalとして処理される式
+ * @default Math.min(200, BattleManager.lowestBaseAgi() * 8)
+ *
+ * @param Flash Enemy
+ * @text 敵チャージ閃光
+ * @parent ---ターン---
+ * @type boolean
+ * @on 閃光する
+ * @off 閃光しない
+ * @desc 敵がスキルをチャージ時、閃光する
+ * 閃光しない:false / 閃光する:true
+ * @default true
+ *
+ * @param ---ラバーバンディング---
+ * @default
+ *
+ * @param Enable Rubberband
+ * @text 有効化
+ * @parent ---ラバーバンディング---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc AGIのオートバランス機構
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Minimum Speed
+ * @text 最低速度
+ * @parent ---ラバーバンディング---
+ * @desc ラバーバンディング有効時、最低速度を式で指定
+ * @default 0.5 * BattleManager.highestBaseAgi()
+ *
+ * @param Maximum Speed
+ * @text 最大速度
+ * @parent ---ラバーバンディング---
+ * @desc ラバーバンディング有効時、最大速度を式で指定
+ * @default 1.5 * BattleManager.highestBaseAgi()
+ *
+ * @param ---音---
+ * @default
+ *
+ * @param Ready Sound
+ * @text 準備SE
+ * @parent ---音---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc バトラーの準備が整った時に鳴るSE
+ * @default Decision1
+ *
+ * @param Ready Volume
+ * @text 準備音量
+ * @parent ---音---
+ * @type number
+ * @min 0
+ * @max 100
+ * @desc 準備完了音の音量
+ * @default 90
+ *
+ * @param Ready Pitch
+ * @text 準備ピッチ
+ * @parent ---音---
+ * @type number
+ * @min 0
+ * @desc 準備完了音のピッチ
+ * @default 120
+ *
+ * @param Ready Pan
+ * @text 準備パン
+ * @parent ---音---
+ * @type number
+ * @min -100
+ * @max 100
+ * @desc 準備完了音のパン
+ * @default 0
+ *
+ * @param ---オプション---
+ * @default
+ *
+ * @param ATB Speed Text
+ * @text 速度テキスト
+ * @parent ---オプション---
+ * @desc オプションウィンドウに表示されるATB速度のテキスト
+ * @default ATB速度
+ *
+ * @param Default ATB Speed
+ * @text デフォルト速度
+ * @parent ---オプション---
+ * @type number
+ * @min 0
+ * @max 10
+ * @desc ゲージが満たされるデフォルトの速度
+ * 1:最遅 / 10:最速
+ * @default 10
+ *
+ * @param ---ウィンドウ---
+ * @default
+ *
+ * @param Lock Status Window
+ * @text ステータスウィンドウのロック
+ * @parent ---ウィンドウ---
+ * @type boolean
+ * @on ロック
+ * @off 非ロック
+ * @desc ATBがアクティブな間、ステータスウィンドウが動かないロック設定
+ * 非ロック:false / ロック:true
+ * @default true
+ *
+ * @param Gauge Style
+ * @text ゲージのスタイル
+ * @parent ---ウィンドウ---
+ * @type select
+ * @option なし
+ * @value 0
+ * @option 名前の下
+ * @value 1
+ * @option 右側
+ * @value 2
+ * @desc ATBゲージのスタイル
+ * 0:なし / 1:名前の下 / 2:右側
+ * @default 1
+ *
+ * @param Gauge Text
+ * @text ゲージのテキスト
+ * @parent ---ウィンドウ---
+ * @desc スタイル2での表示テキスト
+ * @default ターン
+ *
+ * @param Gauge Text Align
+ * @text 文字揃え
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc スタイル2での文字揃え
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param ATB Gauge Color 1
+ * @text ゲージ色1
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ロード時のATBゲージ色1
+ * @default 13
+ *
+ * @param ATB Gauge Color 2
+ * @text ゲージ色2
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ロード時のATBゲージ色2
+ * @default 5
+ *
+ * @param Slow Gauge Color 1
+ * @text 遅延ゲージ色1
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターが遅くなった時のATBゲージ色1
+ * @default 12
+ *
+ * @param Slow Gauge Color 2
+ * @text 遅延ゲージ色2
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターが遅くなった時のATBゲージ色2
+ * @default 4
+ *
+ * @param Fast Gauge Color 1
+ * @text 加速ゲージ色1
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターが速い時のATBゲージ色1
+ * @default 26
+ *
+ * @param Fast Gauge Color 2
+ * @text 加速ゲージ色2
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターが速い時のATBゲージ色2
+ * @default 27
+ *
+ * @param Stop Gauge Color 1
+ * @text 停止ゲージ色1
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターが停止している時のATBゲージ色1
+ * @default 7
+ *
+ * @param Stop Gauge Color 2
+ * @text 停止ゲージ色2
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターが停止している時のATBゲージ色2
+ * @default 8
+ *
+ * @param Full Gauge Color 1
+ * @text 満杯ゲージ色1
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 満たされたATBゲージの色1
+ * @default 14
+ *
+ * @param Full Gauge Color 2
+ * @text 満杯ゲージ色2
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 満たされたATBゲージの色2
+ * @default 6
+ *
+ * @param Charge Gauge Color 1
+ * @text チャージ中ゲージ色1
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc チャージ時のATBゲージ色1
+ * @default 2
+ *
+ * @param Charge Gauge Color 2
+ * @text チャージ中ゲージ色2
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc チャージ時のATBゲージ色2
+ * @default 10
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * Battle System - Active Turn Battle (ATB)プラグインは、
+ * Yanfly Engine PluginsのBattle Engine Core用の拡張プラグインです。
+ *
+ * この拡張プラグインは YEP_BattleEngineCore なしでは動作しません。
+ * ATBシステムを使用するには、BattleEngineCoreプラグインの
+ * パラメーター'DefaultSystem'設定を'atb'に変更します。
+ *
+ * アクティブターンバトルシステム(ATB)は、
+ * バトラーがターンゲージとして機能する新たなバトルゲージを機能します。
+ * アクション、メニュー選択など、何も起こらずに時間が経過するにつれて、
+ * ゲージは満たされていきます。
+ *
+ * ゲージがいっぱいになると、バトラーは行動することができます。
+ *
+ * アクションを実行した後、バトラーは敵を攻撃したり、
+ * 味方を回復したりするためにスキルを使用します。
+ * 敏捷性が高いほどバトラーに有利であり、
+ * 敏捷性が低いほど不利になり、
+ * 敏捷性が非常に重要な属性となる戦闘システムです。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 下記のプラグインコマンドを使用して、
+ * デフォルト戦闘システムとアクティブターンバトルを切り替えることができます。
+ *
+ * プラグインコマンド:
+ *   setBattleSys ATB      戦闘システムをアクティブターンバトルに設定します。
+ *   setBattleSys DTB      戦闘システムをデフォルトターンバトルに設定します。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下は、ATBシステムに関連し、影響を与えるメモタグです。
+ *
+ * スキル、アイテムのメモタグ
+ *   <ATB Help>
+ *   text
+ *   text
+ *   </ATB Help>
+ *   複数の戦闘システムを使用することを計画している場合、
+ *   ATBを使用している間、スキルが異なって実行するようにするかもしれません。
+ *   もしそうであれば、このメモタグを使用して、
+ *   ATBが有効になっている間、
+ *   スキルとアイテムが異なるヘルプテキストを表示できます。
+ *
+ *   <ATB Speed: x>
+ *   <ATB Charge: x>
+ *   <ATB Gauge: x>
+ *   ATB中にのみ使用可能です。
+ *   対象の現在のSpeed・Chargeをxに設定します。
+ *   'Speed'・'Charge'が使用されている場合、
+ *   各段階中にそれらのGaugeにのみ影響します。
+ *   'Gauge'を使用すると、どちらにも影響します。
+ *
+ *   <ATB Speed: x%>
+ *   <ATB Charge: x%>
+ *   <ATB Gauge: x%>
+ *   ATB中にのみ使用可能です。
+ *   対象の現在のSpeed・Chargeをゲージ全体のx%に設定します。
+ *   'Speed'・'Charge'が使用されている場合、
+ *   各段階中にそれらのGaugeにのみ影響します。
+ *   'Gauge'を使用すると、どちらにも影響します。
+ *
+ *   <ATB Speed: +x>  又は <ATB Speed: -x>
+ *   <ATB Charge: +x> 又は <ATB Charge: -x>
+ *   <ATB Gauge: +x>  又は <ATB Gauge: -x>
+ *   ATB中にのみ使用可能です。
+ *   対象の現在のSpeed・Chargeがxだけ増減します。
+ *   'Speed'・'Charge'が使用されている場合、
+ *   各段階中にそれらのGaugeにのみ影響します。
+ *   'Gauge'を使用すると、どちらにも影響します。
+ *
+ *   <ATB Speed: +x%>  又は <ATB Speed: -x%>
+ *   <ATB Charge: +x%> 又は <ATB Charge: -x%>
+ *   <ATB Gauge: +x%>  又は <ATB Gauge: -x%>
+ *   ATB中にのみ使用可能です。
+ *   対象の現在のSpeed・ChargeがGauge全体のx%だけ増減します。
+ *   'Speed'・'Charge'が使用されている場合、
+ *   各段階中にそれらのGaugeにのみ影響します。
+ *   'Gauge'を使用すると、どちらにも影響します。
+ *
+ *   <After ATB: x>
+ *   <After ATB: x%>
+ *   スキル・アイテムの使用者のATBスピード値をxかx%に設定します。
+ *   'x'が使用されている場合、正確なATB値になります。
+ *   x%が使用されている場合、ATBゲージに対する割合になります。
+ *
+ *   <ATB Interrupt>
+ *   <ATB Interrupt: x%>
+ *   スキルはチャージ段階にある間に対象の現在のアクションを中断し、
+ *   キャンセルすることができます。
+ *   'x%'のメモタグが使用されている場合、成功率はx%になります。
+ *
+ *   <Cannot ATB Interrupt>
+ *   スキルは中断できず、バトラーのATBはリセットされなくなります。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *   <ATB Start: +x>
+ *   <ATB Start: +x%>
+ *   ATB中にのみ使用可能です。
+ *   戦闘開始時にATBゲージが加算された状態になります。
+ *
+ *   <ATB Turn: +x>
+ *   <ATB Turn: +x%>
+ *   ATB中にのみ使用可能です。
+ *   ターン毎にATBゲージが加算されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 条件付きATB速度と条件付きATBチャージ
+ * ===========================================================================
+ *
+ * JavaScriptの経験があり、
+ * ATBの速度と料金の変更を実行するためのよりユニークな方法を希望する場合、
+ * 以下のメモタグを使用できます。
+ *
+ * スキル、アイテムのメモタグ
+ *   <Target ATB Eval>
+ *   speed = x;
+ *   charge = x;
+ *   </Target ATB Eval>
+ *   speedやchargeを省略することができます。
+ *   'speed'に設定したものは何でも対象のATBspeedを変えるでしょう。
+ *   対象がchargeしている場合、
+ *   'charge'は対象のchargeをその値に変更させます。
+ *   物事をより単純にするのに'max'がフルゲージ値になります。
+ *
+ *   例
+ *
+ *   <Target ATB Eval>
+ *   speed = target.hp / target.mhpmax;
+ *   charge = target.hp / target.mhpmax;
+ *   </Target ATB Eval>
+ *   上記のコードは、
+ *   使用者の現在のATBゲージを対象のHP比率と同じ位置に設定します。
+ *   目標のHPが25%の場合、
+ *   ATBゲージは目標に対して25%満たされます。
+ *
+ *   --- --- --- --- ---
+ *
+ *   <After ATB Eval>
+ *   speed = x;
+ *   </After ATB Eval>
+ *   使用者がスキル・アイテムを使用した後に設定されるカスタムATBの値です。
+ *   'max'はフルゲージ値です。
+ *   'speed'を設定したものは、
+ *   使用者のATBスピード値はそれに変わります。
+ *
+ *   例
+ *
+ *   <After ATB Eval>
+ *   speed = user.mp / user.mmpmax;
+ *   </After ATB Eval>
+ *   上記のコードは、
+ *   スキル・アイテムを使用した後の使用者のATBゲージを、
+ *   使用者のMP比率と等しくなるように設定します。
+ *   使用者が25%MPを持っている場合、
+ *   使用者のATBゲージは25%満たされます。
+ *
+ *   --- --- --- --- ---
+ *
+ *   <ATB Interrupt Eval>
+ *   interrupt = true;
+ *   </ATB Interrupt Eval>
+ *   対象のアクションを中断させるためのカスタム条件を設定できます。
+ *   カスタム条件で中断を機能させるには、
+ *   対象がチャージフェーズにあることが必要です。
+ *   'interrupt=true'を設定すると、対象のアクションは中断されます。
+ *
+ *   例
+ *
+ *   <ATB Interrupt Eval>
+ *   if (user.hp > target.hp) {
+ *      interrupt = true;
+ *   }
+ *   </ATB Interrupt Eval>
+ *   上記のコードでは、
+ *   使用者が対象よりも多くのHPを所有している場合、
+ *   対象のアクションは中断されます。
+ *
+ * ===========================================================================
+ * Yanfly Engine Plugins - Battle Engine Extension - Action Sequence Commands
+ * ===========================================================================
+ *
+ * 拡張されたATB関連のアクションシーケンスを利用することができます。
+ *
+ * ===========================================================================
+ * ATB CHARGE: target, X
+ * ATB CHARGE: target, X%
+ * ATB CHARGE: targets, +X
+ * ATB CHARGE: targets, +X%
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * ATB専用です。
+ * 対象のATBチャージをX・X%に設定します。
+ * 対象がATBチャージフェーズにある時のみ適用されます。
+ * システム的問題を防ぐために使用者に影響を与えません。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: atb charge: targets, +5000
+ *     atb charge: target, -50%
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * ATB GAUGE: target, X
+ * ATB GAUGE: target, X%
+ * ATB GAUGE: targets, +X
+ * ATB GAUGE: targets, +X%
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * ATB専用です。
+ * 対象のATBスピード・チャージ(使用者が現在いっぱいになっている方)を
+ * X・X%に設定します。
+ * システム的問題を防ぐために使用者に影響を与えません。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: atb gauge: targets, +5000
+ *     atb gauge: target, -50%
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * ATB INTERRUPT: target
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * ATB専用です。対象がチャージ中の場合は中断します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: atb interrupt: targets
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * ATB SPEED: target, X
+ * ATB SPEED: target, X%
+ * ATB SPEED: targets, +X
+ * ATB SPEED: targets, +X%
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * ATB専用です。
+ * 対象のATB速度をX・X%に設定します。
+ * 対象がチャージ中のみ適用されます。
+ * システム的問題を防ぐために使用者に影響を与えません。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: atb speed: targets, +5000
+ *     atb speed: target, -50%
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * Options Core 設定 - 新しいオプションの追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCoreを使用している場合、
+ * このプラグインを使用して新しいオプションを追加できます。
+ * 以下のコード・パラメータ設定が使用できます。
+ *
+ * ---------
+ * Settings:
+ * ---------
+ *
+ * Name:
+ * \i[87]ATB速度
+ *
+ * Help Description:
+ * ATBゲージが戦闘中に満たされる速度を決定します。
+ *
+ * Symbol:
+ * atbSpeed
+ *
+ * Show/Hide:
+ * if (Imported.YEP_X_BattleSysATB) {
+ *   show = $gameSystem.getBattleSystem() === 'atb';
+ * } else {
+ *   show = false;
+ * }
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ * var value = this.getConfigValue(symbol);
+ * var rate = value / 10;
+ * var gaugeColor1 = this.textColor(13);
+ * var gaugeColor2 = this.textColor(5);
+ * this.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);
+ * this.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');
+ *
+ * Process OK Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value += 1;
+ * if (value > 10) value = 1;
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Right Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value += 1;
+ * if (value > 10) value = 1;
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Left Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value -= 1;
+ * if (value < 1) value = 10;
+ * this.changeValue(symbol, value);
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.28:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.27:
+ * - Compatibility update with YEP_OptionsCore.js.
+ *
+ * Version 1.26:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.25:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.24:
+ * - During action end, a single tick will be forced to occur to prevent clash
+ * amongst actors with similar AGI values and make tick values more unique.
+ *
+ * Version 1.23:
+ * - Timing has been changed for states that update turns at Turn Start. Now,
+ * the states will update prior to the actor's command box opening or the
+ * enemy make a decision on which action it will use.
+ *
+ * Version 1.22:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.21:
+ * - Counterattacks no longer cause interrupts if attack actions have
+ * interrupt functionality.
+ *
+ * Version 1.20:
+ * - Updated plugin to update the AI more accordingly with Battle AI Core.
+ *
+ * Version 1.19:
+ * - Fixed a bug where forced actions clear out an action's effects before the
+ * turn is over, making post-turn effects to not occur.
+ *
+ * Version 1.18:
+ * - Fixed a bug where changing back and forth between the Fight/Escape window
+ * would prompt on turn start effects.
+ *
+ * Version 1.17:
+ * - Made a mechanic change so that turn 0 ends immediately upon battle start
+ * rather than requiring a full turn to end.
+ *
+ * Version 1.16:
+ * - Added a fail safe setting up ATB Charges when the Cannot Move restriction
+ * is imposed upon an actor.
+ *
+ * Verison 1.15:
+ * - Implemented a Forced Action queue list. This means if a Forced Action
+ * takes place in the middle of an action, the action will resume after the
+ * forced action finishes rather than cancels it out like MV does.
+ *
+ * Version 1.14:
+ * - Added a speed position check for Instant Casts to maintain order
+ * position.
+ *
+ * Version 1.13:
+ * - Fixed a bug that doesn't update state turns properly.
+ * - Removed 'Turn Structure parameter' as it goes against the nature of a
+ * Tick-Based battle system.
+ *
+ * Version 1.12:
+ * - Added speed rebalance formulas for tick-based systems (innate).
+ *
+ * Version 1.11:
+ * - Fixed a bug that would still allow battlers to perform actions even if
+ * the actions got sealed midway through charging the action.
+ *
+ * Version 1.10:
+ * - Fixed a bug that would cause AutoBattlers to stall if they got added into
+ * the party mid-battle.
+ *
+ * Version 1.09:
+ * - Mechanic change for states that update on Action End to end at the end of
+ * a battler's turn instead of at the start.
+ *
+ * Version 1.08a:
+ * - Fixed a bug that crashed the game when enemies were confused.
+ * - Preparation for Enemy ATB Gauges.
+ *
+ * Version 1.07:
+ * - Added 'Flash Enemy' to plugin parameters to flash the enemy once when it
+ * starts charging a skill.
+ *
+ * Version 1.06:
+ * - Added pre-emptive and surprise attack mechanic plugin parameters!
+ *
+ * Version 1.05:
+ * - Fixed a bug with Forced Actions locking out the battle.
+ *
+ * Version 1.04:
+ * - Added the 'Per Tick' parameter for you to adjust the formula that governs
+ * the speed rate at which the ATB gauge fills up.
+ *
+ * Version 1.03:
+ * - Fixed a bug that caused the ATB Gauge appear slow with maxed AGI.
+ *
+ * Version 1.02c:
+ * - Fixed a bug with the ATB GAUGE and ATB CHARGE action sequences.
+ * - Fixed a bug with battlers still getting a turn after the battle is over.
+ * - Fixed a bug that prevented escaping.
+ * - Added math fail safes for calculating ATB charging.
+ *
+ * Version 1.01:
+ * - Fixed a bug with escaping causing battlers to go into infinite lock.
+ * - Fixed a bug with multiple victory messages.
+ * - Added fail safe to prevent infinite charging.
+ * - Added <Cannot ATB Interrupt Notetag>.
+ *
+ * Version 1.00:
+ * - It's doooooooone!
+ */

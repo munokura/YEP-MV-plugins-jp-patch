@@ -1,0 +1,768 @@
+/*:ja
+ * @plugindesc v1.02 マップ画面で特定のキーが押された時にコモンイベントを実行します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---1行目---
+ * @text ---1行目---
+ * @default
+ *
+ * @param Key ~
+ * @text キー：~
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 1
+ * @text キー：1
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 2
+ * @text キー：2
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 3
+ * @text キー：3
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 4
+ * @text キー：4
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 5
+ * @text キー：5
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 6
+ * @text キー：6
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 7
+ * @text キー：7
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 8
+ * @text キー：8
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 9
+ * @text キー：9
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key 0
+ * @text キー：0
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key -
+ * @text キー：-
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key =
+ * @text キー：=
+ * @parent ---1行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param ---2行目---
+ * @text ---2行目---
+ * @default
+ *
+ * @param Key Q (PageUp)
+ * @text キー：Q (PageUp)
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key W (PageDown)
+ * @text キー：W (PageDown)
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key E
+ * @text キー：E
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key R
+ * @text キー：R
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key T
+ * @text キー：T
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Y
+ * @text キー：Y
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key U
+ * @text キー：U
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key I
+ * @text キー：I
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key O
+ * @text キー：O
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key P
+ * @text キー：P
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key [
+ * @text キー：[
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key ]
+ * @text キー：]
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key \
+ * @text キー：\
+ * @parent ---2行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param ---3行目---
+ * @text ---3行目---
+ * @default
+ *
+ * @param Key A
+ * @text キー：A
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key S
+ * @text キー：S
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key D
+ * @text キー：D
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key F
+ * @text キー：F
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key G
+ * @text キー：G
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key H
+ * @text キー：H
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key J
+ * @text キー：J
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key K
+ * @text キー：K
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key L
+ * @text キー：L
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key ;
+ * @text キー：;
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key "
+ * @text キー："
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Enter (OK)
+ * @text キー：Enter (OK)
+ * @parent ---3行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param ---4行目---
+ * @text ---4行目---
+ * @default
+ *
+ * @param Key Shift (Dash)
+ * @text キー：Shift (Dash)
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Z (OK)
+ * @text キー：Z (OK)
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key X (Cancel)
+ * @text キー：X (Cancel)
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key C
+ * @text キー：C
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key V
+ * @text キー：V
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key B
+ * @text キー：B
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key N
+ * @text キー：N
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key M
+ * @text キー：M
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key ,
+ * @text キー：,
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key .
+ * @text キー：.
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key /
+ * @text キー：/
+ * @parent ---4行目---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param ---その他---
+ * @text ---その他---
+ * @default
+ *
+ * @param Key Space (OK)
+ * @text キー：Space (OK)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Left (Left)
+ * @text キー：Left (Left)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Up (Up)
+ * @text キー：Up (Up)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Right (Right)
+ * @text キー：Right (Right)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Down (Down)
+ * @text キー：Down (Down)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Insert (Cancel)
+ * @text キー：Insert (Cancel)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Delete
+ * @text キー：Delete
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Home
+ * @text キー：Home
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key End
+ * @text キー：End
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Page Up (PageUp)
+ * @text キー：Page Up (PageUp)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key Page Down (PageDown)
+ * @text キー：Page Down (PageDown)
+ * @parent ---その他---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param ---テンキー---
+ * @text ---テンキー---
+ * @default
+ *
+ * @param Key NumPad 0 (Cancel)
+ * @text キー：NumPad 0 (Cancel)
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 1
+ * @text キー：NumPad 1
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 2 (Down)
+ * @text キー：NumPad 2 (Down)
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 3
+ * @text キー：NumPad 3
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 4 (Left)
+ * @text キー：NumPad 4 (Left)
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 5
+ * @text キー：NumPad 5
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 6 (Right)
+ * @text キー：NumPad 6 (Right)
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 7
+ * @text キー：NumPad 7
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 8 (Up)
+ * @text キー：NumPad 8 (Up)
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad 9
+ * @text キー：NumPad 9
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad .
+ * @text キー：NumPad .
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad +
+ * @text キー：NumPad +
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad -
+ * @text キー：NumPad -
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad *
+ * @text キー：NumPad *
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @param Key NumPad /
+ * @text キー：NumPad /
+ * @parent ---テンキー---
+ * @type common_event
+ * @desc このキーが押された時に呼び出すコモンイベント
+ * イベントを呼び出さない場合、0に設定
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインを使用すると、
+ * キーボード上の個々のキーにコモンイベントを関連付けることができます。
+ * 標準のZをOKに、
+ * Xをキャンセルにする代わりに、
+ * 他のキーの動作を変えることができます。
+ * 変更すべきではない重要なキーを除いて、
+ * キーボードの全てでほぼ完全なアクセス権が与えられます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * プラグインのパラメータには、
+ * コモンイベントに関連付けられる全てのキーのリストが表示されます。
+ * その番号が0以外のものである場合、
+ * それに関連付けられた番号が実行されるコモンイベントになります。
+ * 存在しないコモンイベントIDに割り当てた場合、
+ * エラーになるので注意してください。
+ *
+ * 括弧内にいくつかのキーの横に
+ * （OK）や（Cancel）のような単語があることに気付くかもしれません。
+ * これが意味することは、それらのキーが既に
+ * ゲームによってそれらに割り当てられた機能を持っているということです。
+ * これらのキーにコモンイベントを割り当てた場合、
+ * 割り当てたコモンイベントのためにキーのネイティブ機能は削除されます。
+ *
+ * 下記は既に割り当てられているキーのリストです。
+ *
+ * キー - 割当てられているもの
+ *   - Q         - 割当: PageUp
+ *   - W         - 割当: PageDown
+ *   - Shift     - 割当: ダッシュ
+ *   - Z         - 割当: OK
+ *   - X         - 割当: キャンセル
+ *   - Space     - 割当: OK
+ *   - Left      - 割当: 左へ移動
+ *   - Up        - 割当: 上へ移動
+ *   - Right     - 割当: 右へ移動
+ *   - Down      - 割当: 下へ移動
+ *   - Insert    - 割当: キャンセル
+ *   - Page Up   - 割当: PageUp
+ *   - Page Down - 割当: PageDown
+ *   - Numpad 0  - 割当: キャンセル
+ *   - Numpad 2  - 割当: 下へ移動
+ *   - Numpad 4  - 割当: 左へ移動
+ *   - Numpad 6  - 割当: 右へ移動
+ *   - Numpad 8  - 割当: 上へ移動
+ *
+ * 繰り返しますが、これらのキーにコモンイベントを割り当てると、
+ * そのコモンイベントによってそのキーが本来持っていた関連付けが削除されます。
+ * ただし、これはプレイヤーがフィールドマップにいる間にのみ適用されます。
+ * メニューや戦闘システムの中にいると、以前の本来の機能が回復します。
+ *
+ * ===========================================================================
+ * 互換性の問題
+ * ===========================================================================
+ *
+ * このプラグインには、キーストロークを変更したり、
+ * 別の方法でそれらを使用するものとの互換性の問題がある可能性があります。
+ * これには、KeyboardConfig.js が含まれます。
+ * このプラグイン KeyboardConfig.js の改訂版が、Yanfly.moeに用意されています。
+ * これがそれと互換性があるようにするために
+ * YEP_KeyboardConfig Ver1.01 を持っていることを確認してください。
+ * このプラグインは、2つのプラグインが連携して動作するために
+ * YEP_KeyboardConfig の上に配置する必要があります。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 関連付けられたコモンイベントとデフォルトボタンの間を
+ * 行き来するために、下記のプラグインコマンドを使用してください。
+ *
+ * プラグインコマンド
+ *
+ *   RevertButton Ok
+ *   RevertButton Cancel
+ *   RevertButton Dash
+ *   RevertButton PageUp
+ *   RevertButton PageDown
+ *   RevertButton Left
+ *   RevertButton Up
+ *   RevertButton Right
+ *   RevertButton Down
+ *   RevertButton All
+ *   - 元の機能のいずれかに関連付けされている全てのキーを元のボタンに戻し、
+ *   それらに関連付けされているコモンイベントの関連付けを解除します。
+ *   "All"機能で元に戻すと、影響を受ける全てのボタンは元の機能に戻ります。
+ *
+ *   SwitchButton Ok
+ *   SwitchButton Cancel
+ *   SwitchButton Dash
+ *   SwitchButton PageUp
+ *   SwitchButton PageDown
+ *   SwitchButton Left
+ *   SwitchButton Up
+ *   SwitchButton Right
+ *   SwitchButton Down
+ *   SwitchButton All
+ *   - 元の機能の代わりにコモンイベント関連付けを使用するように、
+ *   元の機能を持つ全てのキーを切り替えます。
+ *   "All"機能で切り替えると、
+ *   影響を受ける全てのボタンがそれに切り替わります。
+ *
+ *   TriggerButton Ok
+ *   TriggerButton Cancel
+ *   TriggerButton Dash
+ *   TriggerButton PageUp
+ *   TriggerButton PageDown
+ *   TriggerButton Left
+ *   TriggerButton Up
+ *   TriggerButton Right
+ *   TriggerButton Down
+ *   - 元の機能の全てのキーにコモンイベントが関連付けされている場合、
+ *   ゲームがそれらの元の機能の1つのボタンコマンドを実行するように
+ *   シミュレートします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.01:
+ * - Changed buttons from triggering to repeating so that common events can
+ * continuously run while being held down.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

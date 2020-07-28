@@ -1,0 +1,210 @@
+/*:ja
+ * @plugindesc v1.17 アクター、職業、スキル、武器、防具、敵にパッシブステートを設定できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---基本---
+ * @default
+ *
+ * @param Actor Passives
+ * @text アクターのパッシブ
+ * @parent ---基本---
+ * @desc  アクターにパッシブステートを割り当てます。
+ * 各ステートIDの間にはスペースを入れてください。
+ * @default 0
+ *
+ * @param Enemy Passives
+ * @text 敵のパッシブ
+ * @parent ---基本---
+ * @desc 敵にパッシブステートを割り当てます。
+ * 各ステートIDの間にはスペースを入れてください。
+ * @default 0
+ *
+ * @param Global Passives
+ * @text バトラーのパッシブ
+ * @parent ---基本---
+ * @desc バトラーにパッシブステートを割り当てます。
+ * 各ステートIDの間にはスペースを入れてください。
+ * @default 0
+ *
+ * @param ---リスト---
+ * @default
+ *
+ * @param Actor Passives List
+ * @text アクターのパッシブ一覧
+ * @parent ---リスト---
+ * @type state[]
+ * @desc アクターにパッシブステートを割り当てます。
+ * RPG Maker MV 1.5.0以降で使用してください。
+ * @default []
+ *
+ * @param Enemy Passives List
+ * @text 敵のパッシブ一覧
+ * @parent ---リスト---
+ * @type state[]
+ * @desc 敵にパッシブステートを割り当てます。
+ * RPG Maker MV 1.5.0以降で使用してください。
+ * @default []
+ *
+ * @param Global Passives List
+ * @text バトラーのパッシブ一覧
+ * @parent ---リスト---
+ * @type state[]
+ * @desc バトラーにパッシブステートを割り当てます。
+ * RPG Maker MV 1.5.0以降で使用してください。
+ * @default []
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * パッシブステートは、操作を行わなくても有効になっているステートのことです。
+ * 活用することで、より柔軟な特性の拡張が可能になります。
+ * 味方や敵がパッシブステートの設定をすると、
+ * そのステートは常に有効な状態となります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下のメモタグを使って、バトラーにパッシブステートを割り当ててください。
+ *
+ * アクター、職業、スキル、武器、防具、敵のメモタグ
+ *   <Passive State: x>
+ *   <Passive State: x, x, x>
+ *   アクターや敵に、常に x という状態が付与されます。メモタグを
+ *   武器や防具内のメモ欄に記入すれば、その持ち主に対して有効になります。
+ *
+ *   <Passive State: x to y>
+ *   アクターや敵に、x から y までのステートを付与します。メモタグを
+ *   武器や防具内のメモ欄に記入すれば、その持ち主に対して有効になります。
+ *
+ * パッシブステートを常にオンにしたくない場合、
+ * 発動条件を以下のメモタグで調整できます。
+ * 全ての条件が満たされなければ、パッシブステートを有効になりません。
+ *
+ * ステートのメモタグ
+ *   <Passive Condition: HP Above x%>
+ *   <Passive Condition: HP Below x%>
+ *   <Passive Condition: MP Above x%>
+ *   <Passive Condition: MP Below x%>
+ *   使用者のHPまたはMPが、MaxHPまたはMaxMPのx%を上回る/下回る場合、
+ *   パッシブステートが発動します
+ *
+ *   <Passive Condition: Stat Above x>
+ *   <Passive Condition: Stat Below x>
+ *   'stat'を 'HP'、 'MP'、 'TP'、 'MAXHP'、 'MAXMP'、 'ATK'、 'DEF'、
+ *    'MAT'、 'MDF'、 'AGI'、 'LUK'に書き換えてください。
+ *   上記のステータス値 x が上回る/下回る場合、パッシブステートが発動します。
+ *
+ *   <Passive Condition: Switch x ON>
+ *   <Passive Condition: Switch x OFF>
+ *   スイッチ x がON/OFFである場合、パッシブステートが発動します。
+ *
+ *   <Passive Condition: Variable x Above y>
+ *   <Passive Condition: Variable x Below y>
+ *   x y を変数に書き換えてください。
+ *   数値が上回る/下回る場合、パッシブステートが発動します。
+ *
+ * ===========================================================================
+ * ルナティックモード - パッシブ条件
+ * ===========================================================================
+ *
+ * JavaScriptを使っての条件判定でパッシブステートが発動させたい場合、
+ * 下記メモタグで条件を設定できます。
+ *
+ * ステートのメモタグ
+ *   <Custom Passive Condition>
+ *   if (user.hp / user.mhp <= 0.25) {
+ *     condition = true;
+ *   } else {
+ *     condition = false;
+ *   }
+ *   </Custom Passive Condition>
+ *
+ * 上記でパッシブステートを発動する条件を設定できます。
+ * 'condition'変数がtrueを返すと、パッシブステートが発動されます。
+ * 'condition'がfalseを返すと、発動されません。
+ * 条件が定義されていない場合、trueが返され、
+ * パッシブステートがバトラーに発動します。
+ *   注:この条件を満たすには、
+ *      カスタム以外の条件が全て満たされている必要があります。
+ *   注:アクターに特定のステートを要求する条件は、
+ *      無限ループを防ぐために使用できません。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.17:
+ * - Optimization update. There should be less lag spikes if there are more
+ * passive conditions present on a battler.
+ *
+ * Version 1.16:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.15:
+ * - Bug fixed that made global passives not apply to actors.
+ *
+ * Version 1.14:
+ * - Updated for RPG Maker MV version 1.5.0.
+ * - Added parameters: Actor Passives List, Enemy Passives List, and
+ *   Global Passives List
+ *
+ * Version 1.13:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.12:
+ * - Implemented <Custom Passive Condition> to now affect passive state ID's
+ * added by Equip Battle Skills.
+ *
+ * Version 1.11:
+ * - Added 'Global Passives' that encompass both actors and enemies.
+ *
+ * Version 1.10:
+ * - Added compatibility functionality for Equip Battle Skills to add the
+ * equipped passive states during battle test.
+ *
+ * Version 1.09:
+ * - Added 'Actor Passives' and 'Enemy Passives' plugin parameters. This will
+ * cause all actors and enemies respectively to be affected by the listed
+ * states as passives.
+ *
+ * Version 1.08:
+ * - Fixed conditional checks to make sure all states are being checked
+ * properly without conflict with other conditional states.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.06:
+ * - Added a mass member refresh whenever $gamePlayer is refreshed.
+ *
+ * Version 1.05a:
+ * - Added Lunatic Mode - <Custom Passive Condition> notetag for states.
+ * - Fixed a bug that would cause infinite loops.
+ *
+ * Version 1.04:
+ * - Added a lot of passive condition notetags for states.
+ * --- <Passive Condition: HP/MP Above/Below x%>
+ * --- <Passive Condition: Stat Above/Below x>
+ * --- <Passive Condition: Switch x ON/OFF>
+ * --- <Passive Condition: Variable x Above/Below y>
+ *
+ * Version 1.03:
+ * - Added refreshing whenever a new skill is learned to update passives.
+ *
+ * Version 1.02:
+ * - Optimized passive state calculations to reduce lag.
+ *
+ * Version 1.01:
+ * - Fixed a bug with having multiple passive states of the same ID.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

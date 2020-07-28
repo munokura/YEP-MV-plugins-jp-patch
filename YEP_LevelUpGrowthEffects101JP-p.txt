@@ -1,0 +1,127 @@
+/*:ja
+ * @plugindesc v1.01 レベルアップ時に追加効果を設定できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインを使用すると、レベルアップ時に変化する
+ * アクター、装備、職業、スキル、アイテムを作成できます。
+ * 成長オプションには、基本パラメーターの増加、新しいスキルの習得、
+ * スイッチのオン/オフ、完全回復、JavaScriptコードの実行等
+ * あらゆる種類のカスタム効果が含まれます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 次のメモタグを各データベースのメモ欄に挿入して、
+ * レベルアップ成長効果を設定します。
+ *
+ * アクター、職業、スキル、武器、防具、ステートのメモタグ
+ *
+ *   <Level Up stat Growth: +x>
+ *   <Level Up stat Growth: -x>
+ *   レベルアップすると、これは特定の'stat'をx値だけ上げたり下げたりします。
+ *   - 'stat'を'MaxHP', 'MaxMP', 'ATK', 'DEF', 'MAT', 'MDF', 'AGI', 'LUK'
+ *   に置き換えます
+ *   - 'x' を成長量の数値に置き換えます。
+ *
+ *   <Level Up Learn Skill: x>
+ *   レベルアップすると、アクターのスキルxを習得します。
+ *   - 'x'をアクターが習得するスキルのIDに置き換えます。
+ *
+ *   <Level Up Switch On: x>
+ *   <Level Up Switch On: x, x, x>
+ *   <Level Up Switch On: x to y>
+ *   <Level Up Switch Off: x>
+ *   <Level Up Switch Off: x, x, x>
+ *   <Level Up Switch Off: x to y>
+ *   レベルアップすると、スイッチxがオン/オフになります。
+ *   - 'x' をオン/オフするスイッチのIDと置き換えます。
+ *   - 'x to y'を使用する場合、'x'を開始IDに、'y'を終了IDに設定します。
+ *   - メモタグ複数を挿入して、複数のスイッチに影響を与えます。
+ *
+ *   <Level Up Recover All>
+ *   レベルアップすると、全回復効果がアクターに対して実行されます。
+ *   ※能力値を上げるタグを入れた場合、その下側に入れなければ反映されません。
+ *
+ * ===========================================================================
+ * ルナティックモード
+ * ===========================================================================
+ *
+ * JavaScriptと以下のメモタグを使用して、
+ * レベルアップ時にカスタム効果を発生させることができます。
+ *
+ * アクター、職業、スキル、武器、防具、ステートのメモタグ
+ *
+ *   <Custom Level Up Effect>
+ *    code
+ *    code
+ *   </Custom Level Up Effect>
+ *   - 'code'をメモタグ内で実行するコードに置き換えます。
+ *
+ *   --- 例 ---
+ *
+ *   <Custom Level Up Effect>
+ *    var heal = actor.mdf;
+ *    actor.gainHp(heal);
+ *   </Custom Level Up Effect>
+ *   - レベルアップすると、アクターはHPを回復し、
+ *     アクターの現在のMDFパラメーターと等しくなります。
+ *
+ *   --- 例 ---
+ *
+ *   <Custom Level Up Effect>
+ *    if (actor.level >= 50) {
+ *      var keepExp = true;
+ *      actor.changeClass(5, keepExp);
+ *    }
+ *   </Custom Level Up Effect>
+ *   - アクターのレベルがレベル50を超えている場合、
+ *     アクターの職業IDを5に変更します。
+ *
+ *   --- 例 ---
+ *
+ *   <Custom Level Up Effect>
+ *    if (actor.level >= 25) {
+ *      // Change sprite
+ *      var characterName = 'Actor1';
+ *      var characterIndex = 0;
+ *      actor.setCharacterImage(characterName, characterIndex);
+ *      // Change Face
+ *      var faceName = 'Actor1';
+ *      var faceIndex = 0;
+ *      actor.setFaceImage(faceName, faceIndex);
+ *      // Change SV Battler
+ *      var battlerName = 'Actor1_1';
+ *      actor.setBattlerImage(battlerName);
+ *      // Refresh Actor
+ *      actor.refresh();
+ *    }
+ *   </Custom Level Up Effect>
+ *   - アクターのレベルがレベル25を超えた場合、
+ *     アクターの歩行キャラ、顔、[SV]戦闘キャラが別のものに変わります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Bugfix made by Arisu's Dollhouse.
+ * - Fixed the Level Up Switch On/Off notetags.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ */

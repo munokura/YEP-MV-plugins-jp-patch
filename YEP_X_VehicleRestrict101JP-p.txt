@@ -1,0 +1,157 @@
+/*:ja
+ * @plugindesc v1.01 (要YEP_RegionRestrictions.js) 乗り物の移動可能な場所と着陸可能な場所を制御できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---小型船---
+ * @text ---小型船---
+ * @default
+ *
+ * @param Boat Restrict
+ * @text 小型船制限
+ * @parent ---小型船---
+ * @desc このリージョンIDは、小型船が入るのを制限します。
+ * 複数のリージョンを使用するには、スペースで区切ります。
+ * @default 0
+ *
+ * @param Boat Allow
+ * @text 小型船許可
+ * @parent ---小型船---
+ * @desc このリージョンIDは常に小型船の通過を許可します。
+ * 複数のリージョンを使用するには、スペースで区切ります。
+ * @default 0
+ *
+ * @param Boat Land
+ * @text 小型船着陸
+ * @parent ---小型船---
+ * @desc このリージョンIDは、小型船が着陸できる場所です。
+ * 0にすると全てのリージョンに着陸できます。
+ * @default 0
+ *
+ * @param ---大型船---
+ * @text ---大型船---
+ * @default
+ *
+ * @param Ship Restrict
+ * @text 大型船制限
+ * @parent ---大型船---
+ * @desc このリージョンIDは大型船の入港を制限します。
+ * 複数のリージョンを使用するには、スペースで区切ります。
+ * @default 0
+ *
+ * @param Ship Allow
+ * @text 大型船許可
+ * @parent ---大型船---
+ * @desc このリージョンIDは常に大型船の通過を許可します。
+ * 複数のリージョンを使用するには、スペースで区切ります。
+ * @default 0
+ *
+ * @param Ship Land
+ * @text 大型船着陸
+ * @parent ---大型船---
+ * @desc このリージョンIDは、大型船が着陸できる場所です。
+ * 0にすると全てのリージョンに着陸できます。
+ * @default 0
+ *
+ * @param ---飛行船---
+ * @text ---飛行船---
+ * @default
+ *
+ * @param Airship Restrict
+ * @text 飛行船制限
+ * @parent ---飛行船---
+ * @desc このリージョンIDは飛行船の進入を制限します。
+ * 複数のリージョンを使用するには、スペースで区切ります。
+ * @default 0
+ *
+ * @param Airship Allow
+ * @text 飛行船許可
+ * @parent ---飛行船---
+ * @desc このリージョンIDは常に飛行船を通過させます。
+ * 複数のリージョンを使用するには、スペースで区切ります。
+ * @default 0
+ *
+ * @param Airship Land
+ * @text 飛行船着陸
+ * @parent ---飛行船---
+ * @desc このリージョンIDは飛行船が着陸できる場所です。
+ * 0にすると全てのリージョンに着陸できます。
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_RegionRestrictionsを必要とします。
+ * プラグイン管理のYEP_RegionRestrictionsの下に
+ * このプラグインがあることを確認してください。
+ *
+ * 乗り物にリージョン制限(および許可リージョン)を拡張します。
+ * 乗り物に反応するリージョンを指定することができます。
+ * 乗り物の扱い方法に多様性を加えられます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * そのマップ上の乗り物のみのカスタム設定を可能にするには、
+ * メモタグをマップのメモ欄に挿入します。
+ *
+ * マップのメモタグ
+ *
+ *   <Boat Restrict Region: x>
+ *   <Boat Restrict Region: x, x, x>
+ *   <Boat Restrict Region: x to y>
+ *   <Ship Restrict Region: x>
+ *   <Ship Restrict Region: x, x, x>
+ *   <Ship Restrict Region: x to y>
+ *   <Airship Restrict Region: x>
+ *   <Airship Restrict Region: x, x, x>
+ *   <Airship Restrict Region: x to y>
+ *   - プレイヤーキャラクタにスルーON移動フラグが与えられていない限り、
+ *   乗り物はxでマークされたリージョンを越えて移動することができません。
+ *   リージョンは、
+ *   プラグインパラメータによってフラグが立てられたリージョンと結合されます。
+ *
+ *   <Boat Allow Region: x>
+ *   <Boat Allow Region: x, x, x>
+ *   <Boat Allow Region: x to y>
+ *   <Ship Allow Region: x>
+ *   <Ship Allow Region: x, x, x>
+ *   <Ship Allow Region: x to y>
+ *   <Airship Allow Region: x>
+ *   <Airship Allow Region: x, x, x>
+ *   <Airship Allow Region: x to y>
+ *   - 乗り物がxでマークされたリージョンを通過できるようにします。
+ *   リージョンは、
+ *   プラグインパラメータによってフラグが立てられたリージョンと結合されます。
+ *
+ *   <Boat Land Region: x>
+ *   <Boat Land Region: x, x, x>
+ *   <Boat Land Region: x to y>
+ *   <Ship Land Region: x>
+ *   <Ship Land Region: x, x, x>
+ *   <Ship Land Region: x to y>
+ *   <Airship Land Region: x>
+ *   <Airship Land Region: x, x, x>
+ *   <Airship Land Region: x to y>
+ *   - 乗り物にx(to y)でマークされた
+ *   リージョンにのみ着地できるように強制します。
+ *   彼らは他の場所に着陸することはできません。
+ *   リージョンは、
+ *   プラグインパラメータによってフラグが立てられたリージョンと結合されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,210 @@
+/*:ja
+ * @plugindesc v1.09 戦闘ステータスウィンドウにアクターの顔を表示します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---ビジュアル---
+ * @default
+ *
+ * @param No Action Icon
+ * @text アクション無選択アイコン
+ * @parent ---ビジュアル---
+ * @type number
+ * @min 0
+ * @desc アクションが選択されていないときに使用されるアイコン
+ * @default 16
+ *
+ * @param Name Font Size
+ * @text アクター名フォントサイズ
+ * @parent ---ビジュアル---
+ * @type number
+ * @min 1
+ * @desc アクターの名前のフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Param Font Size
+ * @text 能力値フォントサイズ
+ * @parent ---ビジュアル---
+ * @type number
+ * @min 1
+ * @desc アクターの能力値のフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Param Y Buffer
+ * @text 能力値Y位置
+ * @parent ---ビジュアル---
+ * @type number
+ * @min 0
+ * @desc 能力値テキストのY位置
+ * @default 7
+ *
+ * @param Param Current Max
+ * @text 最大値の表示
+ * @parent ---ビジュアル---
+ * @type boolean
+ * @on 現在値/最大値
+ * @off 現在値のみ
+ * @desc 現在値、最大値の表示
+ * 現在値のみ:false / 現在値/最大値:true
+ * @default false
+ *
+ * @param Adjust Columns
+ * @text 列数の自動調整
+ * @parent ---ビジュアル---
+ * @type boolean
+ * @on 調整する
+ * @off 調整しない
+ * @desc パーティー人数に合わせて列数を自動調整
+ * 調整しない:false / 調整する:true
+ * @default false
+ *
+ * @param State Icons Row
+ * @text ステートアイコン行数
+ * @parent ---ビジュアル---
+ * @type number
+ * @min 0
+ * @max 3
+ * @desc ステートアイコンの表示行数
+ * デフォルト:1
+ * @default 1
+ *
+ * @param ---アクター切り替え---
+ * @default
+ *
+ * @param Left / Right
+ * @text 左右ボタン
+ * @parent ---アクター切り替え---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc 左右ボタンでのアクター切り替え
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @param PageUp / PageDown
+ * @text [page up][page down]キー
+ * @parent ---アクター切り替え---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc [page up][page down]でのアクター切り替え
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @param Allow Turn Skip
+ * @text ターンスキップ許可
+ * @parent ---アクター切り替え---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc ティックベースの戦闘システムのターンスキップ
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @param ---フロントビュー---
+ * @default
+ *
+ * @param Show Animations
+ * @text アニメーション表示
+ * @parent ---フロントビュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターのアニメーションの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Sprites
+ * @text スプライト表示
+ * @parent ---フロントビュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターのスプライトの表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Align Animations
+ * @text アニメーション整列
+ * @parent ---フロントビュー---
+ * @type boolean
+ * @on 揃える
+ * @off 揃えない
+ * @desc アニメーションをウィンドウに合わせる
+ * 揃えない:false / 揃える:true
+ * @default true
+ *
+ * @param X Offset
+ * @text X位置オフセット量
+ * @parent ---フロントビュー---
+ * @type number
+ * @desc アクターのX位置オフセット量
+ * @default 24
+ *
+ * @param Y Offset
+ * @text Y位置オフセット量
+ * @parent ---フロントビュー---
+ * @type number
+ * @desc アクターのY位置オフセット量
+ * @default -16
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、戦闘ステータスウィンドウを、
+ * アクターの顔も表示される列ベースの形式に置き換えます。
+ *
+ * フロントビュー戦闘向けに、戦いの中で何が起こっているのか、
+ * より視覚的な印象をプレーヤーに与えるために、
+ * 戦闘のアニメーションがアクターの顔の上で再生されるのを可能にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.09:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.08:
+ * - Added 'State Icons Row' plugin parameter. This plugin parameter allows
+ * you to adjust what 'row' you want the state icons to appear in.
+ *
+ * Version 1.07:
+ * - Optimization update.
+ *
+ * Version 1.06:
+ * - Fixed a bug that prevented animations from using flashes on the actor
+ * sprite if they were visible from front view.
+ *
+ * Version 1.05:
+ * - Optimized face drawing effect to work more efficiently.
+ *
+ * Version 1.04:
+ * - Added 'Allow Turn Skip' plugin parameter to let you decide if you can let
+ * the player skip turns for tick-based battle systems.
+ *
+ * Version 1.03:
+ * - Added a failsafe check to make frontview animations work regardless of
+ * having RPG Maker MV 1.0.1 update.
+ *
+ * Version 1.02a:
+ * - Added 'Adjust Columns' parameter.
+ * - Updated functionality for 'Adjust Columns' to alter where the animations
+ * are played.
+ * - Added a timed refresh for the face loading to show at faster intervals.
+ *
+ * Version 1.01a:
+ * - Added refresh modifiers to update an actor's face whenever an event to
+ * change the actor's face graphic.
+ * - Made an override for ATB style to automatically default on style 1.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

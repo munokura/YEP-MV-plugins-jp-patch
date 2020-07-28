@@ -1,0 +1,377 @@
+/*:ja
+ * @plugindesc v1.10 ゲーム内エディタを使用して、マップのグリッドに縛られないチップを配置できます。静止・アニメーションができます。
+ *
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Doodads Folder
+ * @text Doodadsフォルダー
+ * @parent ---一般---
+ * @desc Doodadsフォルダへのパス
+ * @default img/doodads/
+ *
+ * @param Doodads Smoothing
+ * @text Doodadsを滑らかに
+ * @parent ---一般---
+ * @type boolean
+ * @on 滑らか
+ * @off 硬い
+ * @desc デフォルトでDoodadのエッジを滑らかにする
+ * 滑らか:true / 硬い:false
+ * @default false
+ *
+ * @param Alphabetical Settings
+ * @text アルファベット順に表示
+ * @parent ---一般---
+ * @type boolean
+ * @on アルファベット順
+ * @off ID順
+ * @desc Doodad設定をアルファベット順に一覧表示
+ * アルファベット順:true / ID順:false
+ * @default false
+ *
+ * @param ---グリッドスナップ---
+ * @text ---グリッドスナップ---
+ * @default
+ *
+ * @param Default Grid Snap
+ * @text デフォルトのスナップ
+ * @parent ---グリッドスナップ---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトのグリッドスナップ
+ * 有効:true / 無効:false
+ * @default false
+ *
+ * @param Grid Snap Width
+ * @text グリッドスナップ幅
+ * @parent ---グリッドスナップ---
+ * @type number
+ * @min 1
+ * @desc デフォルトのグリッドスナップ幅
+ * @default 48
+ *
+ * @param Grid Snap Height
+ * @text グリッドスナップ高さ
+ * @parent ---グリッドスナップ---
+ * @type number
+ * @min 1
+ * @desc デフォルトのグリッドスナップの高さ
+ * @default 48
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGツクールMVでは、タイルセットはマッピング目的で使用されます。
+ * タイルセットAは土地の表示に使用され、
+ * タイルセットBからEは上書きの追加に使用されます。
+ * しかしRPGツクールMVでは、
+ * タイルセットBからEで追加されたDoodadはグリッドに固定されているため、
+ * かなり不自然な感じになります。
+ * このプラグインを使用すると、グリッドから解放され、
+ * グリッドに拘束されていないDoodadを追加できます。
+ * Doodadsは、静的からアニメーションまで、大小様々な形で登場します。
+ *
+ * ===========================================================================
+ * 説明 - 必要条件
+ * ===========================================================================
+ *
+ * プラグインの使用方法
+ *
+ * 1.プロジェクトの'data'フォルダ内にDoodads.jsonが必要です。
+ * 2.プロジェクトの'img'フォルダの中に'doodads'フォルダが必要です。
+ *    (あなたがそれをプラグインパラメータで何か他の名前を付けない限り)。
+ * あなたはこのフォルダ内にあなたのDoodadsを持っている必要があります。
+ *
+ * Yanfly.moeから上記のリソースを見つけることができます。
+ * http://yanfly.moe/2016/09/17/yep-116-grid-free-Doodads-rpg-maker-mv/
+ *
+ * ===========================================================================
+ * 説明 - Doodadsを配置する
+ * ===========================================================================
+ *
+ * ゲームにDoodadsを配置するには、
+ * まずテストプレイモードでゲームをロードします。
+ * RPGツクールMVでゲームを開いて[Game]に移動し、
+ * [PlayTest](ショートカットCtrl+R)を選択してこれを実行できます。
+ *
+ * Doodadを配置したいマップにロードしたら、
+ * F10キーを押してDoodadエディタにアクセスします。
+ * あなたはオプションを選択できます。
+ * 'Place Doodads'で配置が始まります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ---メインメニュー---
+ * メインメニューは、マップ上でF10キーを押した時に
+ * 最初に表示されるメニューです。
+ *
+ *   Place Doodads
+ *   - Doodadsフォルダーが表示され、マップに配置するDoodadを選択できます。
+ *
+ *   Edit Doodads
+ *   - 既にマップ上に置いたDoodadを編集できます。
+ *   上にあるレイヤーに基づいて、
+ *   1つか全てのDoodadを選択できます。
+ *   Doodadsは上から下、左から右への位置に基づいて並べられます。
+ *
+ *   Clear Doodads
+ *   - マップ上の全てのDoodadsを消去します。
+ *
+ *   Toggle Region Overlay
+ *   - どのタイルがどのリージョンの影響を受けるのかを示すために、
+ *   リージョンのオーバーレイが画面に表示されます。
+ *   リージョンを隠すにはもう一度使用します。
+ *   警告:大きなマップで初めて使用する時、
+ *   リージョンをロードする必要があるため、少し時間がかかります。
+ *   マップが大きいほど、ロードにかかる時間が長くなります。
+ *
+ *   Cancel and Close
+ *   - マップ上のDoodad設定に加えられた変更が削除され、
+ *   Doodadメニューが閉じます。
+ *
+ *   Save and Close
+ *   - マップ上のDoodad設定に対する変更が保存され、
+ *   Doodadメニューが閉じます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ---Doodad リスト---
+ * Doodadリストには、
+ * 現在のフォルダに基づいてマップに使用できる全てのDoodadのリストが
+ * 表示されます。
+ * ここから選択できる3種類のオプションがあります。
+ *
+ *   IconSet
+ *   - iconsetのアイコンからDoodadを作成できます。
+ *   アイコンから作られたDoodadはもう少し制限があり、
+ *   色相の変更を利用することはできません。
+ *   使いたいアイコンを選択できるメニューDoodadPlacingModeに行きます。
+ *
+ *   Folders
+ *   - フォルダは名前の最後に/が付き、
+ *   他の全てのフォルダと共有されているアイコンが表示されます。
+ *   フォルダを選択すると、そのフォルダの内容に移動します。
+ *
+ *   Images
+ *   - 画像は、名前の左側に自分自身の小さなプレビューを表示します。
+ *   これらの画像は何の制限もなくDoodadとして使用できます。
+ *   画像を選択すると、Doodad Placing Modeに入ります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ---Doodad Placing Mode---
+ * Doodad Placing Modeにいる時、
+ * いくつかの説明テキストと共に以下のスクリーンの小さいセクションに
+ * 気づくでしょう。
+ *
+ *   Q E - Layer -/+
+ *   - Doodadの現在のレイヤーを増減できます。
+ *
+ *   T - Tweak Settings
+ *   - Doodad設定メニューが開きます。
+ *
+ *   W A S D - Move Screen
+ *   - スクリーンを動かすので、プレイヤーキャラクターの位置を変えなくても
+ *   マップをはっきりと見ることができます。
+ *
+ *   ↑←↓→ - Precision Move
+ *   - 方向キーを押すと、
+ *   マウスの代わりにキーボードを使ってDoodadを動かすことができます。
+ *   マウスを使って移動したい場合、
+ *   どこかのマップをクリックしてマウスに制御を戻します。
+ *
+ *   Z X - Place or Cancel
+ *   - Zを押すと、マップ上でDoodadが現在の状態になります。
+ *   - Xを押すと、
+ *   DoodadList(アイコンから作られたDoodadを配置している場合、IconPicker)に
+ *   戻ります。
+ *
+ * 使うことができる隠されたキーボードコマンドがいくつかあります。
+ * これらの指示を注意深く読んだ使用者に報いられます。万歳。
+ *
+ *   H - Hide/Show the Instruction Window
+ *   - Hを押すと、指示ウィンドウが非表示になり、
+ *   Doodadをどこに置いているのかがはっきりわかります。
+ *   もう一度押すと元に戻ります。
+ *
+ *   1 2 3 4 5 6 7 8 9 0 - Quick Opacity Change
+ *   - 1から0のキー(NumPadではない)を使用すると、
+ *   Doodadの不透明度をすばやく調整できます。
+ *   1は10%を設定し、2は20%を設定し、3は30%を設定します。
+ *
+ *   G - Grid Snap Menu
+ *   - グリッドスナップメニューが開き、
+ *   グリッドスナップとグリッドスナップパラメータを有効・無効にできます。
+ *
+ *   R - Region Overlay
+ *   - どのタイルがどのリージョンの影響を受けるのかを示すために、
+ *   リージョンのオーバーレイが画面に表示されます。
+ *   リージョンを非表示にするには、もう一度Rを押します。
+ *   警告:大きなマップではじめてこれを使用すると、
+ *   リージョンをロードする必要があるため、少し時間がかかります。
+ *   マップが大きいほど、ロードにかかる時間が長くなります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ---Doodad Settings---
+ * Doodad配置モード中に'T'を押すか、個々のDoodadにアクセスすると、
+ * Doodad設定が表示されます。
+ *
+ *   Change Position
+ *   - 個々のDoodad管理からアクセスされる場合のみ選択可能です。
+ *   Doodadの位置を変えることができます。
+ *
+ *   Layer
+ *   - Doodadのレイヤーを変更します。
+ *   より高い層はDoodadを他の(そしてキャラクター)の上に表示させ、
+ *   より低い層はDoodadを下に表示させます。
+ *
+ *   Hue
+ *   - Doodadの現在の色相が変更します。
+ *   この機能には大量の処理能力が必要となるので注意してください。
+ *   モバイル端末用にエクスポートする予定がある場合、
+ *   この機能を使ったDoodadを使用しないことを強くお勧めします。
+ *
+ *   Opacity
+ *   - Doodadの不透明度を変更します。
+ *   不透明度の値が高いと、Doodadの透明度は低くなります。
+ *   不透明度の値が低いほど、透明度が高くなります。
+ *
+ *   Scale X, Scale Y
+ *   - Doodadのストレッチ量が変わります。
+ *   XはDoodadを水平方向に伸ばし、YはDoodadを垂直方向に伸ばします。
+ *   負の値を使用した場合、Doodadは反転化されます。
+ *
+ *   Anchor X, Anchor Y
+ *   - Doodadのベース座標を設定します。
+ *   同じレイヤーの他のDoodad/オブジェクトが
+ *   このDoodadとどのように相互作用するかは、その座標に基づきます。
+ *
+ *   Frame Speed
+ *   - Doodadがアニメーション化されている場合、
+ *   ここでDoodadのフレーム速度を調整できます。
+ *   この数は、
+ *   Doodadが次のアニメーションセルに更新されるまでに
+ *   通過しなければならないフレーム数を表します。
+ *   数値が小さいほどアニメーションが速くなり、
+ *   数値が大きいほどアニメーションが遅くなります。
+ *
+ *   Blend
+ *   - Doodadの合成方法を変更できます。
+ *   合成方法は、
+ *   合成方法のタイプに基づく色の違いを、
+ *   その背後にある視覚効果に合わせるようにします。
+ *
+ *   Smooth
+ *   - Doodadに滑らかなエッジと硬いエッジの
+ *   どちらをロードするかを選択しましょう。
+ *
+ *   Delete Doodad
+ *    - 個々のDoodad管理からアクセスされる場合のみ選択可能です。
+ *    Doodadを削除してからDoodad管理リストに戻ることができます。
+ *
+ *   Revert Settings
+ *   - 全ての設定をキャンセルして前のモードに戻ります。
+ *
+ *   Accept Settings
+ *   - 全ての設定を受け入れて、以前のモードに戻ります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ===========================================================================
+ * 説明 - 独自のDoodadsを作成する
+ * ===========================================================================
+ *
+ * Doodadsには2つの要件があります。
+ *
+ * 1.PNGでなければなりません。
+ * 2.プラグインパラメータ'Doodads Folder'で指定されたフォルダ内か、
+ *   'doodads'フォルダ内に配置する必要があります。
+ *
+ * フォルダが'doodads'フォルダ内に配置されている場合、
+ * ナビゲートするディレクトリツリーとしてDoodadsリストに表示されます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * アニメーションDoodadsの作成
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * DoodadはアニメーションDoodadにできます。
+ * アニメーションDoodadは、
+ * ゲームの画像が更新される度にアニメーションされます。
+ * アニメーションDoodadを作るには下記のステップに従ってください。
+ *
+ * 1.スプライトに似たセルレイアウトでDoodadを作成します。
+ * 2.各セルは、他のセルと同じ幅と高さでなければなりません。
+ * 3.Doodadに名前を付ける時、名前に[AxB]を追加します。
+ *   AとBを水平方向のセル数(A)と垂直方向のセル数(B)を表す数字に置き換えます。
+ *   横3セル、縦2セルのDoodadは、
+ *   'Torch[3x2].png'のような名前になります。
+ * 4.Doodadsセルは左から右にアニメーションします。
+ *   右端まで到達すると、1行下に移動して左から右に再び更新します。
+ *   'Torch [3x2].png'という名前のDoodadは、次のように更新されます。
+ *
+ *      0   1   2
+ *      3   4   5
+ *
+ * これがアニメーションのDoodadの作成方法です。
+ * これがわかりにくい場合、
+ * Yanfly.moeから提供されている例をいくつか見てください 。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.10:
+ * - Fixed loading issues for people using version 1.5.0+ and not using the
+ * YEP_X_CoreUpdatesOpt and desktop optimization setting.
+ *
+ * Version 1.09:
+ * - Fixed a bug for the Toggle Region Overlay that made certain dimensions
+ * not work properly.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.6.0 again. There was an issue with
+ * newly added doodads not saving properly due to the changed file structure.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.6.0.
+ *
+ * Version 1.06:
+ * - Added 'Import from Another Map' command to the main doodad menu.
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.04:
+ * - Calculations made for previous version are now rounded upward instead of
+ * rounding down to accomodate for smoother screen scrolling.
+ *
+ * Version 1.03:
+ * - Adjusted calculations for grid-snapping when graphic resolutions aren't
+ * divisible by tile width or height.
+ *
+ * Version 1.02:
+ * - Made the height for certain setting options default to the height of the
+ * screen if the screen is too small to hold all the options.
+ * - Rearranged some settings in the settings menu to make it more optimal for
+ * the addition of new doodad settings options.
+ * - Added 'Alphabetical Settings' option to plugin parameters. This will turn
+ * the settings list for the doodads to flow in alphabetical order.
+ *
+ * Version 1.01:
+ * - Fixed a bug that caused doodads to overlap onto the other border of the
+ * map if it was clipped off.
+ * Version 1.00:
+ * - Finished Plugin!
+ */

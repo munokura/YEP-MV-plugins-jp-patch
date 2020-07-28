@@ -1,0 +1,531 @@
+/*:ja
+ * @plugindesc v1.04 通常能力値(MaxHP,MaxMP,ATK,DEF,MAT,MDF,AGI,LUK)の計算方法を制御できます
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---最大HP---
+ * @default
+ *
+ * @param MHP Formula
+ * @text 式
+ * @parent ---最大HP---
+ * @desc MHPの決定に使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param MHP Maximum
+ * @text 最大値
+ * @parent ---最大HP---
+ * @desc MHPの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 9999 : 999999)
+ *
+ * @param MHP Minimum
+ * @text 最小値
+ * @parent ---最大HP---
+ * @desc MHPの最小値。式が使えます
+ * @default customMin || 1
+ *
+ * @param ---最大MP---
+ * @default
+ *
+ * @param MMP Formula
+ * @text 式
+ * @parent ---最大MP---
+ * @desc MMPの決定に使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param MMP Maximum
+ * @text 最大値
+ * @parent ---最大MP---
+ * @desc MMPの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 9999 : 9999)
+ *
+ * @param MMP Minimum
+ * @text 最小値
+ * @parent ---最大MP---
+ * @desc MMPの最小値。式が使えます
+ * @default customMin || 0
+ *
+ * @param ---攻撃力---
+ * @default
+ *
+ * @param ATK Formula
+ * @text 式
+ * @parent ---攻撃力---
+ * @desc ATKを決定するために使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param ATK Maximum
+ * @text 最大値
+ * @parent ---攻撃力---
+ * @desc ATKの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 999 : 999)
+ *
+ * @param ATK Minimum
+ * @text 最小値
+ * @parent ---攻撃力---
+ * @desc ATKの最小値。式が使えます
+ * @default customMin || 1
+ *
+ * @param ---防御力---
+ * @default
+ *
+ * @param DEF Formula
+ * @text 式
+ * @parent ---防御力---
+ * @desc DEFを決定するために使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param DEF Maximum
+ * @text 最大値
+ * @parent ---防御力---
+ * @desc これがDEFの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 999 : 999)
+ *
+ * @param DEF Minimum
+ * @text 最小値
+ * @parent ---防御力---
+ * @desc DEFの最小値。式が使えます
+ * @default customMin || 1
+ *
+ * @param ---魔法力---
+ * @default
+ *
+ * @param MAT Formula
+ * @text 式
+ * @parent ---魔法力---
+ * @desc MATを決定するために使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param MAT Maximum
+ * @text 最大値
+ * @parent ---魔法力---
+ * @desc MATの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 999 : 999)
+ *
+ * @param MAT Minimum
+ * @text 最小値
+ * @parent ---魔法力---
+ * @desc MATの最小値。式が使えます
+ * @default customMin || 1
+ *
+ * @param ---魔法防御---
+ * @default
+ *
+ * @param MDF Formula
+ * @text 式
+ * @parent ---魔法防御---
+ * @desc MDFを決定するために使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param MDF Maximum
+ * @text 最大値
+ * @parent ---魔法防御---
+ * @desc MDFの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 999 : 999)
+ *
+ * @param MDF Minimum
+ * @text 最小値
+ * @parent ---魔法防御---
+ * @desc MDFの最小値。式が使えます
+ * @default customMin || 1
+ *
+ * @param ---俊敏性---
+ * @default
+ *
+ * @param AGI Formula
+ * @text 式
+ * @parent ---俊敏性---
+ * @desc AGIを決定するために使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param AGI Maximum
+ * @text 最大値
+ * @parent ---俊敏性---
+ * @desc これがAGIの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 999 : 999)
+ *
+ * @param AGI Minimum
+ * @text 最小値
+ * @parent ---俊敏性---
+ * @desc AGIの最低値。式が使えます
+ * @default customMin || 1
+ *
+ * @param ---運---
+ * @default
+ *
+ * @param LUK Formula
+ * @text 式
+ * @parent ---運---
+ * @desc LUKを決定するために使用される式
+ * @default (base + plus) * paramRate * buffRate + flat
+ *
+ * @param LUK Maximum
+ * @text 最大値
+ * @parent ---運---
+ * @desc LUKの最大値。式が使えます
+ * @default customMax || (user.isActor() ? 999 : 999)
+ *
+ * @param LUK Minimum
+ * @text 最小値
+ * @parent ---運---
+ * @desc LUKの最小値。式が使えます
+ * @default customMin || 1
+ *
+ * @param LUK Effect
+ * @text ステート成功率
+ * @parent ---運---
+ * @desc ステートの成功率に影響を与えるために使用される式
+ * @default Math.max(1.0 + (user.luk - target.luk) * 0.001, 0.0)
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 通常能力値であるMaxHP、MaxMP、ATK、DEF、MAT、MDF、AGI、LUKは
+ * 全て非常に重要な役割を果たしますが、
+ * これらの重要な能力値情報に関しては開発者にはほとんど制御が与えられません。
+ * このプラグインは、能力値の処理方法などをより細かく制御できます。
+ *
+ * *注:YEP_CoreEngine を使用していて、
+ * そこに設定されている能力値の上限を変更した場合、
+ * このプラグインが YEP_CoreEngine の下に配置されていると、
+ * このプラグインはそれらの設定を上書きします(推奨)。
+ *
+ * ===========================================================================
+ * 説明 - 通常能力値の説明
+ * ===========================================================================
+ *
+ * 通常能力値が何に使用されているのかを理解していない方のために、
+ * この章では通常能力値が何をするのかについて、
+ * 最も重要な役割について簡単に要約します。
+ *
+ * ---
+ *
+ * MHP - 最大HP
+ * -生命ポイント(HP)の最大値です。
+ * バトラーが持っているHPの量は、
+ * そのバトラーが生きているステートか死んでいるステートかを決定します。
+ * HPの値が0より大きければ、バトラーは生きています。
+ * それが0以下であるならば、
+ * バトラーが(通常不死によって)死を打ち消す方法を持っていない限り、
+ * バトラーは戦闘不能ステートにあります。
+ * バトラーがダメージを受けると、通常HPの値が引き下げられます。
+ * バトラーが回復された場合、HPの値は増加します。
+ * 最大HP値は、HP値を保持できる最大値を決定します。
+ * つまり、そのポイントを超えてバトラーを回復することはできません。
+ *
+ * ---
+ *
+ * MMP - 最大MP
+ * - マジックポイント(MP)の最大値です。
+ * MPは通常、スキルと呪文のコストで使用されます。
+ * バトラーが当該スキルのコストに適合するのに十分なMPを持っている場合、
+ * バトラーはスキルの他の全ての条件が満たされていれば、
+ * 当該スキルを使用することができます。
+ * そうでなければ、バトラーはそのスキルを使うことができません。
+ * MPがかかるスキルを使用すると、バトラーのMPは減少します。
+ * しかし、バトラーのMPは回復することができ、MPの増加をもたらします。
+ * MaxMP値は、MP値を保持することができる最大量を決定し、
+ * バトラーが最大MP値を超えてMPを回復することができないことを意味します。
+ *
+ * ---
+ *
+ * ATK - 攻撃力
+ * - バトラーの攻撃力です。
+ * デフォルトでは、この能力値はダメージ計算の目的でのみ使用され、
+ * 通常はバトラーの物理的攻撃力を表すために使用されます。
+ * 通常のダメージ計算式では、
+ * 値が大きいほど物理的攻撃に対するダメージが大きくなります。
+ *
+ * ---
+ *
+ * DEF - 防御力
+ * - バトラーの防御力です。
+ * デフォルトでは、この能力値はダメージ計算の目的でのみ使用され、
+ * 通常はバトラーの物理的防御を表すために使用されます。
+ * 通常のダメージ計算式では、
+ * 数値が高いほど物理的な攻撃によるダメージが少なくなります。
+ *
+ * ---
+ *
+ * MAT - 魔法力
+ * - バトラーの魔法攻撃力です。
+ * デフォルトでは、この能力値はダメージ計算の目的でのみ使用され、
+ * 通常はバトラーの魔法攻撃力を表すために使用されます。
+ * 通常のダメージ計算式では、
+ * 数値が高いほど魔法攻撃のダメージが大きくなります。
+ *
+ * ---
+ *
+ * MDF - 魔法防御
+ * - バトラーの魔法防御力です。
+ * デフォルトでは、この能力値はダメージ計算の目的でのみ使用され、
+ * 通常はバトラーの魔法防御力を表すために使用されます。
+ * 通常のダメージ計算式では、
+ * 数値が高いほど魔法の攻撃によるダメージが少なくなります。
+ *
+ * ---
+ *
+ * AGI - 俊敏性
+ * - バトラーの敏捷性です。
+ * デフォルトでは、この能力値は戦闘ターンの順番を決定するために使用されます。
+ * 通常のターン計算式では、値が大きいほど、バトラーは速くなり、
+ * バトラーのターンが早くなる可能性が高くなります。
+ *
+ * ---
+ *
+ * LUK - 運
+ * - バトラーの運です。
+ * デフォルトでは、この能力値はバトラーによって適用され、
+ * バトラーによって受けるステート、バフ、デバフの成功率に
+ * 影響を与えるために使用されます。
+ * 使用者のLUK値が高い場合、
+ * ステート、バフ、デバフが成功する可能性が高くなります。
+ * 対象のLUK値が高い場合、
+ * ステート、バフ、デバフが成功する可能性が低くなります。
+ *
+ * ---
+ *
+ * ===========================================================================
+ * 説明 - カスタム式
+ * ===========================================================================
+ *
+ * プラグインパラメータの式によって計算された値は整数値として出力されます。
+ * 結果がfloat型の場合、切り上げられた後、
+ * 能力値が取り得る最大値と最小値に基づいて固定されます
+ * (これもプラグインパラメータによって計算されます)。
+ *
+ * デフォルトでは、式は次のようになります。
+ *
+ * ---
+ *
+ *      (base + plus) * paramRate * buffRate + flat
+ *
+ * ---
+ *
+ * 以下は、式の各部分の説明です。
+ *
+ * BASE
+ * - この値は複数の方法で決定されます。
+ * バトラーがアクターの場合、通常能力値は、
+ * 現在の職業の能力値曲線上のレベルに基づく位置によって計算された値です。
+ * バトラーが敵である場合、通常能力値は、デフォルトで、
+ * データベースに入力された能力値になります。
+ *
+ * PLUS
+ * - この値は複数の方法で決定されます。
+ * 攻撃者と敵の両方にとって、
+ * この値は手動でバトラーの能力値を増加させるイベント、
+ * またはスクリプトを通してバトラーに与えられるフラットな値です。
+ * バトラーがアクターの場合、
+ * この値はバトラーが装備している装備によっても増加します。
+ * この値はこのプラグインによって提供されるメモタグによって、
+ * 影響を受ける可能性があります。
+ *
+ * PARAMRATE
+ * - この値は、攻撃者と敵の両方に対して同じ方法で決定されます。
+ * バトラーのバフ率とは無関係に、
+ * バトラーの特性全体に広がる全ての能力値の乗法の積によって
+ * 計算される確率です。
+ * この値は、
+ * このプラグインで提供されるメモタグによって影響を受ける可能性があります。
+ *
+ * BUFFRATE
+ * - この値は、バトラーがアクターか敵かにかかわらず、
+ * バトラーのバフ/デバフのスタック数によって決定されます。
+ * 確率はバトラーの特定の能力値のスタックの数に関して計算されます。
+ * この値は、このプラグインによって提供されるメモタグの影響を受けません。
+ *
+ * FLAT
+ * - このプラグインによって追加された新しい変数です。
+ * その目的は、能力値の合計値に最終的な加法修飾子を追加することです。
+ * この付加価値は、
+ * メモタグを通してさまざまなデータベースオブジェクトによって決定され、
+ * それらのメモタグによってのみ影響を受けます。
+ *
+ * ---
+ *
+ * 能力値最大値と最小値にも式があります。
+ *
+ *      customMax || (user.isActor() ? 9999 : 999999)
+ *      customMin || 1
+ *
+ * 'customMax'と'customMin'の値はこのプラグインで追加された新しい変数です。
+ *
+ * CUSTOMMAX
+ * - これはスクリプトかメモタグを通して、
+ * このプラグインによって提供されるカスタム最大値です。
+ * カスタム最大値は、バトラーの個々のメモ欄を調べます。
+ * バトラーがアクターである場合、
+ * アクター、職業、装備、影響があるステートのメモ欄を見ます。
+ * バトラーが敵であるならば、
+ * 敵のメモ欄と敵に影響があるステートのメモ欄を見ます。
+ * カスタム最大値は、バトラーにとって最新の'customMax'値になり、
+ * デフォルトの最大値よりも優先されます。
+ * 'customMax'値がない場合、
+ * その値が式に記載されているデフォルトの最大値になります。
+ *
+ * CUSTOMMIN
+ * - これはスクリプトかメモタグを通して、
+ * このプラグインによって提供されるカスタム最小値です。
+ * カスタム最小値は、バトラーのメモ欄を調べます。
+ * バトラーがアクターである場合、
+ * アクター、職業、装備、アクターに影響があるステートのメモ欄を見ます。
+ * バトラーが敵であるならば、
+ * 敵のメモ欄と敵に影響があるステートのメモ欄を通して見ます。
+ * カスタム最小値は、バトラーにとって最新の'customMin'値になり、
+ * デフォルトの最小値よりも優先されます。
+ * 'customMin'値がない場合、
+ * その値が式に記載されているデフォルトの最小値になります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 通常能力値を変更するために、以下のメモタグを使用できます。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *   <stat Plus: +x>
+ *   <stat Plus: -x>
+ *   'stat'を'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'に
+ *   置き換えてください。
+ *   プラグインのデフォルトの式が使用されていると仮定して、
+ *   rate と flat の値が能力値の合計値になる前に
+ *   通常能力値に追加される値です。
+ *
+ *   <stat Rate: x%>
+ *   <stat Rate: x.y>
+ *   'stat'を'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'に
+ *   置き換えてください。
+ *   プラグインのデフォルトの式が使用されていると仮定して、
+ *   buffRate と flat 値の影響を受ける前の、
+ *   通常能力値の合計に乗算された値です。
+ *
+ *   <stat Flat: +x>
+ *   <stat Flat: -x>
+ *   'stat'を'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'に
+ *   置き換えてください。
+ *   通常能力値とプラス能力値の合計が追加され、
+ *   プラグインのデフォルトの式が使用されていると仮定し、
+ *   レート値を掛けた後に最後に追加される値です。
+ *
+ *   <stat Max: x>
+ *   <stat Min: x>
+ *   'stat'を'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'に
+ *   置き換えてください。
+ *   能力値の最大/最小を x に設定します。
+ *   バトラーがこれらの複数のメモタグの影響を受ける場合、
+ *   使用される値は、使用されるメモタグの最大値になります。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * バトラーの通常能力値を変更するのに、次のJavaScript関数を使用できます。
+ * これらの関数では、'battler'変数はアクターによって参照されます。
+ *
+ * ie. battler = $gameActors.actor(3);
+ *     - もしくは -
+ *     battler = $gameTroop.members()[2];
+ *
+ * Function:
+ *
+ *   battler.clearParamPlus()
+ *   - 全ての通常能力値に対する'plus'の変数修飾子がクリアされます。
+ *
+ *   battler.setMaxHp(x)
+ *   battler.setMaxMp(x)
+ *   battler.setAtk(x)
+ *   battler.setDef(x)
+ *   battler.setMat(x)
+ *   battler.setMdf(x)
+ *   battler.setAgi(x)
+ *   battler.setLuk(x)
+ *   -バトラーのそれぞれの通常能力値をxに設定します。
+ *   レートとフラットを考慮に入れずに、
+ *   可能な限りこの設定に合うように'plus'変数を変更します。
+ *
+ *   battler.setMaxHpPlus(x)
+ *   battler.setMaxMpPlus(x)
+ *   battler.setAtkPlus(x)
+ *   battler.setDefPlus(x)
+ *   battler.setMatPlus(x)
+ *   battler.setMdfPlus(x)
+ *   battler.setAgiPlus(x)
+ *   battler.setLukPlus(x)
+ *   - バトラーの通常能力値に値 x を設定します。
+ *
+ *   battler.addMaxHp(x)
+ *   battler.addMaxMp(x)
+ *   battler.addAtk(x)
+ *   battler.addDef(x)
+ *   battler.addMat(x)
+ *   battler.addMdf(x)
+ *   battler.addAgi(x)
+ *   battler.addLuk(x)
+ *   - バトラーの通常能力値に値 x を加えます。
+ *
+ *   battler.minusMaxHp(x)
+ *   battler.minusMaxMp(x)
+ *   battler.minusAtk(x)
+ *   battler.minusDef(x)
+ *   battler.minusMat(x)
+ *   battler.minusMdf(x)
+ *   battler.minusAgi(x)
+ *   battler.minusLuk(x)
+ *   - バトラーの通常能力値から値 x を引きます。
+ *
+ *   battler.clearCustomParamLimits();
+ *   - スクリプトコールでバトラーに課されたカスタム能力値制限を削除します。
+ *   メモタグを通してバトラーに適用されたカスタム能力値制限を削除しません。
+ *
+ *   battler.setCustomMaxHpMax(x)
+ *   battler.setCustomMaxMpMax(x)
+ *   battler.setCustomAtkMax(x)
+ *   battler.setCustomDefMax(x)
+ *   battler.setCustomMatMax(x)
+ *   battler.setCustomMdfMax(x)
+ *   battler.setCustomAgiMax(x)
+ *   battler.setCustomLukMax(x)
+ *   - それぞれの通常能力値の最大能力値制限をxに設定します。
+ *   バトラーが持っている可能性のある<statMax:x>
+ *   全てのメモタグに対して計算されます。
+ *   最大値が複数ある場合、より大きい値が使用されます。
+ *
+ *   battler.setCustomMaxHpMin(x)
+ *   battler.setCustomMaxMpMin(x)
+ *   battler.setCustomAtkMin(x)
+ *   battler.setCustomDefMin(x)
+ *   battler.setCustomMatMin(x)
+ *   battler.setCustomMdfMin(x)
+ *   battler.setCustomAgiMin(x)
+ *   battler.setCustomLukMin(x)
+ *   - 通常能力値の最小能力値制限をxに設定します。
+ *   バトラーが持っている可能性のある<statMin:x>の
+ *   全てのメモタグに対して計算されます。
+ *   複数の最小値がある場合、より大きい値が使用されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ * - Fixed a typo in the documentation for script calls regarding LUK.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.01:
+ * - Fixed an issue with the battler.setParam functions that made them take
+ * the wrong value due caching issues.
+ */

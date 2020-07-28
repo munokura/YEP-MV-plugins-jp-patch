@@ -1,0 +1,86 @@
+/*:ja
+ * @plugindesc v1.02 キャラクターやイベントの上にマップ上でアイコンバルーンを使えます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Empty Filename
+ * @text バルーンのファイル名
+ * @type file
+ * @dir img/system/
+ * @require 1
+ * @desc バルーンのファイル名です。ファイル拡張子を含めないでください。
+ * @default Balloon
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGツクールMVでは、15のバルーンアニメーションを使用して、
+ * イベントで感情を表現することができます。
+ * このプラグインを使用すると、IconSetのアイコンを使用して、
+ * 使用できるバルーンの種類を増やすことができます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * これらのプラグインコマンドを使用して、
+ * プレーヤー/イベントでアイコンバルーンを再生します。
+ *
+ * プラグインコマンド
+ *
+ *   ---
+ *
+ *   ShowIconBalloon x on Player
+ *   ShowIconBalloon x on Player, Wait
+ *
+ *   ShowIconBalloon x on Event y
+ *   ShowIconBalloon x on Event y, Wait
+ *
+ *   ShowIconBalloon x on Follower y
+ *   ShowIconBalloon x on Follower y, Wait
+ *
+ *   ShowIconBalloon x on This Event
+ *   ShowIconBalloon x on This Event, wait
+ *   - これにより、アイコンインデックス x を使用するアイコンバルーンが
+ *   プレーヤー、イベント y、フォロワー y に表示されます。
+ *   'wait'が使用されている場合、
+ *   イベントはバルーンの再生が終了するまで待機します。
+ *
+ *   ---
+ *
+ *   ShowIconBalloon x to y on Player
+ *   ShowIconBalloon x to y on Player, Wait
+ *
+ *   ShowIconBalloon x to y on Event z
+ *   ShowIconBalloon x to y on Event z, Wait
+ *
+ *   ShowIconBalloon x to y on Follower z
+ *   ShowIconBalloon x to y on Follower z, Wait
+ *
+ *   ShowIconBalloon x to y on This Event
+ *   ShowIconBalloon x to y on This Event, Wait
+ *   - アイコンバルーンはアイコンインデックス x から開始して y に移動し、
+ *   アイコンインデックス y まで数フレーム毎に次のアイコンが上に移動します。
+ *   アイコンバルーンは、プレーヤー、イベント z、フォロワー z で再生されます。
+ *   'wait'が使用されている場合、
+ *   イベントはバルーンの再生が終了するまで待機します。
+ *   このコマンドを使用するときは、x を y より大きくすることはできません。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Added 'This Event' option to Show Icon balloons thanks to Eldaym!
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,362 @@
+/*:ja
+ * @plugindesc v1.17 アクターが所持金やアイテム等を対価にスキルを習得できるシステムを追加します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Learn Command
+ * @text 習得コマンド
+ * @parent ---一般---
+ * @desc スキルコマンドウィンドウにスキルを習得するための表示テキスト
+ * @default スキル習得
+ *
+ * @param Show Command
+ * @text コマンド表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでメインメニューにスキル習得コマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Command
+ * @text コマンド許可
+ * @parent ---一般---
+ * @type boolean
+ * @on 許可
+ * @off 不許可
+ * @desc デフォルトでメインメニューのスキル習得コマンドを使用許可
+ * 不許可:false / 許可:true
+ * @default true
+ *
+ * @param Integrate
+ * @text シーン統合
+ * @parent ---一般---
+ * @type boolean
+ * @on 統合する
+ * @off 統合しない
+ * @desc スキルの習得をスキルのシーンと統合
+ * 統合しない:false / 統合する:true
+ * @default false
+ *
+ * @param ---習得確認---
+ * @default
+ *
+ * @param Confirm Window
+ * @text 確認ウィンドウ
+ * @parent ---習得確認---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非統合メニューの場合、習得確認を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Confirm Text
+ * @text 確認テキスト
+ * @parent ---習得確認---
+ * @desc 確認ウィンドウに使用されるテキスト
+ * %1:アクター / %2:スキル名
+ * @default %1 は %2 を習得しますか？
+ *
+ * @param Confirm Yes
+ * @text 習得YES
+ * @parent ---習得確認---
+ * @desc 習得YESを表示するためのテキスト
+ * @default 習得する
+ *
+ * @param Confirm No
+ * @text 習得NO
+ * @parent ---習得確認---
+ * @desc 習得NOを表示するためのテキスト
+ * @default 習得しない
+ *
+ * @param ---スキル習得---
+ * @default
+ *
+ * @param Learned Text
+ * @text 完了テキスト
+ * @parent ---スキル習得---
+ * @desc スキル習得完了を示すテキスト
+ * @default 習得完了
+ *
+ * @param Learned Size
+ * @text 完了フォントサイズ
+ * @parent ---スキル習得---
+ * @type number
+ * @min 1
+ * @desc スキル習得を示すテキストのフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Learn Cost
+ * @text 習得コスト見出し
+ * @parent ---スキル習得---
+ * @desc スキルの習得コストをリスト表示する見出し
+ * @default スキル習得コスト
+ *
+ * @param Cost Size
+ * @text 習得コストのフォントサイズ
+ * @parent ---スキル習得---
+ * @type number
+ * @min 1
+ * @desc スキルの習得コストのフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Show Gold Window
+ * @text 所持金ウィンドウ表示
+ * @parent ---スキル習得---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 新しいスキルを習得した時の所持金ウィンドウの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---デフォルト---
+ * @default
+ *
+ * @param Default Gold Cost
+ * @text デフォルトの所持金コスト
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 新しいスキルを習得するデフォルトの所持金コスト
+ * @default 1000
+ *
+ * @param Default JP Cost
+ * @text デフォルトのJPコスト
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 新しいスキルを習得するデフォルトのJPコスト。YEP_JobPoints が必要です
+ * @default 100
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはスキルメニューからスキル習得を可能にします。
+ * 所持金、アイテム、 Job Points のいずれかを介して実行できます。
+ * プレイヤーにレベルアップ以外にスキルを習得する代替手段を提供します。
+ *
+ * このプラグインは YEP_JobPoints と一緒に使用できます。
+ *
+ * このプラグインはプラグイン管理で
+ * YEP_JobPoints プラグインの下に配置してください。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * Skill Learnシステムを利用するには、下記のメモタグを使用してください。
+ *
+ * 職業のメモタグ
+ *   <Learn Skill: x>
+ *   <Learn Skill: x, x, x>
+ *   <Learn Skill: x to y>
+ *     職業がメニューからスキル x を習得できるようにします。
+ *     x をスキルのIDに置き換えます。
+ *     x to y を使用すると、職業は x から y までの全てのスキルを習得します。
+ *     x と y をスキルIDに置き換えます。
+ *
+ * スキルのメモタグ
+ *   <Learn Cost: x Gold>
+ *     スキルを習得する所持金コストを x gold に設定します。
+ *
+ *   <Learn Cost: x JP>
+ *     スキルを習得するJPコストを x JP に設定します。
+ *     メモタグを使うには YEP_JobPoints が必要です。
+ *
+ *   <Learn Cost>
+ *    Item x: y
+ *    Weapon x: y
+ *    Armor x: y
+ *   </Learn Cost>
+ *
+ *   または
+ *
+ *   <Learn Cost>
+ *    item name: y
+ *    item name: y
+ *   </Learn Cost>
+ *
+ *     スキルを習得ためのアイテム、武器、防具のコストを設定します。
+ *     x をアイテムIDで、 y をアイテムの必要な数量で置き換えます。
+ *     アイテム名のバリエーションを使用する場合は、
+ *     アイテム名をデータベースに表示されているアイテム名に置き換えます。
+ *     複数のアイテムが同じ名前を共有する場合、
+ *     最も高いIDを持つアイテムがアイテム、武器、防具の順で使われます。
+ *       注: YEP_ItemCore で独立アイテムを使用している場合、
+ *           習得コストに独立アイテムは含まれません。
+ *
+ *   <Learn Require Level: x>
+ *     スキルを習得リストに表示させる条件として、
+ *     アクターのレベルをx以上にする必要があります。
+ *
+ *   <Learn Require Skill: x>
+ *   <Learn Require Skill: x, x, x>
+ *   <Learn Require Skill: x to y>
+ *     x や y をスキルIDに置き換えてください。
+ *     アクターは x のスキルを習得していなければなりません。
+ *     x to y を使用する場合、アクターは x から y までの
+ *     全てのスキルを習得している必要があります。
+ *
+ *   <Learn Require Switch: x>
+ *   <Learn Require Switch: x, x, x>
+ *   <Learn Require Switch: x to y>
+ *     x や y をスイッチIDに置き換えます。
+ *     スキルを表示するには、スイッチ x がオンになっている必要があります。
+ *     x to y を使用する場合、スキルを表示するには、x から y の
+ *     全てのスイッチをオンにする必要があります。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム条件とコスト
+ * ===========================================================================
+ *
+ * JavaScriptと以下のメモタグを用いて、スキル習得のカスタマイズができます。
+ *
+ * スキルのメモタグ
+ *
+ *   <Learn Show Eval>
+ *    value = true;
+ *    value = false;
+ *   </Learn Show Eval>
+ *   カスタムコードを使用してスキルを表示または非表示にするには、
+ *   これらのメモタグを使用できます。
+ *   値が true を返すと、他の全ての要件が満たされていなくても
+ *   スキルが表示されます。
+ *   一方、値が false を返すと、他の全ての要件が満たされていても
+ *   スキルが表示されます。
+ *
+ *   <Learn Require Eval>
+ *    value = true;
+ *    value = false;
+ *   </Learn Require Eval>
+ *   コードで独自のカスタム条件を使用する方法です。
+ *   スキルが習得できるように見えるためには、
+ *   これは true として値を返さなければなりません。
+ *   それ以降のコードをブロックする可能性があるため、
+ *   コメントを使用しないでください。
+ *
+ *   <Learn Cost Eval>
+ *    code
+ *    code
+ *   </Learn Cost Eval>
+ *   JavaScript で記述します。
+ *   スキル習得メニューを通してスキル習得した後に、
+ *   カスタムアクションを実行させることができます。
+ *
+ *   <Learn Custom Text>
+ *    text
+ *    text
+ *   </Learn Custom Text>
+ *   全ての主要コストの下に表示されるカスタムテキストです。
+ *   これには制御文字を使用できます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムJPコスト
+ * ===========================================================================
+ *
+ * JavaScriptと以下のメモタグを用いて、JPのコストを動的にできます。
+ *
+ * スキルのメモタグ
+ *
+ *   <Custom Learn JP Cost>
+ *    cost = user.level * 100;
+ *   </Custom Learn JP Cost>
+ *   'cost'変数は、このメモタグの結果として返される値です。
+ *   このコードから返される値は、<Learn Cost：x JP> 値より優先されます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * イベントエディタから次のプラグインコマンドを使用して、
+ * 「スキルの習得」コマンドをスキルシーンに表示するかどうか、
+ * または有効にするかどうかを変更できます。
+ *
+ * プラグインコマンド
+ *   ShowLearnSkill            'Learn Skill' コマンドを表示
+ *   HideLearnSkill            'Learn Skill' コマンドを非表示
+ *   EnableLearnSkill          'Learn Skill' コマンドを可能に
+ *   DisableLearnSkill         'Learn Skill' コマンドを不可能に
+ *   OpenLearnSkill actor x    アクター x のスキル習得メニューを表示
+ *   OpenLearnSkill party x    パーティメンバー x のスキル習得メニューを表示
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.17:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.16:
+ * - Fixed a bug with the JP Cost not loading properly and causing a crash.
+ *
+ * Version 1.15:
+ * - Fixed a bug that did not count custom eval costs as a cost.
+ *
+ * Version 1.14:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.13:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.12:
+ * - Updated for RPG Maker MV version 1.3.2.
+ *
+ * Version 1.11:
+ * - Removed dependency on YEP_JobPoints.js if using Integrated skill learn.
+ *
+ * Version 1.10:
+ * - Added <Custom Learn JP Cost> Lunatic Mode notetag. Look in the plugin's
+ * helpfile for more details!
+ *
+ * Version 1.09:
+ * - Compatibility update with Class Change Core's <Use Nickname> notetag.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.07:
+ * - Updated the <Learn Require Level: x> notetag. If you are using the Class
+ * Change Core, the requirement will now depend on the level of the class.
+ *
+ * Version 1.06b:
+ * - Added 'Confirm Window', 'Confirm Text', 'Confirm Yes', 'Confirm No' to
+ * the plugin's parameters. This confirm window only appears for
+ * non-integrated menus as the integrated menus have a class confirmation
+ * window already.
+ * - Confirm Text now supports text codes.
+ * - Fixed a visual bug when learning skills.
+ *
+ * Version 1.05:
+ * - Fixed a bug with the 'OpenLearnSkill party x' plugin command not opening
+ * the correct party member.
+ *
+ * Version 1.04:
+ * - Fixed a bug that would duplicate non-independent items.
+ * - Fixed a bug with class portraits not updating properly.
+ *
+ * Version 1.03a:
+ * - Fixed a bug where JP values weren't updated upon learning.
+ * - Fixed a bug where the help description didn't update if a skill vanished.
+ *
+ * Version 1.02:
+ * - Reversed the display for item requirements so it is now Held/Needed.
+ * - Preparations for compatibility for Class Change Core.
+ *
+ * Version 1.01:
+ * - Added an actor refresh to learn and forget skills.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

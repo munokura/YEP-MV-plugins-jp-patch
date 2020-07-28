@@ -1,0 +1,216 @@
+/*:ja
+ * @plugindesc v1.08 (要YEP_AutoPassiveStates)ステートに連動ステートを追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_AutoPassiveStatesを必要とします。
+ * プラグイン管理のYEP_AutoPassiveStatesの下に
+ * このプラグインがあることを確認してください。
+ *
+ * パッシブ連動ステートは、
+ * RPG属性を持つ多くのオンラインマルチプレイヤーゲームによく見られます。
+ * バトラーがステートを出すことができる時、
+ * それは味方・敵のどちらかにも、
+ * 近くの他のバトラーにも影響を及ぼすでしょう。
+ * このプラグインは、アクター、敵、味方パーティ、敵グループに
+ * 連動ステートを生み出すステートで作れます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * ステートがステートを生成するようにするには、
+ * 以下のメモタグを使用してください。
+ *
+ * *注意*生きているメンバーに影響を与えるメモタグは、
+ * 少なくとも1HPを持ち、
+ * 死んでいるステートの影響を受けないメンバーに影響を与えます。
+ * 彼らが不死であっても、HPが0であれば、
+ * 死者連動ステートと矛盾しないように
+ * 生きている連動ステートの影響を受けることはありません。
+ *
+ * *注意*死者に影響を与えるメモタグは、
+ * 戦闘不能メンバー・HPが0になっているメンバーに影響を与えます。
+ * 死者のHPが1になったら、死者の影響を受けなくなります。
+ * 死者のみに連動ステートの影響を受けます。
+ *
+ * ステートのメモタグ
+ *
+ *   <Ally Aura: x>
+ *   <Ally Aura: x, x, x>
+ *   <Ally Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの仲間にステートx(y)を獲得させます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Alive Ally Aura: x>
+ *   <Alive Ally Aura: x, x, x>
+ *   <Alive Ally Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの生きている仲間がステートx(y)を得ます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Dead Ally Aura: x>
+ *   <Dead Ally Aura: x, x, x>
+ *   <Dead Ally Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの死んだ仲間にステートx(y)を獲得させるでしょう。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Foe Aura: x>
+ *   <Foe Aura: x, x, x>
+ *   <Foe Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの敵にステートx(y)を獲得させます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Alive Foe Aura: x>
+ *   <Alive Foe Aura: x, x, x>
+ *   <Alive Foe Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの生きている敵にステートx(y)を得るようにさせます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Dead Foe Aura: x>
+ *   <Dead Foe Aura: x, x, x>
+ *   <Dead Foe Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの死んだ敵にステートx(y)を得るようにさせます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Party Aura: x>
+ *   <Party Aura: x, x, x>
+ *   <Party Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   味方パーティにステートx(y)を獲得させるでしょう。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Alive Party Aura: x>
+ *   <Alive Party Aura: x, x, x>
+ *   <Alive Party Aura: x through y>
+ *   - バトラーが生きている味方パーティにステートx(y)を獲得させる一方、
+ *   バトラーは現在のステートの影響を受けます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Dead Party Aura: x>
+ *   <Dead Party Aura: x, x, x>
+ *   <Dead Party Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの死んだ味方パーティにステートx(y)を獲得させるでしょう。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Troop Aura: x>
+ *   <Troop Aura: x, x, x>
+ *   <Troop Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   敵グループはステートx(y)を得ることができます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Alive Troop Aura: x>
+ *   <Alive Troop Aura: x, x, x>
+ *   <Alive Troop Aura: x through y>
+ *   - バトラーが生きている敵グループが現在のステートの影響を受けている間、
+ *   ステートx(y)まで獲得するようになります。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Dead Troop Aura: x>
+ *   <Dead Troop Aura: x, x, x>
+ *   <Dead Troop Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   バトラーの死んだ敵グループはステートx(y)を得ることができます。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Everybody Aura: x>
+ *   <Everybody Aura: x, x, x>
+ *   <Everybody Aura: x through y>
+ *   - バトラーが現在のステートの影響を受けている間、
+ *   全てのアクティブなバトラーにステートx(y)を獲得させるでしょう。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Alive Aura: x>
+ *   <Alive Aura: x, x, x>
+ *   <Alive Aura: x through y>
+ *   - 全ての生きているバトラーが現在のステートの影響を受けている間に
+ *   ステートx(y)を得るようになるでしょう。
+ *   *注:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ *   <Dead Aura: x>
+ *   <Dead Aura: x, x, x>
+ *   <Dead Aura: x through y>
+ *   - 全ての生きているバトラーが現在のステートの影響を受けている間に
+ *   ステートx(y)を得るようになるでしょう。
+ *   注意:ステートはそれ自身を連動ステートに使用することはできません。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムオーラ条件
+ * ===========================================================================
+ *
+ * JavaScriptを使って、
+ * 条件付きの連動ステートを作りたい人に、
+ * これらのメモタグを使うことができます。
+ * 覚えておくべきは、
+ * この条件付きの効果は目標の届けられたステートであり、
+ * 起源のステートそれ自体ではありません。
+ *
+ * ステートのメモタグ
+ *
+ *   <Custom Aura Condition>
+ *    if (user.hpRate() > 0.50) {
+ *      condition = true;
+ *    } else {
+ *      condition = false;
+ *    }
+ *   </Custom Aura Condition>
+ *   - 'condition'変数は対象ステートステートが現れるかどうかを決定します。
+ *   'condition'変数が'true'の場合、表示されます。
+ *   'condition'変数が'false'の場合、表示されません。
+ *   覚えておくべきは、
+ *   このメモタグは起源のステート自体ではなく、
+ *   目標の届けられたステートに置かれなければなりません。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.08:
+ * - Optimization update. There should be less lag spikes if there are more
+ * passive conditions present on a battler.
+ *
+ * Version 1.07:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.06:
+ * - Updated for RPG Maker MV version 1.6.1.
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.04:
+ * - Bug fixed where if an aura is applied as the last action of a turn, it
+ * wouldn't take effect until the following turn.
+ *
+ * Version 1.03:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.02:
+ * - Added new notetags that affect specifically alive or dead allies. Alive
+ * aura effects will affect only members with at least 1 HP and not affected by
+ * the dead state. Dead aura effects will affect members with either 0 HP or
+ * have the dead state.
+ *
+ * Version 1.01:
+ * - Fixed a bug that would conflict with Taunt and Selection Core making some
+ * aura effects randomly disappear.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

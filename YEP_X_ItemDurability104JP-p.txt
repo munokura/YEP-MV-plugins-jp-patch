@@ -1,0 +1,624 @@
+/*:ja
+ * @plugindesc v1.04 (要YEP_ItemCore)装備に耐久値を持たせ耐久値が切れると破壊されるシステムを導入
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---デフォルト---
+ * @text ---デフォルト---
+ * @default
+ *
+ * @param Default Durability
+ * @text 耐久値
+ * @parent ---デフォルト---
+ * @desc 製造時の装備のデフォルトの耐久値。耐久値を非設定にするには-1に
+ * @default 100
+ *
+ * @param Durability Variance
+ * @text 耐久値分散
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 耐久値に対するランダム分散値
+ * @default 5
+ *
+ * @param Durability Maximum
+ * @text 最大耐久値
+ * @parent ---デフォルト---
+ * @type number
+ * @min 1
+ * @desc 耐久値のデフォルトの最大値
+ * @default 200
+ *
+ * @param ---耐久値低下---
+ * @text ---耐久値低下---
+ * @default
+ *
+ * @param Physical Action
+ * @text 物理攻撃
+ * @parent ---耐久値低下---
+ * @desc 物理攻撃の実行時、装備している全武器の耐久値を落とす値
+ * @default -1
+ *
+ * @param Magical Action
+ * @text 魔法攻撃
+ * @parent ---耐久値低下---
+ * @desc 魔法攻撃の実行時、装備している全武器の耐久値を落とす値
+ * @default 0
+ *
+ * @param Certain Action
+ * @text 必中
+ * @parent ---耐久値低下---
+ * @desc 必中の実行時、装備している全武器の耐久値を落とす値
+ * @default 0
+ *
+ * @param Damage All Armor
+ * @text 全防具ダメージ
+ * @parent ---耐久値低下---
+ * @type boolean
+ * @on 全て
+ * @off ランダム
+ * @desc ダメージを受けた時、耐久値が低下する防具
+ * ランダム:false / 全て:true
+ * @default false
+ *
+ * @param Physical Damage
+ * @text 物理ダメージ
+ * @parent ---耐久値低下---
+ * @desc 物理攻撃の実行時、装備している全武器の耐久値を落とす値
+ * @default -2
+ *
+ * @param Magical Damage
+ * @text 魔法ダメージ
+ * @parent ---耐久値低下---
+ * @desc 魔法攻撃の実行時、装備している全武器の耐久値を落とす値
+ * @default -1
+ *
+ * @param Certain Damage
+ * @text 必中ダメージ
+ * @parent ---耐久値低下---
+ * @desc 必中の実行時、装備している全武器の耐久値を落とす値
+ * @default -1
+ *
+ * @param ---破壊---
+ * @text ---破壊---
+ * @default
+ *
+ * @param Broken Text
+ * @text 破壊テキスト
+ * @parent ---破壊---
+ * @desc アイテムが戦闘中に壊れた時の表示テキスト
+ * %1:使用者名 / %2:アイテム名 / %3:アイコン
+ * @default %1の %3%2 は壊れた!
+ *
+ * @param Broken Wait
+ * @text 破壊ウェイト
+ * @parent ---破壊---
+ * @desc YEP_BattleEngineCore使用時、メッセージが待機するフレーム数
+ * @default 60
+ *
+ * @param Break Sound
+ * @text 破壊SE
+ * @parent ---破壊---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc デフォルト破壊SEのファイル名。大文字と小文字を区別します。ファイル拡張子を含めないでください。
+ * @default Crash
+ *
+ * @param Break Volume
+ * @text 破壊音量
+ * @parent ---破壊---
+ * @desc デフォルトの破壊音量
+ * @default 100
+ *
+ * @param Break Pitch
+ * @text 破壊音ピッチ
+ * @parent ---破壊---
+ * @desc デフォルト破壊音ピッチ
+ * @default 150
+ *
+ * @param Break Pan
+ * @text 破壊音パン
+ * @parent ---破壊---
+ * @desc デフォルト破壊音パン
+ * @default 0
+ *
+ * @param ---修復---
+ * @text ---修復---
+ * @default
+ *
+ * @param Show Repair
+ * @text 修復表示
+ * @parent ---修復---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 装備を選択時、装備修復のオプションを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Repair
+ * @text 修復有効
+ * @parent ---修復---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc 装備修復オプションを有効
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Repair Command
+ * @text 修復コマンド
+ * @parent ---修復---
+ * @desc 装備修復を選択時の表示テキスト
+ * %1:装備名
+ * @default %1 を修復
+ *
+ * @param Repair Sound
+ * @text 修復SE
+ * @parent ---修復---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc デフォルトの修復SEファイル名。大文字と小文字を区別します。ファイル拡張子を含めないでください。
+ * @default Skill2
+ *
+ * @param Repair Volume
+ * @text 修復音量
+ * @parent ---修復---
+ * @desc デフォルト修復音量
+ * @default 100
+ *
+ * @param Repair Pitch
+ * @text 修復音ピッチ
+ * @parent ---修復---
+ * @desc デフォルト修復音ピッチ
+ * @default 150
+ *
+ * @param Repair Pan
+ * @text 修復音パン
+ * @parent ---修復---
+ * @desc デフォルト修復音パン
+ * @default 0
+ *
+ * @param ---情報ウィンドウ---
+ * @text ---情報ウィンドウ---
+ * @default
+ *
+ * @param Show Durability
+ * @text 耐久値表示
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 装備の耐久値を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Durability Text
+ * @text 耐久値テキスト
+ * @parent ---情報ウィンドウ---
+ * @desc 耐久値の表示テキスト
+ * @default 耐久値
+ *
+ * @param Durability Format
+ * @text 耐久値表示形式
+ * @parent ---情報ウィンドウ---
+ * @desc 耐久値の表示形式
+ * %1:現在の耐久値 / %2:最大の耐久値
+ * @default %1
+ *
+ * @param Show Unbreakable
+ * @text 破壊不可アイテムの耐久値表示
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 壊れないアイテムの耐久値の表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Unbreakable Text
+ * @text 破壊不可のテキスト
+ * @parent ---情報ウィンドウ---
+ * @desc 壊れないアイテムの表示テキスト
+ * @default 破壊不可
+ *
+ * @param ---耐久値色---
+ * @text ---耐久値色---
+ * @default
+ *
+ * @param Unbreakable
+ * @text 破壊不可
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 破壊不可アイテムのテキスト色
+ * @default 23
+ *
+ * @param Max Durability
+ * @text 最大耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値が最大値のテキスト色
+ * @default 29
+ *
+ * @param 190% Durability
+ * @text 190% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの190%を超えたテキスト色
+ * @default 29
+ *
+ * @param 175% Durability
+ * @text 175% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの175%を超えたテキスト色
+ * @default 24
+ *
+ * @param 150% Durability
+ * @text 150% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの150%を超えたテキスト色
+ * @default 24
+ *
+ * @param 120% Durability
+ * @text 120% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの120%を超えたテキスト色
+ * @default 4
+ *
+ * @param 110% Durability
+ * @text 110% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの110%を超えたテキスト色
+ * @default 0
+ *
+ * @param 100% Durability
+ * @text 100% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの100%を超えたテキスト色
+ * @default 0
+ *
+ * @param 80% Durability
+ * @text 80% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの80%を超えたテキスト色
+ * @default 0
+ *
+ * @param 50% Durability
+ * @text 50% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの50%を超えたテキスト色
+ * @default 6
+ *
+ * @param 25% Durability
+ * @text 25% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの25%を超えたテキスト色
+ * @default 17
+ *
+ * @param 10% Durability
+ * @text 10% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの10%を超えたテキスト色
+ * @default 2
+ *
+ * @param 1% Durability
+ * @text 1% 耐久値
+ * @parent ---耐久値色---
+ * @type number
+ * @max 31
+ * @desc 耐久値がデフォルトの1%を超えたテキスト色
+ * @default 18
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_ItemCoreを必要とします。
+ * プラグイン管理でYEP_ItemCoreの下にこのプラグインを配置してください。
+ *
+ * 独立武器と防具は、耐久値を持ちます。
+ * 戦闘の過程で、装備の耐久値は実行された行動、
+ * 受けた攻撃などに基づいて低下します。
+ * 装備の耐久値が0になると、装備は壊れます。
+ * 耐久値はアイテムによって修復され、スキルによっても向上します。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下のメモタグは、装備の耐久値を調整するために使用します。
+ *
+ * 武器、防具のメモタグ
+ *
+ *   <Durability: x>
+ *   装備のデフォルトの耐久値をxに設定します。
+ *   装備の初期耐久値です。
+ *   このメモタグが使用されていない場合、
+ *   独立した装備はプラグインパラメータの値を参照します。
+ *
+ *   <Durability Variance: x>
+ *   xの分散で初期の耐久値を変更します。
+ *   耐久値の開始値に-xから+xまでの変動があることを意味します。
+ *
+ *   <Durability Maximum: x>
+ *   独立した装備が持つことができる最大の耐久値です。
+ *   耐久値を修復する時、
+ *   装備の耐久値はこの量を超えることができません。
+ *   この量は基本の耐久値に依存します。
+ *
+ *   <Bypass Durability>
+ *   <Unbreakable>
+ *   装備が壊れなくなります。
+ *
+ *   <Break Sound Name: filename>
+ *   <Break Sound Volume: x>
+ *   <Break Sound Pitch: x>
+ *   <Break Sound Pan: +x>
+ *   <Break Sound Pan: -x>
+ *   戦闘中に装備を使用して壊れた時に再生される効果音が変わります。
+ *   ファイル名は大文字と小文字が区別され、ファイル拡張子を含めません。
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <Repair Durability: x>
+ *   耐久値がx倍になります。
+ *   修復効果は、武器や防具のアクションメニューからアクセスできます。
+ *
+ *   <Repair Weapon: x>
+ *   <Repair Armor: x>
+ *   特に武器や防具だけをxの量で修復します。
+ *   修復効果は、武器や防具のアクションメニューからアクセスできます。
+ *
+ *   <Repair WType x: y>
+ *   <Repair AType x: y>
+ *   特に武器タイプや防具タイプだけをxの量で修復します。
+ *   修復効果は、武器や防具のアクションメニューからアクセスできます。
+ *
+ *   <Repair Sound Name: filename>
+ *   <Repair Sound Volume: x>
+ *   <Repair Sound Pitch: x>
+ *   <Repair Sound Pan: +x>
+ *   <Repair Sound Pan: -x>
+ *   このアイテムを使用して他のアイテムの耐久値を修復する時、
+ *   再生される効果音を変更します。
+ *
+ *   <Unbreakable Durability>
+ *   壊れなくなります。
+ *
+ *   <Unbreakable Weapon>
+ *   <Unbreakable Armor>
+ *   武器や防具の耐久値を取り除き、壊れなくなります。
+ *
+ *   <Unbreakable WType x>
+ *   <Unbreakable AType x>
+ *   特に武器タイプのx防具タイプのxの耐久値を取り除き、
+ *   壊れなくなります。
+ *   ファイル名は大文字と小文字を区別し、ファイル拡張子を含めません。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <User Weapon Durability: +x>
+ *   <User Weapon Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   全ての使用者の武器の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、武器は壊れます。
+ *
+ *   <User All Weapon Durability: +x>
+ *   <User All Weapon Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   全ての使用者の武器の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、武器は壊れます。
+ *
+ *   <User Random Weapon Durability: +x>
+ *   <User Random Weapon Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   使用者が装備したランダムな武器の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、武器は壊れます。
+ *
+ *   <User Armor Durability: +x>
+ *   <User Armor Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   使用者の防具の耐久値が+x・-x変更されます。
+ *   'DamageAll'プラグインパラメータに応じて、
+ *   全ての防具に影響を与えるか、
+ *   ランダムな防具に影響を与えます。
+ *   アイテムが0以下になると、防具は破壊されます。
+ *
+ *   <User All Armor Durability: +x>
+ *   <User All Armor Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   全ての使用者の防具の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、防具は壊れます。
+ *
+ *   <User Random Armor Durability: +x>
+ *   <User Random Armor Durability: -x>
+ *   このスキル/アイテムを命中する度に、
+ *   使用者が装備したランダムな防具の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、防具は壊れます。
+ *
+ *   <Target Weapon Durability: +x>
+ *   <Target Weapon Durability: -x>
+ *   このスキル/アイテムを命中する度に、
+ *   対象の武器の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、武器は壊れます。
+ *
+ *   <Target All Weapon Durability: +x>
+ *   <Target All Weapon Durability: -x>
+ *   このスキル/アイテムを命中する度に、
+ *   対象の全武器の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、武器は壊れます。
+ *
+ *   <Target Random Weapon Durability: +x>
+ *   <Target Random Weapon Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   対象のランダムな武器の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、武器は壊れます。
+ *
+ *   <Target Armor Durability: +x>
+ *   <Target Armor Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   対象の防具の耐久値が+x・-x変更されます。
+ *   'DamageAll'プラグインパラメータに応じて、
+ *   全ての防具か、ランダムな防具に影響を与えます。
+ *   耐久値が0以下になると、防具は破壊されます。
+ *
+ *   <Target All Armor Durability: +x>
+ *   <Target All Armor Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   対象の全防具の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、防具は壊れます。
+ *
+ *   <Target Random Armor Durability: +x>
+ *   <Target Random Armor Durability: -x>
+ *   このスキル/アイテムが命中する度に、
+ *   対象のランダムな防具の耐久値が+x・-x変更されます。
+ *   耐久値が0以下になると、防具は壊れます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム破壊効果
+ * ===========================================================================
+ *
+ * JavaScriptと下記のメモタグで、武器や防具を壊した時、
+ * 特殊効果を持たせることができます。
+ *
+ * 武器、防具のメモタグ
+ *
+ *   <Custom Break Effect>
+ *    var newItem = $dataitems[1];
+ *    $gameParty.gainItem(newItem, 1);
+ *   </Custom Break Effect>
+ *   この効果は、耐久値がアクションから0以下になり
+ *   装備が壊れた場合のみ発生します。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム修復効果
+ * ===========================================================================
+ *
+ * JavaScriptと下記のメモタグで、装備の修復に使用された時、
+ * 修復アイテムにカスタム効果を実行させることができます。
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <Custom Repair Effect>
+ *    item.price += 200;
+ *   </Custom Repair Effect>
+ *   'item'変数は修復されているアイテムを参照します。
+ *   それに対する変更は、独立アイテムに保存されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム装備耐久値変更
+ * ===========================================================================
+ *
+ * JavaScriptと下記のメモタグで、
+ * スキルとアイテムのアクションで対象の装備の耐久値を変更することができます。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   ---
+ *
+ *   <Custom User All Weapon Durability>
+ *    value -= user.atk;
+ *   </Custom User All Weapon Durability>
+ *
+ *   <Custom User Random Weapon Durability>
+ *    value -= user.atk;
+ *   </Custom User Random Weapon Durability>
+ *
+ *   <Custom User All Armor Durability>
+ *    value -= user.atk;
+ *   </Custom User All Armor Durability>
+ *
+ *   <Custom User Random Armor Durability>
+ *    value -= user.atk;
+ *   </Custom User Random Armor Durability>
+ *   'value'変数は使用者の武器/防具に与える影響を決定します。
+ *   'value'がマイナスの場合、耐久値は低下します。
+ *   'value'が正の値であれば、耐久値は向上します。
+ *   耐久値が0以下になると、装備は壊れます。
+ *
+ *   ---
+ *
+ *   <Custom Target All Weapon Durability>
+ *    value -= user.atk;
+ *   </Custom Target All Weapon Durability>
+ *
+ *   <Custom Target Random Weapon Durability>
+ *    value -= user.atk;
+ *   </Custom Target Random Weapon Durability>
+ *
+ *   <Custom Target All Armor Durability>
+ *    value -= user.atk;
+ *   </Custom Target All Armor Durability>
+ *
+ *   <Custom Target Random Armor Durability>
+ *    value -= user.atk;
+ *   </Custom Target Random Armor Durability>
+ *   'value'変数は対象の武器/防具に与える影響を決定します。
+ *   'value'がマイナスの場合、耐久値は低下します。
+ *   'value'が正の値であれば、耐久値は向上します。
+ *   耐久値が0以下になると、装備は壊れます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * アイテムアクションウィンドウで修復オプションを表示/非表示にしたり、
+ * 有効/無効にするために利用できるプラグインコマンドがあります。
+ *
+ * プラグインコマンド
+ *
+ *   ShowRepairDurability
+ *   HideRepairDurability
+ *   - アイテムアクションウィンドウに修復コマンドを表示/非表示にします。
+ *
+ *   EnableRepairDurability
+ *   DisableRepairDurability
+ *   - アイテムアクションウィンドウの修復コマンドを有効/無効にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.01a:
+ * - Updated for RPG Maker MV version 1.1.0.
+ * - Optimization update.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

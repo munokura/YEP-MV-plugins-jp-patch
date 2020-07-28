@@ -1,0 +1,272 @@
+/*:ja
+ * @plugindesc v1.10 アクターが他のプラグインに使用されるJP(ジョブポイント)を取得することを可能にします。このプラグイン自体は単体ではあまり効果はありません。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param JP Text
+ * @text JP単位テキスト
+ * @parent ---一般---
+ * @desc JPの表示単位
+ * @default JP
+ *
+ * @param JP Icon
+ * @text JPアイコン
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * JPに使用されるアイコン
+ * アイコンを使用しない場合は0
+ * @default 188
+ *
+ * @param Max JP
+ * @text 最大JP
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc アクターが職業毎に持てる最大JP
+ * 無制限の場合は0
+ * @default 0
+ *
+ * @param JP Per Action
+ * @text アクション毎JP
+ * @parent ---一般---
+ * @desc アクターがアクションを実行する度に、職業が獲得するJP量
+ * @default 10 + Math.randomInt(10)
+ *
+ * @param JP Per Level
+ * @text レベル毎JP
+ * @parent ---一般---
+ * @desc レベルアップ毎にアクターが獲得するJP量
+ * @default 100 + Math.randomInt(100)
+ *
+ * @param JP Per Enemy
+ * @text 敵毎JP
+ * @parent ---一般---
+ * @desc 倒した敵1人毎に獲得するJP量
+ * @default 50 + Math.randomInt(10)
+ *
+ * @param Show Results
+ * @text 戦闘結果表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトで、勝利時に獲得したJP量を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param JP Gained in Battle
+ * @text 戦闘で獲得したJP
+ * @parent ---一般---
+ * @desc 戦闘後に獲得したJPの表示形式
+ * %1:アクター / %2:値 / %3:単位テキスト
+ * @default %1 は %2%3 を獲得した!
+ *
+ * @param Alive Actors
+ * @text アクター取得条件
+ * @parent ---一般---
+ * @type boolean
+ * @on 生存必要
+ * @off 不問
+ * @desc 戦闘終了時に敵からJPを獲得するアクターの生存必要条件
+ * 不問:false / 生存必要:true
+ * @default true
+ *
+ * @param ---メニュー---
+ * @text ---メニュー---
+ * @default
+ *
+ * @param Show In Menu
+ * @text 表示
+ * @parent ---メニュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc メインメニューにJPを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Menu Format
+ * @text 表示形式
+ * @parent ---メニュー---
+ * @desc メニュー内のJP表示形式
+ * %1:値 / %2:単位 / %3:アイコン
+ * @default %1\c[4]%2\c[0]%3
+ *
+ * @param ---戦闘結果---
+ * @text ---戦闘結果---
+ * @default
+ *
+ * @param Enable Aftermath
+ * @text Aftermath有効化
+ * @parent ---Victory Aftermath---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc Victory Aftermathウィンドウに表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Aftermath Text
+ * @text 獲得ウィンドウタイトル
+ * @parent ---戦闘結果---
+ * @desc JP獲得ウィンドウタイトル
+ * @default 獲得JP
+ *
+ * @param Aftermath Format
+ * @text 獲得表示形式
+ * @parent ---戦闘結果---
+ * @desc 獲得時のJP表示形式
+ * %1:値 / %2:単位 / %3:アイコン
+ * @default +%1\c[4]%2\c[0]%3
+ *
+ * @param Aftermath JP Earned
+ * @text アクターJP獲得タイトル
+ * @parent ---戦闘結果---
+ * @desc 各アクターのJP獲得量について説明表示
+ * @default 戦闘で獲得したJP
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、主要な機能を変更することはありません・
+ * このプラグインの機能を利用する他のプラグインと組み合わせて使用すると、
+ * Job Pointsをゲームに組み込むことができます。
+ *
+ * Job Points はアクターの現在の職業に与えられます。
+ * Job Points はアクターの各職業毎に個別管理されます。
+ *
+ * ===========================================================================
+ * Victory Aftermath プラグインとの互換性
+ * ===========================================================================
+ *
+ * YEP_VictoryAftermathプラグインがインストールされていて
+ * Job Points ウィンドウを利用したい場合、
+ * プラグイン管理でこのプラグインを
+ * YEP_VictoryAftermathよりも下に配置してください。
+ *
+ * その後、Job Points ウィンドウを表示するタイミングを定義したい場合、
+ * Job Points ウィンドウを表示したい場所に
+ * Victory Aftermath内の「Victory Order」パラメーターに
+ * 「JP」を挿入します。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * Job Points についてのメモタグがあります。
+ *
+ * アクターのメモタグ
+ *   <Starting JP: x>
+ *   アクターの初期職業のアクターのJP開始値を x に設定します。
+ *
+ *   <Class x Starting JP: y>
+ *   職業 x のアクターの開始JP値を y に設定します。
+ *
+ *   <JP Rate: x%>
+ *   JPのx%の獲得率を変えます。
+ *   デフォルトでは、すべてのオブジェクトのデフォルト率は100%です。
+ *   これを200%に増やすと、獲得するJPが2倍になり、
+ *   50%になると獲得するJP量が半分になります。
+ *
+ * スキルとアイテムのメモタグ
+ *   <JP Gain: x>
+ *   スキルまたはアイテムを使用しているアクターは、
+ *   パラメータで見つかったデフォルトのJPの代わりに x の値をJPとして得ます。
+ *
+ *   <Target JP Gain: x>
+ *   スキルまたはアイテムの影響を受ける対象アクターは、
+ *   x の値をJPとして得ます。
+ *
+ * 職業、武器、防具、ステートのメモタグ
+ *   <JP Rate: x%>
+ *   JPの獲得率を x %に変えます。
+ *   デフォルトでは、すべてのオブジェクトのデフォルト率は100%です。
+ *   これを200%に増やすと、獲得するJPが2倍になり、
+ *   50%になると獲得するJP量が半分になります。
+ *
+ * 敵のメモタグ
+ *   <JP: x>
+ *   敵を倒すと、戦闘終了時のパーティメンバーが x の値をJPとして得ます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * アクターのJPを手動で付与、削除、設定する方法がわからない場合、
+ * 次のプラグインコマンドを使用できます。
+ *
+ * プラグインコマンド:
+ *
+ *   gainJp actorId jp
+ *   gainJp actorId jp classId
+ *     このコマンドはアクターにJPを獲得させます。
+ *     'actorId'をJPを変更したいアクターのIDに置き換えます。
+ *     'jp'を変更したいJP量に置き換えます。
+ *     'classId'を使用している場合、変更したい職業のIDに置き換えます。
+ *
+ *   loseJp actorId jp
+ *   loseJp actorId jp classId
+ *     このコマンドにより、アクターはJPを失います。
+ *     'actorId'をJPを変更したいアクターのIDに置き換えます。
+ *     'jp'を変更したいJP量に置き換えます。
+ *     'classId'を使用している場合、変更したい職業のIDに置き換えます。
+ *
+ *   setJp actorId jp
+ *   setJp actorId jp classId
+ *     このコマンドはアクターのJPを特定の値に設定します。
+ *     'actorId'をJPを変更したいアクターのIDに置き換えます。
+ *     'jp'を変更したいJP量に置き換えます。
+ *     'classId'を使用している場合、変更したい職業のIDに置き換えます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.10:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.09:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.08:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.06:
+ * - Added 'Alive Actors' plugin parameter to prevent dead actors from gaining
+ * JP from enemies. Any JP that currently dead actors earned in battle from
+ * actions will still be 'earned' at the end of battle.
+ *
+ * Version 1.05:
+ * - Updated compatibility for Subclasses gaining JP.
+ *
+ * Version 1.04a:
+ * - Added failsafes to prevent JP from turning into NaN midbattle.
+ * - Added failsafes to prevent no-target scopes from crashing the game.
+ *
+ * Version 1.03:
+ * - Added 'Show Results' parameter to show/hide JP earned after battle for
+ * those who aren't using the Victory Aftermath plugin.
+ *
+ * Version 1.02:
+ * - Fixed a bug that would gain JP for changing classes of a higher level.
+ *
+ * Version 1.01:
+ * - Added failsafes to prevent JP from turning into NaN.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

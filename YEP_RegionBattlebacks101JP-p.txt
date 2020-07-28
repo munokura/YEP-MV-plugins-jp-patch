@@ -1,0 +1,346 @@
+/*:ja
+ * @plugindesc v1.01 フィールドタイルとリージョンIDに特定の戦闘背景を割り当てることができます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---デフォルト---
+ * @text ---デフォルト---
+ * @default
+ *
+ * @param Default 1
+ * @text デフォルト1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---デフォルト---
+ * @desc デフォルトでの戦闘背景1ファイル名
+ * デフォルト:Grassland
+ * @default Grassland
+ *
+ * @param Default 2
+ * @text デフォルト2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---デフォルト---
+ * @desc デフォルトでの戦闘背景2ファイル名
+ * デフォルト:Grassland
+ * @default Grassland
+ *
+ * @param ---船---
+ * @text ---船---
+ * @default
+ *
+ * @param Ship 1
+ * @text 船1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---船---
+ * @desc 船での戦闘背景1ファイル名
+ * デフォルト:Ship
+ * @default Ship
+ *
+ * @param Ship 2
+ * @text 船2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---船---
+ * @desc 船での戦闘背景2ファイル名
+ * デフォルト:Ship
+ * @default Ship
+ *
+ * @param ---森---
+ * @text ---森---
+ * @default
+ *
+ * @param Forest 1
+ * @text 森1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---森---
+ * @desc 森での戦闘背景1ファイル名
+ * デフォルト:未設定
+ * @default
+ *
+ * @param Forest 2
+ * @text 森2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---森---
+ * @desc 森での戦闘背景2ファイル名
+ * デフォルト:Forest
+ * @default Forest
+ *
+ * @param ---崖---
+ * @text ---崖---
+ * @default
+ *
+ * @param Cliff 1
+ * @text 崖1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---崖---
+ * @desc 崖での戦闘背景1ファイル名
+ * デフォルト:未設定
+ * @default
+ *
+ * @param Cliff 2
+ * @text 崖2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---崖---
+ * @desc 崖での戦闘背景2ファイル名
+ * デフォルト:Cliff
+ * @default Cliff
+ *
+ * @param ---荒れ地---
+ * @text ---荒れ地---
+ * @default
+ *
+ * @param Wasteland 1
+ * @text 荒れ地1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---荒れ地---
+ * @desc 荒れ地での戦闘背景1ファイル名
+ * デフォルト:Wasteland
+ * @default Wasteland
+ *
+ * @param Wasteland 2
+ * @text 荒れ地2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---荒れ地---
+ * @desc 荒れ地での戦闘背景2ファイル名
+ * デフォルト:Wasteland
+ * @default Wasteland
+ *
+ * @param ---乾燥地---
+ * @text ---乾燥地---
+ * @default
+ *
+ * @param Dirtfield 1
+ * @text 乾燥地1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---乾燥地---
+ * @desc 乾燥地での戦闘背景1ファイル名
+ * デフォルト:Wasteland
+ * @default Wasteland
+ *
+ * @param Dirtfield 2
+ * @text 乾燥地2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---乾燥地---
+ * @desc 乾燥地での戦闘背景2ファイル名
+ * デフォルト:未設定
+ * @default
+ *
+ * @param ---砂漠---
+ * @text ---砂漠---
+ * @default
+ *
+ * @param Desert 1
+ * @text 砂漠1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---砂漠---
+ * @desc 砂漠での戦闘背景1ファイル名
+ * デフォルト:Desert
+ * @default Desert
+ *
+ * @param Desert 2
+ * @text 砂漠2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---砂漠---
+ * @desc 砂漠での戦闘背景2ファイル名
+ * デフォルト:Desert
+ * @default Desert
+ *
+ * @param ---溶岩1---
+ * @text ---溶岩1 ----
+ * @default
+ *
+ * @param Lava1 1
+ * @text 溶岩1-1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---溶岩1---
+ * @desc 溶岩1での戦闘背景1ファイル名
+ * デフォルト:Lava1
+ * @default Lava1
+ *
+ * @param Lava1 2
+ * @text 溶岩1-2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---溶岩1---
+ * @desc 溶岩1での戦闘背景2ファイル名
+ * デフォルト:Lava
+ * @default Lava
+ *
+ * @param ---溶岩2---
+ * @text ---溶岩2 ----
+ * @default
+ *
+ * @param Lava2 1
+ * @text 溶岩2-1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---溶岩2---
+ * @desc 溶岩2での戦闘背景1ファイル名
+ * デフォルト:Lava2
+ * @default Lava2
+ *
+ * @param Lava2 2
+ * @text 溶岩2-2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---溶岩2---
+ * @desc 溶岩2での戦闘背景2ファイル名
+ * デフォルト:Lava
+ * @default Lava
+ *
+ * @param ---雪原---
+ * @text ---雪原----
+ * @default
+ *
+ * @param Snowfield 1
+ * @text 雪原1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---雪原---
+ * @desc 雪原での戦闘背景1ファイル名
+ * デフォルト:Snowfield
+ * @default Snowfield
+ *
+ * @param Snowfield 2
+ * @text 雪原2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---雪原---
+ * @desc 雪原での戦闘背景2ファイル名
+ * デフォルト:Snowfield
+ * @default Snowfield
+ *
+ * @param ---雲---
+ * @text ---雲---
+ * @default
+ *
+ * @param Clouds 1
+ * @text 雲1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---雲---
+ * @desc 雲での戦闘背景1ファイル名
+ * デフォルト:Clouds
+ * @default Clouds
+ *
+ * @param Clouds 2
+ * @text 雲2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---雲---
+ * @desc 雲での戦闘背景2ファイル名
+ * デフォルト:Clouds
+ * @default Clouds
+ *
+ * @param ---毒沼---
+ * @text ---毒沼---
+ * @default
+ *
+ * @param PoisonSwamp 1
+ * @text 毒沼 1
+ * @type file
+ * @dir img/battlebacks1
+ * @require 1
+ * @parent ---毒沼---
+ * @desc 毒沼での戦闘背景1ファイル名
+ * デフォルト:PoisonSwamp
+ * @default PoisonSwamp
+ *
+ * @param PoisonSwamp 2
+ * @text 毒沼 2
+ * @type file
+ * @dir img/battlebacks2
+ * @require 1
+ * @parent ---毒沼---
+ * @desc 毒沼での戦闘背景2ファイル名
+ * デフォルト:PoisonSwamp
+ * @default PoisonSwamp
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * マップでフィールドタイルを使用している場合、
+ * 実際には自分がいる地形で使用されている戦闘背景を制御することはできません。
+ *
+ * このプラグインを使用すると、
+ * リージョンを使用して特定の戦闘背景を
+ * マップ上の特定のタイルに関連付けするだけでなく、
+ * デフォルトで使用される戦闘背景を変更できます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 特定の戦闘背景を特定のリージョンIDに結び付けるには、
+ * 次のようなメモタグを使用できます。
+ *
+ * マップのメモタグ:
+ *
+ *   <Region x Battleback1: filename>
+ *   <Region x Battleback2: filename>
+ *   リージョンxの戦闘背景1・戦闘背景2に、
+ *   一致するファイル名を持つ画像を使用するように変更されます。
+ *   ファイル名は、大文字と小文字が区別されます。
+ *   ファイル拡張子を挿入しないでください。
+ *
+ *   例:
+ *
+ *   リージョン5で戦闘背景1にDirt2.pngと戦闘背景2にForest.pngを使用する場合、
+ *   次の2つのメモタグを使用します。
+ *
+ *   <Region 5 Battleback1: Dirt2>
+ *   <Region 5 Battleback2: Forest>
+ *
+ *   リージョン毎に特定の戦闘背景を使用したいマップのメモ欄に
+ *   これらの組み合わせを挿入します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

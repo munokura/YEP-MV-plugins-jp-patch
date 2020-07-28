@@ -1,0 +1,113 @@
+/*:ja
+ * @plugindesc v1.00 マウスとタッチ入力を無効にできます
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 時にマウスとタッチコントロールを無効にしたい場面があります。
+ * このプラグインを使用すると、マウスとタッチのコントロールを制御できます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * マウス/タッチ入力は、デフォルトのプラグインパラメータによって
+ * 無効になっています。
+ * ゲームに合わせて設定を変更してください。
+ * 設定がオンの場合、マウス/タッチ入力が有効になります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---マウス---
+ * @text ---マウス---
+ * @default
+ *
+ * @param Press Check
+ * @text タッチ確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc タッチ入力を許可
+ * @default false
+ *
+ * @param Trigger Check
+ * @text トリガー確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc トリガーのタッチ入力を許可
+ * @default false
+ *
+ * @param Repeat Check
+ * @text 繰り返し確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc 繰り返しのタッチ入力を許可
+ * @default false
+ *
+ * @param Long Press Check
+ * @text 長押し確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc 長押しのタッチ入力を許可
+ * @default false
+ *
+ * @param Cancel Check
+ * @text キャンセル確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc キャンセルのタッチ入力を許可
+ * @default false
+ *
+ * @param Move Check
+ * @text 移動確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc 移動のタッチ入力を許可
+ * @default false
+ *
+ * @param Release Check
+ * @text リリース確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc リリースのタッチ入力を許可
+ * @default false
+ *
+ * @param Wheel Check
+ * @text ホイール確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc スクロールホイールの入力を許可
+ * @default false
+ *
+ * @param Map Move Check
+ * @text マップ移動確認
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc マップ移動のタッチ入力を許可。これを許可するには、Press(タッチ)とTrigger(トリガー)を許可する必要があります。
+ * @default false
+ *
+ */

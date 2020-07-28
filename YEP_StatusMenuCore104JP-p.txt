@@ -1,0 +1,594 @@
+/*:ja
+ * @plugindesc v1.04 アクターのステータスメニューを、より多くの情報を表示するハブに変更します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---Settings---
+ * @text ---設定---
+ * @default
+ *
+ * @param Command Order
+ * @text コマンド表示順
+ * @parent ---Settings---
+ * @desc コマンドメニューの表示順。コマンド同士はスペース区切り
+ * @default General Parameters Elements States Attributes Custom Cancel
+ *
+ * @param Command Window Width
+ * @text コマンドウィンドウの幅
+ * @parent ---Settings---
+ * @type number
+ * @min 1
+ * @desc コマンドウィンドウのウィンドウ幅
+ * @default 240
+ *
+ * @param Command Window Rows
+ * @text コマンドウィンドウの行
+ * @parent ---Settings---
+ * @type number
+ * @min 1
+ * @desc コマンドウィンドウの行数
+ * @default 4
+ *
+ * @param Command Alignment
+ * @text コマンドの配置
+ * @parent ---Settings---
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc コマンドウィンドウのテキスト配置
+ * 左:left / 中央:center / 右:right / デフォルト:left
+ * @default center
+ *
+ * @param ---General---
+ * @text ---一般---
+ * @default
+ *
+ * @param General Command
+ * @text 一般的なコマンド
+ * @parent ---General---
+ * @parent ---一般---
+ * @desc '一般'のコマンドの表示テキスト
+ * @default 一般
+ *
+ * @param Parameters Text
+ * @text 能力値テキスト
+ * @parent ---General---
+ * @desc '能力値'のコマンドの表示テキスト
+ * @default 能力値
+ *
+ * @param Experience Text
+ * @text 経験値テキスト
+ * @parent ---General---
+ * @desc '経験値'のコマンドの表示テキスト
+ * @default 経験値
+ *
+ * @param Total Format
+ * @text 次レベル経験値の表示形式
+ * @parent ---General---
+ * @desc 次のレベルに必要な経験値の表示形式
+ * %1:経験値 / %2:レベル
+ * @default 次%2に必要な%1
+ *
+ * @param EXP Gauge Color 1
+ * @text 経験値ゲージの色1
+ * @parent ---General---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ステータスウィンドウの経験値ゲージ色1
+ * @default 30
+ *
+ * @param EXP Gauge Color 2
+ * @text 経験値ゲージの色2
+ * @parent ---General---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ステータスウィンドウの経験値ゲージ色2
+ * @default 31
+ *
+ * @param ---Parameters---
+ * @text ---能力値---
+ * @default
+ *
+ * @param Parameters Command
+ * @text 能力値コマンド
+ * @parent ---Parameters---
+ * @desc '能力値'コマンドの表示テキスト
+ * @default 能力値
+ *
+ * @param Graph Text
+ * @text グラフのテキスト
+ * @parent ---Parameters---
+ * @desc '能力値グラフ'コマンドの表示テキスト
+ * @default 能力値グラフ
+ *
+ * @param ATK Color
+ * @text 攻撃力色
+ * @parent ---Parameters---
+ * @desc 攻撃力のゲージ色
+ * #Color1 #Color2
+ * @default #ed1c24 #f26c4f
+ *
+ * @param DEF Color
+ * @text 防御力色
+ * @parent ---Parameters---
+ * @desc 防御力のゲージ色
+ * #Color1 #Color2
+ * @default #f7941d #fdc689
+ *
+ * @param MAT Color
+ * @text 魔法力色
+ * @parent ---Parameters---
+ * @desc 魔法力のゲージ色
+ * #Color1 #Color2
+ * @default #605ca8 #bd8cbf
+ *
+ * @param MDF Color
+ * @text 魔法防御色
+ * @parent ---Parameters---
+ * @desc 魔法防御のゲージ色
+ * #Color1 #Color2
+ * @default #448ccb #a6caf4
+ *
+ * @param AGI Color
+ * @text 俊敏性色
+ * @parent ---Parameters---
+ * @desc 俊敏性のゲージ色
+ * #Color1 #Color2
+ * @default #39b54a #82ca9c
+ *
+ * @param LUK Color
+ * @text 運色
+ * @parent ---Parameters---
+ * @desc 運のゲージ色
+ * #Color1 #Color2
+ * @default #fff568 #fffac3
+ *
+ * @param ---Resist Colors---
+ * @text ---属性有効度色---
+ * @default
+ *
+ * @param Above 300%
+ * @text 300%以上
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 300%を超える属性有効度の文字色
+ * @default 10
+ *
+ * @param 200% to 300%
+ * @text 200%から300%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 200%を超える属性有効度の文字色
+ * @default 20
+ *
+ * @param 150% to 200%
+ * @text 150%から200%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 150%を超える属性有効度の文字色
+ * @default 14
+ *
+ * @param 120% to 150%
+ * @text 120%から150%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 120%を超える属性有効度の文字色
+ * @default 6
+ *
+ * @param 100% to 120%
+ * @text 100%から120%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 100%を超える属性有効度の文字色
+ * @default 0
+ *
+ * @param 80% to 100%
+ * @text 80%から100%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 80%を超える属性有効度の文字色
+ * @default 24
+ *
+ * @param 50% to 80%
+ * @text 50%から80%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 50%を超える属性有効度の文字色
+ * @default 29
+ *
+ * @param 1% to 50%
+ * @text 1%から50%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 1%を超える属性有効度の文字色
+ * @default 23
+ *
+ * @param Exactly 0%
+ * @text 0%
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 0%の属性有効度の文字色
+ * @default 31
+ *
+ * @param Below 0%
+ * @text 0%未満
+ * @parent ---Resist Colors---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 0%未満の属性有効度の文字色
+ * @default 27
+ *
+ * @param ---Elements---
+ * @text ---属性---
+ * @default
+ *
+ * @param Elements Command
+ * @text 属性コマンド
+ * @parent ---Elements---
+ * @desc '属性'コマンドの表示テキスト
+ * @default 属性
+ *
+ * @param Elements Decimal
+ * @text 属性表示桁数
+ * @parent ---Elements---
+ * @type number
+ * @min 0
+ * @desc 小数点以下の表示桁数
+ * @default 2
+ *
+ * @param Element Column 1
+ * @text 属性列1
+ * @parent ---Elements---
+ * @desc 1列目に表示する属性ID。ID同士はスペース区切り
+ * @default 1
+ *
+ * @param Element Column 2
+ * @text 属性列2
+ * @parent ---Elements---
+ * @desc 2列目に表示する属性ID。ID同士はスペース区切り
+ * @default 2 3 4 5 6 7 8 9
+ *
+ * @param Element Column 3
+ * @text 属性列3
+ * @parent ---Elements---
+ * @desc 3列目に表示する属性ID。ID同士はスペース区切り
+ * @default
+ *
+ * @param Element Column 4
+ * @text 属性列4
+ * @parent ---Elements---
+ * @desc 4列目に表示する属性ID。ID同士はスペース区切り
+ * @default
+ *
+ * @param ---States---
+ * @text ---ステート---
+ * @default
+ *
+ * @param States Command
+ * @text ステートコマンド
+ * @parent ---States---
+ * @desc 'ステート'コマンドの表示テキスト
+ * @default ステート
+ *
+ * @param States Decimal
+ * @text ステート表示桁数
+ * @parent ---States---
+ * @type number
+ * @min 0
+ * @desc 小数点以下の表示桁数
+ * @default 2
+ *
+ * @param States Column 1
+ * @text ステート列1
+ * @parent ---States---
+ * @desc 1列目に表示するステートID。ID同士はスペース区切り
+ * @default 1 4 5 6
+ *
+ * @param States Column 2
+ * @text ステート列2
+ * @parent ---States---
+ * @desc 2列目に表示するステートID。ID同士はスペース区切り
+ * @default 7 8 9 10
+ *
+ * @param States Column 3
+ * @text ステート列3
+ * @parent ---States---
+ * @desc 3列目に表示するステートID。ID同士はスペース区切り
+ * @default
+ *
+ * @param States Column 4
+ * @text ステート列4
+ * @parent ---States---
+ * @desc 4列目に表示するステートID。ID同士はスペース区切り
+ * @default
+ *
+ * @param ---Attributes---
+ * @text ---追加能力---
+ * @default
+ *
+ * @param Attributes Command
+ * @text 追加能力コマンド
+ * @parent ---Attributes---
+ * @desc '追加能力'コマンドの表示テキスト
+ * @default 特性
+ *
+ * @param Attribute Font Size
+ * @text 追加能力フォントサイズ
+ * @parent ---Attributes---
+ * @type number
+ * @min 1
+ * @desc 追加能力のフォントサイズ
+ * Default: 28
+ * @default 20
+ *
+ * @param Attribute Decimal
+ * @text 追加能力表示桁数
+ * @parent ---Attributes---
+ * @type number
+ * @min 0
+ * @desc 小数点以下の表示桁数
+ * @default 0
+ *
+ * @param Attributes Column 1
+ * @text 追加能力列1
+ * @parent ---Attributes---
+ * @desc 1列目に表示する追加能力。追加能力同士はスペース区切り
+ * @default exr hit eva cri cev mev mrf cnt
+ *
+ * @param Attributes Column 2
+ * @text 追加能力列2
+ * @parent ---Attributes---
+ * @desc 2列目に表示する追加能力。追加能力同士はスペース区切り
+ * @default mcr tcr pdr mdr fdr grd rec pha
+ *
+ * @param Attributes Column 3
+ * @text 追加能力列3
+ * @parent ---Attributes---
+ * @desc 3列目に表示する追加能力。追加能力同士はスペース区切り
+ * @default hrg mrg trg tgr
+ *
+ * @param Attributes Column 4
+ * @text 追加能力列4
+ * @parent ---Attributes---
+ * @desc 4列目に表示する追加能力。追加能力同士はスペース区切り
+ * @default
+ *
+ * @param ---XParam Names---
+ * @text ---追加能力の表示テキスト---
+ * @default
+ *
+ * @param hit Name
+ * @text 命中率名
+ * @parent ---XParam Names---
+ * @desc 命中率の表示テキスト
+ * @default 命中率
+ *
+ * @param eva Name
+ * @text 回避率名
+ * @parent ---XParam Names---
+ * @desc 回避率の表示テキスト
+ * @default 回避率
+ *
+ * @param cri Name
+ * @text 会心率名
+ * @parent ---XParam Names---
+ * @desc 会心率の表示テキスト
+ * @default 会心率
+ *
+ * @param cev Name
+ * @text 会心回避率名
+ * @parent ---XParam Names---
+ * @desc 会心回避率の表示テキスト
+ * @default 会心回避率
+ *
+ * @param mev Name
+ * @text 魔法回避率名
+ * @parent ---XParam Names---
+ * @desc 魔法回避率の表示テキスト
+ * @default 魔法回避率
+ *
+ * @param mrf Name
+ * @text 魔法反射率名
+ * @parent ---XParam Names---
+ * @desc 魔法反射率の表示テキスト
+ * @default 魔法反射率
+ *
+ * @param cnt Name
+ * @text 反撃率名
+ * @parent ---XParam Names---
+ * @desc 反撃率の表示テキスト
+ * @default 反撃率
+ *
+ * @param hrg Name
+ * @text HP再生率名
+ * @parent ---XParam Names---
+ * @desc HP再生率の表示テキスト
+ * @default HP再生率
+ *
+ * @param mrg Name
+ * @text MP再生率名
+ * @parent ---XParam Names---
+ * @desc MP再生率の表示テキスト
+ * @default MP再生率
+ *
+ * @param trg Name
+ * @text TP再生率名
+ * @parent ---XParam Names---
+ * @desc TP再生率の表示テキスト
+ * @default TP再生率
+ *
+ * @param tgr Name
+ * @text 狙われ率名
+ * @parent ---XParam Names---
+ * @desc 狙われ率の表示テキスト
+ * @default 狙われ率
+ *
+ * @param grd Name
+ * @text 防御効果率名
+ * @parent ---XParam Names---
+ * @desc 防御効果率の表示テキスト
+ * @default 防御効果率
+ *
+ * @param rec Name
+ * @text 回復効果率名
+ * @parent ---XParam Names---
+ * @desc 回復効果率の表示テキスト
+ * @default 回復効果率
+ *
+ * @param pha Name
+ * @text 薬の知識名
+ * @parent ---XParam Names---
+ * @desc 薬の知識の表示テキスト
+ * @default 薬の知識
+ *
+ * @param mcr Name
+ * @text MP消費率名
+ * @parent ---XParam Names---
+ * @desc MP消費率の表示テキスト
+ * @default MP消費率
+ *
+ * @param tcr Name
+ * @text TPチャージ率名
+ * @parent ---XParam Names---
+ * @desc TPチャージ率の表示テキスト
+ * @default TPチャージ率
+ *
+ * @param pdr Name
+ * @text 物理ダメージ率名
+ * @parent ---XParam Names---
+ * @desc 物理ダメージ率の表示テキスト
+ * @default 物理ダメージ率
+ *
+ * @param mdr Name
+ * @text 魔法ダメージ率名
+ * @parent ---XParam Names---
+ * @desc 魔法ダメージ率の表示テキスト
+ * @default 魔法ダメージ率
+ *
+ * @param fdr Name
+ * @text 床ダメージ率名
+ * @parent ---XParam Names---
+ * @desc 床ダメージ率の表示テキスト
+ * @default 床ダメージ率
+ *
+ * @param exr Name
+ * @text 経験獲得率名
+ * @parent ---XParam Names---
+ * @desc 経験獲得率の表示テキスト
+ * @default 経験獲得率
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはステータスメニューを新しいレイアウトに置き換えます。
+ * アクターに関する詳細情報を表示します。
+ * 'Command Order'(コマンド表示順)パラメータを使って
+ * 表示されるコマンドの順番を変更することができます。
+ *
+ * コマンドを追加するには、
+ * プラグイン管理でこのプラグインの下に拡張プラグインを挿入します。
+ * 'Custom'の文字列を置いた場所、あるいは拡張プラグインのキーワードを
+ * 他の場所に置いたならその場所に表示されます。
+ *
+ * ===========================================================================
+ * 使い方
+ * ===========================================================================
+ *
+ * 'Command Order'(コマンド表示順)パラメータを変更することで、
+ * コマンドウィンドウにコマンドを追加/削除できます。
+ * 下記が使用できるコマンドのリストです。
+ *
+ *    General
+ *    - アクターの能力値と経験値を表示します。
+ *
+ *    Parameters
+ *    - アクターの能力値ゲージを表示します。
+ *
+ *    Elements
+ *    - 属性有効度を一覧表示します。
+ *
+ *    States
+ *    - ステート有効度を一覧表示します。
+ *
+ *    Attributes
+ *    - 追加能力値・特殊能力値を一覧表示します。
+ *
+ *    Custom
+ *    - カスタムステータス項目がある場合、それらがここに表示されます。
+ *
+ *    Cancel
+ *    - ステータスメニューを終了するキャンセルコマンドを追加します。
+ *
+ * ===========================================================================
+ * 属性と有効度にアイコンを追加する
+ * ===========================================================================
+ *
+ * 制御文字を使用して、属性と有効度にアイコンを使用できます。
+ *
+ * データベースの'タイプ'タブに、属性の名前を付けます。
+ *
+ * \i[64]炎
+ *
+ * これにより、属性にアイコンを付けることができます。
+ * 利用可能な制御文字を使用してテキストの色などを変更することもできます。
+ *
+ * このプラグインのパラメータ内で変更する以外は、
+ * 属性にも同じことが適用されます。
+ * アイコンで'HP再生率'を表示したい場合、次のように名前を付けます。
+ *
+ * \i[72]HP再生率
+ *
+ * 上記の属性に対して使用されている他の制御文字への変更を受けて、
+ * アイコンが表示されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Added a function to split the icon and text for Attribute names so that
+ * icons will be centered properly if icons are used for the Attribute names.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Compatibility update made for other plugins.
+ *
+ * Version 1.01a:
+ * - Converted Window_StatusInfo to Window_Selectable for those who would like
+ * to use it as such.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,556 @@
+/*:ja
+ * @plugindesc v1.17 (要YEP_BattleEngineCore.js)戦闘システムをCTB(Charge Turn Battle)にします。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---CTB全般---
+ * @default
+ *
+ * @param Per Tick
+ * @text ティック基準
+ * @parent ---CTB全般---
+ * @desc ティック毎に得られる速度
+ * @default user.agi
+ *
+ * @param Initial Speed
+ * @text 初期速度
+ * @parent ---CTB全般---
+ * @desc 戦闘開始時のバトラーの初期速度。evalの式
+ * @default 0
+ *
+ * @param Full Gauge
+ * @text ゲージ速度
+ * @parent ---CTB全般---
+ * @desc CTBゲージが満たされる速度。evalの式
+ * @default Math.max(7000, BattleManager.highestBaseAgi() * 120)
+ *
+ * @param Pre-Emptive Bonuses
+ * @text 事前のボーナス
+ * @parent ---CTB全般---
+ * @desc 事前CTBボーナス。0から1まで
+ * @default 0.8
+ *
+ * @param Surprise Bonuses
+ * @text サプライズボーナス
+ * @parent ---CTB全般---
+ * @desc サプライズCTBボーナス。0から1まで
+ * @default 0.8
+ *
+ * @param ---逃走---
+ * @default
+ *
+ * @param Escape Ratio
+ * @text 逃走率
+ * @parent ---逃走---
+ * @desc CTB逃走率の計算式
+ * デフォルト:0.5 * $gameParty.agility() / $gameTroop.agility()
+ * @default 0.125 * $gameParty.agility() / $gameTroop.agility()
+ *
+ * @param Fail Escape Boost
+ * @text 逃走失敗ブースト
+ * @parent ---逃走---
+ * @type number
+ * @decimals 3
+ * @min 0
+ * @desc プレイヤーが逃走に失敗する度に、上がる成功率。デフォルト:0.1
+ * @default 0.025
+ *
+ * @param ---ターン---
+ * @default
+ *
+ * @param Full Turn
+ * @text ターン基準
+ * @parent ---ターン---
+ * @desc 戦闘ターンに相当するティック数。evalの式
+ * @default Math.min(200, BattleManager.lowestBaseAgi() * 8)
+ *
+ * @param ---ラバーバンディング---
+ * @default
+ *
+ * @param Enable Rubberband
+ * @text 有効化
+ * @parent ---ラバーバンディング---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc AGIのオートバランス機構
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Minimum Speed
+ * @text 最低速度
+ * @parent ---ラバーバンディング---
+ * @desc ラバーバンディング有効時の最低速度。式で指定
+ * @default 0.5 * BattleManager.highestBaseAgi()
+ *
+ * @param Maximum Speed
+ * @text 最高速度
+ * @parent ---ラバーバンディング---
+ * @desc ラバーバンディング有効時の最高速度。式で指定
+ * @default 1.5 * BattleManager.highestBaseAgi()
+ *
+ * @param ---音---
+ * @default
+ *
+ * @param Ready Sound
+ * @text 準備完了
+ * @parent ---音---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc バトラーの準備完了音
+ * @default Decision1
+ *
+ * @param Ready Volume
+ * @text 準備完了音量
+ * @parent ---音---
+ * @type number
+ * @min 0
+ * @max 100
+ * @desc 準備完了音の音量
+ * @default 90
+ *
+ * @param Ready Pitch
+ * @text 準備完了ピッチ
+ * @parent ---音---
+ * @type number
+ * @min 0
+ * @desc 準備完了音のピッチ
+ * @default 120
+ *
+ * @param Ready Pan
+ * @text 準備完了のパン
+ * @parent ---音---
+ * @type number
+ * @desc 準備完了音のパン
+ * @default 0
+ *
+ * @param ---ターン順---
+ * @default
+ *
+ * @param Show Turn Order
+ * @text 表示有効化
+ * @parent ---ターン順---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc バトラー行動順の表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Icon Size
+ * @text アイコンサイズ
+ * @parent ---ターン順---
+ * @type number
+ * @min 1
+ * @desc 行動順の表示アイコンのサイズ
+ * Default: 32
+ * @default 32
+ *
+ * @param Position Y
+ * @text 表示位置 Y
+ * @parent ---ターン順---
+ * @type number
+ * @min -9007
+ * @max 9007
+ * @desc 行動順の表示Y位置。
+ * 正:下 / 負:上
+ * @default 54
+ *
+ * @param Position X
+ * @text 表示位置 X
+ * @parent ---ターン順---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc 行動順の表示X位置。
+ * 左:left / 中央:center / 右:right
+ * @default right
+ *
+ * @param Turn Direction
+ * @text アイコン移動方向
+ * @parent ---ターン順---
+ * @type combo
+ * @option left
+ * @option right
+ * @desc ターンアイコンを動かす方向
+ * 左:left / 右:right
+ * @default left
+ *
+ * @param Ally Border Color
+ * @text 味方の境界線色
+ * @parent ---ターン順---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 味方の境界線の色
+ * @default 4
+ *
+ * @param Ally Back Color
+ * @text 味方の背景色
+ * @parent ---ターン順---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 味方の背景色のテキスト色
+ * @default 22
+ *
+ * @param Ally Icon
+ * @text 味方のアイコン
+ * @parent ---ターン順---
+ * @type number
+ * @min 0
+ * @desc 味方のデフォルトのアイコン。0の場合、アイコンは味方の顔画像に
+ * @default 0
+ *
+ * @param Enemy Border Color
+ * @text 敵の境界線色
+ * @parent ---ターン順---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 敵の境界線の色
+ * @default 2
+ *
+ * @param Enemy Back Color
+ * @text 敵の背景色
+ * @parent ---ターン順---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 敵の背景色のテキスト色
+ * @default 19
+ *
+ * @param Enemy Icon
+ * @text 敵のアイコン
+ * @parent ---ターン順---
+ * @type number
+ * @min 0
+ * @desc 敵のデフォルトのアイコン。0の場合、アイコンは敵画像に
+ * @default 0
+ *
+ * @param Enemy SV Battlers
+ * @text 敵のSV戦闘キャラ
+ * @parent ---ターン順---
+ * @type boolean
+ * @on 非表示
+ * @off 表示
+ * @desc AnimatedSVEnemiesを使用している場合で、アイコンが指定されていない場合、表示すると重くなる場合があります。表示:false / 非表示:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ * Battle System - Charge Turn Battleプラグインは、
+ * Yanfly Engine PluginsのBattle Engine Core用の拡張プラグインです。
+ * この拡張プラグインにはBattle Engine Coreが必要です。
+ *
+ * チャージターンバトル(CTB)システムを使用するには、
+ * Battle Engine Coreプラグインの設定内パラメーターの
+ * 'DefaultSystem'設定を'ctb'に変更します。
+ *
+ * チャージターンバトルシステムは、全てのバトラーの速度を計算し、
+ * それらを互いに相対的にバランスさせることによって機能します。
+ * それがバトラーのターンである時、
+ * バトラーはすぐに実行するために行動を選択するか、
+ * スキルがチャージを必要とする場合はチャージします。
+ *
+ * 敏捷性が高いほど有利であり、敏捷性が低いほど不利になる。
+ * 敏捷性が重要な属性となる戦闘システムです。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * デフォルトの戦闘システムではない場合、
+ * 戦闘システムをCharge Turn Battleに変更するには、
+ * 次のプラグインコマンドを使用できます。
+ *
+ * プラグインコマンド
+ *   setBattleSys CTB      戦闘システムをチャージターンバトルに設定します。
+ *   setBattleSys DTB      戦闘システムをデフォルトターンバトルに設定します。
+ *
+ * 上記のプラグインコマンドを使用して、
+ * デフォルトバトルシステムとチャージターンバトルを切り替えることができます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下は、CTBシステムに関連し、影響を与える注記です。
+ *
+ * アクター、敵のメモタグ
+ *   <CTB Icon: x>
+ *   アクター・敵のアイコンをxに設定します。
+ *
+ *   <CTB Border Color: x>
+ *   アクター・敵の境界色をテキスト色xに設定します。
+ *
+ *   <CTB Background Color: x>
+ *   アクター・敵の背景色をテキスト色xに設定します。
+ *
+ * アクターのメモタグ
+ *   <Class x CTB Icon: y>
+ *   もしアクターが特定の職業であれば、
+ *   そのアクターはCTBターンオーダーの特定のアイコンに設定します。
+ *   アクターが職業xの場合、アイコンyに設定します。
+ *
+ *   <Hero CTB Icon: x>
+ *   <Warrior CTB Icon: x>
+ *   <Mage CTB Icon: x>
+ *   <Priest CTB Icon: x>
+ *   職業IDの代わりに名前を使用したい場合、
+ *   上記のメモタグを使用できます。
+ *   アクターが名前付き職業の場合、アイコンxに設定します。
+ *   同じ名前の職業が複数ある場合、最も高いIDを持つ職業が優先されます。
+ *
+ * スキル、アイテムのメモタグ
+ *   <CTB Help>
+ *   text
+ *   text
+ *   </CTB Help>
+ *   複数の戦闘システムを使用することを計画している場合、
+ *   時々CTBを使用している間スキルが異なった実行をするかも知れません。
+ *   その場合、このメモタグを使用することでCTBが有効にされている間、
+ *   スキルとアイテムが異なるヘルプテキストを表示できます。
+ *
+ *   <CTB Speed: x>
+ *   CTB中のみ使用可能です。対象の現在の速度をxに設定します。
+ *
+ *   <CTB Speed: x%>
+ *   CTB中のみ使用可能です。
+ *   目標の現在の速度をCTBターン完了目標のx%に設定します。
+ *
+ *   <CTB Speed: +x>
+ *   <CTB Speed: -x>
+ *   CTB中のみ使用可能です。対象の現在の速度がx増減します。
+ *
+ *   <CTB Speed: +x%>
+ *   <CTB Speed: -x%>
+ *   CTB中のみ使用可能です。
+ *   対象の現在の速度・チャージをCTBターン完了対象のx%増減します。
+ *
+ *   <CTB Order: +x>
+ *   <CTB Order: -x>
+ *   対象の位置を+x・-xの順番で回転します。
+ *   +xを指定すると対象の待機時間が長くなり、
+ *   -xを指定すると対象の待機時間が短くなります。
+ *   影響は最小限で、現在のターンサイクルの間持続します。
+ *   *注:複数の対象に使用すると、各対象は一度に1つずつ順番に移動します。
+ *
+ *   <After CTB: x>
+ *   <After CTB: x%>
+ *   スキル・アイテムの使用者のCTBスピード値がx・x%に設定されます。
+ *   'x'が使用されている場合、正確なCTB値になります。
+ *   x%が使用されている場合、
+ *   CTBターン完了値のパーセンテージになります。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *   <CTB Start: +x>
+ *   <CTB Start: +x%>
+ *   CTB中のみ使用可能です。
+ *   X CTBスピード・CTBターン完了値のX%で戦闘を開始します。
+ *
+ *   <CTB Turn: +x>
+ *   <CTB Turn: +x%>
+ *   CTB中のみ使用可能です。
+ *   X CTB スピード・CTBターン完了値のX%でターンを開始します。
+ *
+ * ===========================================================================
+ * ルナティックモード - 条件付CTB速度、条件付CTBチャージ
+ * ===========================================================================
+ *
+ * JavaScriptの経験があり、
+ * CTBの速度とチャージの変更をよりユニークな方法をご希望の場合、
+ * 以下のメモタグを使用できます。
+ *
+ * スキル、アイテムのメモタグ
+ *   <Target CTB Speed Eval>
+ *   speed = x;
+ *   charge = x;
+ *   </Target CTB Speed Eval>
+ *   speedやchargeを省略することができます。
+ *   'speed'に設定したものは何でも対象のCTBspeedを変えるでしょう。
+ *   対象がchargeしている場合、
+ *   'charge'は対象のchargeをその値に変更させます。
+ *   'max'がフルゲージ値になります。
+ *
+ *   例
+ *
+ *   <Target CTB Speed Eval>
+ *   speed = target.hp / target.mhp * max;
+ *   charge = target.hp / target.mhp * max;
+ *   </Target CTB Speed Eval>
+ *   上記のコードは、
+ *   使用者の現在のCTBゲージを対象のHP比率と同じに設定します。
+ *   目標のHPが25%の場合、
+ *   CTBゲージは完了値に対して25%満たされた状態になります。
+ *
+ *   --- --- --- --- ---
+ *
+ *   <Target CTB Order Eval>
+ *   order = x;
+ *   </Target CTB Order Eval>
+ *   'order'変数を、対象の現在のターン順を変更したい量に設定します。
+ *   もし'order'がプラスであれば、さらに多くの順番を待つ必要があります。
+ *   'order'がマイナスの場合、orderが出るまでのターン数は少なくなります。
+ *
+ *   例
+ *
+ *   <Target CTB Order Eval>
+ *   if (target.hp > 1000) {
+ *     order = 3;
+ *   } else {
+ *     order = -1;
+ *   }
+ *   </Target CTB Order Eval>
+ *   攻撃された時、
+ *   対象が1000HPを超えて残っている場合、
+ *   そのターンが完了する前にさらに3ターン待つ必要があります。
+ *   対象が1000以下の場合、実際に1ターン少なく待機します。
+ *
+ *   --- --- --- --- ---
+ *
+ *   <After CTB Eval>
+ *   speed = x;
+ *   </After CTB Eval>
+ *   使用者がスキル・アイテムを使用した後に設定されたCTBと、
+ *   使用者が後で使用するカスタムCTBのチャージです。
+ *   'max'はフルゲージの値です。
+ *   'speed'を設定したものは何でも、使用者のCTBスピード値が変わります。
+ *
+ *   例
+ *
+ *   <After CTB Eval>
+ *   speed = user.mp / user.mmp * max;
+ *   </After CTB Eval>
+ *   上記のコードは、
+ *   スキル・アイテムを使用した後の使用者のCTBゲージを、
+ *   使用者のMP比率と等しくなるように設定します。
+ *   使用者が25%のMPを持っている場合、
+ *   CTBゲージは完了値に対して25%満たされた状態になります。
+ *
+ * ===========================================================================
+ * Yanfly Engine Plugins - Battle Engine Extension - Action Sequence Commands
+ * ===========================================================================
+ *
+ * 拡張されたCTB関連のアクションシーケンスを利用できます。
+ *
+ * ===========================================================================
+ * CTB ORDER: target, +X
+ * CTB ORDER: target, -X
+ *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * CTBにのみ使用可能です。
+ * 対象の位置を+x・-xの順番で回転します。
+ * +xを指定すると対象の待機時間が長くなり、
+ * -xを指定すると対象の待機時間が短くなります。
+ * 影響は最小限で、現在のターンサイクルの間持続します。
+ * *注意:これを複数の対象に使用すると、
+ * 各対象は一度に個別にターンをシフトします。
+ *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: ctb order: target, -2
+ *     ctb order: target, +3
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * CTB SPEED: target, X
+ * CTB SPEED: target, X%
+ * CTB SPEED: targets, +X
+ * CTB SPEED: targets, +X%
+ *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * CTBにのみ使用可能です。
+ * 対象のCTB速度をX・X%に設定します。
+ * 対象がCTBゲージをいっぱいにしている場合のみ適用されます。
+ * システム的問題を防ぐために使用者に影響を与えません。
+ *  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: ctb speed: targets, +5000
+ *     ctb speed: target, -50%
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.17:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.16:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.15:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.14a:
+ * - Updated check for CTB Charging. Units in the turn order will not be
+ * considered 'ready' unless they are in the front of the CTB Turn Order.
+ *
+ * Version 1.13:
+ * - Timing has been changed for states that update turns at Turn Start. Now,
+ * the states will update prior to the actor's command box opening or the
+ * enemy make a decision on which action it will use.
+ *
+ * Version 1.12:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.11:
+ * - Counterattacks no longer cause turn order inconsistencies.
+ *
+ * Version 1.10a:
+ * - Updated plugin to update the AI more accordingly with Battle AI Core.
+ * - Optimized CTB Turn Order further to reduce lag when there are larger
+ * quantities of battle members.
+ *
+ * Version 1.09:
+ * - Fixed a bug where forced actions clear out an action's effects before the
+ * turn is over, making post-turn effects to not occur.
+ *
+ * Version 1.08a:
+ * - Fixed a bug where changing back and forth between the Fight/Escape window
+ * would prompt on turn start effects.
+ * - Made an update where if using Battle Engine Core's "Lower Windows" to
+ * false, the icons no longer show above the windows.
+ *
+ * Version 1.07:
+ * - Made a mechanic change so that turn 0 ends immediately upon battle start
+ * rather than requiring a full turn to end.
+ *
+ * Version 1.06:
+ * - Fixed a bug that would cause a crash when a party member leaves the
+ * party.
+ *
+ * Version 1.05c:
+ * - Implemented a Forced Action queue list. This means if a Forced Action
+ * takes place in the middle of an action, the action will resume after the
+ * forced action finishes rather than cancels it out like MV does.
+ * - Fixed a graphical issue where enemies appearing midway don't have letters
+ * attached to their icons.
+ * - Added a fail safe for loaded saves that did not have CTB installed
+ * before.
+ *
+ * Version 1.04:
+ * - Added a speed position check for Instant Casts to maintain order
+ * position.
+ *
+ * Version 1.03:
+ * - Fixed a bug that doesn't update state turns properly.
+ * - Removed 'Turn Structure parameter' as it goes against the nature of a
+ * Tick-Based battle system.
+ *
+ * Version 1.02:
+ * - Added failsafe for battlers without actions.
+ * - Added speed rebalance formulas for tick-based systems (innate).
+ * - Added <Class x CTB Icon: y> and <classname CTB Icon: x> notetags.
+ *
+ * Version 1.01:
+ * - Provided loop breaks to prevent lock-ups with non-Yanfly plugins.
+ * - Added 'Icon Size' parameter to allow customization of icon sizes.
+ *
+ * Version 1.00:
+ * - It's doooooooooone!
+ */

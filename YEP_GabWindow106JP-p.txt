@@ -1,0 +1,253 @@
+/*:ja
+ * @plugindesc v1.06 メッセージウィンドウ無しで画面上にオシャベリを表示できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Gab Font Name
+ * @text フォント名
+ * @parent ---一般---
+ * @desc Gab Windowで使われるフォント名
+ * デフォルト:GameFont
+ * @default GameFont
+ *
+ * @param Gab Font Size
+ * @text フォントサイズ
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc Gab Windowで使われるフォントサイズ
+ * デフォルト:28
+ * @default 28
+ *
+ * @param Character X Pos
+ * @text キャラクターX座標
+ * @parent ---一般---
+ * @type number
+ * @desc キャラクター表示のX座標
+ * デフォルト:36
+ * @default 36
+ *
+ * @param Character Y Pos
+ * @text キャラクターY座標
+ * @parent ---一般---
+ * @type number
+ * @desc キャラクター表示のY座標
+ * デフォルト:60
+ * @default 60
+ *
+ * @param Base Wait Time
+ * @text 最小表示時間
+ * @parent ---一般---
+ * @type number
+ * @desc Gab Window表示の最小フレーム数
+ * デフォルト:90
+ * @default 90
+ *
+ * @param Time Per Character
+ * @text キャラクター毎時間
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc キャラクター毎の追加フレーム数
+ * デフォルト:4
+ * @default 4
+ *
+ * @param Fade Rate
+ * @text フェードアウト速度
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc Gab Windowがフェードアウトする速さ
+ * デフォルト:16
+ * @default 16
+ *
+ * @param Anti-Repeat
+ * @text 繰返し処理
+ * @parent ---一般---
+ * @type boolean
+ * @on 繰返し禁止
+ * @off 繰返し許可
+ * @desc 同じ設定のGab Windowキュー処理
+ * 繰返し許可:false / 繰返し禁止:true
+ * @default true
+ *
+ * @param ---マップ時---
+ * @default
+ *
+ * @param Map Y Location
+ * @text 表示Y座標
+ * @parent ---マップ時---
+ * @type number
+ * @desc マップ時でのGab Window表示のY座標
+ * デフォルト:72
+ * @default 72
+ *
+ * @param Map Dim Color 1
+ * @text 背景色1
+ * @parent ---マップ時---
+ * @desc マップ時での背景色1
+ * デフォルト:rgba(0, 0, 0, 0.6)
+ * @default rgba(0, 0, 0, 0.6)
+ *
+ * @param Map Dim Color 2
+ * @text 背景色2
+ * @parent ---マップ時---
+ * @desc マップ時での背景色2
+ * デフォルト:rgba(0, 0, 0, 0.3)
+ * @default rgba(0, 0, 0, 0.3)
+ *
+ * @param ---戦闘---
+ * @default
+ *
+ * @param Battle Y Location
+ * @text 表示Y座標
+ * @parent ---戦闘---
+ * @type number
+ * @desc 戦闘時でのGab Window表示のY座標
+ * デフォルト:108
+ * @default 108
+ *
+ * @param Battle Dim Color 1
+ * @text 背景色1
+ * @parent ---戦闘---
+ * @desc 戦闘時での背景色1
+ * デフォルト:rgba(0, 0, 0, 0.6)
+ * @default rgba(0, 0, 0, 0.6)
+ *
+ * @param Battle Dim Color 2
+ * @text 背景色2
+ * @parent ---戦闘---
+ * @desc 戦闘時での背景色2
+ * デフォルト:rgba(0, 0, 0, 0)
+ * @default rgba(0, 0, 0, 0)
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * ウィンドウを必要とするまでもないような、オシャベリを表示したいですか？
+ * "Gab Window"はメッセージウィンドウ外、画面の隅で、
+ * そのようなオシャベリを表示させることができます。
+ * テキストは一時的に画面上に表示され、その後消えます。
+ * 何か他の要因がない限り、また表れることもありません。
+ *
+ * MVでの新しい要素としては、Gab Windowに音を付けることができます。
+ * また、複数のオシャベリをまとめてキュー処理し、
+ * 会話のようにつなげることもできます。
+ * その際、現在表示されているオシャベリは、
+ * 次のオシャベリがロードされるタイミングでフェードアウトします。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * "Gab Window"の使い方はとてもシンプルです。
+ * デフォルト設定では、マップでも戦闘シーンでも使うことができます。
+ * 表示の指示・設定をするには、下記のプラグインコマンドを用いてください。
+ *
+ * プラグインコマンド:
+ *
+ * --- 設定コマンド ---
+ *
+ * GabText text
+ * Gab Windowに、このテキストを表示します。
+ * Gab Window内ではテキストコードを使うこともできます。
+ *
+ * GabFaceName filename
+ * 顔画像を表示したい場合は、
+ * このコマンドを用いてファイル名を指定します。
+ *
+ * GabFaceIndex x
+ * 上記のコマンドと一緒に用いることで、
+ * その顔画像がどのインデックスを使うかを指定します。
+ *
+ * GabSpriteName filename
+ * 特定のキャラクタースプライトを表示したい時は、
+ * このコマンドを使ってファイル名を指定します。
+ *
+ * GabSpriteIndex x
+ * 上記のコマンドと一緒に用いることで、
+ * そのスプライトがどのインデックスを使うかを指定します。
+ *
+ * GabActor x
+ * GabActorFace x
+ * アクター x の顔画像を表示します。（xにはIDを入れてください)
+ *
+ * GabActorSprite x
+ * アクター x のスプライトを表示します。（xにはIDを入れてください)
+ *
+ * GabParty x
+ * GabPartyFace x
+ * パーティメンバー x の顔画像を表示します。
+ * （xにはポジションを入れてください)
+ *
+ * GabPartySprite x
+ * パーティメンバー x のスプライトを表示します。
+ * （xにはポジションを入れてください)
+ *
+ * GabSound filename
+ * SEフォルダから、filenameで指定したサウンドを再生します。
+ *
+ * WaitForGab
+ * すべてのGabが完了するまでゲームを待機させます。
+ *
+ * --- 表示コマンド ---
+ *
+ * 上記の設定コマンドが完了したら、下記の表示コマンドを使ってください。
+ *
+ * ShowGab
+ * Gab Windowを起動し、上記のデータを表示します。
+ * これによりオシャベリがキューに追加されます。
+ * もし他のオシャベリが再生されている場合は、その後ろに並びます。
+ *
+ * *注:複数の"ShowGabs"が使用されると、それらは一列に並びます。
+ * 現在再生されているオシャベリは、次のオシャベリに移る前に終了します。
+ * 新たに追加しようとしたオシャベリが、
+ * たまたまロード済のオシャベリと全く同じ設定だった場合、
+ * 会話内の重複を防ぐため、新規追加は行われません。
+ *
+ * ForceGab
+ * 他の全てのオシャベリを消去し、上記のデータを表示します。
+ *
+ * ClearGab
+ * 現在のオシャベリのGab Windowと、待機中のオシャベリを全て消去します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.06:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.05:
+ * - Added 'WaitForGab' plugin command. This plugin command causes the game to
+ * wait until all gabs are finished playing.
+ *
+ * Version 1.04:
+ * - Fixed an issue with ForceGab that didn't make it work properly with text
+ * coded Gabs.
+ *
+ * Version 1.03a:
+ * - Fixed a bug with GabSound that didn't load the proper sound filenames.
+ * - Fixed the time count for Gabs to not include text codes.
+ *
+ * Version 1.02a:
+ * - Added functionality for battle gabs to be saved when going into other
+ * scenes and returning to battle.
+ * - Added GabSwitch x to enable switch x when the gab finishes playing.
+ *
+ * Version 1.01:
+ * - Added 'GabParty x' and 'GabPartySprite x' plugin commands to help with
+ * those without dynamic party setups.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ */

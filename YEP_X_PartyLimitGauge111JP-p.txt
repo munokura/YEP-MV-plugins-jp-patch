@@ -1,0 +1,656 @@
+/*:ja
+ * @plugindesc v1.11 (要YEP_SkillCore) パーティ全体の新しいスキルとコストのシステムを導入します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Gauge Increments
+ * @text ゲージの増分
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc 各パーティリミットの増加量
+ * @default 100
+ *
+ * @param Party Text Size
+ * @text テキストサイズ
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc パーティリミットのテキストサイズ
+ * デフォルト: 28
+ * @default 28
+ *
+ * @param Draw Cost Icon
+ * @text コストアイコン表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc パーティリミットのコストのアイコン表示設定
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Cost Color
+ * @text コスト色
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc パーティリミットのコストのテキスト色
+ * @default 6
+ *
+ * @param Cost Format
+ * @text コスト表示形式
+ * @parent ---一般---
+ * @desc パーティリミットのコストの表示形式
+ * %1:コスト / %2:現在値 / %3:最大値
+ * @default %1
+ *
+ * @param Cost Font Size
+ * @text コストフォントサイズ
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc パーティリミットのコストのフォントサイズ
+ * デフォルト: 28
+ * @default 20
+ *
+ * @param ---パーティ---
+ * @text ---パーティ----
+ * @default
+ *
+ * @param Show Party Gauge
+ * @text ゲージ表示
+ * @parent ---パーティ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 味方パーティリミットの表示設定
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Per Party Member
+ * @text 1メンバー最大値
+ * @parent ---パーティ---
+ * @desc パーティメンバー1人のパーティリミットの最大コストの式
+ * @default 100
+ *
+ * @param Party Max Bonus
+ * @text 最大ボーナス
+ * @parent ---パーティ---
+ * @desc パーティの規模に関係なく追加される最大のボーナスの式
+ * @default 0
+ *
+ * @param Party Gauge X
+ * @text ゲージX
+ * @parent ---パーティ---
+ * @desc 味方パーティのゲージX位置の式
+ * @default Graphics.boxWidth - width - 4
+ *
+ * @param Party Gauge Y
+ * @text ゲージY
+ * @parent ---パーティ---
+ * @desc 味方パーティのゲージY位置の式
+ * @default Graphics.boxHeight - statusHeight - height - 4
+ *
+ * @param Party Width
+ * @text ゲージ幅
+ * @parent ---パーティ---
+ * @desc 味方パーティのゲージ幅の式
+ * @default max.clamp(100, 400)
+ *
+ * @param Party Gauge Color 1
+ * @text ゲージ色1
+ * @parent ---パーティ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc パーティリミットの色1
+ * @default 14
+ *
+ * @param Party Gauge Color 2
+ * @text ゲージ色2
+ * @parent ---パーティ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc パーティリミットの色2
+ * @default 6
+ *
+ * @param Party Gauge Icon
+ * @text ゲージアイコン
+ * @parent ---パーティ---
+ * @type number
+ * @min 0
+ * @desc 味方パーティのアイコン
+ * @default 310
+ *
+ * @param Party Icon Align
+ * @text アイコン配置
+ * @parent ---パーティ---
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc アイコンの配置
+ * 左:left / 中央:center / 右:right
+ * @default right
+ *
+ * @param Party Text Buffer X
+ * @text テキストバッファX
+ * @parent ---パーティ---
+ * @type number
+ * @desc テキストのXバッファ量
+ * @default 0
+ *
+ * @param Party Text Buffer Y
+ * @text テキストバッファY
+ * @parent ---パーティ---
+ * @type number
+ * @desc テキストのYバッファ量
+ * @default 8
+ *
+ * @param ---敵パーティ---
+ * @text ---敵パーティ---
+ * @default
+ *
+ * @param Show Troop Gauge
+ * @text ゲージを表示
+ * @parent ---敵パーティ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 戦闘で敵のパーティリミットの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Per Troop Member
+ * @text 1メンバー最大値
+ * @parent ---敵パーティ---
+ * @desc 敵メンバー1人のパーティ限界ゲージ最大の量の式
+ * @default 100
+ *
+ * @param Troop Max Bonus
+ * @text 最大ボーナス
+ * @parent ---敵パーティ---
+ * @desc 敵パーティの量に関係なく追加される最大のボーナスの式
+ * @default 0
+ *
+ * @param Troop Gauge X
+ * @text ゲージX
+ * @parent ---敵パーティ---
+ * @desc 敵パーティのゲージX位置の式
+ * @default 4
+ *
+ * @param Troop Gauge Y
+ * @text ゲージY
+ * @parent ---敵パーティ---
+ * @desc 敵パーティのゲージY位置の式
+ * @default Graphics.boxHeight - statusHeight - height - 4
+ *
+ * @param Troop Width
+ * @text ゲージ幅
+ * @parent ---敵パーティ---
+ * @desc 敵パーティのゲージ幅の式
+ * @default max.clamp(100, 400)
+ *
+ * @param Troop Gauge Color 1
+ * @text ゲージ色1
+ * @parent ---敵パーティ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc パーティリミットの色1
+ * @default 10
+ *
+ * @param Troop Gauge Color 2
+ * @text ゲージ色2
+ * @parent ---敵パーティ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc パーティリミットの色2
+ * @default 2
+ *
+ * @param Troop Gauge Icon
+ * @text ゲージアイコン
+ * @parent ---敵パーティ---
+ * @type number
+ * @min 0
+ * @desc 敵パーティのアイコン
+ * @default 309
+ *
+ * @param Troop Icon Align
+ * @text アイコン配置
+ * @parent ---敵パーティ---
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc アイコンの配置
+ * @desc 左:left / 中央:center / 右:right
+ * @default left
+ *
+ * @param Troop Text Buffer X
+ * @text テキストバッファーX
+ * @parent ---敵パーティ---
+ * @type number
+ * @desc テキストのXバッファ量
+ * @default 0
+ *
+ * @param Troop Text Buffer Y
+ * @text テキストバッファーY
+ * @parent ---敵パーティ---
+ * @type number
+ * @desc テキストのYバッファ量
+ * @default 8
+ *
+ * @param ---リミット獲得---
+ * @text ---リミット獲得---
+ * @default
+ *
+ * @param Reset Gauge
+ * @text 戦闘終了時リセット
+ * @parent ---リミット獲得---
+ * @type boolean
+ * @on リセット
+ * @off 引き継ぎ
+ * @desc 戦闘終了時にパーティリミットをリセット
+ * 引き継ぎ:false / リセット:true
+ * @default false
+ *
+ * @param Battle Start
+ * @text 戦闘開始
+ * @parent ---リミット獲得---
+ * @desc 各戦闘の開始時にパーティリミットが得る量の式
+ * @default 0
+ *
+ * @param Take HP Damage
+ * @text HPダメージを受ける
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーがHPダメージを受けた時に得るパーティリミットの量の式
+ * @default Math.floor(25damage / user.mhp).clamp(10, 25)
+ *
+ * @param Deal HP Damage
+ * @text HPダメージを与える
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーがHPダメージを与えた時に得るパーティリミットの量の式
+ * @default Math.floor(10damage / target.mhp).clamp(5, 10)
+ *
+ * @param Heal HP Damage
+ * @text HPダメージを回復する
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーがHPを回復した時に得るパーティリミットの量の式
+ * @default Math.floor(-5damage / target.mhp).clamp(3, 5)
+ *
+ * @param Take MP Damage
+ * @text MPダメージを受ける
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーがMPのダメージを受けた時に得るパーティリミットの量の式
+ * @default Math.floor(25damage / user.mmp).clamp(10, 25)
+ *
+ * @param Deal MP Damage
+ * @text MPダメージを与える
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーがMPのダメージを与えた時に得るパーティリミットの量の式
+ * @default Math.floor(10damage / target.mmp).clamp(5, 10)
+ *
+ * @param Heal MP Damage
+ * @text MPダメージを回復する
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーがMP回復時に得るパーティリミットの量の式
+ * @default Math.floor(-5damage / target.mmp).clamp(3, 5)
+ *
+ * @param Gain State
+ * @text ステートを受ける
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーが敵からステートを受けた時に得るパーティリミットの量の式
+ * @default 5
+ *
+ * @param Deal State
+ * @text ステートを与える
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーが敵にステートを与えた時に得るパーティリミットの量の式
+ * @default 3
+ *
+ * @param Killed Ally
+ * @text メンバーが殺された
+ * @parent ---リミット獲得---
+ * @desc パーティメンバーが殺された時に得るパーティリミットの量の式
+ * @default 50
+ *
+ * @param Killed Foe
+ * @text 敵を殺した
+ * @parent ---リミット獲得---
+ * @desc 敵を殺した時に得るパーティリミットの量の式
+ * @default 5
+ *
+ * @param Win Battle
+ * @text 勝利時
+ * @parent ---リミット獲得---
+ * @desc 味方パーティが戦闘に勝利する時に得るパーティリミットの量の式
+ * @default 10
+ *
+ * @param Flee Battle
+ * @text 逃走時
+ * @parent ---リミット獲得---
+ * @desc 味方パーティが戦闘から逃げた時に得るパーティリミットの量の式
+ * @default -100
+ *
+ * @param Lose Battle
+ * @text 敗退時
+ * @parent ---リミット獲得---
+ * @desc 味方パーティが戦闘に敗れた時に得るパーティリミットの量の式
+ * @default -1000
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_SkillCoreを必要とします。
+ * プラグイン管理のYEP_SkillCoreの下に
+ * このプラグインがあることを確認してください。
+ *
+ * このプラグインは、
+ * 味方パーティと敵パーティの両方に対してパーティリミットを有効にします。
+ * これらのゲージは、動作に応じて増加・減少します。
+ * 上げる量は好みに合わせてプラグインのパラメータの範囲内で調整できます。
+ * パーティに十分なパーティリミットがあれば、
+ * そのパーティのメンバーはそれをスキルリソースとして使用して、
+ * 戦闘中の強力な行動を解き放つことができます。
+ *
+ * ===========================================================================
+ * 説明 - リミット増加
+ * ===========================================================================
+ *
+ * パーティリミットを上げるための様々な方法があります。
+ * 設定はプラグインパラメータで調整されますが、
+ * 下記は各パラメータが何をするのかについての詳細な説明になります。
+ *
+ *   Reset Gauge
+ *  :trueに設定されている場合、
+ *   パーティリミットは各戦闘の開始時に空になります。
+ *   falseに設定されている場合、
+ *   パーティリミットは味方パーティに次の戦闘に引き継がれます。
+ *   敵パーティは常に空になります。
+ *
+ *   Battle Start
+ *   - 新しい戦闘が開始された時、
+ *   パーティリミットが獲得される量を決定します。
+ *
+ *   Take HP Damage
+ *   - 味方が相手チームからHPのダメージを受けた時、
+ *   パーティリミットが増加する量です。
+ *
+ *   Deal HP Damage
+ *   - 味方が相手チームにHPのダメージを与えた時、
+ *   パーティリミットが増加する量です。
+ *
+ *   Heal HP Damage
+ *   - 味方が行動でHP回復を受けた時にパーティリミットが増加する量です。
+ *   特性効果による回復はここでは適用されません。
+ *
+ *   Take MP Damage
+ *   - 味方が相手チームからのMPダメージを受けた時、
+ *   パーティリミットが増加する量です。
+ *
+ *   Deal MP Damage
+ *   - 味方が相手チームにMPのダメージを与えた時、
+ *   パーティリミットが増加する量です。
+ *
+ *   Heal MP Damage
+ *   - 味方がアクションを通してMP回復を受けた時に
+ *   パーティリミットが増加する量です。
+ *   特性効果による回復はここでは適用されません。
+ *
+ *   Gain State
+ *   - 味方が相手チームから戦闘不能以外のステートを受けた時、
+ *   パーティリミットが増加する量です。
+ *
+ *   Deal State
+ *   - 味方が相手方のチームに戦闘不能以外のステートを与えた時、
+ *   パーティリミットが増加する量です。
+ *
+ *   Killed Ally
+ *   - 味方が戦闘で戦闘不能になった時、パーティリミットが増加する量です。
+ *
+ *   Killed Foe
+ *   - 敵が戦闘で戦闘不能になった時、パーティリミットが増加する量です。
+ *
+ *   Win Battle
+ *   - プレイヤーが戦闘に勝利した時、
+ *   味方パーティが得るパーティリミットの量です。
+ *
+ *   Flee Battle
+ *   - プレイヤーが戦闘から脱出した時、
+ *   味方パーティが得るパーティリミットの量です。
+ *
+ *   Lose Battle
+ *   - プレイヤーが戦闘に敗れた時、
+ *   味方パーティが得るパーティリミットの量です。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * パーティリミットを調整するために、下記のメモタグを使うことができます。
+ *
+ * スキルのメモタグ
+ *
+ *   <Party Limit Cost: x>
+ *   このスキルにパーティリミットのコストを追加します。
+ *   このスキルはそれを使用することができるようにするには
+ *   パーティリミット値のxが必要です。
+ *
+ *   <Party Limit Cost: x%>
+ *   このスキルにパーティリミットのコストを追加します。
+ *   バトラーのパーティのパーティリミット合計値のx%になります。
+ *   端数は常に切り上げられます。
+ *
+ * スキルとアイテムのメモタグ
+ *
+ *   <Ally Party Limit Gauge: +x>
+ *   <Ally Party Limit Gauge: -x>
+ *   このスキルを使用すると、使用者のパーティリミットがxだけ増減します。
+ *   ポイント値コストであり、増分値ではありません。
+ *
+ *   <Foe Party Limit Gauge: +x>
+ *   <Foe Party Limit Gauge: -x>
+ *   このスキルを使用すると、敵のパーティリミットはxだけ増減します。
+ *   ポイント値コストであり、増分値ではありません。
+ *
+ * アクターと敵のメモタグ
+ *
+ *   <Party Limit: x>
+ *   このパーティメンバーが戦闘中(死んでいるか生きている)である時、
+ *   パーティリミットをx増加させます。
+ *   このメモタグが使用されていない場合、
+ *   プラグインパラメータの設定がデフォルトとして採用されます。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *   <Party Limit: +x>
+ *   <Party Limit: -x>
+ *   関連するユニットがアクター、職業、敵、武器や防具を装備しているか、
+ *   そのステートの影響を受けている場合、
+ *   パーティリミットをxだけ増減させます。
+ *
+ *   <Party Limit Cost: x%>
+ *   このアクターによって消費するパーティリミットのコストをx%に設定します。
+ *   修正は乗算的です。
+ *   最終の端数は常に切り上げられます。
+ *
+ * ===========================================================================
+ * ルナティックモード - パーティーリミットのカスタム変更
+ * ===========================================================================
+ *
+ * JavaScriptを使って、
+ * パーティーリミットスキルの条件付きコスト、
+ * 使用者や対象に対して増加・減少するコストを実装できます。
+ *
+ * スキルのメモタグ
+ *
+ *   <Custom Party Limit Cost>
+ *    cost = user.friendsUnit().members().length;
+ *   </Custom Party Limit Cost>
+ *   'cost'変数は、
+ *   スキルの当初のコストを参照し、
+ *   当初の量よりも多い・少ない量を追加するように変更できます。
+ *   コスト値はスキルの最終的な値になりますが、
+ *   コストが小数値の場合は切り上げられます。
+ *   これが増分コストです。
+ *
+ *   <Custom Ally Party Limit Gauge>
+ *    value += user.level;
+ *   </Custom Ally Party Limit Gauge>
+ *   'value'変数は、
+ *   ゲージを使用者のパーティリミットに追加する量を決定します。
+ *   増分値ではなく、コストに加算された現在の値です。
+ *
+ *   <Custom Foe Party Limit Gauge>
+ *    value -= target.level;
+ *   </Custom Foe Party Limit Gauge>
+ *   'value'変数は対象のパーティリミットに追加されるゲージの量を決定します。
+ *   増分値ではなく、コストに加算された現在の値です。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * JavaScript機能を使用している人は、
+ * このプラグインで追加されたいくつかの新しい機能を利用することができます。
+ * "unit"は $gameParty か $gameTroop のどちらかに置き換えてください。
+ *
+ * unit.partyLimitGauge()
+ * - ユニットのパーティリミットの現在の値を返します。
+ *
+ * unit.partyLimitGaugeMax()
+ * - ユニットのパーティリミットの現在の最大値を返します。
+ *
+ * unit.setPartyLimitGauge(x)
+ * - ユニットのパーティリミットの現在の値をxに設定します。
+ *
+ * unit.gainPartyLimitGauge(x)
+ * - ユニットのパーティリミットは現在の値をx増加します。
+ *
+ * unit.losePartyLimitGauge(x)
+ * - ユニットのパーティリミットは現在の値をx減少します。
+ *
+ * unit.partyLimitGaugeCurrent()
+ * - ユニットのパーティリミットの使用可能なインクリメント数を返します。
+ *
+ * unit.partyLimitGaugeIncrements()
+ * - ユニットのパーティリミット最大値を返します。
+ *
+ * unit.setPartyLimitGaugeIncrement(x)
+ * - ユニットのパーティリミット最大値をxに設定します。
+ *
+ * unit.gainPartyLimitGaugeIncrement(x)
+ * - ユニットのパーティリミット最大値をx増加します。
+ *
+ * unit.losePartyLimitGaugeIncrement(x)
+ * - ユニットのパーティリミット最大値をx減少します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * イベント内でプラグインコマンドを使用して、
+ * 味方・敵パーティのパーティリミット値を変更することができます。
+ *
+ * プラグインコマンド
+ *
+ *   SetPartyLimitGaugeValue x
+ *   SetTroopLimitGaugeValue x
+ *   - 味方・敵パーティの現在のパーティリミット値をxに設定します。
+ *
+ *   GainPartyLimitGaugeValue x
+ *   GainTroopLimitGaugeValue x
+ *   - 味方・敵パーティの現在のパーティリミット値はx増加します。
+ *
+ *   LosePartyLimitGaugeValue x
+ *   LoseTroopLimitGaugeValue x
+ *   - 味方・敵パーティの現在のパーティリミット値はx減少します。
+ *
+ *   SetPartyLimitGaugeIncrement x
+ *   SetTroopLimitGaugeIncrement x
+ *   - 味方パーティ・敵パーティのパーティリミット最大値をxに設定します。
+ *
+ *   GainPartyLimitGaugeIncrement x
+ *   GainTroopLimitGaugeIncrement x
+ *   - 味方・敵パーティのパーティリミット最大値はx増加します。
+ *
+ *   LosePartyLimitGaugeIncrement x
+ *   LoseTroopLimitGaugeIncrement x
+ *   - 味方・敵パーティのパーティリミット最大値はx減少します。
+ *
+ *   ShowPartyLimitGauge
+ *   HidePartyLimitGauge
+ *   ShowTroopLimitGauge
+ *   HideTroopLimitGauge
+ *   - 味方・敵パーティリミットを表示/非表示にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.11:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.10:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.09:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.08:
+ * - Calculations for Party Limit Gauge increasing for HP and MP values are
+ * now calculated based on the actual HP and MP damage taken as per the
+ * results rather than based off of the raw incoming value (in the event that
+ * raw value gets modified as per the effects of other plugins).
+ *
+ * Version 1.07:
+ * - Fixed a bug that didn't apply the 'Party Max Bonus' parameter properly.
+ *
+ * Version 1.06:
+ * - Fixed a bug that caused some of the Plugin Commands to not work properly.
+ *
+ * Version 1.05:
+ * - Fixed a bug that caused the enemy troops to have the same settings as the
+ * player team.
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.03:
+ * - Fixed a bug with some damage formulas being unable to use 'user'.
+ *
+ * Version 1.02a:
+ * - Fixed a bug that caused certain notetags to crash the game.
+ * - Battle Engine Core's 'Hide Battle HUD' will now hide the Party Limit
+ * Gauge as well.
+ *
+ * Version 1.01:
+ * - Added 'ShowPartyLimitGauge', 'HidePartyLimitGauge',
+ * 'ShowTroopLimitGauge', 'HideTroopLimitGauge' Plugin Commands to hide/show
+ * the Party Limit Gauges
+ * while midgame.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,540 @@
+/*:ja
+ * @plugindesc v1.06 保存メニューのレイアウトを変更し、ファイルシステムのルールを制御します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Max Files
+ * @text 最大ファイル数
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc セーブファイルの最大数
+ * デフォルト:20
+ * @default 24
+ *
+ * @param Saved Icon
+ * @text 保存ファイルアイコン
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc 保存ファイルスロットの表示アイコンID
+ * @default 231
+ *
+ * @param Empty Icon
+ * @text 空ファイルアイコン
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc 空のファイルスロットの表示アイコンID
+ * @default 230
+ *
+ * @param Return After Saving
+ * @text 保存後シーン復帰
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc 保存後、前シーン復帰有効化
+ * 無効:false / 有効:true / デフォルト:true
+ * @default false
+ *
+ * @param Auto New Index
+ * @text セーブスロット自動化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ニューゲーム時、セーブスロット自動決定有効化
+ * 無効:false / 有効:true / デフォルト:true
+ * @default true
+ *
+ * @param ---アクションウィンドウ---
+ * @default
+ *
+ * @param Load Command
+ * @text ロード表示テキスト
+ * @parent ---アクションウィンドウ---
+ * @desc アクションウィンドウのロードコマンドの表示テキスト
+ * @default ロード
+ *
+ * @param Save Command
+ * @text セーブ表示テキスト
+ * @parent ---アクションウィンドウ---
+ * @desc アクションウィンドウの保存コマンドの表示テキスト
+ * @default セーブ
+ *
+ * @param Delete Command
+ * @text 削除表示テキスト
+ * @parent ---アクションウィンドウ---
+ * @desc アクションウィンドウ内の削除コマンドの表示テキスト
+ * @default 削除
+ *
+ * @param ---ヘルプウィンドウ---
+ * @default
+ *
+ * @param Select Help
+ * @text 選択時テキスト
+ * @parent ---ヘルプウィンドウ---
+ * @desc スロットを選択した時に表示されるヘルプテキスト
+ * @default ファイルスロットを選択してください。
+ *
+ * @param Load Help
+ * @text ロード時テキスト
+ * @parent ---ヘルプウィンドウ---
+ * @desc ロードオプションを選択した時に表示されるヘルプテキスト。
+ * @default 保存データを読み込みます。
+ *
+ * @param Save Help
+ * @text セーブ時テキスト
+ * @parent ---ヘルプウィンドウ---
+ * @desc セーブオプションを選択した時に表示されるヘルプテキスト。
+ * @default ゲームの現在の進行状況を保存します。
+ *
+ * @param Delete Help
+ * @text 削除時テキスト
+ * @parent ---ヘルプウィンドウ---
+ * @desc 削除オプションを選択した時に表示されるヘルプテキスト。
+ * @default この保存ファイルのデータを削除します。
+ *
+ * @param ---削除---
+ * @default
+ *
+ * @param Delete Filename
+ * @text SE
+ * @parent ---削除---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc セーブデータ削除時SEをフォルダ(/audio/se/)内から選択。ファイル拡張子を含めないでください。
+ * @default Damage2
+ *
+ * @param Delete Volume
+ * @text 音量
+ * @parent ---削除---
+ * @desc 削除SEに使用される音量
+ * @default 100
+ *
+ * @param Delete Pitch
+ * @text ピッチ
+ * @parent ---削除---
+ * @desc 削除SEに使用されるピッチ
+ * @default 150
+ *
+ * @param Delete Pan
+ * @text パン
+ * @parent ---削除---
+ * @desc 削除音に使用されるパン
+ * @default 0
+ *
+ * @param ---情報ウィンドウ---
+ * @default
+ *
+ * @param Show Game Title
+ * @text ゲームタイトル表示
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc セーブファイルにゲームタイトルを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Invalid Game Text
+ * @text 別ゲーム用テキスト
+ * @parent ---情報ウィンドウ---
+ * @desc セーブが別のゲーム用である時に使用されるテキスト
+ * @default このセーブデータは別のゲーム用です。
+ *
+ * @param Empty Game Text
+ * @text 空テキスト
+ * @parent ---情報ウィンドウ---
+ * @desc 保存が空の時に使用されるテキスト
+ * @default 空
+ *
+ * @param Map Display Name
+ * @text マップ名表示
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 保存したマップ表示名を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Party Display
+ * @text パーティー表示
+ * @parent ---情報ウィンドウ---
+ * @type select
+ * @option なし
+ * @value 0
+ * @option 歩行グラフィック
+ * @value 1
+ * @option 顔グラフィック
+ * @value 2
+ * @option SVアクター
+ * @value 3
+ * @desc パーティーに使用される表示タイプ
+ * 0:なし / 1:歩行画像 / 2:顔画像 / 3:SVアクター
+ * @default 2
+ *
+ * @param Party Y Position
+ * @text パーティー表示Y位置
+ * @parent ---情報ウィンドウ---
+ * @desc パーティー表示のY位置
+ * 式を使用できます。
+ * @default this.lineHeight() + Window_Base._faceHeight
+ *
+ * @param Show Actor Names
+ * @text アクター名表示
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターの名前の表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Name Font Size
+ * @text 名前フォントサイズ
+ * @parent ---情報ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 名前表示に使用されるフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Show Actor Level
+ * @text アクターレベル表示
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターのレベル表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Level Font Size
+ * @text レベルフォントサイズ
+ * @parent ---情報ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc レベル表示に使用されるフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Level Format
+ * @text レベル表示形式
+ * @parent ---情報ウィンドウ---
+ * @desc レベルの表示形式
+ * %1:Lv(略) / %2:レベル(全文) / %3:値
+ * @default \c[16]%1 \c[0]%3
+ *
+ * @param Data Font Size
+ * @text データフォントサイズ
+ * @parent ---情報ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc データ表示のフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Data Column 1
+ * @text データ列1データ
+ * @parent ---情報ウィンドウ---
+ * @desc データ列1に表示されるデータ。各エントリはカンマ区切。データ詳細はヘルプ参照
+ * @default empty, playtime, save count, gold count
+ *
+ * @param Data Column 2
+ * @text データ列2データ
+ * @parent ---情報ウィンドウ---
+ * @desc データ列2に表示されるデータ。各エントリはカンマ区切。データ詳細はヘルプ参照
+ * @default location, variable 1, variable 2, variable 3
+ *
+ * @param Data Column 3
+ * @text データ列3データ
+ * @parent ---情報ウィンドウ---
+ * @desc データ列3に表示されるデータ。各エントリカンマ区切り。データ詳細はヘルプ参照
+ * @default empty, variable 4, variable 5, variable 6
+ *
+ * @param Data Column 4
+ * @text データ列4データ
+ * @parent ---情報ウィンドウ---
+ * @desc データ列4に表示されるデータ。各エントリカンマ区切り。データ詳細はヘルプ参照
+ * @default
+ *
+ * @param ---表示情報---
+ * @default
+ *
+ * @param Map Location
+ * @text マップ表示名
+ * @parent ---表示情報---
+ * @desc 「マップの表示名」の見出し。空白にするとデータのみを中央に配置
+ * @default
+ *
+ * @param Playtime
+ * @text プレイ時間
+ * @parent ---表示情報---
+ * @desc 「プレイ時間」の見出し。空白にするとデータのみを中央に配置
+ * @default プレイ時間:
+ *
+ * @param Save Count
+ * @text 保存回数
+ * @parent ---表示情報---
+ * @desc 「保存回数」の見出し。空白にするとデータのみを中央に配置
+ * @default 保存回数:
+ *
+ * @param Gold Count
+ * @text 所持金
+ * @parent ---表示情報---
+ * @desc 「所持金」の見出し。空白にするとデータのみを中央に配置
+ * @default %1:
+ *
+ * @param ---技術設定---
+ * @default
+ *
+ * @param Save Mode
+ * @text セーブモード
+ * @parent ---技術設定---
+ * @type combo
+ * @option local
+ * @option web
+ * @option auto
+ * @desc セーブシステムのモード
+ * local / web / auto
+ * @default auto
+ *
+ * @param Local Config
+ * @text Local Config ファイル名
+ * @parent ---技術設定---
+ * @desc localセーブを扱う時のconfigのファイル名
+ * デフォルト:config.rpgsave
+ * @default config.rpgsave
+ *
+ * @param Local Global
+ * @text Local Global ファイル名
+ * @parent ---技術設定---
+ * @desc localセーブを扱う時のグローバルのファイル名
+ * デフォルト:global.rpgsave
+ * @default global.rpgsave
+ *
+ * @param Local Save
+ * @text Local Save ファイル名
+ * @parent ---技術設定---
+ * @desc localセーブ時のゲームセーブのファイル名
+ * %1:ファイルスロット / デフォルト:config.rpgsave
+ * @default file%1.rpgsave
+ *
+ * @param Web Config
+ * @text Web Config ファイル名
+ * @parent ---技術設定---
+ * @desc Webセーブ時のConfigのファイル名。%1:ゲームタイトル / デフォルト:RPG Config
+ * @default RPG %1 Config
+ *
+ * @param Web Global
+ * @text Web Global ファイル名
+ * @parent ---技術設定---
+ * @desc Webセーブ時のグローバルのファイル名
+ * %1:ゲームタイトル / デフォルト:RPG Global
+ * @default RPG %1 Global
+ *
+ * @param Web Save
+ * @text Web Save ファイル名
+ * @parent ---技術設定---
+ * @desc Webセーブ時のゲームセーブのファイル名。 %1:ゲームタイトル / %2:ファイルスロット / デフォルト:RPG File%1
+ * @default RPG %1 File%2
+ *
+ * @param ---設定---
+ * @default
+ *
+ * @param Load Confirmation
+ * @text ロード確認
+ * @parent ---設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc セーブファイルをロード時、ロード確認の表示。非表示:false / 表示:true
+ * @default true
+ *
+ * @param Load Text
+ * @text ロード確認テキスト
+ * @parent ---設定---
+ * @desc 保存ファイルをロード時の確認テキスト
+ * @default このセーブファイルをロードしますか?
+ *
+ * @param Save Confirmation
+ * @text セーブ確認
+ * @parent ---設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 上書きセーブ時、保存確認を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Save Text
+ * @text セーブ確認テキスト
+ * @parent ---設定---
+ * @desc 保存ファイルを上書き時の確認テキスト
+ * @default このセーブファイルを上書きしますか?
+ *
+ * @param Delete Confirmation
+ * @text 削除確認
+ * @parent ---設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 保存ファイルを削除時、削除確認を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Delete Text
+ * @text 削除確認テキスト
+ * @parent ---設定---
+ * @desc 保存ファイルを削除時の確認テキスト
+ * @default このセーブファイルを削除しますか?
+ *
+ * @param Confirm Yes
+ * @text 「はい」選択肢
+ * @parent ---設定---
+ * @desc 「はい」の確認コマンドの表示テキスト
+ * @default はい
+ *
+ * @param Confirm No
+ * @text 「いいえ」選択肢
+ * @parent ---設定---
+ * @desc 「いいえ」確認コマンドの表示テキスト
+ * @default いいえ
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはプレイヤーに新しい保存インターフェースを提供します。
+ * 新しいインターフェースは、セーブファイルをロード、削除できます。
+ * これにより、メインメニューからの保存コマンドが常に使用可能になりますが、
+ * 新しいセーブメニュー内のセーブオプションは、
+ * それが許可されているかどうかに応じて有効になります。
+ * インターフェースから、プレーヤーはセーブした場所、利用可能な所持金、
+ * 変数など、セーブファイルに関するより多くの情報を与えられます。
+ *
+ * ===========================================================================
+ * 説明 - データ列
+ * ===========================================================================
+ *
+ * 各セーブファイルのセーブメニューに追加のデータを表示したい場合、
+ * プラグインパラメータ内の 'データ列'内に
+ * データカテゴリを追加することができます。
+ * 各カテゴリはカンマ(,)で区切ります。
+ * データカテゴリには以下のエントリを使用することができます。
+ *
+ * データ列のカテゴリ:
+ *
+ *   Empty
+ *   - カテゴリの場所に空のボックスを残します。
+ *   これはカテゴリスロットに暗い長方形さえ表示しません。
+ *
+ *   Null
+ *   - テキストを描画しませんが、カテゴリスロットに暗い四角形を表示します。
+ *
+ *   Location
+ *   - 保存ファイルの現在の地図上の位置を表示します。
+ *
+ *   Playtime
+ *    - 保存ファイルに費やされた再生時間を表示します。
+ *
+ *   Save Count
+ *    - プレイを通して保存された回数を表示します。
+ *
+ *   Gold Count
+ *   - セーブファイルの現在の所持金を表示します。
+ *
+ *   Variable x
+ *   - 変数の名前と変数の値を表示します。
+ *   変数名にはテキストコードを使用できます。
+ *   <<と>> の間のテキストは表示時に表示されません。
+ *   変数名が空の場合、値は中央に配置されます。
+ *
+ *   text: stuff
+ *   left text: stuff
+ *   center text: stuff
+ *   right text: stuff
+ *   - データを添付せずに'stuff'(自分のテキストで置き換える)を表示します。
+ *   テキスト配置は、'left'、'center'、'right'を使用します。
+ *   配置が使用されていない場合は、デフォルトの'left'配置になります。
+ *   表示テキスト内にテキストコードを使うことができます。
+ *
+ * ===========================================================================
+ * 技術設定 - 保存モード
+ * ===========================================================================
+ *
+ * 制作者に'技術設定'パラメータを検討することをお勧めします。
+ * ゲームが'local'/'Web'モードで実行されているように
+ * 強制することができます。
+ * デフォルトでは 'auto'ですが、強制モードはテスト用です。
+ * テスト目的で、ゲームを'Web'モードでセーブを調整したい場合、
+ * ゲームが'local'でも、'Web'モードにしておくことができます。
+ * ただし、Web上のゲームは'local'モードを使用できず、
+ * 自動的に'Web'モードにデフォルト設定されます。
+ *
+ * ===========================================================================
+ * 技術設定 - 保存ファイル
+ * ===========================================================================
+ *
+ * 'Local Config'、'Local Global'、'Local Save'では、
+ * ファイル名の形式を好みに合わせて変更できます。
+ * 機能の意味を理解していない限りこれを使用することを勧めません。
+ *
+ * ---
+ *
+ * ただし、Webベース(モバイルを含む)を作成している場合、
+ * 'Web Config'、'Web Global'、'Web Save'パラメータを
+ * 確認することを強くお勧めします。
+ * デフォルトでは、すべての保存をRPG FileXにデフォルト設定します。
+ * すべてのWebベースのRPGツクールMV製ゲームは
+ * 同じ設定、同じグローバルセーブファイルを使用し、
+ * 個人がプレイするすべてのゲームは同じセーブスロットを共有します。
+ * これは非常に問題があります。
+ *
+ * このプラグインのデフォルト設定は、現在のプラグイン設定を変更しないか、
+ * それに応じて調整すれば、
+ * Webの名前をゲームの名前に合わせて名前を付けて保存することで、
+ * この共有の問題を解決します。
+ * これで、他のRPG Maker MVゲームプレイヤーと衝突することなく、
+ * 独自のアイデンティティを持ち、独自の設定を使用し、
+ * グローバルにファイルを保存するようになります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.06:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.05:
+ * - Added anti-crash measure for nonexistent $dataMapInfos entries.
+ *
+ * Version 1.04:
+ * - Added 'Map Display Name' plugin parameter. Enabling this option will now
+ * display the display name for the map instead of the editor name.
+ *
+ * Version 1.03:
+ * - Fixed a bug that caused web saving to not work properly.
+ *
+ * Version 1.02:
+ * - Fixed a bug that caused the actor's default name to appear in the save
+ * screen instead of the actor's current name (if it was changed.)
+ *
+ * Version 1.01:
+ * - Added a wait time update for save info data to load when moving across
+ * the various save files.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

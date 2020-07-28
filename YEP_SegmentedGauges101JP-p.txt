@@ -1,0 +1,94 @@
+/*:ja
+ * @plugindesc v1.01 ゲージを分割して読みやすくします。
+ * @author Yanfly Engine Plugins + Tigress + Collaboration
+ *
+ * @param ---セグメント---
+ * @text ---セグメント---
+ * @default
+ *
+ * @param HP Gauge Segments
+ * @text HPゲージセグメント
+ * @parent ---セグメント---
+ * @type Number
+ * @min 1
+ * @desc どのくらいのHPでセグメントを作成しますか？
+ * @default 100
+ *
+ * @param MP Gauge Segments
+ * @text MPゲージセグメント
+ * @parent ---セグメント---
+ * @type Number
+ * @min 1
+ * @desc どのくらいのMPでセグメントを作成しますか？
+ * @default 15
+ *
+ * @param TP Gauge Segments
+ * @text TPゲージセグメント
+ * @parent ---セグメント---
+ * @type Number
+ * @min 1
+ * @desc どのくらいのTPでセグメントを作成しますか？
+ * @default 10
+ *
+ * @param ---Status Menu Core---
+ * @text ---ステータスメニューコア---
+ * @default
+ *
+ * @param EXP Gauge Segments
+ * @text 経験値ゲージセグメント
+ * @parent ---Status Menu Core---
+ * @type Number
+ * @min 1
+ * @desc どのくらいの経験値でセグメントを作成しますか？
+ * @default 100
+ *
+ * @param Param Gauge Segments
+ * @text 能力値ゲージセグメント
+ * @parent ---Status Menu Core---
+ * @type Number
+ * @min 1
+ * @desc どのくらいの能力値でセグメントを作成しますか？
+ * @default 100
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * セグメントは特定の固定値に応じて分割され、
+ * プレイヤーはHP、MP、TPゲージの正確な値を推測できます。
+ * 通常、ゲージが多すぎると読みづらいことがあるためです。
+ * セグメント化することによって
+ * プレーヤーがバトラーのHP、MP、TPが残っているか
+ * より分かりやすくしましょう。
+ * セグメント毎に多くの値を使用するように設定することもできます。
+ *
+ * このプラグインはプラグアンドプレイですが、
+ * ゲームの設定やニーズに合わせてプラグインパラメータを調整できます。
+ * プラグインのパラメータにある値を調整して、
+ * ゲージのHP、MP、TPにあるセグメントを変更するために、
+ * アスペクトを調整します。
+ *
+ * YEP_StatusMenuCore はこのプラグインと互換性があり、
+ * 経験値ゲージとパラメータゲージのセグメントゲージを表示します。
+ * 他のプラグインパラメータと同様に、
+ * ゲージ毎に追加されるセグメントの量を調整し、表示できます。
+ *
+ * YanflyEnginePluginsライブラリーとの互換性を保証するための
+ * Tigress と Yanfly によるコラボレーション・プラグインであり、
+ * どのように取り組むかについてのアイデアについては Fragrarch に感謝します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

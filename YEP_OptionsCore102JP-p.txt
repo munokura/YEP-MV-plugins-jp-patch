@@ -1,0 +1,484 @@
+/*:ja
+ * @plugindesc v1.02 オプションメニューのカスタマイズ性を高め、よりビジュアル性を高くします
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 警告:このプラグインはRPGツクールMV1.5.0以降で使用できます。
+ * MV1.5.0以降のエディタで、このプラグインを正常な状態で動作させるためです。
+ * このプラグインを使用する前に、
+ * RPGツクールMVが最新であることを確認してください。
+ *
+ * オプションメニューは、
+ * プレイヤーのゲームの快適さを変えることができる1つの要素です。
+ * オプションメニュー内で、プレイヤーは任意の設定を変更できます。
+ * デフォルトで'常時ダッシュ'や'コマンド記憶'の設定は
+ * RPGツクールMVに含まれており、
+ * RPGツクールMV用に作られた他のプラグインも
+ * リストに新しいオプションを追加するかもしれません。
+ * しかし、メニュー自体は、調整・確認が少々使いづらいものでした。
+ * このプラグインはオプションメニューを視覚的に変化させ、
+ * プレイヤーに合うようにメニューに追加できるオプションを
+ * 完全にコントロールすることができます。
+ *
+ * このプラグインは以下のプラグインをサポートしています:
+ * - GamepadConfig.js
+ * - YEP_AnimateTilesOption.js
+ * - YEP_BattleAniSpeedOpt.js
+ * - YEP_FpsSynchOption.js
+ * - YEP_KeyboardConfig.js
+ * - YEP_X_ActSeqPack3.js
+ * - YEP_X_BattleSysATB.js
+ * - YEP_X_DifficultySlider.js
+ *
+ * それぞれ最新版を使用して下さい。
+ *
+ * ===========================================================================
+ * 説明 - オプションカテゴリ プラグインパラメーター
+ * ===========================================================================
+ *
+ * このプラグインは、オプションメニューにカテゴリを追加します。
+ * 「全て」と「終了」のカテゴリを除き、
+ * 全てのカテゴリはメニューの表示方法、動作をカスタマイズできます。
+ *
+ * 各パラメータの動作は次のとおりです。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   Name:
+ *   - カテゴリ名の表示方法を決定します。
+ *   必要に応じてカテゴリに名前を付けるか名前を変更します。
+ *   このパラメータで制御文字を使用して、
+ *   アイコンの追加(\ i [x])やカテゴリのテキスト色の変更(\ c [x])を
+ *   行うことができます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   Help Description:
+ *   - このカテゴリがハイライト表示されている時、
+ *   オプションメニュー上部のヘルプウィンドウに表示されるテキストです。
+ *   カテゴリに表示されるオプションの種類と、
+ *   ゲームに与える影響を説明するために使用します。
+ *   このパラメータには制御文字を使用することもできます。
+ *
+ *   Options List:
+ *   - このカテゴリが強調表示または選択されている時、
+ *   [オプション]メニューの右側に表示されるオプションのリストです。
+ *   必要に応じて、このリストからオプションを追加、編集、移動、削除できます。
+ *   オプションリストのプラグインパラメータがどのように機能するかについては、
+ *   次の章をご覧ください。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ===========================================================================
+ * 説明 - Options List プラグインパラメータ
+ * ===========================================================================
+ *
+ * この章では、Options Listのプラグインパラメータがどのように機能するのか、
+ * 他のプラグインとどのようにやり取りするのかについて説明します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   Name:
+ *   - オプション名の表示方法を決定します。
+ *   適切と思われるオプションの名前に変更します。
+ *   デフォルトで他のプラグインによって提供されるコマンド名を使いません。
+ *   このパラメータで制御文字を使用すると、
+ *   アイコンを追加したり(\ i [x])、
+ *   オプションのテキストの色を変更したり(\ c [x])できます。
+ *
+ *   * 'quotes'なしで'EVAL: code'と命名すると、
+ *     このオプションの名前はコードが出力する文字列になります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   Help Description:
+ *   - このオプションが強調表示されている時、
+ *   オプションメニュー上部のヘルプウィンドウに表示されるテキストです。
+ *   このオプションがゲームに対して働くかを説明するために使用してください。
+ *
+ *   ---
+ *
+ *   Symbol:
+ *   - オプションのシンボルです。
+ *   オプション設定内で競合が発生しないように、
+ *   各オプションには一意のシンボルを付ける必要があります。
+ *   ただし、共有シンボルは、選択しても同じ機能を実行できれば問題ありません。
+ *
+ *   ---
+ *
+ *   Show/Hide:
+ *   - オプションがこのカテゴリ内のオプションのリストに
+ *   表示されるかどうかを決定するために使用されるコードです。
+ *
+ *     常に表示されるようにするには、次のコードを使用します。
+ *     show = true;
+ *
+ *   ---
+ *
+ *   Enable:
+ *   - オプションが有効になるかどうかを決定するために使用されるコードです。
+ *   プレーヤーからオプションをロックしないように、
+ *   全てのオプションを有効のままにしておくことをお勧めします。
+ *
+ *     常に有効にするには、次のコードを使用します。
+ *     enabled = true;
+ *
+ *   ---
+ *
+ *   Ext:
+ *   - 拡張子を表します。
+ *   これはオプションの2番目のシンボルとして機能し、
+ *   ほとんど何にでも使用できます。
+ *   オプションの効果がExt値に関連していない限り、
+ *   オプションに直接の影響はありません。
+ *   オプションの大部分はExt値を利用する必要がないので、
+ *   変更しないのが最善です。
+ *
+ *     そのままにするには、次のコードを使用します。
+ *     ext = 0;
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * 次の章は、JavaScriptプログラミングを知らず、
+ * それを設定する方法についても説明がない場合、
+ * 何もしないでおくことをお勧めします。
+ * これは、オプションに関連する全ての動作をここから制御でき、
+ * ミスがゲームをクラッシュさせる可能性があるためです。
+ *
+ *   コマンドコードの作成:
+ *   - optionコマンドをオプションのリストに追加するためのコードです。
+ *   これを使用して、名前、シンボルが有効になっている場合はそれを変更するか、
+ *   最後にリストに追加する前にext値を変更します。
+ *
+ *     デフォルトのコード:
+ *     this.addCommand(name, symbol, enabled, ext);
+ *
+ *   ---
+ *
+ *   オプションコードの表示:
+ *   - オプションウィンドウに「表示」させる方法です。
+ *   ここにある全てのものが、
+ *   オプションの名前からテキストの位置までの外観を制御します。
+ *   デフォルトコードの始めに定義された変数の大部分は、
+ *   便宜上そこに置かれます。
+ *
+ *     デフォルトのコード:
+ *     var rect = this.itemRectForText(index);
+ *     var statusWidth = this.statusWidth();
+ *     var titleWidth = rect.width - statusWidth;
+ *     this.resetTextColor();
+ *     this.changePaintOpacity(this.isCommandEnabled(index));
+ *     this.drawOptionsName(index);
+ *     this.drawOptionsOnOff(index);
+ *
+ *   ---
+ *
+ *   OKコードの処理:
+ *   - プレイヤーがオプションの確認ボタン(Z、Enter、左クリック)を押した時に
+ *   実行されるコードです。
+ *   ほとんどのオプションで、これはON / OFFオプションを切り替えます。
+ *   他のケースとして、
+ *   オプションの値がループバックするまで上昇するでしょう。
+ *
+ *     デフォルトのコード:
+ *     var index = this.index();
+ *     var symbol = this.commandSymbol(index);
+ *     var value = this.getConfigValue(symbol);
+ *     this.changeValue(symbol, !value);
+ *
+ *   ---
+ *
+ *   カーソル右コード:
+ *   - プレーヤーが右ボタンを押した時に実行されるコードです。
+ *   通常、オプションがONの位置に移動します。
+ *   他のケースとして、オプションの値を上昇するでしょう。
+ *
+ *     デフォルトのコード:
+ *     var index = this.index();
+ *     var symbol = this.commandSymbol(index);
+ *     var value = this.getConfigValue(symbol);
+ *     this.changeValue(symbol, true);
+ *
+ *   ---
+ *
+ *   カーソル左コード:
+ *   - プレイヤーが左ボタンを押した時に実行されるコードです。
+ *   通常、オプションがOFFの位置に移動します。
+ *   他のケースとして、オプションの値を減少するでしょう。
+ *
+ *     デフォルトのコード:
+ *     var index = this.index();
+ *     var symbol = this.commandSymbol(index);
+ *     var value = this.getConfigValue(symbol);
+ *     this.changeValue(symbol, false);
+ *
+ *   ---
+ *
+ *   デフォルト値のコード:
+ *   - 新しいオプションを作成する時、
+ *   オプションのデフォルト値を決定します。
+ *   ほとんどのオプションで、これはOFF位置から始まります。
+ *   これは通常bool値の'false'で設定されます。
+ *
+ *     デフォルトのコード:
+ *     ConfigManager[symbol] = false;
+ *
+ *   ---
+ *
+ *   設定保存のコード:
+ *   - オプション設定の保存をどのように行うかを決定します。
+ *   通常、ConfigManagerと同じ値になります。
+ *
+ *     デフォルトのコード:
+ *     config[symbol] = ConfigManager[symbol];
+ *
+ *   ---
+ *
+ *   構成ロードのコード:
+ *   - ConfigManagerがゲームのロード時に
+ *   保存されたOptions Settingsをロードする方法を決定します。
+ *   通常、設定ファイル内に保存されている設定を全て取り込み、
+ *   それを直接ConfigManagerに直接適用します。
+ *
+ *     デフォルトのコード:
+ *     ConfigManager[symbol] = !!config[symbol];
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.01:
+ * - Updated for Message Speed Options.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---Categories---
+ * @text ---カテゴリ---
+ * @default
+ *
+ * @param OptionsCategories
+ * @text オプションカテゴリ
+ * @parent ---Categories---
+ * @type struct<Categories>[]
+ * @desc オプションシーン内で表示するカテゴリ
+ * @default ["{\"Name\":\"\\\\i[87]一般\",\"---設定---\":\"\",\"HelpDesc\":\"\\\"ゲーム動作の一般的な設定\\\"\",\"OptionsList\":\"[\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[87]常時ダッシュ\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"オフの時は歩き、オンの時はダッシュします。\\\\\\\\\\\\\\\\nSHIFTを押している間、歩くのとダッシュが切り替わります。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"alwaysDash\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nthis.drawOptionsOnOff(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, !value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, true);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, false);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = false;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = config[symbol];\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[87]コマンド記憶\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ゲームは戦闘中に選択された最後のコマンドを記憶します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"commandRemember\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nthis.drawOptionsOnOff(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, !value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, true);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, false);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = false;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = config[symbol];\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[87]ATB 速度\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ATBゲージが戦闘中に上がる速度を決定します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"atbSpeed\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"if (Imported.YEP_X_BattleSysATB) {\\\\\\\\\\\\\\\\n  show = $gameSystem.getBattleSystem() === 'atb';\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  show = false;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = value / 10;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(13);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(5);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += 1;\\\\\\\\\\\\\\\\nif (value > 10) value = 1;\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += 1;\\\\\\\\\\\\\\\\nif (value > 10) value = 1;\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= 1;\\\\\\\\\\\\\\\\nif (value < 1) value = 10;\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[87]敵の難易度\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"敵のレベルの強さを決定します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"difficultySlider\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"if (Imported.YEP_X_DifficultySlider) {\\\\\\\\\\\\\\\\n  show = $gameSystem.showDifficultySlider();\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  show = false;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = value / Yanfly.Param.DSliderMaxDif;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(28);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(29);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += Yanfly.Param.DSliderChange;\\\\\\\\\\\\\\\\nif (value > Yanfly.Param.DSliderMaxDif) value = Yanfly.Param.DSliderMinDif;\\\\\\\\\\\\\\\\nvalue = value.clamp(Yanfly.Param.DSliderMinDif, Yanfly.Param.DSliderMaxDif);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += Yanfly.Param.DSliderChange;\\\\\\\\\\\\\\\\nvalue = value.clamp(Yanfly.Param.DSliderMinDif, Yanfly.Param.DSliderMaxDif);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= Yanfly.Param.DSliderChange;\\\\\\\\\\\\\\\\nvalue = value.clamp(Yanfly.Param.DSliderMinDif,\\\\\\\\\\\\\\\\nYanfly.Param.DSliderMaxDif);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[87]メッセージスピード\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"メッセージ中の表示速度を変更します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"messageSpeed\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = Imported.YEP_X_MessageSpeedOpt;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = ((value) / 10).clamp(0, 1);\\\\\\\\\\\\\\\\nif (value > 10) {\\\\\\\\\\\\\\\\n  var gaugeColor1 = this.textColor(14);\\\\\\\\\\\\\\\\n  var gaugeColor2 = this.textColor(6);\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  var gaugeColor1 = this.textColor(20);\\\\\\\\\\\\\\\\n  var gaugeColor2 = this.textColor(21);\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += 1;\\\\\\\\\\\\\\\\nif (value > 11) value = 0;\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 11);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += 1;\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 11);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= 1;\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 11);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[87]クエストウィンドウ\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"現在アクティブなウィンドウを表示\\\\\\\\\\\\\\\\nクエストを表示します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"mapQuestWindow\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = Imported.YEP_X_MapQuestWindow;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nthis.drawOptionsOnOff(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, !value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, true);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, false);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\" \\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\" \\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"none\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\"]\"}","{\"Name\":\"\\\\i[80]音量\",\"---設定---\":\"\",\"HelpDesc\":\"\\\"ゲームの音量を設定\\\"\",\"OptionsList\":\"[\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[80]総合音量\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ゲーム全体の音量を調整します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"masterVolume\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = value / 100;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(22);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(23);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nif (value > 100) {\\\\\\\\\\\\\\\\n  value = 0;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var value = config[symbol];\\\\\\\\\\\\\\\\nif (value !== undefined) {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = Number(value).clamp(0, 100);\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[80]BGM 音量\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"BGMの音量を調整します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"bgmVolume\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = value / 100;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(30);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(31);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nif (value > 100) {\\\\\\\\\\\\\\\\n  value = 0;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var value = config[symbol];\\\\\\\\\\\\\\\\nif (value !== undefined) {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = Number(value).clamp(0, 100);\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[80]BGS 音量\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"BGSの音量を調整します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"bgsVolume\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = value / 100;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(30);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(31);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nif (value > 100) {\\\\\\\\\\\\\\\\n  value = 0;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var value = config[symbol];\\\\\\\\\\\\\\\\nif (value !== undefined) {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = Number(value).clamp(0, 100);\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[80]ME 音量\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"MEの音量を調整します。\\\\\\\\\\\\\\\\n\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"meVolume\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = value / 100;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(30);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(31);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nif (value > 100) {\\\\\\\\\\\\\\\\n  value = 0;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var value = config[symbol];\\\\\\\\\\\\\\\\nif (value !== undefined) {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = Number(value).clamp(0, 100);\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[80]SE 音量\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"SEの音量を調整します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"seVolume\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvar rate = value / 100;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(30);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(31);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nif (value > 100) {\\\\\\\\\\\\\\\\n  value = 0;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= this.volumeOffset();\\\\\\\\\\\\\\\\nvalue = value.clamp(0, 100);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var value = config[symbol];\\\\\\\\\\\\\\\\nif (value !== undefined) {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = Number(value).clamp(0, 100);\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  ConfigManager[symbol] = 100;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\" \\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\" \\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"none\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\"]\"}","{\"Name\":\"\\\\i[302]画面表示\",\"---設定---\":\"\",\"HelpDesc\":\"\\\"ゲーム表示の描画を設定\\\"\",\"OptionsList\":\"[\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[309]ウィンドウ色調:赤\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ウィンドウ色調の値を変更: \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\c[2]赤\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\c[0] 値\\\\\\\\\\\\\\\\nSHIFTを押しながら左右を押すと大きく変わります。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"windowToneRed\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[0];\\\\\\\\\\\\\\\\nvar rate = (value + 255) / 510;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(2);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(10);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(value, titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $dataSystem.windowTone[0];\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'red');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[0];\\\\\\\\\\\\\\\\nvar offset = this.windowToneOffset();\\\\\\\\\\\\\\\\nif (Input.isPressed('shift')) offset *= 10;\\\\\\\\\\\\\\\\nvalue += offset;\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'red');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[0];\\\\\\\\\\\\\\\\nvar offset = this.windowToneOffset();\\\\\\\\\\\\\\\\nif (Input.isPressed('shift')) offset *= 10;\\\\\\\\\\\\\\\\nvalue -= offset;\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'red');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = false;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = !!config[symbol];\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[311]ウィンドウ色調:緑\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ウィンドウトーンの値を変更: \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\c[3]緑\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\c[0] 値\\\\\\\\\\\\\\\\nSHIFTを押しながら左右を押すと大きく変わります。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"windowToneGreen\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[1];\\\\\\\\\\\\\\\\nvar rate = (value + 255) / 510;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(3);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(11);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(value, titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $dataSystem.windowTone[1];\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'green');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[1];\\\\\\\\\\\\\\\\nvar offset = this.windowToneOffset();\\\\\\\\\\\\\\\\nif (Input.isPressed('shift')) offset *= 10;\\\\\\\\\\\\\\\\nvalue += offset;\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'green');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[1];\\\\\\\\\\\\\\\\nvar offset = this.windowToneOffset();\\\\\\\\\\\\\\\\nif (Input.isPressed('shift')) offset *= 10;\\\\\\\\\\\\\\\\nvalue -= offset;\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'green');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = false;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = !!config[symbol];\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[312]ウィンドウ色調:青\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ウィンドウトーンの値を変更: \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\c[1]青\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\c[0] 値\\\\\\\\\\\\\\\\nSHIFTを押しながら左右を押すと大きく変わります。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"windowToneBlue\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[2];\\\\\\\\\\\\\\\\nvar rate = (value + 255) / 510;\\\\\\\\\\\\\\\\nvar gaugeColor1 = this.textColor(1);\\\\\\\\\\\\\\\\nvar gaugeColor2 = this.textColor(9);\\\\\\\\\\\\\\\\nthis.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);\\\\\\\\\\\\\\\\nthis.drawText(value, titleWidth, rect.y, statusWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $dataSystem.windowTone[2];\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'blue');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[2];\\\\\\\\\\\\\\\\nvar offset = this.windowToneOffset();\\\\\\\\\\\\\\\\nif (Input.isPressed('shift')) offset *= 10;\\\\\\\\\\\\\\\\nvalue += offset;\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'blue');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = $gameSystem.windowTone()[2];\\\\\\\\\\\\\\\\nvar offset = this.windowToneOffset();\\\\\\\\\\\\\\\\nif (Input.isPressed('shift')) offset *= 10;\\\\\\\\\\\\\\\\nvalue -= offset;\\\\\\\\\\\\\\\\nthis.changeWindowTone(symbol, value, 'blue');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = false;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"config[symbol] = ConfigManager[symbol];\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ConfigManager[symbol] = !!config[symbol];\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\" \\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\" \\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"none\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"if (Imported.YEP_StaticTilesOption) {\\\\\\\\\\\\\\\\n  show = true;\\\\\\\\\\\\\\\\n} else if (Imported.YEP_BattleAniSpeedOpt) {\\\\\\\\\\\\\\\\n  show = true;\\\\\\\\\\\\\\\\n} else if (Imported.YEP_X_ActSeqPack3) {\\\\\\\\\\\\\\\\n  show = true;\\\\\\\\\\\\\\\\n} else if (Imported.YEP_SynchFpsOption) {\\\\\\\\\\\\\\\\n  show = true;\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  show = false;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[302]アニメタイル\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"アニメーションタイルをオンまたはオフにします。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"animateTiles\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = Imported.YEP_StaticTilesOption;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nthis.drawOptionsOnOff(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, !value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, true);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, false);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[302]戦闘アニメ速度\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"戦闘アニメーションの速度を変更します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"battleAniSpeed\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = Imported.YEP_BattleAniSpeedOpt;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar quarterWidth = statusWidth / 4;\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changePaintOpacity(value === 4);\\\\\\\\\\\\\\\\nvar text = this.battleAnimationSpeedText(4);\\\\\\\\\\\\\\\\nthis.drawText(text, titleWidth + quarterWidth * 0, rect.y, quarterWidth, 'center');\\\\\\\\\\\\\\\\nthis.changePaintOpacity(value === 3);\\\\\\\\\\\\\\\\nvar text = this.battleAnimationSpeedText(3);\\\\\\\\\\\\\\\\nthis.drawText(text, titleWidth + quarterWidth * 1, rect.y, quarterWidth, 'center');\\\\\\\\\\\\\\\\nthis.changePaintOpacity(value === 2);\\\\\\\\\\\\\\\\nvar text = this.battleAnimationSpeedText(2);\\\\\\\\\\\\\\\\nthis.drawText(text, titleWidth + quarterWidth * 2, rect.y, quarterWidth, 'center');\\\\\\\\\\\\\\\\nthis.changePaintOpacity(value === 1);\\\\\\\\\\\\\\\\nvar text = this.battleAnimationSpeedText(1);\\\\\\\\\\\\\\\\nthis.drawText(text, titleWidth + quarterWidth * 3, rect.y, quarterWidth, 'center');\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= 1;\\\\\\\\\\\\\\\\nif (value <= 0) value = 4;\\\\\\\\\\\\\\\\nvalue = value.clamp(1, 4);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue -= 1;\\\\\\\\\\\\\\\\nvalue = value.clamp(1, 4);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nvalue += 1;\\\\\\\\\\\\\\\\nvalue = value.clamp(1, 4);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[302]バトルカメラ\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ONの場合、戦闘中のカメラは動き回ります。\\\\\\\\\\\\\\\\nOFFの場合、戦闘中のカメラは固定されます。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"battleCamera\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = Imported.YEP_X_ActSeqPack3;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nthis.drawOptionsOnOff(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, !value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, true);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, false);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[302]FPS同期\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"モニタが60 FPSを超えている場合はこれをオンにして、\\\\\\\\\\\\\\\\nゲームを60 FPSで動作するように同期させます。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"synchFps\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = Imported.YEP_SynchFpsOption;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\\nthis.drawOptionsOnOff(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, !value);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, true);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var index = this.index();\\\\\\\\\\\\\\\\nvar symbol = this.commandSymbol(index);\\\\\\\\\\\\\\\\nvar value = this.getConfigValue(symbol);\\\\\\\\\\\\\\\\nthis.changeValue(symbol, false);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\" \\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\" \\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"none\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\"]\"}","{\"Name\":\"\\\\i[83]ゲーム操作\",\"---設定---\":\"\",\"HelpDesc\":\"\\\"ゲームの操作方法を設定\\\"\",\"OptionsList\":\"[\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[83]ゲームパッド設定\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ゲームのゲームパッド設定を変更します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"gamepadConfig\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"if (Imported.GamepadConfig && Input.isControllerConnected()) {\\\\\\\\\\\\\\\\n  show = !Utils.isMobileDevice();\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  show = false;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.playOkSound();\\\\\\\\\\\\\\\\nSceneManager.push(Scene_GamepadConfig);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\\i[83]キーボード設定\\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ゲームのキーボード設定を変更します。\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"keyConfig\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"if (Imported.YEP_KeyboardConfig) {\\\\\\\\\\\\\\\\n  show = !Utils.isMobileDevice();\\\\\\\\\\\\\\\\n} else {\\\\\\\\\\\\\\\\n  show = false;\\\\\\\\\\\\\\\\n}\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"var rect = this.itemRectForText(index);\\\\\\\\\\\\\\\\nvar statusWidth = this.statusWidth();\\\\\\\\\\\\\\\\nvar titleWidth = rect.width - statusWidth;\\\\\\\\\\\\\\\\nthis.resetTextColor();\\\\\\\\\\\\\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\\\\\\\\\\\\\nthis.drawOptionsName(index);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.playOkSound();\\\\\\\\\\\\\\\\nSceneManager.push(Scene_KeyConfig);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Name\\\\\\\":\\\\\\\" \\\\\\\",\\\\\\\"---設定---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"HelpDesc\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\" \\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Symbol\\\\\\\":\\\\\\\"none\\\\\\\",\\\\\\\"ShowHide\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"show = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Enable\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"enabled = true;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"Ext\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"ext = 0;\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"---関数---\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"MakeCommandCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"this.addCommand(name, symbol, enabled, ext);\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DrawItemCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"ProcessOkCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorRightCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"CursorLeftCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"DefaultConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"SaveConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\",\\\\\\\"LoadConfigCode\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"}\\\"]\"}"]
+ *
+ * @param ---オプション・メニュー---
+ * @default
+ *
+ * @param AllCommand
+ * @text 全リストの表示テキスト
+ * @parent ---オプション・メニュー---
+ * @desc 'All'コマンドの表示テキスト。使用しない場合、無入力
+ * @default \i[160]全リスト
+ *
+ * @param AllHelpDesc
+ * @text 全リストのヘルプ説明
+ * @parent AllCommand
+ * @type note
+ * @desc Allコマンド選択時のヘルプ説明。制御文字が使えます。
+ * @default "ゲーム設定の全リスト"
+ *
+ * @param ExitCommand
+ * @text 終了の表示テキスト
+ * @parent ---オプション・メニュー---
+ * @desc 'Exit'コマンドの表示テキスト。使用しない場合、無入力
+ * @default \i[16]終了
+ *
+ * @param ExitHelpDesc
+ * @text 終了のヘルプ説明
+ * @parent ExitCommand
+ * @type note
+ * @desc 'Exit'コマンド選択時のヘルプ説明。このパラメータには制御文字を使用できます
+ * @default "オプションメニュー終了"
+ *
+ * @param ---オプション設定---
+ * @default
+ *
+ * @param CategoryWidth
+ * @text カテゴリウィンドウ幅
+ * @parent ---オプション設定---
+ * @type number
+ * @min 1
+ * @desc オプションメニュー画面の左側にあるカテゴリウィンドウ幅
+ * @default 240
+ *
+ * @param StatusWidth
+ * @text オプション状況の表示幅
+ * @parent ---オプション設定---
+ * @type number
+ * @min 1
+ * @desc オプション状況の表示幅
+ * @default 400
+ *
+ * @param VolumeOffset
+ * @text ボリューム変化量
+ * @parent ---オプション設定---
+ * @type number
+ * @min 1
+ * @max 100
+ * @desc ボリューム量を調整する変化量
+ * デフォルト:20
+ * @default 10
+ *
+ * @param WindowToneOffset
+ * @text ウィンドウトーン変化量
+ * @parent ---オプション設定---
+ * @type number
+ * @min 1
+ * @max 255
+ * @desc ウィンドウトーンを調整する変化量
+ * @default 5
+ *
+ */
+/* ---------------------------------------------------------------------------
+ * Categories Parameter Structure
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~Categories:ja
+ * @param Name
+ * @text カテゴリ名
+ * @desc カテゴリウィンドウ名の表示テキスト。制御文字を使えます。
+ * @default カテゴリ名
+ *
+ * @param ---設定---
+ *
+ * @param HelpDesc
+ * @text ヘルプ説明文
+ * @parent ---設定---
+ * @type note
+ * @desc 選択したカテゴリのヘルプ。制御文字を使えます。
+ * @default "<insert category description>\n<category description line 2>"
+ *
+ * @param OptionsList
+ * @text オプション一覧
+ * @parent ---設定---
+ * @type struct<Options>[]
+ * @desc カテゴリに使用されるオプション
+ * @default ["{\"Name\":\"Option 1\",\"---設定---\":\"\",\"HelpDesc\":\"\\\"<insert option description>\\\\n<option description line 2>\\\"\",\"Symbol\":\"Option1\",\"ShowHide\":\"\\\"show = true;\\\"\",\"Enable\":\"\\\"enabled = true;\\\"\",\"Ext\":\"\\\"ext = 0;\\\"\",\"---関数---\":\"\",\"MakeCommandCode\":\"\\\"this.addCommand(name, symbol, enabled, ext);\\\"\",\"DrawItemCode\":\"\\\"var rect = this.itemRectForText(index);\\\\nvar statusWidth = this.statusWidth();\\\\nvar titleWidth = rect.width - statusWidth;\\\\nthis.resetTextColor();\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\nthis.drawOptionsName(index);\\\\nthis.drawOptionsOnOff(index);\\\"\",\"ProcessOkCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, !value);\\\"\",\"CursorRightCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, true);\\\"\",\"CursorLeftCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, false);\\\"\",\"DefaultConfigCode\":\"\\\"ConfigManager[symbol] = false;\\\"\",\"SaveConfigCode\":\"\\\"config[symbol] = ConfigManager[symbol];\\\"\",\"LoadConfigCode\":\"\\\"ConfigManager[symbol] = !!config[symbol];\\\"\"}","{\"Name\":\"Option 2\",\"---設定---\":\"\",\"HelpDesc\":\"\\\"<insert option description>\\\\n<option description line 2>\\\"\",\"Symbol\":\"Option2\",\"ShowHide\":\"\\\"show = true;\\\"\",\"Enable\":\"\\\"enabled = true;\\\"\",\"Ext\":\"\\\"ext = 0;\\\"\",\"---関数---\":\"\",\"MakeCommandCode\":\"\\\"this.addCommand(name, symbol, enabled, ext);\\\"\",\"DrawItemCode\":\"\\\"var rect = this.itemRectForText(index);\\\\nvar statusWidth = this.statusWidth();\\\\nvar titleWidth = rect.width - statusWidth;\\\\nthis.resetTextColor();\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\nthis.drawOptionsName(index);\\\\nthis.drawOptionsOnOff(index);\\\"\",\"ProcessOkCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, !value);\\\"\",\"CursorRightCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, true);\\\"\",\"CursorLeftCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, false);\\\"\",\"DefaultConfigCode\":\"\\\"ConfigManager[symbol] = false;\\\"\",\"SaveConfigCode\":\"\\\"config[symbol] = ConfigManager[symbol];\\\"\",\"LoadConfigCode\":\"\\\"ConfigManager[symbol] = !!config[symbol];\\\"\"}","{\"Name\":\"Option 3\",\"---設定---\":\"\",\"HelpDesc\":\"\\\"<insert option description>\\\\n<option description line 2>\\\"\",\"Symbol\":\"Option3\",\"ShowHide\":\"\\\"show = true;\\\"\",\"Enable\":\"\\\"enabled = true;\\\"\",\"Ext\":\"\\\"ext = 0;\\\"\",\"---関数---\":\"\",\"MakeCommandCode\":\"\\\"this.addCommand(name, symbol, enabled, ext);\\\"\",\"DrawItemCode\":\"\\\"var rect = this.itemRectForText(index);\\\\nvar statusWidth = this.statusWidth();\\\\nvar titleWidth = rect.width - statusWidth;\\\\nthis.resetTextColor();\\\\nthis.changePaintOpacity(this.isCommandEnabled(index));\\\\nthis.drawOptionsName(index);\\\\nthis.drawOptionsOnOff(index);\\\"\",\"ProcessOkCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, !value);\\\"\",\"CursorRightCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, true);\\\"\",\"CursorLeftCode\":\"\\\"var index = this.index();\\\\nvar symbol = this.commandSymbol(index);\\\\nvar value = this.getConfigValue(symbol);\\\\nthis.changeValue(symbol, false);\\\"\",\"DefaultConfigCode\":\"\\\"ConfigManager[symbol] = false;\\\"\",\"SaveConfigCode\":\"\\\"config[symbol] = ConfigManager[symbol];\\\"\",\"LoadConfigCode\":\"\\\"ConfigManager[symbol] = !!config[symbol];\\\"\"}"]
+ *
+ */
+/* ---------------------------------------------------------------------------
+ * Options Parameter Structure
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~Options:ja
+ * @param Name
+ * @text オプション名
+ * @desc オプションウィンドウに表示されるオプション名。制御文字が使えます。
+ * @default <insert option name>
+ *
+ * @param ---設定---
+ *
+ * @param HelpDesc
+ * @text ヘルプ説明
+ * @type note
+ * @parent ---設定---
+ * @desc オプション選択時のヘルプ説明文。制御文字が使えます。
+ * @default "<insert option description>\n<option description line 2>"
+ *
+ * @param Symbol
+ * @text シンボル
+ * @parent ---設定---
+ * @desc 選択時にオプションに使用されるシンボル。これが他のシンボルとは異なることを確認してください。
+ * @default <insert option symbol>
+ *
+ * @param ShowHide
+ * @text 表示・非表示
+ * @parent ---設定---
+ * @type note
+ * @desc オプションの表示・非表示に使用されるコード
+ * @default "show = true;"
+ *
+ * @param Enable
+ * @text 有効化コード
+ * @parent ---設定---
+ * @type note
+ * @desc オプションを有効・無効に使用されるコード
+ * @default "enabled = true;"
+ *
+ * @param Ext
+ * @text Ext値コード
+ * @parent ---設定---
+ * @type note
+ * @desc オプションのExt値を決定するコード
+ * @default "ext = 0;"
+ *
+ * @param ---関数---
+ *
+ * @param MakeCommandCode
+ * @text オプション追加コード
+ * @parent ---関数---
+ * @type note
+ * @desc オプションコマンドを追加するコード
+ * @default "this.addCommand(name, symbol, enabled, ext);"
+ *
+ * @param DrawItemCode
+ * @text オプション表示コード
+ * @parent ---関数---
+ * @type note
+ * @desc オプションを表示するコード
+ * @default "var rect = this.itemRectForText(index);\nvar statusWidth = this.statusWidth();\nvar titleWidth = rect.width - statusWidth;\nthis.resetTextColor();\nthis.changePaintOpacity(this.isCommandEnabled(index));\nthis.drawOptionsName(index);\nthis.drawOptionsOnOff(index);"
+ *
+ * @param ProcessOkCode
+ * @text 確認ボタンのコード
+ * @parent ---関数---
+ * @type note
+ * @desc 確認ボタンが押された時のコード
+ * @default "var index = this.index();\nvar symbol = this.commandSymbol(index);\nvar value = this.getConfigValue(symbol);\nthis.changeValue(symbol, !value);"
+ *
+ * @param CursorRightCode
+ * @text 右ボタンのコード
+ * @parent ---関数---
+ * @type note
+ * @desc 右ボタンが押された時のコード
+ * @default "var index = this.index();\nvar symbol = this.commandSymbol(index);\nvar value = this.getConfigValue(symbol);\nthis.changeValue(symbol, true);"
+ *
+ * @param CursorLeftCode
+ * @text 左ボタンのコード
+ * @parent ---関数---
+ * @type note
+ * @desc 左ボタンが押された時のコード
+ * @default "var index = this.index();\nvar symbol = this.commandSymbol(index);\nvar value = this.getConfigValue(symbol);\nthis.changeValue(symbol, false);"
+ *
+ * @param DefaultConfigCode
+ * @text デフォルト設定コード
+ * @parent ---関数---
+ * @type note
+ * @desc オプションのデフォルト設定を決めるコード
+ * @default "ConfigManager[symbol] = false;"
+ *
+ * @param SaveConfigCode
+ * @text 設定保存コード
+ * @parent ---関数---
+ * @type note
+ * @desc 設定オプションの設定値を保存するコード
+ * @default "config[symbol] = ConfigManager[symbol];"
+ *
+ * @param LoadConfigCode
+ * @text 設定ロードコード
+ * @parent ---関数---
+ * @type note
+ * @desc 保存オプション設定をロードするコード
+ * @default "ConfigManager[symbol] = !!config[symbol];"
+ *
+ */

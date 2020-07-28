@@ -1,0 +1,2485 @@
+/*:ja
+ * @plugindesc v1.20 (要YEP_BattleEngineCore.js)モーション付のSV戦闘キャラを、敵に使用できます
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Anchor X
+ * @text アンカー X
+ * @parent ---一般---
+ * @type number
+ * @decimals 1
+ * @desc スプライトのデフォルトアンカー位置(X)
+ * デフォルト:0.5
+ * @default 0.5
+ *
+ * @param Anchor Y
+ * @text アンカー Y
+ * @parent ---一般---
+ * @type number
+ * @decimals 1
+ * @desc スプライトのデフォルトアンカー位置(Y)
+ * デフォルト:1.0
+ * @default 1.0
+ *
+ * @param Sprite Smoothing
+ * @text スプライトスムージング有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc スプライトスムージングを有効化。無効:false / 有効:true
+ * @default true
+ *
+ * @param Sprite Width
+ * @text スプライト最小幅
+ * @parent ---一般---
+ * @desc サイドビュースプライトの、最小幅。'auto'を入力すると自動で決定します。デフォルト:auto
+ * @default auto
+ *
+ * @param Sprite Height
+ * @text スプライト最小高
+ * @parent ---一般---
+ * @desc サイドビュースプライトの、高さの最小値。'auto'を入力すると自動で決定します。デフォルト:64
+ * @default auto
+ *
+ * @param Collapse
+ * @text スプライト消滅
+ * @parent ---一般---
+ * @type boolean
+ * @on 消滅
+ * @off 表示
+ * @desc 死亡時、スプライト消滅化
+ * 表示:false / 消滅:true
+ * @default false
+ *
+ * @param Frame Speed
+ * @text モーション間フレーム
+ * @parent ---一般---
+ * @type number
+ * @desc モーション間で用いられる、デフォルトのフレーム数
+ * デフォルト:12
+ * @default 12
+ *
+ * @param Show State Overlay
+ * @text ステート複数表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc サイドビューの敵にステートを重ねて表示しますか？
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---影---
+ * @default
+ *
+ * @param Show Shadow
+ * @text 表示
+ * @parent ---影---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc サイドビュー敵の影を表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Shadow Scale X
+ * @text 幅
+ * @parent ---影---
+ * @desc 影のデフォルトの水平方向(X)の大きさ。'auto'を用いると自動で決定。デフォルト:auto
+ * @default auto
+ *
+ * @param Shadow Scale Y
+ * @text 高さ
+ * @parent ---影---
+ * @desc 影のデフォルトの垂直方向(Y)の大きさ。'auto'を用いると自動で決定。デフォルト:1
+ * @default auto
+ *
+ * @param ---呼吸---
+ * @default
+ *
+ * @param Enable Breathing
+ * @text 動作タイミング
+ * @parent ---呼吸---
+ * @desc 敵の呼吸動作タイミング
+ * @type select
+ * @option 無し
+ * @value 0
+ * @option 静止時
+ * @value 1
+ * @option サイドビュー
+ * @value 2
+ * @option 両方
+ * @value 3
+ * 0:無し / 1:静止 / 2:サイドビュー / 3:両方
+ * @default 1
+ *
+ * @param Breathing Speed
+ * @text 速度
+ * @parent ---呼吸---
+ * @type number
+ * @desc 敵の呼吸速度。低い値ほど速く、高い値ほど遅く呼吸します。
+ * @default 20
+ *
+ * @param Breathing X Rate
+ * @text 収縮率 X軸
+ * @parent ---呼吸---
+ * @type number
+ * @decimals 3
+ * @desc 呼吸時の X軸 方向の収縮率。低い値ほど穏やかに、高い値ほど激しく収縮します。
+ * @default 0.001
+ *
+ * @param Breathing Y Rate
+ * @text 収縮率 Y軸
+ * @parent ---呼吸---
+ * @type number
+ * @decimals 3
+ * @desc 呼吸時の Y軸 方向の収縮率。低い値ほど穏やかに、高い値ほど激しく収縮します。
+ * @default 0.020
+ *
+ * @param HP Link Breathing
+ * @text 速度のHP連動
+ * @parent ---呼吸---
+ * @type boolean
+ * @on 連動
+ * @off 固定
+ * @desc 呼吸速度をHPの割合と連動
+ * 固定:false / 連動:true
+ * @default false
+ *
+ * @param ---浮遊---
+ * @default
+ *
+ * @param Floating Speed
+ * @text 動作速度
+ * @parent ---浮遊---
+ * @type number
+ * @min 0
+ * @desc 敵のデフォルトの浮遊動作速度。低い値ほど速く、高い値ほど遅く浮遊します。
+ * @default 20
+ *
+ * @param Floating Rate
+ * @text 動作レート
+ * @parent ---浮遊---
+ * @type number
+ * @decimals 1
+ * @desc 敵のデフォルトの浮遊動作レート。低い値ほど頻繁に、高い値ほどゆっくりと浮遊します。
+ * @default 0.3
+ *
+ * @param Floating Height
+ * @text 高さ
+ * @parent ---浮遊---
+ * @type number
+ * @min 0
+ * @desc デフォルトの浮遊動作の最低値。低く設定するほど地面に近く、高く設定すると高く浮遊します。
+ * @default 50
+ *
+ * @param Floating Death
+ * @text 戦闘不能時の動作
+ * @parent ---浮遊---
+ * @type boolean
+ * @on 浮遊
+ * @off 停止
+ * @desc 敵が戦闘不能時の浮遊動作
+ * 停止:false / 浮遊:true
+ * @default true
+ *
+ * @param ---モーション---
+ * @default
+ *
+ * @param Attack Motion
+ * @text 武器無し攻撃
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc 武器無し時のデフォルト攻撃モーション
+ * 攻撃モーション:振り(swing),突き(thrust),飛び道具(missile)
+ * @default thrust
+ *
+ * @param Idle Motion
+ * @text 待機
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトに何もしていない時のモーション
+ * デフォルト:前進
+ * @default walk
+ *
+ * @param Damage Motion
+ * @text 被ダメージ
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトにダメージ時のモーション
+ * デフォルト: ダメージ
+ * @default damage
+ *
+ * @param Evade Motion
+ * @text 回避
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc Sets スプライトに回避時のモーション
+ * デフォルト:回避
+ * @default evade
+ *
+ * @param Escape Motion
+ * @text 逃げる
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトに逃避時のモーション
+ * デフォルト:逃げる
+ * @default escape
+ *
+ * @param Guard Motion
+ * @text 防御
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトにガード時のモーション
+ * デフォルト:防御
+ * @default guard
+ *
+ * @param Abnormal Motion
+ * @text 状態異常
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトに状態異常時のモーション
+ * デフォルト: 状態異常
+ * @default abnormal
+ *
+ * @param Sleep Motion
+ * @text 睡眠
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトに睡眠時のモーション
+ * デフォルト:睡眠
+ * @default sleep
+ *
+ * @param Dying Motion
+ * @text 瀕死
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトに瀕死時のモーション
+ * デフォルト:瀕死
+ * @default dying
+ *
+ * @param Dead Motion
+ * @text 戦闘不能
+ * @parent ---モーション---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc スプライトに死亡時のモーション
+ * デフォルト:戦闘不能
+ * @default dead
+ *
+ * @param ---武器---
+ * @default
+ *
+ * @param Weapon Image Index
+ * @text 画像インデックス
+ * @parent ---武器---
+ * @type number
+ * @min 0
+ * @desc スプライトにデフォルトの武器の画像インデックス
+ * 0を入れると画像は使用されません。
+ * @default 0
+ *
+ * @param Weapon 1 Motion
+ * @text モーション1
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器1:Dagger / モーション:swing
+ * @default swing
+ *
+ * @param Weapon 1 Animation
+ * @text アニメーション1
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 6
+ *
+ * @param Weapon 2 Motion
+ * @text モーション2
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器:Sword モーション:swing
+ * @default swing
+ *
+ * @param Weapon 2 Animation
+ * @text アニメーション2
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 6
+ *
+ * @param Weapon 3 Motion
+ * @text モーション3
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器3: Flail   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 3 Animation
+ * @text アニメーション3
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 4 Motion
+ * @text モーション4
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器: Axe   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 4 Animation
+ * @text アニメーション4
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 6
+ *
+ * @param Weapon 5 Motion
+ * @text モーション5
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器5: Whip   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 5 Animation
+ * @text アニメーション5
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 6
+ *
+ * @param Weapon 6 Motion
+ * @text モーション6
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器6: Staff   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 6 Animation
+ * @text アニメーション6
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 7 Motion
+ * @text モーション7
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器7: Long Bow   モーション: missile
+ * @default missile
+ *
+ * @param Weapon 7 Animation
+ * @text アニメーション7
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 11
+ *
+ * @param Weapon 8 Motion
+ * @text モーション8
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器8: Crossbow   モーション: missile
+ * @default missile
+ *
+ * @param Weapon 8 Animation
+ * @text アニメーション8
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 11
+ *
+ * @param Weapon 9 Motion
+ * @text モーション9
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器9: Gun   モーション: missile
+ * @default missile
+ *
+ * @param Weapon 9 Animation
+ * @text アニメーション9
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 111
+ *
+ * @param Weapon 10 Motion
+ * @text モーション10
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器10: Claw   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 10 Animation
+ * @text アニメーション10
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 16
+ *
+ * @param Weapon 11 Motion
+ * @text モーション11
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器11: Glove   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 11 Animation
+ * @text アニメーション11
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 12 Motion
+ * @text モーション12
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器12: Spear   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 12 Animation
+ * @text アニメーション12
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 11
+ *
+ * @param Weapon 13 Motion
+ * @text モーション13
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器13: Mace   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 13 Animation
+ * @text アニメーション13
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 14 Motion
+ * @text モーション14
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器14: Rod   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 14 Animation
+ * @text アニメーション14
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 15 Motion
+ * @text モーション15
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器15: Club   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 15 Animation
+ * @text アニメーション15
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 16 Motion
+ * @text モーション16
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器16: Chain   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 16 Animation
+ * @text アニメーション16
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 6
+ *
+ * @param Weapon 17 Motion
+ * @text モーション17
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器17: Sword#2   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 17 Animation
+ * @text アニメーション17
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 7
+ *
+ * @param Weapon 18 Motion
+ * @text モーション18
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器18: Iron Pipe   モーション: swing
+ * @default swing
+ *
+ * @param Weapon 18 Animation
+ * @text アニメーション18
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 19 Motion
+ * @text モーション19
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器19: Sling Shot   モーション: missile
+ * @default missile
+ *
+ * @param Weapon 19 Animation
+ * @text アニメーション19
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 11
+ *
+ * @param Weapon 20 Motion
+ * @text モーション20
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器20: Shotgun   モーション: missile
+ * @default missile
+ *
+ * @param Weapon 20 Animation
+ * @text アニメーション20
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 111
+ *
+ * @param Weapon 21 Motion
+ * @text モーション21
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器21: Rifle   モーション: missile
+ * @default missile
+ *
+ * @param Weapon 21 Animation
+ * @text アニメーション21
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 111
+ *
+ * @param Weapon 22 Motion
+ * @text モーション22
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器22: Chainsaw   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 22 Animation
+ * @text アニメーション22
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 7
+ *
+ * @param Weapon 23 Motion
+ * @text モーション23
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器23: Railgun   モーション: missile
+ * @default missile
+ *
+ * @param Weapon 23 Animation
+ * @text アニメーション23
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 15
+ *
+ * @param Weapon 24 Motion
+ * @text モーション24
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器24: Stun Rod   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 24 Animation
+ * @text アニメーション24
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 15
+ *
+ * @param Weapon 25 Motion
+ * @text モーション25
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器25: Spell Book モーション: swing
+ * @default swing
+ *
+ * @param Weapon 25 Animation
+ * @text アニメーション25
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 26 Motion
+ * @text モーション26
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器26: custom   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 26 Animation
+ * @text アニメーション26
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 27 Motion
+ * @text モーション27
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器27: custom   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 27 Animation
+ * @text アニメーション27
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 28 Motion
+ * @text モーション28
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器28: custom   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 28 Animation
+ * @text アニメーション28
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 29 Motion
+ * @text モーション29
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器29: custom   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 29 Animation
+ * @text アニメーション29
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @param Weapon 30 Motion
+ * @text モーション30
+ * @parent ---武器---
+ * @type select
+ * @option 振り
+ * @value swing
+ * @option 突き
+ * @value thrust
+ * @option 飛び道具
+ * @value missile
+ * @option 前進
+ * @value walk
+ * @option 通常待機
+ * @value wait
+ * @option 詠唱待機
+ * @value chant
+ * @option 防御
+ * @value guard
+ * @option ダメージ
+ * @value damage
+ * @option 回避
+ * @value evade
+ * @option 汎用スキル
+ * @value skill
+ * @option 魔法
+ * @value spell
+ * @option アイテム
+ * @value item
+ * @option 逃げる
+ * @value escape
+ * @option 勝利
+ * @value victory
+ * @option 瀕死
+ * @value dying
+ * @option 状態異常
+ * @value abnormal
+ * @option 睡眠
+ * @value sleep
+ * @option 戦闘不能
+ * @value dead
+ * @desc この武器にデフォルトで使われるモーション
+ * 武器30: custom   モーション: thrust
+ * @default thrust
+ *
+ * @param Weapon 30 Animation
+ * @text アニメーション30
+ * @parent ---武器---
+ * @type animation
+ * @desc この武器にデフォルトで使われる戦闘アニメーション
+ * @default 1
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインには、「YEP_BattleEngineCore」が必要です。
+ * プラグイン管理で、このプラグインが
+ * 「YEP_BattleEngineCore」の下に置いてください。
+ *
+ * この拡張プラグインは、敵に様々なアニメーションを付けることができます。
+ * 静止中の敵に息をさせたり、浮遊させたりすることで、
+ * より生き生きとした表現が可能になります。
+ *
+ * もし浮遊の表現を使いたいのであれば、
+ * このプラグインを「YEP_X_ActSeqPack2」の下に置いてください。
+ *
+ * このプラグインを使うには、敵キャラのメモ欄に下記のタグを挿入してください。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * これらのタグを敵のメモ欄に挿入することで、
+ * サイドビューバトラーに様々な変更を加えることができます。
+ *
+ * 敵のメモタグ:
+ *
+ *   --- 一般 ---
+ *
+ *   <Breathing>
+ *   <No Breathing>
+ *   呼吸のエフェクトを敵のスプライトに付与/解除することができます。
+ *
+ *   <Breathing Speed: x>
+ *   一呼吸にかかるフレーム数を設定できます。
+ *   x に入れる値が小さくなるほど、敵は呼吸が荒くなります。
+ *   高くなるほどゆっくりと呼吸するようになります。
+ *
+ *   <Breathing Rate X: x.y>
+ *   <Breathing Rate Y: x.y>
+ *   x yで水平/垂直方向を指定し、呼吸時のX Yレートを変更することができます。
+ *   (1.0)入力で100%の変更率、(0.0)で0%の変更率になります。
+ *
+ *   <Enable HP Link Breathing>
+ *   <Disable HP Link Breathing>
+ *   呼吸の速さをHPとリンクさせるかを変更できます。
+ *   敵のHPが低くなるほど、呼吸がゆっくりになります。
+ *
+ *   <Floating>
+ *   敵に浮遊しているかのようなアニメーションを付与できます。
+ *
+ *   <Floating Speed: x>
+ *   浮遊のサイクルにかかるフレーム数を指定します。
+ *   値が小さくなるほど、敵は素早く浮遊するようになります。
+ *   x の値が大きくなると、ゆっくり浮遊するようになります。
+ *
+ *   <Floating Rate: x.y>
+ *   浮遊のレートを x.y に変更します。
+ *   (1.0)の時は100%の変化、(0.0)の時は0%の変化率となります。
+ *
+ *   <Floating Height: x>
+ *   浮遊の高さの最小値を x にセットします。
+ *
+ *   <Floating Death>
+ *   <No Floating Death>
+ *   特定の敵が死んでいる間に浮遊するか、代わりに地面に落ちて特定の敵のための
+ *   'Floating Death'プラグインパラメータを迂回するかどうかを決定します。
+ *
+ *   <Scale Sprite: x%>
+ *   スプライトのサイズを、オリジナルの物から x% 拡大/縮小できます。
+ *   もし、幅もしくは高さ一方だけを変えたかったら下記のタグを使ってください。
+ *
+ *   <Scale Sprite Width: x%>
+ *   <Scale Sprite Height: x%>
+ *   これを使えば、スプライトのwidth(幅)やheight(高さ)を x% だけ変更できます。
+ *   幅と高さ、一方だけのサイズを変えたい方はこちらを使ってください。
+ *
+ *   --- サイドビュー ---
+ *
+ *   <Sideview Battler: filename>
+ *   サイドビューバトラーに使われるファイル名を指定します。
+ *   プロジェクトの「img/sv_actors/」フォルダ内から参照されます。
+ *   これを指定することで、下記のタグをバトラーに適用することができます。
+ *   大文字小文字を区別して、画像ファイルの拡張子は無しで入力してください。
+ *
+ *   *例: SF_Actor3_8.png は <Sideview Battler: SF_Actor3_8> となります。
+ *
+ *   *注: もしこれらのタグの内１つでも使われた場合、
+ *   サイドビューバトラーの選択はランダムプール内から行なわれます。
+ *   しかし、それらの設定は、タグ内で設定されたその他全てのサイドビュー設定と
+ *   同じになります。
+ *
+ *   --- 特殊サイドビュー ---
+ *
+ *   <Sideview Anchor X: y.z>
+ *   <Sideview Anchor Y: y.z>
+ *   敵のサイドビューバトラーに、 y.z でアンカーを設定します。
+ *   変わったタイプのサイドビューバトラーを用いたイベントに使用されます。
+ *
+ *   <Sideview Width: x>
+ *   <Sideview Height: x>
+ *   サイドビューバトラーの幅/高さを指定します。これは、普通とは異なる形態の
+ *   バトラー画像を用いたサイドビューバトラーに用いられます。
+ *
+ *   <Sideview Collapse>
+ *   このタグを入れた敵は、死亡の際に消滅します。
+ *
+ *   <Sideview No Collapse>
+ *   このタグを入れた敵は、死んでも死体が残り消滅しなくなります。
+ *
+ *   <Sideview Frame Speed: x>
+ *   サイドビューバトラーのフレームスピードを x の値に設定。
+ *   値が低くなるほど素早く動き、高い値だとゆっくり動くようになります。
+ *
+ *   --- State Overlays ---
+ *
+ *   <Sideview Show State Overlay>
+ *   <Sideview Hide State Overlay>
+ *   サイドビュー敵の状態オーバーレイを表示または非表示にし、
+ *   プラグインパラメータ内のデフォルト設定を無視します。
+ *
+ *   --- モーション ---
+ *
+ *   <Sideview Attack Motion: swing>
+ *   <Sideview Attack Motion: thrust>
+ *   <Sideview Attack Motion: missile>
+ *   敵が武器を持っていない場合の、攻撃モーションを設定。
+ *   下記のモーション一覧内から、選ぶことができます。
+ *    walk(前進)  wait(待機)  chant(詠唱)  guard(防御)  damage(ダメージ)
+ *    evade(回避)  thrust(突き) swing(振り)  missile(飛び道具)  skill(スキル)
+ *    spell(魔法)  item(アイテム)  escape(逃げる)  victory（勝利)  dying(瀕死)
+ *    abnormal(状態異常)  sleep(睡眠)   dead(戦闘不能)
+ *
+ *   <Sideview Weapon: x>
+ *   スプライトの武器イメージを x に変更できます。武器のシステムイメージを
+ *   設定していない場合は、下記に従います。
+ *
+ *   0:無し
+ *   1:ダガー、2:剣、3:フレイル、4:斧、5:ムチ、6:杖、7:弓、8:クロスボウ、
+ *   9:銃、10:爪、11:グローブ、12:棘、13:メイス、14:ロッド、15:棍棒、
+ *   16:鎖、17:剣2、18:鉄パイプ、19:スリングショット、20:ショットガン、
+ *   21:ライフル、22:チェーンソー、23:レールガン、24:スタンロッド、25:本、
+ *   26:カスタム、27:カスタム、28:カスタム、29:カスタム、30:カスタム
+ *
+ *   注: 複数のタグを挿入すると、武器のランダムプール内に格納されます。
+ *   このタグを使う際、プラグインパラメータ内の全てのデフォルト設定が
+ *   使用されます。
+ *   もっとユニークな設定をしたい場合、下記のタグを使ってください。
+ *
+ *   <Sideview Weapon: x, y, z>
+ *   スプライトの武器イメージを x に、モーションを y に
+ *   攻撃アニメーションを z にカスタマイズすることができます。
+ *   例えば下記のように使います。
+ *
+ *      <Sideview Weapon: 2, swing, 6>
+ *
+ *   この例では「剣」を使って、「振り」のモーションを行い、
+ *   攻撃時には戦闘アニメーション「6」を再生します。
+ *
+ *   <Sideview Idle Motion: x>
+ *   サイドビューの敵に、待機モーションを付与できます。
+ *   下記のモーション一覧から好きなものを利用することができます。
+ *    walk(前進)  wait(待機)  chant(詠唱)  guard(防御)  damage(ダメージ)
+ *    evade(回避)  thrust(突き) swing(振り)  missile(飛び道具)  skill(スキル)
+ *    spell(魔法)  item(アイテム)  escape(逃げる)  victory（勝利)  dying(瀕死)
+ *    abnormal(状態異常)  sleep(睡眠)   dead(戦闘不能)
+ *   * 注: 複数のタグを挿入すると、モーションのランダムプールに格納されます。
+ *
+ *  下記のタグでも同様に、モーション一覧から x に入るものを選んでください。
+ *
+ *   <Sideview Damage Motion: x>
+ *   サイドビューの敵に、ダメージモーションを付与できます。
+ *
+ *   <Sideview Evade Motion: x>
+ *   サイドビューの敵に、回避モーションを付与できます。
+ *
+ *   <Sideview Escape Motion: x>
+ *   サイドビューの敵に、逃避モーションを付与できます。
+ *
+ *   <Sideview Guard Motion: x>
+ *   サイドビューの敵に、防御モーションを付与できます。
+ *
+ *   <Sideview Abnormal Motion: x>
+ *   サイドビューの敵に、状態異常モーションを付与できます。
+ *
+ *   <Sideview Sleep Motion: x>
+ *   サイドビューの敵に、睡眠モーションを付与できます。
+ *
+ *   <Sideview Dying Motion: x>
+ *   サイドビューの敵に、瀕死モーションを付与できます。
+ *
+ *   <Sideview Dead Motion: x>
+ *   サイドビューの敵に、死亡(戦闘不能)モーションを付与できます。
+ *
+ *   --- 影 ---
+ *
+ *   <Sideview Show Shadow>
+ *   これを挿入することで、サイドビュースプライトに影を付けることができます。
+ *   デフォルト設定は「Battle Engine Core」の 'Show Shadows'に依拠しています。
+ *
+ *   <Sideview Hide Shadow>
+ *   これを挿入することで、サイドビュースプライトの影を隠すことができます。
+ *   デフォルト設定は「Battle Engine Core」の 'Show Shadows'に依拠しています。
+ *
+ *   <Sideview Shadow Width: x%>
+ *   影の幅をデフォルトから x% だけ大きく/小さくすることができます。
+ *   デフォルトサイズは「img/system」フォルダから参照されたものです。
+ *
+ *   <Sideview Shadow Height: x%>
+ *   影の高さをデフォルトから x% だけ大きく/小さくすることができます。
+ *   デフォルトサイズは「img/system」フォルダから参照されたものです。
+ *
+ * ステートのタグ:
+ *
+ *   <Hide Sideview Weapon>
+ *   サイドビュー時の武器エフェクトを隠すことができます。
+ *   攻撃モーションは、何も持っていなかった時のものに戻り、
+ *   攻撃アニメーションはデフォルトのものに戻ります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.20:
+ * - Bugfix provided by YoraeRasante regarding the animation positioning on
+ * animated sideview enemies.
+ *
+ * Version 1.19:
+ * - Bugfix provided by SwiftIllusion regarding the animation positioning on
+ * animated sideview enemies.
+ *
+ * Version 1.18:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Verison 1.17:
+ * - Visual graphic update to sync attack animations properly with how actor
+ * animations are now handled in the more updated RPG Maker MV versions.
+ *
+ * Version 1.16:
+ * - Added 'Floating Death' plugin parameter.
+ * - Optimization update.
+ *
+ * Version 1.15:
+ * - Updated for RPG Maker MV version 1.3.2.
+ *
+ * Version 1.14:
+ * - Pixi4 update to fix bug that caused state icons to fly off the screen.
+ * - Fixed a compatibility issue with YEP_X_VisualStateFX regarding state
+ * sprites being disabled and causing crashes.
+ *
+ * Version 1.13:
+ * - Compatibility update with YEP_X_VisualStateFX to disable State Overlays
+ * on enemies properly.
+ *
+ * Version 1.12:
+ * - Fixed a bug that caused the <Sideview Show State Overlay> and
+ * <Sideview Hide State Overlay> notetags to not work.
+ * - Fixed a bug that caused scaled enemies to have their state icons and
+ * overlays appear in odd places.
+ *
+ * Version 1.11:
+ * - Fixed a bug that caused hidden enemies to appear early on.
+ *
+ * Version 1.10:
+ * - Optimized plugin to use less resources. Animated enemies will no longer
+ * have a static graphic once the game is loaded.
+ *
+ * Version 1.09:
+ * - Added a fix for state icons appearing behind battlers for the users who
+ * aren't using the Action Sequence Packs.
+ *
+ * Version 1.08:
+ * - State Icon and State Overlays will now synch together for floating and
+ * jumping battlers.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.06a:
+ * - Fixed a bug that prevented animated sideview enemies from not mirroring.
+ * - Added <Sideview Show State Overlay> and <Sideview Hide State Overlay>
+ * notetags to make certain enemies show/hide state overlays.
+ * - Fixed a bug that was caused by motion notetags not retrieved properly.
+ *
+ * Version 1.05:
+ * - Made adjustments to the <Sprite Height: x> notetag to also affect the
+ * location of the state icons and effects.
+ *
+ * Version 1.04:
+ * - Fixed a bug with Sprite Smoothing disabled on Shadows.
+ * - Fixed a bug with the anchor Y positions being overwritten.
+ *
+ * Version 1.03:
+ * - Fixed a bug that would cause <Sideview Width: x> & <Sideview Height: x>
+ * notetags to crash the game.
+ *
+ * Version 1.02:
+ * - Synchronized state icons and overlays with floating enemies.
+ *
+ * Version 1.01:
+ * - Added 'HP Link Breathing' plugin parameter. If enabled, the lower the HP,
+ * the slower the enemy breathes.
+ * - Added <Enable HP Link Breathing> and <Disable HP Link Breathing>
+ * notetags.
+ *
+ * Version 1.00:
+ * - Finished plugin! Hooray!
+ */

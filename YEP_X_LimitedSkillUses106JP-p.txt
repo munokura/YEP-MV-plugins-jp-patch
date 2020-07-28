@@ -1,0 +1,356 @@
+/*:ja
+ * @plugindesc v1.06 (要YEP_SkillCore) 戦闘での特定スキルの使用回数を制限できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Limited Use Icon
+ * @text 制限アイコン
+ * @parent ---一般---
+ * @desc 制限付スキルの表示アイコン。 非表示は0
+ * @default 160
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc 制限付スキルの表示フォントサイズ
+ * Default: 28
+ * @default 20
+ *
+ * @param Text Color
+ * @text テキスト色
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 制限付スキルの表示テキスト色
+ * @default 0
+ *
+ * @param Cost Format
+ * @text コスト表示形式
+ * @parent ---一般---
+ * @desc 制限付スキルのコスト表示形式。隠すには無入力
+ * %1:現状 / %2:最大
+ * @default %1/%2
+ *
+ * @param Empty Icon
+ * @text 空アイコン
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc スキルの使用量が使い果たされた時の表示アイコン。 非表示は0
+ * @default 168
+ *
+ * @param Empty Text
+ * @text 空テキスト
+ * @parent ---一般---
+ * @desc スキルの使用量が使い果たされた時の表示テキスト
+ * @default 空
+ *
+ * @param Absolute Max
+ * @text 絶対最大値
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc 制限付スキルの絶対最大値
+ * @default 100
+ *
+ * @param Bypass Limits
+ * @text 制限できないスキル
+ * @parent ---一般---
+ * @desc 制限できないスキル(攻撃、防御のようなスキル)の一覧。各スキルIDはスペースで区切ります。
+ * @default 1 2 3 4 5 6 7
+ *
+ * @param Bypass List
+ * @text 制限できないスキル一覧
+ * @parent ---バイパス---
+ * @type skill[]
+ * @desc 制限できないスキル(攻撃、防御のようなスキル)の一覧。 RPGメーカーMV 1.5.0以降が必要
+ * @default []
+ *
+ * @param ---デフォルト---
+ * @default
+ *
+ * @param Limit All Skills
+ * @text 全スキル制限
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 制限する
+ * @off 制限しない
+ * @desc デフォルトで全てのスキルを制限
+ * 制限しない:false / 制限する:true
+ * @default false
+ *
+ * @param Limit Charges
+ * @text 制限スキル使用コスト
+ * @parent ---デフォルト---
+ * @type number
+ * @min 1
+ * @desc 制限スキルのデフォルト使用コスト
+ * @default 2
+ *
+ * @param Recover All
+ * @text 全回復イベント
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 回復する
+ * @off 回復しない
+ * @desc 全回復イベントを使用時、全てのコストを回復
+ * 回復しない:false / 回復する:true
+ * @default true
+ *
+ * @param Victory Recover
+ * @text 勝利後に回復
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 戦闘で勝利後に回復する使用コスト
+ * @default 10
+ *
+ * @param Escape Recover
+ * @text 逃走後に回復
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 戦闘から逃走後に回復する使用コスト
+ * @default 5
+ *
+ * @param Lose Recover
+ * @text 敗北後に回復
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 戦闘で敗北後に回復する使用コスト
+ * @default 5
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_SkillCoreを必要とします。
+ * プラグイン管理でYEP_SkillCoreの下に
+ * このプラグインがあることを確認してください。
+ *
+ * このプラグインを使用すると、
+ * 特定のスキル(全てのスキル)を1回の戦闘毎に使用できる回数を
+ * 制限することができます。
+ * スキルが使用され得る回数を制限することで、
+ * 異なる種類のスキルコストおよびバランスシステムを追加します。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * メモタグを使ってスキルの様々な使用法を管理することができます。
+ *
+ * スキルのメモタグ
+ *
+ *   <Unlimited Use>
+ *   プラグインのパラメータで'Limit All Skills'を有効にしている場合、
+ *   スキルが無制限に使用されます。
+ *   このメモタグを使用すると、
+ *   限定使用の設定が上書きされます。
+ *
+ *   <Limit Uses: x>
+ *   xにスキルが使える回数を設定します。
+ *   スキルの残量が0の場合、そのスキルは使用できません。
+ *
+ *   <Recover All Uses>
+ *   <Not Recover All Uses>
+ *   Recover Allコマンドを使用すると、
+ *   プラグインパラメータ内の設定に応じて、
+ *   全ての使用制限が回復するかどうかが決まります。
+ *   これらのメモタグは、
+ *   スキルの他の設定を利用することを可能にします。
+ *
+ *   <Victory Uses Recover: x>
+ *   <Escape uses Recover: x>
+ *   <Lose Uses Recover: x>
+ *   プレイヤーが戦闘に勝利した時、戦闘から逃走した時、戦闘に敗れた時、
+ *   スキルの使用はそれぞれの結果に対してx回の使用を回復します。
+ *   メモタグが使用されていない場合、
+ *   回復される量はプラグインのパラメータで行われた設定と等しくなります。
+ *
+ *   <After Battle Uses Recover: x>
+ *   勝利、逃走、敗北の回復が無差別にxに等しくなります。
+ *
+ * スキルとアイテムのメモタグ
+ *
+ *   <Global Limited Uses: +x>
+ *   <Global Limited Uses: -x>
+ *   対象の制限付スキルを全てのスキルに対して+x / -xだけ変更するでしょう。
+ *   +xはスキルが使える回数を増やします。
+ *   -xはスキルが使える回数を減らします。
+ *
+ *   <SType x Limited Uses: +y>
+ *   <SType x Limited Uses: -y>
+ *   スキルタイプxの全てのスキルについて、
+ *   対象の制限付スキルを+y / -yだけ変更します。
+ *   +yスキルが使える回数が増えます。
+ *   -yスキルが使える回数を減らします。
+ *
+ *   <Skill x Limited Uses: +y>
+ *   <Skill x Limited Uses: -y>
+ *   <Skill name Limited Uses: +y>
+ *   <Skill name Limited Uses: -y>
+ *   対象の制限付スキルxの+y / -yだけ変えます。
+ *   メモタグに名前を使用し、
+ *   データベース内に同じ名前のスキルが複数ある場合、
+ *   最も高いIDを持つスキルが優先されます。
+ *   +yスキルが使える回数が増えます。
+ *   -yスキルが使える回数を減らします。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *   <Global Use Max: +x>
+ *   <Global Use Max: -x>
+ *   このプロパティの影響を受けるバトラーは、
+ *   +x・-xの最大使用回数を変更することができます。
+ *
+ *   <SType x Use Max: +y>
+ *   <SType x Use Max: -y>
+ *   このプロパティの影響を受けるバトラーは、
+ *   スキルタイプxの制限付スキルを+y / -yの最大使用回数に変更します。
+ *
+ *   <Skill x Use Max: +y>
+ *   <Skill x Use Max: -y>
+ *   <Skill name Use Max: +y>
+ *   <Skill name Use Max: -y>
+ *   このプロパティの影響を受けるバトラーは、
+ *   スキルxの使用制限によって、
+ *   (代わりにそのバージョンのメモタグを使用している場合は名前付き)
+ *   +y / -yの最大使用回数が変更されます。
+ *   名前付きバージョンのメモタグを使用していて、
+ *   データベース内に同じ名前のスキルが複数ある場合、
+ *   最も高いIDを持つスキルが優先されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 制限付スキルへ条件
+ * ===========================================================================
+ *
+ * JavaScriptと以下のメモタグを使用して、
+ * 制限付スキルに対して条件付きの変更を実行できます。
+ *
+ * スキルとアイテムのメモタグ
+ *
+ *   --- --- ---
+ *
+ *   <Custom Global Limited Uses>
+ *    value += user.level;
+ *   </Custom Global Limited Uses>
+ *   'value'変数は、
+ *   制限付スキルのスキル全てに対して使用者が獲得する使用数です。
+ *
+ *   --- --- ---
+ *
+ *   <Custom SType x Limited Uses>
+ *    value += user.level;
+ *   </Custom SType x Limited Uses>
+ *   'value'変数は、
+ *   スキルタイプxの全ての制限付スキルに対して使用者が獲得する使用数です。
+ *
+ *   --- --- ---
+ *
+ *   <Custom Skill x Limited Uses>
+ *    value += user.level;
+ *   </Custom Skill x Limited Uses>
+ *
+ *   もしくは
+ *
+ *   <Custom Skill name Limited Uses>
+ *    value += user.level;
+ *   </Custom Skill name Limited Uses>
+ *
+ *   'value'変数は、
+ *   スキルxの全ての制限付スキルについて使用者が獲得する使用数です。
+ *   メモタグに名前を使っていて、
+ *   同じ名前を持つデータベースに複数のスキルがある場合、
+ *   優先順位は最も高いIDを持つスキルに与えられます。
+ *
+ *   --- --- ---
+ *
+ * ===========================================================================
+ * ルナティックモード - 制限付スキル最大数へ条件
+ * ===========================================================================
+ *
+ * JavaScriptと次のメモタグを使用して、
+ * 対象の制限付スキル最大数に条件付きの変更を加えることができます。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *   --- --- ---
+ *
+ *   <Custom Global Use Max>
+ *    value += user.level;
+ *   </Custom Global Use Max>
+ *   'value'変数は、
+ *   対象が全ての制限付スキルのために得る最大使用量です。
+ *
+ *   --- --- ---
+ *
+ *   <Custom SType x Use Max>
+ *    value += user.level;
+ *   </Custom SType x Use Max>
+ *   'value'変数は、
+ *   スキルタイプxの全ての制限付スキルに対して対象が獲得する最大使用量です。
+ *
+ *   --- --- ---
+ *
+ *   <Custom Skill x Use Max>
+ *    value += user.level;
+ *   </Custom Skill x Use Max>
+ *
+ *   もしくは
+ *
+ *   <Custom Skill name Use Max>
+ *    value += user.level;
+ *   </Custom Skill name Use Max>
+ *
+ *   'value'変数は、
+ *   スキルxの全ての制限付スキルで対象が獲得する最大使用量です。
+ *   メモタグに名前を使っていて、
+ *   データベースに同じ名前を持つ複数のスキルを持っているなら、
+ *   優先順位は最も高いIDを持つスキルに与えられます。
+ *
+ *   --- --- ---
+ *
+ *   *注:ここでの調整はどれもプラグインパラメータの
+ *   'Absolute Max'設定をバイパスしないことに注意してください。
+ *   それが上限です。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.06:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ * - Added new 'Bypass List' plugin parameter.
+ *
+ * Version 1.04:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.03:
+ * - Compatibility update with Equip Battle Skills and Equip Skill Tiers.
+ *
+ * Version 1.02a:
+ * - Updated for RPG Maker MV version 1.1.0.
+ * - Fixed notetag category in documentation for Lunatic Mode - Conditional
+ * Max Uses. Updated from Skill and Items to Actor, Class, Enemy, Weapon,
+ * Armor, and State Notetags.
+ *
+ * Version 1.01a:
+ * - Optimization Update.
+ * - Various functions in the skill window will now return their x positions.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

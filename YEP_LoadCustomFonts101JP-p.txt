@@ -1,0 +1,57 @@
+/*:ja
+ * @plugindesc v1.01 /fonts/ フォルダからカスタムフォントをロードします。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Font Filenames
+ * @text フォントファイル名
+ * @desc /fonts/ フォルダからロードされるフォントのフルファイル名です。複数のファイル名は , 区切り
+ * @default cc-wild-words.ttf, ds-pixel-cyr.ttf
+ *
+ * @param Font Families
+ * @text フォントファミリー名
+ * @desc フォントのフォントファミリー名。上記のパラメータと同じ順にしてください。複数のファイル名は , 区切り
+ * @default CC Wild Words, DS Pixel Cyr
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入と説明
+ * ===========================================================================
+ *
+ * カスタムフォントを使用している人は、
+ * /fonts/ フォルダの全てのフォントが
+ * ゲームのロード時にロードされるわけではないことに気づいたかもしれません。
+ * このプラグインを使って、フォントを /fonts/ フォルダに置き、
+ * ゲームの開始時にそれらをロードしましょう。
+ *
+ * このプラグインを使用するには、以下の手順に従ってください。
+ *
+ * プラグインパラメータ 'Font Filenames'(フォントファイル名) と
+ * 'Font Families'(フォントファミリー名) は互いに対応して
+ * 記入される必要があります。
+ * 各フォントエントリの順序は互いに一致している必要があります。
+ *
+ * 例:
+ *
+ *      Font Filenames: cc-wild-words.ttf, ds-pixel-cyr.ttf
+ *
+ *      Font Families: CC Wild Words, DS Pixel Cyr
+ *
+ * 上記の例は、 'cc-wild-words.ttf' はフォントファミリーとして
+ * 'CC Wild Words' を使用し、 'ds-pixel-cyr.ttf'は 'DS Pixel Cyr'を使用します。
+ * YEP's Message Core などのフォント名を使用するプラグインの場合、
+ * ファイル名の代わりにフォントファミリ名を使用します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

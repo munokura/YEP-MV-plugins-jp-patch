@@ -1,0 +1,512 @@
+/*:ja
+ * @plugindesc v1.15 (要YEP_BattleEngineCore、YEP_TargetCore)アクションの選択対象を拡張します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---デフォルト---
+ * @default
+ *
+ * @param Single Multiple
+ * @text 単体を全体化
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 許可
+ * @off 不許可
+ * @desc 単体対象魔法攻撃スキルに全体選択を許可
+ * 不許可:false / 許可:true
+ * @default true
+ *
+ * @param Disperse Damage
+ * @text ダメージ分散
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 分散する
+ * @off 分散しない
+ * @desc 単体対象スキルで複数対象を選択時、ダメージ分散
+ * 分散しない:false / 分散する:true
+ * @default true
+ *
+ * @param Actor or Enemy
+ * @text アクターか敵を選択
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 許可
+ * @off 不許可
+ * @desc デフォルトで単体対象スキルをアクターか敵を選択許可
+ * 不許可:false / 許可:true
+ * @default true
+ *
+ * @param Physical Front Row
+ * @text 物理攻撃最前列に限定
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 限定する
+ * @off 限定しない
+ * @desc 要YEP_RowFormation。単体対象物理攻撃スキルを最前列に限定
+ * 限定しない:false / 限定する:true
+ * @default false
+ *
+ * @param Physical Weapon Range
+ * @text 武器の範囲
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 設定する
+ * @off 設定しない
+ * @desc 要YEP_RowFormation。上記がfalseの場合、単体対象物理攻撃スキルを武器の範囲に設定。 true/false
+ * @default true
+ *
+ * @param Default Weapon Range
+ * @text デフォルトの武器範囲
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 範囲あり
+ * @off 範囲なし
+ * @desc 要YEP_RowFormation。武器のデフォルト範囲
+ * 範囲なし:false / 範囲あり:true
+ * @default false
+ *
+ * @param ---テキスト表示---
+ * @text ---テキスト表示---
+ * @default
+ *
+ * @param All Enemies
+ * @text 全ての敵
+ * @parent ---テキスト表示---
+ * @desc 全ての敵の選択表示テキスト
+ * @default 全ての敵
+ *
+ * @param All Allies
+ * @text 全ての味方
+ * @parent ---テキスト表示---
+ * @desc 全ての味方の選択表示テキスト
+ * @default 全ての味方
+ *
+ * @param ---全体選択ウィンドウ表示設定---
+ * @default
+ *
+ * @param Enable Visual All
+ * @text ウィンドウ表示
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc クリックして仲間/敵の全選択の切替ウィンドウ表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Visual Enemy X
+ * @text 敵ウィンドウX軸
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全敵ウィンドウのX座標の式
+ * @default 0
+ *
+ * @param Visual Enemy Y
+ * @text 敵ウィンドウY軸
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全敵ウィンドウのY座標の式
+ * @default this.fittingHeight(2)
+ *
+ * @param Visual Enemy Width
+ * @text 敵ウィンドウ幅
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全敵ウィンドウの幅の式
+ * This is a formula.
+ * @default 240
+ *
+ * @param Visual Enemy Height
+ * @text 敵ウィンドウ高さ
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全敵ウィンドウの高さの式
+ * @default this.fittingHeight(1)
+ *
+ * @param Visual Ally X
+ * @text 味方ウィンドウX軸
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全味方ウィンドウのX座標の式
+ * @default Graphics.boxWidth - 240
+ *
+ * @param Visual Ally Y
+ * @text 味方ウィンドウY軸
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全味方ウィンドウのY座標の式
+ * @default this.fittingHeight(2)
+ *
+ * @param Visual Ally Width
+ * @text 味方ウィンドウ幅
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全味方ウィンドウの幅の式
+ * @default 240
+ *
+ * @param Visual Ally Height
+ * @text 味方ウィンドウ高さ
+ * @parent ---全体選択ウィンドウ表示設定---
+ * @desc 全味方ウィンドウの高さの式
+ * @default this.fittingHeight(1)
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BattleEngineCoreとYEP_TargetCoreを必要とします。
+ * プラグイン管理の両方のプラグインの下に
+ * このプラグインがあることを確認してください。
+ *
+ * 目標を選択する時、
+ * RPGツクールMVはデフォルトで有効な目標のリストが常に生きている敵、
+ * 生きている仲間、死んでいる仲間に設定します。
+ * 行動は、攻撃者や敵を狙うことも、
+ * 単体の目標から複数の目標に変わることもできません。
+ * TargetCore用のこの拡張プラグインを使用すると、
+ * カスタマイズした条件を挿入するだけでなく、
+ * 対象の選択制御を向上させるために、
+ * その制限から解放できます。
+ *
+ * YEP_X_BattleSysCTBプラグインを使用している場合、
+ * 互換性を最大にするために、
+ * プラグイン管理のそのプラグインの下に
+ * このプラグインを配置してください。
+ *
+ * ===========================================================================
+ * メモタグ - 一般
+ * ===========================================================================
+ *
+ * スキルとアイテムが特定のタイプのバトラーだけを選択するために、
+ * 以下のメモタグを使えます。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <Single or Multiple Select>
+ *   スキル・アイテムは一度に1つ・全ての対象を選択できるようになります。
+ *   スキルはデフォルトで単体対象選択になります。
+ *   この効果で機能するようにデータベースの範囲を変更しなければなりません。
+ *   *注:このオプションを使用すると、
+ *   競合する問題を回避するためにAoECirclesとAoERectanglesが取り消されます。
+ *   *注:タウントが重い敵がいる場合、
+ *   グループ対象と単体の対象を切り替えるオプションは利用できません。
+ *   *注:EnemyAIは、
+ *   単体対象範囲とマルチ対象範囲を切り替えることはできません。
+ *
+ *   <Disperse Damage>
+ *   上記のメモタグと組み合わせて使用すると、
+ *   スキルが分散している対象の数の間で均等にダメージが分割されます。
+ *   ダメージ分散効果は、
+ *   切り替え後に複数の対象が選択されている場合のみ発生します。
+ *
+ *   <Enemy or Actor Select>
+ *   <Actor or Enemy Select>
+ *   プレイヤーはアクションの対象範囲に敵かアクターを選択できます。
+ *   <Enemy or Actor Select>を使用すると、
+ *   デフォルトで最初に敵を対象にします。
+ *   <Actor or Enemy Select>を使用すると、
+ *   デフォルトでアクターを対象にします。
+ *   どちらのメモタグを使用しても、
+ *   アクションの対象範囲は単体の対象に変更されます。
+ *   *注:敵AIは、スキル選択にアクター・敵を切り替える機能を利用しません。
+ *
+ *   <Weapon Range>
+ *   <Weapon Ranged>
+ *   YEP_RowFormationが必要です。
+ *   対象の選択がバトラーの武器範囲に基づいて変わります。
+ *   武器が'melee'の場合、最前列のみを対象とします。
+ *   武器が'ranged'であれば、バトラーが望む任意の列を対象にできます。
+ *
+ *   *注:<Select Condition>効果を使用すると、
+ *   プラグインパラメータでデフォルトで提供されている全ての選択オプションは、
+ *   デフォルトの動作にはならなくなるという前提でリセットされます。
+ *   このような場合、
+ *   スキルの選択方法を指定するために上記のメモタグを使う必要があるでしょう。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *   <Cannot Select: All>
+ *   範囲が使用者であるアクションでない限り、
+ *   全てのアクションはこのバトラーを選択できません。
+ *
+ *   <Cannot Select: Physical Hit>
+ *   <Cannot Select: Magical Hit>
+ *   <Cannot Select: Certain Hit>
+ *   物理攻撃、魔法攻撃、必中アクションがバトラーを選択できなくなります。
+ *   その範囲が使用者を対象とするアクションでない限り、
+ *   それらはマルチヒットスキルから除外されます。
+ *   使用者を対象にします。
+ *
+ *   <Cannot Select: Skills>
+ *   <Cannot Select: Items>
+ *   範囲が使用者を対象とするアクションでない限り、
+ *   スキル/アイテムがバトラーを対象にできないようにします。
+ *
+ *   <Cannot Select: Item x>
+ *   <Cannot Select: Item name>
+ *   アイテムの範囲が使用者を対象にしていない限り、
+ *   アイテム'x'(アイテム名)がバトラーを対象にできないようにします。
+ *   データベースに同じ名前のアイテムが複数ある場合、
+ *   最も高いIDを持つアイテムが優先されます。
+ *
+ *   <Cannot Select: Skill x>
+ *   <Cannot Select: Skill name>
+ *   スキルの範囲が使用者を対象にしていない限り、
+ *   スキル'x'(スキル名)がバトラーを対象にできないようにします。
+ *   データベースに同じ名前のスキルが複数ある場合、
+ *   最も高いIDを持つスキルが優先されます。
+ *
+ *   <Cannot Select: SType x>
+ *   <Cannot Select: SType name>
+ *   スキルの範囲が使用者を対象にしていない限り、
+ *   スキルタイプ'x'(タイプ名)のスキルが
+ *   バトラーを対象にできないようにします。
+ *   データベースに同じ名前のスキルタイプが複数ある場合、
+ *   IDが最も高いスキルタイプが優先されます。
+ *
+ *   <Cannot Select: Element x>
+ *   <Cannot Select: Element name>
+ *   アクションの範囲が使用者を対象にしていない限り、
+ *   'x'の属性ID(属性名)を持つアクションが
+ *   バトラーを対象にできないようにします。
+ *   データベースに同じ名前の属性が複数ある場合、
+ *   最も高いIDを持つ属性が優先されます。
+ *
+ * 武器、敵のメモタグ
+ *
+ *   <Melee>
+ *   武器/敵を近接攻撃として指定し、
+ *   '武器範囲'条件を使用するスキルやアイテムの選択範囲に影響を与えます。
+ *   この種の武器/敵はそれらの選択条件に最前列だけを目標とするでしょう。
+ *
+ *   <Range>
+ *   <Ranged>
+ *   武器/敵を射程距離として指定し、
+ *   '武器範囲'条件を使用するスキルやアイテム選択範囲に影響します。
+ *   この性質の武器/敵はそれらの選択条件に
+ *   どんな列でも対象にできます。
+ *
+ * ===========================================================================
+ * メモタグ - 選択条件
+ * ===========================================================================
+ *
+ * どの対象が有効な対象であるかについて特定の条件を課すには、
+ * 次のメモタグ設定を使用してください。
+ *
+ * ---
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <Select Conditions>
+ *    condition
+ *    condition
+ *   </Select Conditions>
+ *   'condition'を希望の条件設定に置き換えます。
+ *   実行可能な対象に対してより多くの条件をアクションに要求させるには、
+ *   複数の条件を挿入します。
+ *   これを使用すると、
+ *   プラグインパラメータによって設定されたデフォルト設定が上書きされるため、
+ *   それらの設定を使用する場合、
+ *   それに関連する条件を使用する必要があります。
+ *
+ * ---
+ *
+ * Conditions:
+ *
+ * ---
+ *
+ * Any Row
+ * - YEP_RowFormationが必要です。
+ * バトラーは有効な対象として、
+ * それが入っているどの列からでも対象にできます。
+ * 他の'Row Only'の選択条件と競合します。
+ *
+ * ---
+ *
+ * Back Row Only
+ * - YEP_RowFormationが必要です。
+ * 後列のバトラーのみが対象として選択可能になります。
+ * 後列は、生きているメンバーがいる後ろの列を指します。
+ * 3列目の敵が全員死んでいても、
+ * 2列目に生きているメンバーがいる場合、
+ * 2列目が後列と見なされます。
+ * 他の'Row Only'の選択条件と競合します。
+ *
+ * ---
+ *
+ * Front Row Only
+ * - YEP_RowFormationが必要です。
+ * 最前列のバトラーのみが対象として選択可能になります。
+ * 前列は、生きているメンバーがいる前の列を指します。
+ * 1列目の敵が全員死んでいて、2列目に生きているメンバーがいる場合、
+ * 2列目は最前列と見なされます。
+ * 他の'Row Only'選択条件と競合します。
+ *
+ * ---
+ *
+ * Weapon Range
+ * - YEP_RowFormationが必要です。
+ * 対象の選択がバトラーの武器範囲に基づいて変わります。
+ * 武器が'melee'の場合、最前列のみを対象とします。
+ * 武器が'ranged'であれば、
+ * それはバトラーが望む任意の列を対象にできます。
+ *
+ * ---
+ *
+ * Row x Only
+ * - YEP_RowFormationが必要です。
+ * 列xのバトラーのみが対象として選択可能になります。
+ * 列xにないバトラーは、
+ * 対象選択から除外されます。
+ * 他の'Row Only'の選択条件と競合します。
+ *
+ * ---
+ *
+ * Row x Max
+ * - YEP_RowFormationが必要です。
+ * 列xまでの低い番号の列にいる全てのバトラーが対象として選択可能になります。
+ * xより大きい列番号を持つバトラーは、対象選択から除外されます。
+ *
+ * ---
+ *
+ * Row x Min
+ * - YEP_RowFormationが必要です。
+ * 列x以降の列に位置する全てのバトラーが対象として選択可能になります。
+ * xより小さい列番号のバトラーは、対象選択から除外されます。
+ *
+ * ---
+ *
+ * Param stat eval
+ * 例: Param MaxHP >= 500
+ * 例: Param HP% <= 0.30
+ * 例: Param Level === 25
+ * - 対象が選択の有効な対象であるかどうかを決定する前に、
+ * 選択に対象の能力値を確認させます。
+ * 'stat'を'MaxHP'、'MaxMP'、'MaxTP'、'HP'、'MP'、'TP'、'HP%'、'MP%'、
+ * 'TP%'、'ATK'、'DEF'、'MAT'、'MDF'、'AGI'、'LUK'、'LEVEL'に
+ * 置き換えることができます。
+ * 対象が所有するパラメータに対して確認を実行します。
+ *
+ * ---
+ *
+ * State: x
+ * State: name
+ * - 有効な対象として選択されるためには、
+ * 対象のステートは'x'である必要があります。
+ * 名前の条件を使用していて、
+ * データベースに同じ名前の複数のステートがある場合、
+ * 最も高いIDを持つステートが優先されます。
+ * 対象のステートが'x'ではない場合、その対象は選択に有効な対象ではありません。
+ *
+ * ---
+ *
+ * Not State: x
+ * Not State: name
+ * - 有効な対象として選択されるためには、
+ * 対象のステートが'x'であってはなりません。
+ * 名前付きバージョンの条件を使用していて、
+ * データベースに同じ名前の複数のステートがある場合、
+ * 最も高いIDを持つステートが優先されます。
+ * 対象のステートが'x'である場合、その対象は選択に有効な対象ではありません。
+ *
+ * ---
+ *
+ * Not User
+ * - 選択可能プールから使用者が削除され、
+ * 有効な対象として選択できなくなります。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム選択条件
+ * ===========================================================================
+ *
+ * JavaScriptの経験がある人は、
+ * 以下のメモタグを使ってスキルやアイテムの
+ * カスタム選択条件を作ることができます。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <Custom Select Condition>
+ *    if (target.name() === 'Harold') {
+ *      condition = true;
+ *    } else {
+ *      condition = false;
+ *    }
+ *   </Custom Select Condition>
+ *   'condition'変数は条件が満たすかを確認します。
+ *   変数が'true'を返すと、条件は満たされます。
+ *   変数が'false'の場合、条件は失敗し、
+ *   対象はアクションの有効な対象にはなりません。
+ *   <Custom Select Condition>のメモタグをパスしても、
+ *   他の全ての選択条件もパスする必要があります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.15:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.14:
+ * - Updated for RPG Maker MV version 1.6.1.
+ *
+ * Version 1.13:
+ * - Fixed a bug for the cached items.
+ *
+ * Version 1.12:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.11:
+ * - Optimization update. Lag that occurred during menu scrolling in the
+ * middle of battle is now reduced/removed.
+ *
+ * Version 1.10:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.09:
+ * - Fixed an exploit with skills that gain TP across Disperse Damage.
+ *
+ * Version 1.08:
+ * - New Feature: Clicking upon the Party Status Window to select actors
+ * works.
+ * This requires Battle Engine Core v1.38 or else it will not work.
+ * - New Feature: Visual Enemy and Visual Ally select for touch input.
+ * This requires Battle Engine Core v1.38 or else it will not work.
+ *
+ * Verison 1.07a:
+ * - Fixed a bug that caused the all dead check to not check the actors that
+ * were unselectable.
+ * - Compatibility update with Battle System CTB to prevent taunt effects and
+ * unselectable from making the CTB Turn Order bug out.
+ *
+ * Version 1.06a:
+ * - Added 'Physical Weapon Range' and 'Default Weapon Range' parameters.
+ * These parameters are used for the new Select Condition: 'Weapon Range',
+ * which will determine the range of a skill based on the weapon's range
+ * (melee or ranged) * and allow which enemies the battler can select.
+ * - Added <Weapon Ranged> for Skills and Items. This will make the skill/item
+ * be range dependent on the weapon equipped (or if the enemy is ranged).
+ * - <Melee> and <Ranged> notetags added for weapons and enemies. This will
+ * give weapons and enemies melee or ranged attributes.
+ * - Changed sorting algorithm to better fit actors based on their visual
+ * position on the screen.
+ *
+ * Version 1.05:
+ * - Compatibility update with Damage Core to fix Damage Dispersion if damage
+ * caps are being used.
+ *
+ * Version 1.04:
+ * - Fixed a bug with the <Cannot Select> notetags that made them only work
+ * with states.
+ *
+ * Version 1.03:
+ * - Fixed a bug that made <Bypass Taunt> and <Ignore Taunt> notetags not work
+ * for the YEP_Taunt.js plugin.
+ *
+ * Version 1.02a:
+ * - Fixed a bug that caused a crash when multiple targets are present.
+ * - Fixed an error with getting the wrong eval variable.
+ *
+ * Version 1.01:
+ * - Fixed a bug with the 'Not User' select condition not working properly.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

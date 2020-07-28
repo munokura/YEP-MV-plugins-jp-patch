@@ -1,0 +1,200 @@
+/*:ja
+ * @plugindesc v1.04 (要YEP_BattleEngineCore & YEP_BuffsStatesCore)カスタムHP回復(ダメージ)式と効果を作成できます
+ * @author Yanfly Engine Plugins + Tigress Collaboration
+ *
+ * @param ---デフォルト---
+ * @default
+ *
+ * @param Regen Animation
+ * @text 回復のアニメ
+ * @parent ---デフォルト---
+ * @type animation
+ * @desc 回復ステートのデフォルトのアニメーション。アニメーションを再生しない場合は0
+ * @default 46
+ *
+ * @param DoT Animation
+ * @text 継続ダメージのアニメ
+ * @parent ---デフォルト---
+ * @type animation
+ * @desc 継続ダメージステートのデフォルトのアニメーション。アニメーションを再生しない場合は0
+ * @default 59
+ *
+ * @param Default Variance
+ * @text デフォルト分散値
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 拡張継続ダメージ式のデフォルトの分散値。差異がない場合は0
+ * @default 20
+ *
+ * @param Default Element
+ * @text デフォルト属性
+ * @parent ---デフォルト---
+ * @type number
+ * @desc 拡張継続ダメージ式に使用されるデフォルトの属性。属性がない場合は0
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BattleEngineCoreとYEP_BuffsStatesCoreの両方を
+ * 必要とします。
+ * プラグイン管理のYEP_BattleEngineCoreとYEP_BuffsStatesCoreの両方の下に
+ * このプラグインがあることを確認してください。
+ *
+ * RPGツクールMVは、時間の経過による効果のHP回復やダメージに
+ * カスタム式を利用することはできません。
+ * このプラグインは、
+ * YanflyのBuffs&StatesCoreの助けを借りて、
+ * 数式でカスタムダメージを作成したり、時間の経過に伴う回復、
+ * それらに合わせたアニメーション、分散制御、属性レートを可能にします。
+ *
+ * YanflyEnginePluginsライブラリとの互換性を保証するための
+ * Tigress と Yanfly によるコラボレーションプラグインです。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * YanflyEnginePluginsライブラリとの互換性を保証するための
+ * Tigress と Yanfly によるコラボレーションプラグインです。
+ *
+ * ステートのメモタグ
+ *
+ *    ---
+ *
+ *   <Regen Animation: x>
+ *   <DoT Animation: x>
+ *   - 以下で使用されている長期にわたるダメージを受けることによって
+ *   回復・ダメージが与えられた場合、
+ *   ステートに沿って回復/ダメージでアニメーションxを回復させます。
+ *
+ *   例:
+ *     <Regen Animation: 41> // 回復が発生したらアニメーション41を再生
+ *     <DoT Animation: 59>   // 継続ダメージが発生したらアニメーション59を再生
+ *
+ *   *注: アニメーションは、次のいずれかの数式で使用され、
+ *   数式が0の値にならない場合のみ発生します。
+ *
+ *   ---
+ *
+ *   <Regen Formula: x>
+ *   - 影響を受けたバトラーは各ターン毎にHPを回復成する。
+ *   'x'の代わりに式・数値を使用できます。
+ *
+ *   例:
+ *     <Regen Formula: 100>        // 各ターン正確に100 HP回復
+ *     <Regen Formula: a.mdf * 2>  // 原点のMDFに等しいHP回復
+ *
+ *   ---
+ *
+ *   <DoT Formula: x>
+ *   - 影響を受けたバトラーは各ターン毎にx のHPダメージを受ける。
+ *   'x'の代わりに式・数値を使用できます。
+ *
+ *   例:
+ *     <DoT Formula: 100>        // 各ターン正確に100 HPダメージ
+ *     <DoT Formula: a.mat * 2>  // MATに等しいHPダメージ
+ *
+ *   ---
+ *
+ *   <Regen Element: x>
+ *   <DoT Element: x>
+ *   - このステートによって行われた回復/ダメージを属性'x'にします。
+ *   その属性に対するターゲットの基本レートを考慮に入れます。
+ *   これを空白のままにした場合、属性影響はありません。
+ *
+ *   例:
+ *     <Regen Element: 4>   // 行われた回復は属性4の影響を受けます。
+ *     <DoT Element: 5>     // 与えられたダメージは属性5の影響を受けます。
+ *
+ *   ---
+ *
+ *   <Regen Variance: x%>
+ *   <DoT Variance: x%>
+ *   - 継続ダメージ効果に持たせたい分散の量。
+ *   xをパーセント値で置き換えます。
+ *   空白のままにすると、
+ *   プラグインパラメータの設定がデフォルトで使用されます。
+ *
+ *   例:
+ *     <Regen Variance: 10%>   // 10%の回復分散を持つ
+ *     <DoT Variance: 20%>     // 20%のダメージ分散を持つ
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム継続ダメージ式
+ * ===========================================================================
+ *
+ * JavaScriptの経験があり、
+ * 経時的なカスタムのダメージ/回復のためのより複雑な式を作成したい人のために、
+ * 以下のメモタグを使用することができます。
+ *
+ * ステートのメモタグ
+ *
+ *   ---
+ *
+ *   <Custom DoT Formula>
+ *    if (a.isActor()) {
+ *      value = a.level * 100;
+ *      variance = 20;
+ *      element = 1;
+ *    } else {
+ *      value = a.hp / 50;
+ *      variance = 10;
+ *      element = 2;
+ *    }
+ *   </Custom DoT Formula>
+ *   - 与えられるダメージは'value'と同じになります。
+ *   主に式だけで発生する基本ダメージです。
+ *   与えられる最終的なダメージは、
+ *   'variance'と'element'の値の影響を受けますが、
+ *   これもこの公式内で変更することができます。
+ *   'variance'・'element'が計算式から除外されている場合、
+ *   それらはデフォルト値になります。
+ *
+ *   ---
+ *
+ *   <Custom Regen Formula>
+ *    if (a.isActor()) {
+ *      value = a.level * 8;
+ *      variance = 15;
+ *      element = 3;
+ *    } else {
+ *      value = a.hp / 2;
+ *      variance = 5;
+ *      element = 4;
+ *    }
+ *   </Custom Regen Formula>
+ *   - 対処される回復は'value'と同じになります。
+ *   主に式だけで扱われる基本的な回復です。
+ *   処理される最終的な回復は
+ *   'variance'と'element'の値によって影響を受けますが、
+ *   これもこの式の中で変更することができます。
+ *   'variance'・'element'が計算式から除外されている場合、
+ *   それらはデフォルト値になります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.6.1.
+ *
+ * Version 1.02:
+ * - Made DoT effects battle only to prevent errors and crashes.
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

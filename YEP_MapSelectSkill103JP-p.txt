@@ -1,0 +1,151 @@
+/*:ja
+ * @plugindesc v1.03 スキル一覧のウィンドウを表示し、選択したスキルIDを変数に代入します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Default Columns
+ * @text デフォルト列数
+ * @type number
+ * @min 1
+ * @desc デフォルトのウィンドウ列数
+ * @default 2
+ *
+ * @param Default Rows
+ * @text デフォルト行数
+ * @type number
+ * @min 1
+ * @desc デフォルトのウィンドウ行数
+ * @default 4
+ *
+ * @param Default X Position
+ * @text デフォルトX位置
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc デフォルトのウィンドウX位置
+ * 左:left / 中央]:center / 右:right
+ * @default right
+ *
+ * @param Default Y Position
+ * @text デフォルトY位置
+ * @type select
+ * @option 上
+ * @value top
+ * @option 中央
+ * @value middle
+ * @option 下
+ * @value bottom
+ * @desc デフォルトのウィンドウY位置
+ * 上:top / 中央:middle / 下:bottom
+ * @default bottom
+ *
+ * @param Default Width
+ * @text デフォルト幅
+ * @type number
+ * @min 0
+ * @desc ウィンドウのデフォルト幅
+ * 0に設定すると、ウィンドウ幅は画面幅に
+ * @default 0
+ *
+ * @param Default Enable
+ * @text スキル有効化
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトで全てのスキルを有効
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Default Cost
+ * @text スキルコスト表示
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでスキルのコストを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはスキルのリストを表示するウィンドウを作成します。
+ * スキルが選択されると、
+ * 選択されたスキルのIDの値を選択された変数に代入するように設定されます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * このプラグインを利用するには、次のプラグインコマンドを使用します。
+ *
+ * プラグインコマンド
+ *
+ * MapSelectSkill v a s
+ * - マップ選択スキルウィンドウが開きます。
+ * 選択したスキルに設定したい変数のIDで'v'を置き換えます。
+ * スキルリストを見たいアクターのIDで'a'を置き換えてください。
+ * 's'はオプションですが、使用すると、
+ * スキルタイプ's'のスキルのみが表示されます。
+ * 's'をスキルタイプのID番号に置き換えます。
+ *
+ * MapSelectSkillColumns x
+ * - マップ選択スキルウィンドウの列数をxに設定します。
+ *
+ * MapSelectSkillRows x
+ * - マップ選択スキルウィンドウの行数をxに設定します。
+ *
+ * MapSelectSkillWidth x
+ * - マップ選択スキルウィンドウの幅をxに設定します。
+ * 0を使用すると、ウィンドウ幅は画面幅になります。
+ *
+ * MapSelectSkillX left
+ * MapSelectSkillX center
+ * MapSelectSkillX right
+ * - マップ選択スキルウィンドウを
+ * 画面の左側、画面の中央、画面の右側に配置します。
+ *
+ * MapSelectSkillY top
+ * MapSelectSkillY middle
+ * MapSelectSkillY bottom
+ * - マップ選択スキルウィンドウを
+ * 画面の上部、画面の中央、画面の下部に配置します。
+ *
+ * EnableAllMapSelectSkills
+ * - アクターがそれらを使用できるかどうかにかかわらず、
+ * リストされている全てのスキルが選択可能になります。
+ *
+ * NormalAllMapSelectSkills
+ * - アクターがそのスキルを使用できるかどうかに基づいて、
+ * リストされている全てのスキルを有効または無効にします。
+ *
+ * ShowMapSelectSkillCost
+ * - マップ選択スキルウィンドウにスキルのコストを表示します。
+ *
+ * HideMapSelectSkillCost
+ * - マップ選択スキルウィンドウでスキルのコストを隠します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Optimization update.
+ *
+ * Version 1.01:
+ * - Compatibility update with Self Switches & Variables v1.01.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

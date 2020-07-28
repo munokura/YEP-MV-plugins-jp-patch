@@ -1,0 +1,3371 @@
+/*:ja
+ * @plugindesc v1.06 マップ画面で特定のピクチャがクリックされた時にコモンイベントを実行させます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Enable Touch Move
+ * @text タッチ移動有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on YES
+ * @off NO
+ * @desc タッチ移動をデフォルトで有効に
+ * 無効:false / 有効:true / デフォルト:true
+ * @default true
+ *
+ * @param Hide Message
+ * @text メッセージ中非表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 非表示
+ * @off 表示継続
+ * @desc メッセージ中にコモンイベントと一緒にピクチャを非表示
+ * 表示継続:false / 非表示:true / デフォルト:true
+ * @default true
+ *
+ * @param ---ピクチャ 1---
+ * @text ---ピクチャ 1---
+ * @default
+ *
+ * @param Picture 1 Click
+ * @text クリック
+ * @parent ---ピクチャ 1---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 1 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 1---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 1 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 1---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 1 Release
+ * @text リリース
+ * @parent ---ピクチャ 1---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 2---
+ * @text ---ピクチャ 2---
+ * @default
+ *
+ * @param Picture 2 Click
+ * @text クリック
+ * @parent ---ピクチャ 2---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 2 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 2---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 2 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 2---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 2 Release
+ * @text リリース
+ * @parent ---ピクチャ 2---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 3---
+ * @text ---ピクチャ 3---
+ * @default
+ *
+ * @param Picture 3 Click
+ * @text クリック
+ * @parent ---ピクチャ 3---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 3 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 3---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 3 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 3---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 3 Release
+ * @text リリース
+ * @parent ---ピクチャ 3---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 4---
+ * @text ---ピクチャ 4---
+ * @default
+ *
+ * @param Picture 4 Click
+ * @text クリック
+ * @parent ---ピクチャ 4---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 4 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 4---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 4 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 4---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 4 Release
+ * @text リリース
+ * @parent ---ピクチャ 4---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 5---
+ * @text ---ピクチャ 5---
+ * @default
+ *
+ * @param Picture 5 Click
+ * @text クリック
+ * @parent ---ピクチャ 5---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 5 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 5---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 5 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 5---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 5 Release
+ * @text リリース
+ * @parent ---ピクチャ 5---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 6---
+ * @text ---ピクチャ 6---
+ * @default
+ *
+ * @param Picture 6 Click
+ * @text クリック
+ * @parent ---ピクチャ 6---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 6 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 6---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 6 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 6---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 6 Release
+ * @text リリース
+ * @parent ---ピクチャ 6---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 7---
+ * @text ---ピクチャ 7---
+ * @default
+ *
+ * @param Picture 7 Click
+ * @text クリック
+ * @parent ---ピクチャ 7---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 7 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 7---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 7 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 7---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 7 Release
+ * @text リリース
+ * @parent ---ピクチャ 7---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 8---
+ * @text ---ピクチャ 8---
+ * @default
+ *
+ * @param Picture 8 Click
+ * @text クリック
+ * @parent ---ピクチャ 8---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 8 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 8---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 8 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 8---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 8 Release
+ * @text リリース
+ * @parent ---ピクチャ 8---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 9---
+ * @text ---ピクチャ 9---
+ * @default
+ *
+ * @param Picture 9 Click
+ * @text クリック
+ * @parent ---ピクチャ 9---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 9 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 9---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 9 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 9---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 9 Release
+ * @text リリース
+ * @parent ---ピクチャ 9---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 10---
+ * @text ---ピクチャ 10---
+ * @default
+ *
+ * @param Picture 10 Click
+ * @text クリック
+ * @parent ---ピクチャ 10---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 10 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 10---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 10 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 10---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 10 Release
+ * @text リリース
+ * @parent ---ピクチャ 10---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 11---
+ * @text ---ピクチャ 11---
+ * @default
+ *
+ * @param Picture 11 Click
+ * @text クリック
+ * @parent ---ピクチャ 11---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 11 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 11---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 11 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 11---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 11 Release
+ * @text リリース
+ * @parent ---ピクチャ 11---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 12---
+ * @text ---ピクチャ 12---
+ * @default
+ *
+ * @param Picture 12 Click
+ * @text クリック
+ * @parent ---ピクチャ 12---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 12 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 12---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 12 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 12---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 12 Release
+ * @text リリース
+ * @parent ---ピクチャ 12---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 13---
+ * @text ---ピクチャ 13---
+ * @default
+ *
+ * @param Picture 13 Click
+ * @text クリック
+ * @parent ---ピクチャ 13---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 13 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 13---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 13 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 13---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 13 Release
+ * @text リリース
+ * @parent ---ピクチャ 13---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 14---
+ * @text ---ピクチャ 14---
+ * @default
+ *
+ * @param Picture 14 Click
+ * @text クリック
+ * @parent ---ピクチャ 14---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 14 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 14---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 14 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 14---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 14 Release
+ * @text リリース
+ * @parent ---ピクチャ 14---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 15---
+ * @text ---ピクチャ 15---
+ * @default
+ *
+ * @param Picture 15 Click
+ * @text クリック
+ * @parent ---ピクチャ 15---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 15 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 15---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 15 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 15---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 15 Release
+ * @text リリース
+ * @parent ---ピクチャ 15---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 16---
+ * @text ---ピクチャ 16---
+ * @default
+ *
+ * @param Picture 16 Click
+ * @text クリック
+ * @parent ---ピクチャ 16---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 16 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 16---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 16 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 16---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 16 Release
+ * @text リリース
+ * @parent ---ピクチャ 16---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 17---
+ * @text ---ピクチャ 17---
+ * @default
+ *
+ * @param Picture 17 Click
+ * @text クリック
+ * @parent ---ピクチャ 17---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 17 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 17---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 17 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 17---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 17 Release
+ * @text リリース
+ * @parent ---ピクチャ 17---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 18---
+ * @text ---ピクチャ 18---
+ * @default
+ *
+ * @param Picture 18 Click
+ * @text クリック
+ * @parent ---ピクチャ 18---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 18 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 18---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 18 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 18---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 18 Release
+ * @text リリース
+ * @parent ---ピクチャ 18---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 19---
+ * @text ---ピクチャ 19---
+ * @default
+ *
+ * @param Picture 19 Click
+ * @text クリック
+ * @parent ---ピクチャ 19---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 19 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 19---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 19 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 19---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 19 Release
+ * @text リリース
+ * @parent ---ピクチャ 19---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 20---
+ * @text ---ピクチャ 20---
+ * @default
+ *
+ * @param Picture 20 Click
+ * @text クリック
+ * @parent ---ピクチャ 20---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 20 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 20---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 20 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 20---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 20 Release
+ * @text リリース
+ * @parent ---ピクチャ 20---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 21---
+ * @text ---ピクチャ 21---
+ * @default
+ *
+ * @param Picture 21 Click
+ * @text クリック
+ * @parent ---ピクチャ 21---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 21 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 21---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 21 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 21---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 21 Release
+ * @text リリース
+ * @parent ---ピクチャ 21---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 22---
+ * @text ---ピクチャ 22---
+ * @default
+ *
+ * @param Picture 22 Click
+ * @text クリック
+ * @parent ---ピクチャ 22---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 22 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 22---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 22 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 22---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 22 Release
+ * @text リリース
+ * @parent ---ピクチャ 22---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 23---
+ * @text ---ピクチャ 23---
+ * @default
+ *
+ * @param Picture 23 Click
+ * @text クリック
+ * @parent ---ピクチャ 23---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 23 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 23---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 23 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 23---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 23 Release
+ * @text リリース
+ * @parent ---ピクチャ 23---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 24---
+ * @text ---ピクチャ 24---
+ * @default
+ *
+ * @param Picture 24 Click
+ * @text クリック
+ * @parent ---ピクチャ 24---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 24 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 24---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 24 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 24---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 24 Release
+ * @text リリース
+ * @parent ---ピクチャ 24---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 25---
+ * @text ---ピクチャ 25---
+ * @default
+ *
+ * @param Picture 25 Click
+ * @text クリック
+ * @parent ---ピクチャ 25---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 25 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 25---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 25 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 25---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 25 Release
+ * @text リリース
+ * @parent ---ピクチャ 25---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 26---
+ * @text ---ピクチャ 26---
+ * @default
+ *
+ * @param Picture 26 Click
+ * @text クリック
+ * @parent ---ピクチャ 26---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 26 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 26---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 26 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 26---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 26 Release
+ * @text リリース
+ * @parent ---ピクチャ 26---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 27---
+ * @text ---ピクチャ 27---
+ * @default
+ *
+ * @param Picture 27 Click
+ * @text クリック
+ * @parent ---ピクチャ 27---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 27 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 27---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 27 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 27---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 27 Release
+ * @text リリース
+ * @parent ---ピクチャ 27---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 28---
+ * @text ---ピクチャ 28---
+ * @default
+ *
+ * @param Picture 28 Click
+ * @text クリック
+ * @parent ---ピクチャ 28---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 28 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 28---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 28 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 28---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 28 Release
+ * @text リリース
+ * @parent ---ピクチャ 28---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 29---
+ * @text ---ピクチャ 29---
+ * @default
+ *
+ * @param Picture 29 Click
+ * @text クリック
+ * @parent ---ピクチャ 29---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 29 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 29---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 29 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 29---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 29 Release
+ * @text リリース
+ * @parent ---ピクチャ 29---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 30---
+ * @text ---ピクチャ 30---
+ * @default
+ *
+ * @param Picture 30 Click
+ * @text クリック
+ * @parent ---ピクチャ 30---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 30 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 30---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 30 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 30---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 30 Release
+ * @text リリース
+ * @parent ---ピクチャ 30---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 31---
+ * @text ---ピクチャ 31---
+ * @default
+ *
+ * @param Picture 31 Click
+ * @text クリック
+ * @parent ---ピクチャ 31---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 31 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 31---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 31 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 31---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 31 Release
+ * @text リリース
+ * @parent ---ピクチャ 31---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 32---
+ * @text ---ピクチャ 32---
+ * @default
+ *
+ * @param Picture 32 Click
+ * @text クリック
+ * @parent ---ピクチャ 32---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 32 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 32---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 32 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 32---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 32 Release
+ * @text リリース
+ * @parent ---ピクチャ 32---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 33---
+ * @text ---ピクチャ 33---
+ * @default
+ *
+ * @param Picture 33 Click
+ * @text クリック
+ * @parent ---ピクチャ 33---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 33 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 33---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 33 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 33---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 33 Release
+ * @text リリース
+ * @parent ---ピクチャ 33---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 34---
+ * @text ---ピクチャ 34---
+ * @default
+ *
+ * @param Picture 34 Click
+ * @text クリック
+ * @parent ---ピクチャ 34---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 34 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 34---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 34 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 34---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 34 Release
+ * @text リリース
+ * @parent ---ピクチャ 34---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 35---
+ * @text ---ピクチャ 35---
+ * @default
+ *
+ * @param Picture 35 Click
+ * @text クリック
+ * @parent ---ピクチャ 35---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 35 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 35---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 35 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 35---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 35 Release
+ * @text リリース
+ * @parent ---ピクチャ 35---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 36---
+ * @text ---ピクチャ 36---
+ * @default
+ *
+ * @param Picture 36 Click
+ * @text クリック
+ * @parent ---ピクチャ 36---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 36 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 36---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 36 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 36---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 36 Release
+ * @text リリース
+ * @parent ---ピクチャ 36---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 37---
+ * @text ---ピクチャ 37---
+ * @default
+ *
+ * @param Picture 37 Click
+ * @text クリック
+ * @parent ---ピクチャ 37---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 37 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 37---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 37 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 37---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 37 Release
+ * @text リリース
+ * @parent ---ピクチャ 37---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 38---
+ * @text ---ピクチャ 38---
+ * @default
+ *
+ * @param Picture 38 Click
+ * @text クリック
+ * @parent ---ピクチャ 38---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 38 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 38---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 38 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 38---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 38 Release
+ * @text リリース
+ * @parent ---ピクチャ 38---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 39---
+ * @text ---ピクチャ 39---
+ * @default
+ *
+ * @param Picture 39 Click
+ * @text クリック
+ * @parent ---ピクチャ 39---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 39 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 39---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 39 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 39---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 39 Release
+ * @text リリース
+ * @parent ---ピクチャ 39---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 40---
+ * @text ---ピクチャ 40---
+ * @default
+ *
+ * @param Picture 40 Click
+ * @text クリック
+ * @parent ---ピクチャ 40---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 40 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 40---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 40 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 40---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 40 Release
+ * @text リリース
+ * @parent ---ピクチャ 40---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 41---
+ * @text ---ピクチャ 41---
+ * @default
+ *
+ * @param Picture 41 Click
+ * @text クリック
+ * @parent ---ピクチャ 41---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 41 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 41---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 41 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 41---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 41 Release
+ * @text リリース
+ * @parent ---ピクチャ 41---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 42---
+ * @text ---ピクチャ 42---
+ * @default
+ *
+ * @param Picture 42 Click
+ * @text クリック
+ * @parent ---ピクチャ 42---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 42 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 42---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 42 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 42---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 42 Release
+ * @text リリース
+ * @parent ---ピクチャ 42---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 43---
+ * @text ---ピクチャ 43---
+ * @default
+ *
+ * @param Picture 43 Click
+ * @text クリック
+ * @parent ---ピクチャ 43---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 43 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 43---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 43 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 43---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 43 Release
+ * @text リリース
+ * @parent ---ピクチャ 43---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 44---
+ * @text ---ピクチャ 44---
+ * @default
+ *
+ * @param Picture 44 Click
+ * @text クリック
+ * @parent ---ピクチャ 44---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 44 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 44---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 44 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 44---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 44 Release
+ * @text リリース
+ * @parent ---ピクチャ 44---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 45---
+ * @text ---ピクチャ 45---
+ * @default
+ *
+ * @param Picture 45 Click
+ * @text クリック
+ * @parent ---ピクチャ 45---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 45 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 45---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 45 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 45---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 45 Release
+ * @text リリース
+ * @parent ---ピクチャ 45---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 46---
+ * @text ---ピクチャ 46---
+ * @default
+ *
+ * @param Picture 46 Click
+ * @text クリック
+ * @parent ---ピクチャ 46---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 46 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 46---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 46 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 46---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 46 Release
+ * @text リリース
+ * @parent ---ピクチャ 46---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 47---
+ * @text ---ピクチャ 47---
+ * @default
+ *
+ * @param Picture 47 Click
+ * @text クリック
+ * @parent ---ピクチャ 47---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 47 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 47---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 47 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 47---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 47 Release
+ * @text リリース
+ * @parent ---ピクチャ 47---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 48---
+ * @text ---ピクチャ 48---
+ * @default
+ *
+ * @param Picture 48 Click
+ * @text クリック
+ * @parent ---ピクチャ 48---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 48 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 48---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 48 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 48---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 48 Release
+ * @text リリース
+ * @parent ---ピクチャ 48---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 49---
+ * @text ---ピクチャ 49---
+ * @default
+ *
+ * @param Picture 49 Click
+ * @text クリック
+ * @parent ---ピクチャ 49---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 49 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 49---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 49 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 49---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 49 Release
+ * @text リリース
+ * @parent ---ピクチャ 49---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 50---
+ * @text ---ピクチャ 50---
+ * @default
+ *
+ * @param Picture 50 Click
+ * @text クリック
+ * @parent ---ピクチャ 50---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 50 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 50---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 50 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 50---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 50 Release
+ * @text リリース
+ * @parent ---ピクチャ 50---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 51---
+ * @text ---ピクチャ 51---
+ * @default
+ *
+ * @param Picture 51 Click
+ * @text クリック
+ * @parent ---ピクチャ 51---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 51 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 51---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 51 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 51---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 51 Release
+ * @text リリース
+ * @parent ---ピクチャ 51---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 52---
+ * @text ---ピクチャ 52---
+ * @default
+ *
+ * @param Picture 52 Click
+ * @text クリック
+ * @parent ---ピクチャ 52---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 52 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 52---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 52 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 52---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 52 Release
+ * @text リリース
+ * @parent ---ピクチャ 52---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 53---
+ * @text ---ピクチャ 53---
+ * @default
+ *
+ * @param Picture 53 Click
+ * @text クリック
+ * @parent ---ピクチャ 53---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 53 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 53---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 53 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 53---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 53 Release
+ * @text リリース
+ * @parent ---ピクチャ 53---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 54---
+ * @text ---ピクチャ 54---
+ * @default
+ *
+ * @param Picture 54 Click
+ * @text クリック
+ * @parent ---ピクチャ 54---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 54 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 54---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 54 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 54---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 54 Release
+ * @text リリース
+ * @parent ---ピクチャ 54---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 55---
+ * @text ---ピクチャ 55---
+ * @default
+ *
+ * @param Picture 55 Click
+ * @text クリック
+ * @parent ---ピクチャ 55---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 55 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 55---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 55 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 55---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 55 Release
+ * @text リリース
+ * @parent ---ピクチャ 55---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 56---
+ * @text ---ピクチャ 56---
+ * @default
+ *
+ * @param Picture 56 Click
+ * @text クリック
+ * @parent ---ピクチャ 56---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 56 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 56---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 56 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 56---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 56 Release
+ * @text リリース
+ * @parent ---ピクチャ 56---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 57---
+ * @text ---ピクチャ 57---
+ * @default
+ *
+ * @param Picture 57 Click
+ * @text クリック
+ * @parent ---ピクチャ 57---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 57 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 57---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 57 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 57---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 57 Release
+ * @text リリース
+ * @parent ---ピクチャ 57---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 58---
+ * @text ---ピクチャ 58---
+ * @default
+ *
+ * @param Picture 58 Click
+ * @text クリック
+ * @parent ---ピクチャ 58---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 58 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 58---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 58 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 58---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 58 Release
+ * @text リリース
+ * @parent ---ピクチャ 58---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 59---
+ * @text ---ピクチャ 59---
+ * @default
+ *
+ * @param Picture 59 Click
+ * @text クリック
+ * @parent ---ピクチャ 59---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 59 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 59---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 59 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 59---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 59 Release
+ * @text リリース
+ * @parent ---ピクチャ 59---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 60---
+ * @text ---ピクチャ 60---
+ * @default
+ *
+ * @param Picture 60 Click
+ * @text クリック
+ * @parent ---ピクチャ 60---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 60 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 60---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 60 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 60---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 60 Release
+ * @text リリース
+ * @parent ---ピクチャ 60---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 61---
+ * @text ---ピクチャ 61---
+ * @default
+ *
+ * @param Picture 61 Click
+ * @text クリック
+ * @parent ---ピクチャ 61---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 61 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 61---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 61 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 61---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 61 Release
+ * @text リリース
+ * @parent ---ピクチャ 61---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 62---
+ * @text ---ピクチャ 62---
+ * @default
+ *
+ * @param Picture 62 Click
+ * @text クリック
+ * @parent ---ピクチャ 62---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 62 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 62---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 62 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 62---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 62 Release
+ * @text リリース
+ * @parent ---ピクチャ 62---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 63---
+ * @text ---ピクチャ 63---
+ * @default
+ *
+ * @param Picture 63 Click
+ * @text クリック
+ * @parent ---ピクチャ 63---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 63 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 63---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 63 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 63---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 63 Release
+ * @text リリース
+ * @parent ---ピクチャ 63---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 64---
+ * @text ---ピクチャ 64---
+ * @default
+ *
+ * @param Picture 64 Click
+ * @text クリック
+ * @parent ---ピクチャ 64---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 64 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 64---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 64 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 64---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 64 Release
+ * @text リリース
+ * @parent ---ピクチャ 64---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 65---
+ * @text ---ピクチャ 65---
+ * @default
+ *
+ * @param Picture 65 Click
+ * @text クリック
+ * @parent ---ピクチャ 65---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 65 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 65---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 65 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 65---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 65 Release
+ * @text リリース
+ * @parent ---ピクチャ 65---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 66---
+ * @text ---ピクチャ 66---
+ * @default
+ *
+ * @param Picture 66 Click
+ * @text クリック
+ * @parent ---ピクチャ 66---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 66 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 66---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 66 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 66---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 66 Release
+ * @text リリース
+ * @parent ---ピクチャ 66---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 67---
+ * @text ---ピクチャ 67---
+ * @default
+ *
+ * @param Picture 67 Click
+ * @text クリック
+ * @parent ---ピクチャ 67---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 67 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 67---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 67 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 67---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 67 Release
+ * @text リリース
+ * @parent ---ピクチャ 67---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 68---
+ * @text ---ピクチャ 68---
+ * @default
+ *
+ * @param Picture 68 Click
+ * @text クリック
+ * @parent ---ピクチャ 68---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 68 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 68---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 68 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 68---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 68 Release
+ * @text リリース
+ * @parent ---ピクチャ 68---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 69---
+ * @text ---ピクチャ 69---
+ * @default
+ *
+ * @param Picture 69 Click
+ * @text クリック
+ * @parent ---ピクチャ 69---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 69 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 69---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 69 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 69---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 69 Release
+ * @text リリース
+ * @parent ---ピクチャ 69---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 70---
+ * @text ---ピクチャ 70---
+ * @default
+ *
+ * @param Picture 70 Click
+ * @text クリック
+ * @parent ---ピクチャ 70---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 70 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 70---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 70 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 70---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 70 Release
+ * @text リリース
+ * @parent ---ピクチャ 70---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 71---
+ * @text ---ピクチャ 71---
+ * @default
+ *
+ * @param Picture 71 Click
+ * @text クリック
+ * @parent ---ピクチャ 71---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 71 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 71---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 71 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 71---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 71 Release
+ * @text リリース
+ * @parent ---ピクチャ 71---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 72---
+ * @text ---ピクチャ 72---
+ * @default
+ *
+ * @param Picture 72 Click
+ * @text クリック
+ * @parent ---ピクチャ 72---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 72 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 72---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 72 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 72---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 72 Release
+ * @text リリース
+ * @parent ---ピクチャ 72---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 73---
+ * @text ---ピクチャ 73---
+ * @default
+ *
+ * @param Picture 73 Click
+ * @text クリック
+ * @parent ---ピクチャ 73---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 73 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 73---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 73 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 73---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 73 Release
+ * @text リリース
+ * @parent ---ピクチャ 73---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 74---
+ * @text ---ピクチャ 74---
+ * @default
+ *
+ * @param Picture 74 Click
+ * @text クリック
+ * @parent ---ピクチャ 74---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 74 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 74---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 74 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 74---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 74 Release
+ * @text リリース
+ * @parent ---ピクチャ 74---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 75---
+ * @text ---ピクチャ 75---
+ * @default
+ *
+ * @param Picture 75 Click
+ * @text クリック
+ * @parent ---ピクチャ 75---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 75 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 75---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 75 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 75---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 75 Release
+ * @text リリース
+ * @parent ---ピクチャ 75---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 76---
+ * @text ---ピクチャ 76---
+ * @default
+ *
+ * @param Picture 76 Click
+ * @text クリック
+ * @parent ---ピクチャ 76---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 76 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 76---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 76 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 76---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 76 Release
+ * @text リリース
+ * @parent ---ピクチャ 76---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 77---
+ * @text ---ピクチャ 77---
+ * @default
+ *
+ * @param Picture 77 Click
+ * @text クリック
+ * @parent ---ピクチャ 77---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 77 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 77---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 77 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 77---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 77 Release
+ * @text リリース
+ * @parent ---ピクチャ 77---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 78---
+ * @text ---ピクチャ 78---
+ * @default
+ *
+ * @param Picture 78 Click
+ * @text クリック
+ * @parent ---ピクチャ 78---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 78 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 78---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 78 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 78---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 78 Release
+ * @text リリース
+ * @parent ---ピクチャ 78---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 79---
+ * @text ---ピクチャ 79---
+ * @default
+ *
+ * @param Picture 79 Click
+ * @text クリック
+ * @parent ---ピクチャ 79---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 79 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 79---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 79 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 79---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 79 Release
+ * @text リリース
+ * @parent ---ピクチャ 79---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 80---
+ * @text ---ピクチャ 80---
+ * @default
+ *
+ * @param Picture 80 Click
+ * @text クリック
+ * @parent ---ピクチャ 80---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 80 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 80---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 80 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 80---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 80 Release
+ * @text リリース
+ * @parent ---ピクチャ 80---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 81---
+ * @text ---ピクチャ 81---
+ * @default
+ *
+ * @param Picture 81 Click
+ * @text クリック
+ * @parent ---ピクチャ 81---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 81 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 81---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 81 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 81---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 81 Release
+ * @text リリース
+ * @parent ---ピクチャ 81---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 82---
+ * @text ---ピクチャ 82---
+ * @default
+ *
+ * @param Picture 82 Click
+ * @text クリック
+ * @parent ---ピクチャ 82---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 82 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 82---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 82 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 82---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 82 Release
+ * @text リリース
+ * @parent ---ピクチャ 82---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 83---
+ * @text ---ピクチャ 83---
+ * @default
+ *
+ * @param Picture 83 Click
+ * @text クリック
+ * @parent ---ピクチャ 83---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 83 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 83---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 83 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 83---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 83 Release
+ * @text リリース
+ * @parent ---ピクチャ 83---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 84---
+ * @text ---ピクチャ 84---
+ * @default
+ *
+ * @param Picture 84 Click
+ * @text クリック
+ * @parent ---ピクチャ 84---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 84 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 84---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 84 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 84---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 84 Release
+ * @text リリース
+ * @parent ---ピクチャ 84---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 85---
+ * @text ---ピクチャ 85---
+ * @default
+ *
+ * @param Picture 85 Click
+ * @text クリック
+ * @parent ---ピクチャ 85---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 85 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 85---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 85 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 85---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 85 Release
+ * @text リリース
+ * @parent ---ピクチャ 85---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 86---
+ * @text ---ピクチャ 86---
+ * @default
+ *
+ * @param Picture 86 Click
+ * @text クリック
+ * @parent ---ピクチャ 86---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 86 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 86---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 86 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 86---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 86 Release
+ * @text リリース
+ * @parent ---ピクチャ 86---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 87---
+ * @text ---ピクチャ 87---
+ * @default
+ *
+ * @param Picture 87 Click
+ * @text クリック
+ * @parent ---ピクチャ 87---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 87 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 87---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 87 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 87---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 87 Release
+ * @text リリース
+ * @parent ---ピクチャ 87---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 88---
+ * @text ---ピクチャ 88---
+ * @default
+ *
+ * @param Picture 88 Click
+ * @text クリック
+ * @parent ---ピクチャ 88---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 88 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 88---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 88 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 88---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 88 Release
+ * @text リリース
+ * @parent ---ピクチャ 88---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 89---
+ * @text ---ピクチャ 89---
+ * @default
+ *
+ * @param Picture 89 Click
+ * @text クリック
+ * @parent ---ピクチャ 89---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 89 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 89---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 89 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 89---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 89 Release
+ * @text リリース
+ * @parent ---ピクチャ 89---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 90---
+ * @text ---ピクチャ 90---
+ * @default
+ *
+ * @param Picture 90 Click
+ * @text クリック
+ * @parent ---ピクチャ 90---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 90 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 90---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 90 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 90---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 90 Release
+ * @text リリース
+ * @parent ---ピクチャ 90---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 91---
+ * @text ---ピクチャ 91---
+ * @default
+ *
+ * @param Picture 91 Click
+ * @text クリック
+ * @parent ---ピクチャ 91---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 91 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 91---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 91 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 91---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 91 Release
+ * @text リリース
+ * @parent ---ピクチャ 91---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 92---
+ * @text ---ピクチャ 92---
+ * @default
+ *
+ * @param Picture 92 Click
+ * @text クリック
+ * @parent ---ピクチャ 92---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 92 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 92---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 92 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 92---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 92 Release
+ * @text リリース
+ * @parent ---ピクチャ 92---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 93---
+ * @text ---ピクチャ 93---
+ * @default
+ *
+ * @param Picture 93 Click
+ * @text クリック
+ * @parent ---ピクチャ 93---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 93 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 93---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 93 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 93---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 93 Release
+ * @text リリース
+ * @parent ---ピクチャ 93---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 94---
+ * @text ---ピクチャ 94---
+ * @default
+ *
+ * @param Picture 94 Click
+ * @text クリック
+ * @parent ---ピクチャ 94---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 94 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 94---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 94 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 94---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 94 Release
+ * @text リリース
+ * @parent ---ピクチャ 94---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 95---
+ * @text ---ピクチャ 95---
+ * @default
+ *
+ * @param Picture 95 Click
+ * @text クリック
+ * @parent ---ピクチャ 95---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 95 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 95---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 95 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 95---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 95 Release
+ * @text リリース
+ * @parent ---ピクチャ 95---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 96---
+ * @text ---ピクチャ 96---
+ * @default
+ *
+ * @param Picture 96 Click
+ * @text クリック
+ * @parent ---ピクチャ 96---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 96 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 96---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 96 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 96---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 96 Release
+ * @text リリース
+ * @parent ---ピクチャ 96---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 97---
+ * @text ---ピクチャ 97---
+ * @default
+ *
+ * @param Picture 97 Click
+ * @text クリック
+ * @parent ---ピクチャ 97---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 97 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 97---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 97 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 97---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 97 Release
+ * @text リリース
+ * @parent ---ピクチャ 97---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 98---
+ * @text ---ピクチャ 98---
+ * @default
+ *
+ * @param Picture 98 Click
+ * @text クリック
+ * @parent ---ピクチャ 98---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 98 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 98---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 98 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 98---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 98 Release
+ * @text リリース
+ * @parent ---ピクチャ 98---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 99---
+ * @text ---ピクチャ 99---
+ * @default
+ *
+ * @param Picture 99 Click
+ * @text クリック
+ * @parent ---ピクチャ 99---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 99 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 99---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 99 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 99---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 99 Release
+ * @text リリース
+ * @parent ---ピクチャ 99---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param ---ピクチャ 100---
+ * @text ---ピクチャ 100---
+ * @default
+ *
+ * @param Picture 100 Click
+ * @text クリック
+ * @parent ---ピクチャ 100---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされた時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 100 Repeat
+ * @text リピート
+ * @parent ---ピクチャ 100---
+ * @type common_event
+ * @desc このIDのピクチャが保持されている時、6フレーム毎にこのコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 100 Hold
+ * @text ホールド
+ * @parent ---ピクチャ 100---
+ * @type common_event
+ * @desc このIDのピクチャがクリックされて保持されている時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @param Picture 100 Release
+ * @text リリース
+ * @parent ---ピクチャ 100---
+ * @type common_event
+ * @desc このIDのピクチャが放された時、このコモンイベントを実行します。コモンイベントを実行しない場合、0に
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインを使用すると、ピクチャをクリックまたはタッチした時、
+ * 関連付けされているコモンイベントを使用可能になります。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * プラグインのパラメータでは、
+ * 1から100までにリストされている各ピクチャIDにコモンイベントIDを設定できます
+ * （RPGツクールMVで使用されるピクチャの最大数は100です）。
+ * ピクチャの不透明度が1の場合、そのピクチャはコモンイベントに使用できます。
+ * コモンイベントと結び付けることができる4つの条件タイプがあります。
+ *
+ * ---
+ *
+ * - CLICK -
+ * ピクチャがクリックされ、表示されているコモンイベント値が0を超えると、
+ * コモンイベントがトリガーされます。
+ * これは、プレーヤーがマウスを離すまで
+ * （または画面へのタッチが止まるまで）1回だけトリガーされます。
+ *
+ * - REPEAT -
+ * マウスがクリックされた後にホールドされた場合
+ * （またはタッチスクリーンが押されてホールドされた場合）、
+ * マウスがピクチャ領域の上にあり、リストされたコモンイベント値が0以上の場合、
+ * プレイヤーがマウスを離す（または画面に触れるのを止める）か、
+ * ピクチャの境界外にマウスを移動させるまで、
+ * 6フレーム毎に1回トリガーされます。
+ *
+ * - HOLD -
+ * マウスがクリックされた後にホールドされた場合
+ * （またはタッチスクリーンが押された後にホールドされた場合）、
+ * マウスがピクチャ領域の上にあり、リストされたコモンイベント値が0以上の場合、
+ * プレイヤーがマウスを離す（または画面に触れるのをやめる）か、
+ * ピクチャの境界外にマウスを移動させるまで、
+ * これはフレーム毎にトリガーされます。
+ *
+ * - RELEASE -
+ * クリックされたマウスを放すと
+ * （またはプレーヤーが画面へのタッチをやめた瞬間に）
+ * このピクチャの上でマウスを放します。
+ * 一覧に表示されているピクチャのコモンイベント値が0を超えると、
+ * 解放されます。
+ *
+ * ---
+ *
+ * コモンイベントに関連付けられたピクチャに関して、
+ * いくつかの行動の変化があることに注意してください。
+ * コモンイベントに関連付けされているピクチャは、
+ * 全てマップのスプライトセットとは別になり、
+ * 代わりにシーンに関連付けされます。
+ * これは、
+ *   画面がスクロールされたり、
+ *   ズームインされたり、
+ *   揺れたりした場合に、
+ * 関連付けられたピクチャに影響を与えないようにするためです。
+ *
+ * ピクチャは一般にUI属性として使用されるためであり、
+ * UI属性は位置を変更しないという慣習のもとで最も効果的に機能します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下は、YEP_PictureCommonEvents で制御を追加したい場合に
+ * 使用できるプラグインコマンドです。
+ *
+ * プラグインコマンド
+ *
+ *   EnableTouchMove
+ *   DisableTouchMove
+ *   - プレーヤーが画面上の目的地を押してそこに移動することを許可するか、
+ *   プレーヤーがタッチ移動を使用できないようにします。
+ *
+ *   HidePictureCommonEvents
+ *   ShowPictureCommonEvents
+ *   - 手動でコモンイベントに関連付けされているすべてのピクチャを
+ *   非表示/表示します。
+ *   表示されている場合、ピクチャは以前の不透明度の値に戻ります。
+ *   非表示のピクチャはコモンイベントのトリガーにはできません。
+ *
+ *   MovePlayer Down
+ *   MovePlayer Left
+ *   MovePlayer Right
+ *   MovePlayer Up
+ *   - （キーボードまたはコントローラを介して）
+ *   4方向入力を使用して移動しているかのように、
+ *   プレーヤのキャラクタを移動させます。
+ *   これは'Press'で最もよく使われます。
+ *
+ *   TriggerButton Ok
+ *   TriggerButton Cancel
+ *   TriggerButton Dash
+ *   TriggerButton PageUp
+ *   TriggerButton PageDown
+ *   TriggerButton Left
+ *   TriggerButton Up
+ *   TriggerButton Right
+ *   TriggerButton Down
+ *   - 元の機能のすべてのキーにコモンイベントが関連付けされている場合、
+ *   ゲームがそれらの元の機能の1つのボタンコマンドをトリガーするように
+ *   シミュレートします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.06:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.05:
+ * - Added bug fixes found by Splendith:
+ * - Bug fixed for events that allow the player to move immediately after
+ * pressing the picture common event.
+ * - Bug fixed for 'HidePictureCommonEvents' and 'ShowPictureCommonEvents'
+ * plugin command that caused normal pictures to hide/show, too.
+ *
+ * Version 1.04:
+ * - Fixed a bug that caused the 'HidePictureCommonEvents' plugin command to
+ * not function properly.
+ *
+ * Version 1.03:
+ * - Disabling Touch Move now also disables the Right Click button and
+ * on-screen Two Finger tap to prevent random menu calls.
+ *
+ * Version 1.02:
+ * - Fixed a bug that prevented the MovePlayer commands from working without a
+ * dependency on the YEP_RegionEvents plugin.
+ *
+ * Version 1.01:
+ * - Changed this plugin's Imported setting to YEP_PictureCommonEvents.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

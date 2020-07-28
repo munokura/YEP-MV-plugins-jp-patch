@@ -1,0 +1,77 @@
+/*:ja
+ * @plugindesc v1.01 特殊な条件で作動するスイッチを設定できます
+ * @author Yanfly Engine Plugins
+ *
+ * @param Battle Switch
+ * @text 戦闘スイッチ
+ * @type switch
+ * @desc このスイッチはプレイヤーが戦闘中はオンになります。
+ * @default 0
+ *
+ * @param Battle Test Switch
+ * @text 戦闘テストスイッチ
+ * @type switch
+ * @desc このスイッチはデータベースの[戦闘テスト]オプションを使用して戦闘にアクセスする時、オンになります。
+ * @default 0
+ *
+ * @param Dash Switch
+ * @text ダッシュスイッチ
+ * @type switch
+ * @desc このスイッチはプレーヤーがダッシュしている時はオンになります。
+ * @default 0
+ *
+ * @param Debug Switch
+ * @text デバッグスイッチ
+ * @type switch
+ * @desc このスイッチはテストプレイと戦闘テスト中はオンになり、それ以外はオフになります。
+ * @default 0
+ *
+ * @param Mobile Switch
+ * @text モバイルスイッチ
+ * @type switch
+ * @desc このスイッチは、モバイルデバイスで実行している時はオンになり、それ以外の時はオフになります。
+ * @default 0
+ *
+ * @param Mobile Chrome Switch
+ * @text モバイルChromeスイッチ
+ * @type switch
+ * @desc Mobile Chrome ブラウザで実行している時はオンになり、それ以外の時はオフになります。
+ * @default 0
+ *
+ * @param Mobile Safari Switch
+ * @text モバイルSafariスイッチ
+ * @type switch
+ * @desc Mobile Safariブラウザで実行している時はオンになり、それ以外の時はオフになります。
+ * @default 0
+ *
+ * @param Non-Local Switch
+ * @text 非ローカルスイッチ
+ * @type switch
+ * @desc このスイッチは、携帯電話やブラウザで実行している時はオンになり、それ以外の時はオフになります。
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインを使用すると、
+ * 特殊な条件に基づいて有効または無効になるスイッチを設定できます。
+ * 条件は、ゲームがデバッグモードで実行されているのか、
+ * 特定の種類のブラウザで実行されているのかを判断するなど、
+ * ゲームで設定される頻度の低いフラグを簡単に判断できるようにするためです。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

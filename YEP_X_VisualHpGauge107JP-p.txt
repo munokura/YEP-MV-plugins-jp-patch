@@ -1,0 +1,238 @@
+/*:ja
+ * @plugindesc v1.07 (要YEP_BattleEngineCore) 敵キャラを選択した時、または戦闘でダメージを受けた時にHPゲージを表示します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Display Actor
+ * @text アクターHP表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターのHPゲージを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Defeat First
+ * @text 敵HP初回表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 勝利後表示
+ * @off 初回表示
+ * @desc 倒したことがある敵のみのHPゲージを表示
+ * 初回表示:false / 勝利後表示:true
+ * @default false
+ *
+ * @param Always Visible
+ * @text HP常時表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc HPゲージを常に(敵選択、ダメージ時以外で)表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param ---外観---
+ * @default
+ *
+ * @param Minimum Gauge Width
+ * @text HPゲージ最小幅
+ * @parent ---外観---
+ * @type number
+ * @min 1
+ * @desc HPゲージの最小幅(ピクセル単位)
+ * @default 144
+ *
+ * @param Gauge Height
+ * @text HPゲージ高
+ * @parent ---外観---
+ * @type number
+ * @min 1
+ * @desc HPゲージの高さ(ピクセル単位)
+ * @default 18
+ *
+ * @param Back Color
+ * @text HPゲージ裏色
+ * @parent ---外観---
+ * @desc HPゲージの裏面に使用される文字色
+ * @default 19
+ *
+ * @param HP Color 1
+ * @text HPゲージ色1
+ * @parent ---外観---
+ * @type number
+ * @max 31
+ * @desc HPゲージの文字色1
+ * @default 20
+ *
+ * @param HP Color 2
+ * @text HPゲージ色2
+ * @parent ---外観---
+ * @type number
+ * @max 31
+ * @desc HPゲージの文字色2
+ * @default 21
+ *
+ * @param Gauge Duration
+ * @text HPゲージ表示時間
+ * @parent ---外観---
+ * @type number
+ * @desc ダメージを受けた(または回復)後のHPゲージを表示フレーム数
+ * @default 30
+ *
+ * @param Gauge Position
+ * @text HPゲージ表示場所
+ * @parent ---外観---
+ * @type boolean
+ * @on 上
+ * @off 下
+ * @desc HPゲージを表示する場所
+ * 下:false / 上:true
+ * @default false
+ *
+ * @param Y Buffer
+ * @text ゲージY位置
+ * @parent ---外観---
+ * @type number
+ * @min -9007
+ * @max 9007
+ * @desc ゲージのY位置調整
+ * 正:下 / 負:上
+ * @default -16
+ *
+ * @param Use Thick Gauges
+ * @text 厚いゲージ使用
+ * @parent ---外観---
+ * @type boolean
+ * @on 独自使用
+ * @off デフォルト
+ * @desc プラグイン独自の厚いゲージを使用
+ * デフォルト:false / 独自使用:true
+ * @default true
+ *
+ * @param ---テキスト表示---
+ * @default
+ *
+ * @param Show HP
+ * @text 見出し表示
+ * @parent ---テキスト表示---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 「HP」というテキストを表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Value
+ * @text HP値表示
+ * @parent ---テキスト表示---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 現在のHP値を表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Max
+ * @text 最大HP値表示
+ * @parent ---テキスト表示---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 現在のHP値が表示されている場合、最大HP値を表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BattleEngineCoreを必要とします。
+ * プラグイン管理でYEP_BattleEngineCoreの下にしてください。
+ *
+ * このプラグインは、敵が選択された時、またはダメージを受けた時に
+ * 敵のHPゲージを表示します。
+ * アクターが自分のHPゲージを表示するように選択することもできます。
+ * HPゲージの表示方法を変更するには、パラメータを調整します。
+ *
+ * デフォルトでは、ゲージが表示されるようにするには、
+ * まず敵を倒す必要があります。
+ * これはパラメータ設定内で変更できます。
+ * ただし、戦闘テスト中は、敵に隠されたHPゲージがない限り、
+ * HPゲージは常に表示されます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 職業、敵のメモタグ:
+ *   <Hide HP Gauge>
+ *   このタグが存在する場合、このHPゲージは常に非表示になります。
+ *
+ *   <Show HP Gauge>
+ *   このタグが存在する場合、このHPゲージはターゲットが選択されているか
+ *   ダメージを受けている間に常に表示されます。
+ *
+ *   <HP Gauge Width: x>
+ *   バトラーのHPゲージ幅をxピクセルに設定します。
+ *   ただし、この幅が最小幅より小さい場合は、最小幅が優先されます。
+ *
+ *   <HP Gauge Height: x>
+ *   HPゲージの高さをxピクセルに設定します。
+ *
+ *   <HP Gauge Back Color: x>
+ *   HPゲージの背景色が x 文字色に変わります。
+ *
+ *   <HP Gauge Color 1: x>
+ *   HPゲージの色1が x の文字色に変わります。
+ *
+ *   <HP Gauge Color 2: x>
+ *   HPゲージの色2が x 文字色に変わります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.06:
+ * - Compatibility update with State Categories.
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.04:
+ * - Optimization update.
+ *
+ * Version 1.03:
+ * - Fixed a bug when Escape skill-effects are used on battlers.
+ *
+ * Version 1.02:
+ * - Fixed a bug with gauge height not adjusting.
+ *
+ * Version 1.01b:
+ * - Fixed a bug regarding dependancy checks.
+ * - Fixed many bugs regarding stacking errors.
+ *
+ * Version 1.01:
+ * - Rewrote the good majority of plugin to accomodate the following features:
+ * ---'Always Visible' parameter.
+ * ---'Gauge Position' parameter.
+ * ---'Y Buffer' parameter.
+ * ---'Use Thick Gauges' parameter.
+ * ---'Show HP' parameter.
+ * ---'Show Value' parameter.
+ * ---'Show Max' parameter.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

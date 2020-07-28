@@ -1,0 +1,251 @@
+/*:ja
+ * @plugindesc v1.02 (要YEP_BattleEngineCore & YEP_TargetCore)味方や敵を対象にする効果範囲を拡張します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---バッファー---
+ * @text ---バッファー---
+ * @default
+ *
+ * @param Buffer X
+ * @text X座標バッファ
+ * @parent ---バッファー---
+ * @desc バトラー用のデフォルトのオフセットX座標バッファ
+ * @default 0
+ *
+ * @param Buffer Y
+ * @text Y座標バッファ
+ * @parent ---バッファー---
+ * @desc バトラー用のデフォルトのオフセットY座標バッファ
+ * @default 0
+ *
+ * @param Center Animation
+ * @text アニメを対象の中心に限定
+ * @parent ---バッファー---
+ * @type boolean
+ * @on 限定する
+ * @off 限定しない
+ * @desc 戦闘アニメーション再生を対象の中心に限定
+ * 限定しない:false / 限定する:true
+ * @default true
+ *
+ * @param ---円形---
+ * @text ---円形---
+ * @default
+ *
+ * @param Circle Graphic
+ * @text 画像
+ * @parent ---円形---
+ * @type file
+ * @dir img/pictures/
+ * @require 1
+ * @desc 円形効果範囲に使用されるデフォルトの画像
+ * img/pictures/ 内に保存
+ * @default AoE_Circle
+ *
+ * @param Circle Blend
+ * @text 合成方法
+ * @parent ---円形---
+ * @type select
+ * @option 通常
+ * @value 0
+ * @option 加算
+ * @value 1
+ * @option 乗算
+ * @value 2
+ * @option スクリーン
+ * @value 3
+ * @desc 円形効果範囲に使用される合成方法
+ * 0:通常 / 1:加算 / 2:乗算 / 3:スクリーン
+ * @default 3
+ *
+ * @param Circle Height Rate
+ * @text 高さ率
+ * @parent ---円形---
+ * @type number
+ * @decimals 2
+ * @min 0
+ * @desc 円形効果範囲のデフォルトの縦率。
+ * @default 0.33
+ *
+ * @param ---長方形---
+ * @text ---長方形---
+ * @default
+ *
+ * @param Rect Graphic
+ * @text 画像
+ * @parent ---長方形---
+ * @type file
+ * @dir img/pictures/
+ * @require 1
+ * @desc 長方形型効果範囲に使用されるデフォルトの画像
+ * img/pictures/ 内に保存
+ * @default AoE_Rect
+ *
+ * @param Rect Blend
+ * @text 合成方法
+ * @parent ---長方形---
+ * @type select
+ * @option 通常
+ * @value 0
+ * @option 加算
+ * @value 1
+ * @option 乗算
+ * @value 2
+ * @option スクリーン
+ * @value 3
+ * @desc 長方形型効果範囲に使用される合成方法
+ * 0:通常 / 1:加算 / 2:乗算 / 3:スクリーン
+ * @default 3
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BattleEngineCoreとYEP_TargetCoreを必要とします。
+ * プラグイン管理のYEP_BattleEngineCoreとYEP_TargetCoreの下に
+ * このプラグインがあることを確認してください。
+ *
+ * 1人の敵を狙うだけでは不十分で、全ての敵を狙うのが多すぎることがあります。
+ * その間の正しい組み合わせは、
+ * 敵の特定の範囲のみを対象とする効果の範囲です。
+ * このプラグインは、
+ * 円形の範囲、列の範囲、行の範囲、画面全体の範囲で
+ * 効果範囲のターゲティングを可能にします。
+ *
+ * ===========================================================================
+ * 説明 - 効果範囲の理解
+ * ===========================================================================
+ *
+ * 効果範囲の範囲は、
+ * 必ずしも1つの対象だけを選択するのではなく、
+ * 互いに近い対象のグループを選択します。
+ * 効果ゾーンの範囲から外れた対象は、
+ * 使用されているスキルやアイテムの対象の範囲に追加されます。
+ *
+ * 対象が攻撃されるかどうかは、
+ * 対象の命中範囲設定に関係します。
+ * 通常、対象の画像に依存しますが、
+ * メモタグを使用して対象に個別の命中範囲設定を設定することもできます。
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * スキル、アイテムのメモタグ
+ * AOE(Area Of Effect、効果範囲)
+ *   --- AOE Circle Scope ---
+ *
+ *   <AOE Radius: x>
+ *   円形効果範囲を持つ対象範囲を持つようにスキルを変えます。
+ *   xは、円形効果範囲の半径のピクセル数です。
+ *
+ *   <AOE Height Rate: x%>
+ *   高さを円形効果範囲の直径のx%になるように変更します。
+ *
+ *   <AOE Graphic: filename>
+ *   このスキルやアイテムの円形効果範囲に別の画像を使用したい場合、
+ *   'filename'をimg/pictures/フォルダー内にある
+ *   画像のファイル名に置き換えてください。
+ *   ファイル拡張子を含めないでください。
+ *   例えば、  画像'aoeblue.png'はメモタグ<AOEGraphic:aoeblue>になります。
+ *
+ *   <AOE Hue: x>
+ *   円形効果範囲の色相がxに変わります。
+ *   デフォルトでは、色相の値は0です。これにより色が変わります。
+ *
+ *   <AOE Blend: x>
+ *   効果範囲画像に使用される合成方法です。
+ *   合成方法が適用されていない場合は0が通常です。
+ *   1は加算です。  2は乗算です。  3はスクリーンです。
+ *
+ *   注:YEP_X_SelectionControlプラグインで見つかった固有の選択タイプでは
+ *   機能しません。
+ *
+ *   --- AOE Rectangle Scope ---
+ *
+ *   <Rect Column: x>
+ *   xピクセル幅の長方形の効果範囲が作成されます。
+ *   効果範囲ゾーンは垂直で、
+ *   このゾーン内の全ての対象はアクションの対象になります。
+ *
+ *   <Rect Row: x>
+ *   長方形の効果範囲がxピクセルの高さになります。
+ *   効果範囲ゾーンは水平で、
+ *   このゾーン内の全ての対象はアクションの対象になります。
+ *
+ *   <Rect Screen>
+ *   画面の範囲内にある全てのユニットを対象とします。
+ *   allenemies/allallies範囲と同じですが、
+ *   どのユニットが対象として選択されているかの視覚的表現を与えるために
+ *   使用することができます。
+ *
+ *   <Rect Graphic: filename>
+ *   このスキルやアイテムの長方形型効果範囲に別の画像を使用したい場合、
+ *   'filename'をimg/pictures/フォルダ内にある画像のファイル名に
+ *   置き換えてください。
+ *   ファイル拡張子を含めないでください。
+ *   例えば、画像'rectblue.png'はメモタグ<AOE Graphic: rectblue>になります。
+ *
+ *   <Rect Hue: x>
+ *   長方形型効果範囲の色相がxに変わります。
+ *   デフォルトでは、色相の値は0です。これにより色が変わります。
+ *
+ *   <Rect Blend: x>
+ *   効果範囲画像に使用される合成方法です。
+ *   合成方法が適用されていない場合は0が通常です。
+ *   1は加算です。2は乗算です。3はスクリーンです。
+ *
+ *   注:YEP_X_SelectionControlプラグインで見つかった固有の選択タイプでは
+ *   機能しません。
+ *
+ *   --- Animation Settings ---
+ *
+ *   <AOE Center Animation>
+ *   効果範囲スキルのアニメーションは、
+ *   効果範囲グループの最初の対象(通常は効果範囲対象の中心)を中心に再生されます。
+ *
+ *   <AOE Group Animation>
+ *   効果範囲スキルのアニメーションが、通常行われているのと同様に、
+ *   効果範囲グループ内の全ての対象で再生されます。
+ *
+ * アクターと敵のメモタグ
+ *
+ *   --- AOE Hitbox Settings ---
+ *
+ *   <AOE Buffer X: +x>
+ *   <AOE Buffer X: -x>
+ *
+ *   <AOE Buffer Y: +x>
+ *   <AOE Buffer Y: -x>
+ *   効果範囲画像がバトラーに配置された時、
+ *   バトラーのバッファx/yを変更します。
+ *   効果範囲対象が計算される中心位置からのオフセットでもあります。
+ *   このメモタグが使用されていない場合、
+ *   使用されるバッファ値はプラグインパラメータから取得されます。
+ *
+ *   <AOE Hitbox Width: x>
+ *   <AOE Hitbox Height: x>
+ *   効果範囲の命中範囲の幅がx、
+ *   効果範囲の命中範囲の高さがxになるように、
+ *   バトラーの命中範囲を調整します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.01:
+ * - Plugin update to provide checks against certain selection condition types
+ * used with YEP_X_SelectionControl. Unique conditions will disable AoE types
+ * to prevent clashing which include enemy/actor switching, certain rows, and
+ * toggling between single/multiple.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

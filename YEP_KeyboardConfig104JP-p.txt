@@ -1,0 +1,370 @@
+/*:ja
+ * @plugindesc v1.04 キーボードにボタン設定をします。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Command Name
+ * @text コマンド名
+ * @parent ---一般---
+ * @desc メインメニューに表示されるオプション名
+ * @default キーボード設定
+ *
+ * @param Button Events
+ * @text ボタンイベント
+ * @parent ---一般---
+ * @desc YEP_ButtonCommonEventsが必要です。
+ * これは一般的なもののリストです。
+ * @default 1 2 3
+ *
+ * @param Button Events List
+ * @text ボタンイベントリスト
+ * @parent ---一般---
+ * @type number[]
+ * @desc YEP_ButtonCommonEventsとMV1.5.0以降が必要です。キーを押したときに紐付けできる一般的なイベントのリストです。
+ * @default []
+ *
+ * @param ---ヘルプ説明---
+ * @default
+ *
+ * @param Key Help
+ * @text キー設定ヘルプ
+ * @parent ---ヘルプ説明---
+ * @desc キー設定時に表示されるヘルプ
+ * @default このキーの設定を変更しますか？
+ *
+ * @param Default Layout
+ * @text デフォルトのレイアウト
+ * @parent ---ヘルプ説明---
+ * @desc デフォルトのレイアウトに変更するヘルプ
+ * @default デフォルトレイアウト
+ *
+ * @param Default Help
+ * @text デフォルトのヘルプ
+ * @parent ---ヘルプ説明---
+ * @desc デフォルト設定のヘルプ
+ * @default キーボード設定をデフォルトへ
+ *
+ * @param WASD Layout
+ * @text WASDレイアウト
+ * @parent ---ヘルプ説明---
+ * @desc WASDのレイアウトに切り替えるヘルプ
+ * @default WASDレイアウト
+ *
+ * @param WASD Help
+ * @text WADSDヘルプ
+ * @parent ---ヘルプ説明---
+ * @desc WADSD設定のヘルプ
+ * @default キーボードをWASDレイアウトに変更
+ *
+ * @param Finish Config
+ * @text 設定完了
+ * @parent ---ヘルプ説明---
+ * @desc キーボード設定を完了するコマンド名
+ * @default 設定完了
+ *
+ * @param Finish Help
+ * @text 完了ヘルプ
+ * @parent ---ヘルプ説明---
+ * @desc 完了時のヘルプ
+ * @default キーボードの設定を完了
+ *
+ * @param Assigned Color
+ * @text 背景色
+ * @parent ---ヘルプ説明---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc キーの背景色を設定
+ * @default 21
+ *
+ * @param Action Color
+ * @text アクション色
+ * @parent ---ヘルプ説明---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクションのテキスト色を設定
+ * @default 4
+ *
+ * @param Clear Text
+ * @text 設定消去
+ * @parent ---ヘルプ説明---
+ * @desc 設定テキストに表れる設定消去の説明
+ * @default 設定消去
+ *
+ * @param ---キー表記---
+ * @default
+ *
+ * @param OK Key
+ * @text OKキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるOKの表示
+ * @default OK
+ *
+ * @param OK Text
+ * @text OKテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるOKの説明
+ * @default OK / 話す
+ *
+ * @param Escape Key
+ * @text Escapeキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるEscapeの表示
+ * @default X
+ *
+ * @param Escape Text
+ * @text Escapeテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるEscapeの説明
+ * @default キャンセル / メニュー
+ *
+ * @param Cancel Key
+ * @text Cancelキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるキャンセルアクションの表示
+ * @default キャンセル
+ *
+ * @param Cancel Text
+ * @text Cancelテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるキャンセルの説明
+ * @default キャンセル
+ *
+ * @param Menu Key
+ * @text Menuキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるメニューアクションの表示
+ * @default メニュー
+ *
+ * @param Menu Text
+ * @text Menuテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるメニューの説明
+ * @default メニュー
+ *
+ * @param Shift Key
+ * @text Shiftキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるShiftアクションの表示
+ * @default ダッシュ
+ *
+ * @param Shift Text
+ * @text Shiftテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるShiftの説明
+ * @default ダッシュする
+ *
+ * @param PageUp Key
+ * @text PageUpキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるPageUpアクションの表示
+ * @default PgUp
+ *
+ * @param PageUp Text
+ * @text PageUpテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるPageUpの説明
+ * @default ページアップ
+ *
+ * @param PageDown Key
+ * @text PageDownキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるPageDownアクションの表示
+ * @default PgDn
+ *
+ * @param PageDown Text
+ * @text PageDownテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるPageDownの説明
+ * @default ページダウン
+ *
+ * @param Left Key
+ * @text Leftキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるレフトキーアクションの表示
+ * @default ◄
+ *
+ * @param Left Text
+ * @text Leftテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるレフトキーの説明
+ * @default 左へ ◄
+ *
+ * @param Up Key
+ * @text Upキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるアップキーアクションの表示
+ * @default ▲
+ *
+ * @param Up Text
+ * @text Upテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるアップキーの説明
+ * @default 上へ ▲
+ *
+ * @param Right Key
+ * @text Rightキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるライトキーアクションの表示
+ * @default ►
+ *
+ * @param Right Text
+ * @text Rightテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるライトキーの説明
+ * @default 右へ ►
+ *
+ * @param Down Key
+ * @text Downキー
+ * @parent ---キー表記---
+ * @desc キー上に表れるダウンキーアクションの表示
+ * @default ▼
+ *
+ * @param Down Text
+ * @text Downテキスト
+ * @parent ---キー表記---
+ * @desc 設定テキストに表れるダウンキーの説明
+ * @default 下へ ▼
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、PCを使用してゲームをプレイしている場合、
+ * ゲーム内のオプションメニューからキーボードの設定を変更できるようにします。
+ * "Keyboard Config"オプションで
+ * キーボードの各キーにアクションを割り当てることができます。
+ *
+ * Enterキーと矢印キーは設定を変更できません。
+ * これはプレイヤーが設定画面でロックしてしまうのを防ぐためです。
+ * 他のほとんど全てのキーは、プレイヤーの好みに合わせて変更できます。
+ *
+ * 注：YEP_ButtonCommonEvents を使用している場合、このプラグインを
+ * プラグイン管理で YEP_ButtonCommonEvents の下に配置してください。
+ *
+ * ===========================================================================
+ * YEP_ButtonCommonEvents - 注釈タグ
+ * ===========================================================================
+ *
+ * YEP_ButtonCommonEvents を使用している場合、
+ * 注釈タグを使用して特定のコモンイベントをキーボードに紐付けできます。
+ * コモンイベント内に以下の注釈タグを挿入して効果を発揮します。
+ *
+ * 注釈タグ:
+ *
+ *   <Config Key: text>
+ *   コモンイベントがキーボードのキーに紐付けている場合、
+ *   キーボードに表示されるテキストです。
+ *   このテキストが使用されていない場合は、
+ *   表示されるテキストが一般的なイベントの名前になります。
+ *
+ *   <Config Text: text>
+ *   選択リストでキーボードのキーに紐付けするキーを選択した時に
+ *   表示されるテキストです。
+ *   このテキストが使用されていない場合は、
+ *   表示されるテキストが一般的なイベントの名前になります。
+ *
+ *   <Config Required>
+ *   プレーヤーが設定メニューを終了する前に
+ *   コモンイベントをキーボードに紐付ける必要があります。
+ *   これが適切に機能するためには、このコモンイベントに紐付けられた
+ *   YEP_ButtonCommonEvents 設定がある必要があります。
+ *
+ * ===========================================================================
+ * Options Core 設定 - オプションの追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCore.jsを使用している場合、
+ * このプラグインのオプションを追加できます。
+ * 下記は使用できるコード/パラメータ設定です。
+ *
+ * ---------
+ * Settings:
+ * ---------
+ *
+ * Name:
+ * \i[83]Keyboard Config
+ *
+ * Help Description:
+ * Configure the game's keyboard settings.
+ *
+ * Symbol:
+ * keyConfig
+ *
+ * Show/Hide:
+ * if (Imported.YEP_KeyboardConfig) {
+ *   show = !Utils.isMobileDevice();
+ * } else {
+ *   show = false;
+ * }
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ *
+ * Process OK Code:
+ * this.playOkSound();
+ * SceneManager.push(Scene_KeyConfig);
+ *
+ * Cursor Right Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Cursor Left Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Compatibility update with YEP_OptionsCore.js.
+ *
+ * Version 1.03:
+ * - Bug fixed that prevented the plugin from working if specific other plugins
+ * weren't present.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.01:
+ * - Compatibility update with Button Common Events.
+ * - Added <Config Key: text>, <Config Text: text>, and <Config Required>
+ * comment tags. These tags work together with Button Common Events.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

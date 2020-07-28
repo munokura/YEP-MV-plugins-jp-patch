@@ -1,0 +1,449 @@
+/*:ja
+ * @plugindesc v1.01 (Lunatic Pack) アイテムやスキルに効果を加えて、プレイヤーに良い(悪い)ボーナスを設定できます
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは以下のプラグインを必要とします。
+ * - YEP_BattleEngineCore
+ * - YEP_SkillCore
+ *
+ * プラグイン管理で上記のプラグインの下にこのプラグインを置きます。
+ *
+ * このプラグインを使用すると、プレイヤーに良い(悪い)ボーナスを与え、
+ * アイテムやスキルに効果を追加することができます。
+ * 特定の効果は、対象を倒す、クリティカルヒットする、対象の弱点をつく等、
+ * 特定の状況下でのみ発生します。
+ * これらの条件が満たされた後、効果はスキルコストを戻す、
+ * バフを追加する、デバフを解除する、ステートを適用することができます。
+ *
+ * *注:このプラグインはRPGツクールMVバージョン1.5.0以降を想定しています。
+ * 低いバージョンでこのプラグインを使用することもできますが、
+ * プラグインパラメータを変更するのは困難でしょう。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下の効果の1つを与えるために、
+ * スキル/アイテムのメモ欄に以下のメモタグを挿入してください。
+ *
+ * ---
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <Reward Animation: x>
+ *   - このスキル/アイテムの効果に関連づいたボーナスがあり、
+ *   条件が満たされている場合、
+ *   このアニメーションはデフォルトのアニメーションの代わりに再生され、
+ *   ボーナスが発生したことを示します。
+ *
+ *   <condition Reward: effect>
+ *   - メモタグのほとんどは上記の形式に従います。
+ *   メモタグの'condition'と'effect'は、
+ *   以下のCONDITIONとEFFECTセクションのエントリに置き換えられます。
+ *   スキル/アイテムに複数効果を与えるには複数エントリーを挿入してください。
+ *
+ * =-=-=-= Reward CONDITIONS =-=-=-=
+ *
+ *   <Defeat Reward: effect>
+ *   - 'condition'を'Defeat'に置き換えると、
+ *   対象が敗北した時(HPが0に達するか死亡ステートになった時)
+ *   メモタグが有効になります。
+ *
+ *   <Critical Reward: effect>
+ *   - 'condition'を'Critical'に置き換えると、
+ *   使用者が対象にクリティカルヒットした時、
+ *   メモタグが有効になります。
+ *
+ *   <Noncritical Reward: effect>
+ *   - 'condition'を'Nonnritical'に置き換えると、
+ *   使用者が対象にクリティカルヒットしなかった時、
+ *   メモタグが有効になります。
+ *
+ *   <Hit Reward: effect>
+ *   - 'condition'を'Hit'に置き換えると、
+ *   使用者が対象に命中した時、
+ *   メモタグが有効になります。
+ *
+ *   <Missed Reward: effect>
+ *   - 'condition'を'Missed'に置き換えると、
+ *   使用者がアクションをミスした・対象がアクションを回避した時、
+ *   メモタグが有効になります。
+ *
+ *   <Weakness Reward: effect>
+ *   - 'condition'を'Weakness'に置き換えると、
+ *   使用者が対象の弱点をついた時、
+ *   メモタグが有効になります。
+ *
+ *   <Resisted Reward: effect>
+ *   - 'condition'を'Resisted'に置き換えると、
+ *   使用者が対象の抵抗に当たった時、
+ *   メモタグが有効になります。
+ *
+ *   <Nulled Reward: effect>
+ *   - 'condition'を'Nulled'に置き換えると、
+ *   使用者が対象の無属性に当たった時、
+ *   メモタグが有効になります。
+ *
+ *   <Absorb Reward: effect>
+ *   - 'condition'を'Absorb'に置き換えると、
+ *   使用者が対象の吸収属性に当たった時、
+ *   メモタグが有効になります。
+ *
+ * =-=-=-= Reward EFFECTS =-=-=-=
+ *
+ *   --- HP Effects ---
+ *
+ *   <condition Reward: +x HP>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   スキル/アイテム条件が満たされた時、HPの一定量'x'がボーナスになります。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: +x% HP>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、使用者のMaxHPの'x%'がボーナスになります。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: +x% Refund HP Cost>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、スキルのHPコストの割合'x%'がボーナスになります。
+ *   *注:スキルと一緒にしか使用できません。
+ *   提案者:Yanfly
+ *
+ *   --- MP Effects ---
+ *
+ *   <condition Reward: +x MP>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   スキル/アイテム条件が満たされた時、MPの一定量'x'がボーナスになります。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: +x% MP>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、使用者のMaxMPの'x%'がボーナスになります。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: +x% Refund MP Cost>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、スキルのMPコストの割合'x%'がボーナスになります。
+ *   *注:スキルと一緒にしか使用できません。
+ *   提案者:Yanfly
+ *
+ *   --- TP Effects ---
+ *
+ *   <condition Reward: +x TP>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   スキル/アイテム条件が満たされた時、TPの一定量'x'がボーナスになります。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: +x% TP>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、使用者のMaxTPの'x%'がボーナスになります。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: +x% Refund TP Cost>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、スキルのTPコストの割合'x%'がボーナスになります。
+ *   *注:スキルと一緒にしか使用できません。
+ *   提案者:Yanfly
+ *
+ *   --- Item Effects ---
+ *
+ *   <condition Reward: x% Refund Item>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた場合、
+ *   使用者がアイテムを消費しないで済む確率'x%'がボーナスになります。
+ *   *注:アイテムと一緒にのみ使用できます。
+ *   消耗品と一緒に使用する場合、最適です。
+ *   提案者:Yanfly
+ *
+ *   --- Buff/Debuff Effects ---
+ *
+ *   <condition Reward: Add x Buff>
+ *   <condition Reward: Add x Buff, y Turns>
+ *   <condition Reward: Add x Debuff>
+ *   <condition Reward: Add x Debuff, y Turns>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   'x'を次のパラメータのいずれかに置き換えます。
+ *   'MaxHP'、'MaxMP'、'ATK'、'DEF'、'MAT'、'MDF'、'AGI'、'LUK'。
+ *   指定すると、その能力に対するバフ・デバフが加わります。
+ *   y Turns の形式を使用する場合、
+ *   'y'をバフ・デバフを持続させたいターン数に置き換えてください。
+ *   'y'が使用されていない場合、デフォルトとして5ターン持続します。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: Remove x Buff>
+ *   <condition Reward: Remove x Debuff>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   'x'を次のパラメータのいずれかに置き換えます。
+ *   'MaxHP'、'MaxMP'、'ATK'、'DEF'、'MAT'、'MDF'、'AGI'、'LUK'。
+ *   指定した能力に対するバフ・デバフが解除されます。
+ *   y Turns の形式を使用する場合、
+ *   'y'をバフ・デバフを持続させたいターン数に置き換えてください。
+ *   'y'が使用されていない場合、デフォルトとして5ターン持続します。
+ *   提案者:Yanfly
+ *
+ *
+ *   --- State Effects ---
+ *
+ *   <condition Reward: Add State x>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   'x'をステートIDに置き換えます。
+ *   条件が満たされた時、使用者に指定されたステートが追加されます。
+ *   提案者:Yanfly
+ *
+ *   <condition Reward: Remove State x>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   'x'をステートIDに置き換えます。
+ *   条件が満たされた時、使用者に指定されたステートが解除されます。
+ *   提案者:Yanfly
+ *
+ *   --- Rolling Critical ---
+ *
+ *   <condition Reward: Rolling Critical +x%>
+ *   <condition Reward: Rolling Critical -x%>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、次回のスキル使用時に効果量が'x%'の増減になります。
+ *   *注:スキルと一緒にしか使用できません。
+ *   スキルのクリティカルヒットをオンにします
+ *   提案者:Goldschuss
+ *
+ *   <condition Reward: Rolling Critical x%>
+ *   - 'effect'を上記の形式に置き換えます。
+ *   条件が満たされた時、次回のスキル使用時に効果量が'x%'になります。
+ *   *注:スキルと一緒にしか使用できません。
+ *   スキルのクリティカルヒットをオンにします。
+ *   提案者:Goldschuss
+ *
+ * =-=-=-= 使用例 =-=-=-=
+ *
+ *   <Defeat Reward: +50% MP>
+ *   - 対象がこのスキルを受けた時、
+ *   使用者がスキルを唱えるために費やしたMPの50%を戻します。
+ *
+ *   <Critical Reward: Add ATK Buff, 8 Turns>
+ *   - 使用者が敵にクリティカルヒットをした時、
+ *   使用者に8ターン持続するATKバフを付与します。
+ *
+ *   <Hit Reward: Add DEF Buff, 2 Turns>
+ *   - 使用者が敵に命中した時、使用者の防御力を2ターンバフします。
+ *
+ *   <Missed Reward: Refund Item>
+ *   - 使用者がアイテム使用でミスした場合、消費されないようにします。
+ *
+ *   <Weakness Reward: +20 TP>
+ *   - 使用者がこのスキルの属性に弱い敵に対してこのスキルを実行した場合、
+ *   使用者に+20追加のTPを付与します。
+ *
+ *   <Critical Reward: Rolling Critical 0%>
+ *   <Noncritical Reward: Rolling Critical +10%>
+ *   - 使用者がこのスキルでクリティカルヒットしなかった場合、
+ *   使用者は次にスキルを実行した時、10%の確率で成功するでしょう。
+ *   使用者が最終的にクリティカルヒットを達成するまで、
+ *   クリティカルヒット率は毎回10%ずつ上昇し続けます。
+ *   使用者が一度クリティカルヒットすると、
+ *   クリティカルヒット率のボーナスは0%に戻ります。
+ *
+ * ===========================================================================
+ * ルナティックモード - Effect Code
+ * ===========================================================================
+ *
+ * RPGツクールMV1.5.0以降で、
+ * プラグインで使用できる新しいメモタグ効果を追加したり、
+ * プラグインパラメーターにあるメモタグ効果を変更するのに
+ * JavaScriptを使用できます。
+ *
+ * ---
+ *
+ * // ----------
+ * // Flat Gains
+ * // ----------
+ * if (data.match(/([\+\-]\d+)[ ]HP/i)) {
+ *   value = parseInt(RegExp.$1);
+ *   user.gainHp(value);
+ *   animation = animation || hpAnimation;
+ *
+ * } else if (data.match(/([\+\-]\d+)[ ]MP/i)) {
+ *   value = parseInt(RegExp.$1);
+ *   user.gainMp(value);
+ *   animation = animation || mpAnimation;
+ *
+ * ...
+ *
+ * // -------------------------------
+ * // Add new effects above this line
+ * // -------------------------------
+ * } else {
+ *   skip = true;
+ * }
+ *
+ * ---
+ *
+ * このコードビットで使用されている各変数は、次のとおりです。
+ *
+ *   --------------------  --------------------------------------------------
+ *   変数:                 参照:
+ *   --------------------  --------------------------------------------------
+ *   item                  このアクションで使用されているアイテム
+ *   skill                 このアクションで使用されているスキル
+ *
+ *   isItem                アクションがアイテムの場合はtrueを返します
+ *   isSkill               アクションがスキルの場合はtrueを返します
+ *
+ *   a                     アクション使用者を返します
+ *   user                  アクション使用者を返します
+ *   subject               アクション使用者を返します
+ *
+ *   b                     アクションの現在の対象を返します
+ *   target                アクションの現在の対象を返します
+ *
+ *   s[x]                  スイッチxを返す(true / false)
+ *   v[x]                  変数xの現在値を返す
+ *
+ *   user._result          使用者の現在の結果
+ *   target._result        対象の現在の結果
+ *   userPreviousResult    変更前の使用者の結果
+ *   targetPreviousResult  変更前の対象の結果
+ *
+ *   animation             再生するアニメーション プラグインのパラメータに
+ *                         対応する以下のいずれかに設定できます。
+ *                         - hpAnimation
+ *                         - mpAnimation
+ *                         - tpAnimation
+ *                         - itemAnimation
+ *                         - buffAnimation
+ *                         - debuffAnimation
+ *                         - addStateAnimation
+ *                         - removeStateAnimation
+ *                         - miscAnimation
+ *
+ *   skip                  デフォルト:false
+ *                         trueの場合、ポップアップとアニメをスキップします。
+ *
+ * ---
+ *
+ * Effect Code を元の状態に戻す必要がある場合、
+ * プラグイン管理からプラグインを削除して、もう一度追加してください。
+ * コードはデフォルトに戻ります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Effect Code
+ * @text Effect Code
+ * @parent ---一般---
+ * @type note
+ * @desc 各メモタグのエフェクトのコード。
+ * ここで使用されている変数についてはヘルプを参照
+ * @default "// ----------\n// Flat Gains\n// ----------\nif (data.match(/([\\+\\-]\\d+)[ ]HP/i)) {\n  value = parseInt(RegExp.$1);\n  user.gainHp(value);\n  animation = animation || hpAnimation;\n\n} else if (data.match(/([\\+\\-]\\d+)[ ]MP/i)) {\n  value = parseInt(RegExp.$1);\n  user.gainMp(value);\n  animation = animation || mpAnimation;\n\n} else if (data.match(/([\\+\\-]\\d+)[ ]TP/i)) {\n  value = parseInt(RegExp.$1);\n  user.gainTp(value);\n  animation = animation || tpAnimation;\n\n// ----------------\n// Percentile Gains\n// ----------------\n} else if (data.match(/([\\+\\-]\\d+)([%%])[ ]HP/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  value = Math.round(user.mhp * rate);\n  user.gainHp(value);\n  animation = animation || hpAnimation;\n\n} else if (data.match(/([\\+\\-]\\d+)([%%])[ ]MP/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  value = Math.round(user.mmp * rate);\n  user.gainMp(value);\n  animation = animation || mpAnimation;\n\n} else if (data.match(/([\\+\\-]\\d+)([%%])[ ]TP/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  value = Math.round(user.maxTp() * rate);\n  user.gainTp(value);\n  animation = animation || tpAnimation;\n\n// ------------------\n// Refund Skill Costs\n// ------------------\n} else if (data.match(/([\\+\\-]\\d+)([%%])[ ]REFUND HP COST/i)) {\n  if (isSkill) {\n    rate = parseFloat(RegExp.$1) * 0.01;\n    value = Math.round(user.skillHpCost(skill) * rate);\n    user.gainHp(value);\n    animation = animation || hpAnimation;\n  } else {\n    skip = true;\n  }\n\n} else if (data.match(/([\\+\\-]\\d+)([%%])[ ]REFUND MP COST/i)) {\n  if (isSkill) {\n    rate = parseFloat(RegExp.$1) * 0.01;\n    value = Math.round(user.skillMpCost(skill) * rate);\n    user.gainMp(value);\n    animation = animation || mpAnimation;\n  } else {\n    skip = true;\n  }\n\n} else if (data.match(/([\\+\\-]\\d+)([%%])[ ]REFUND TP COST/i)) {\n  if (isSkill) {\n    rate = parseFloat(RegExp.$1) * 0.01;\n    value = Math.round(user.skillTpCost(skill) * rate);\n    user.gainTp(value);\n    animation = animation || tpAnimation;\n  } else {\n    skip = true;\n  }\n\n// -----------\n// Refund Item\n// -----------\n} else if (data.match(/(\\d+)([%%])[ ]REFUND ITEM/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  if (isItem && Math.random() < chance) {\n    $gameParty.gainItem(item, 1);\n    SoundManager.playUseItem();\n    animation = animation || itemAnimation;\n  } else {\n    skip = true;\n  }\n\n// ------------------------\n// Add/Remove Buffs/Debuffs\n// ------------------------\n} else if (data.match(/ADD[ ](.*)[ ]BUFF,[ ](\\d+)[ ]TURN/i)) {\n  var str = String(RegExp.$1).toUpperCase();\n  var turns = parseInt(RegExp.$2);\n  var paramId = DataManager.getParamId(str);\n  if (paramId >= 0) {\n    user.addBuff(paramId, turns);\n  } else {\n    skip = true;\n  }\n  animation = animation || buffAnimation;\n\n} else if (data.match(/ADD[ ](.*)[ ]BUFF/i)) {\n  var str = String(RegExp.$1).toUpperCase();\n  var turns = 5;\n  var paramId = DataManager.getParamId(str);\n  if (paramId >= 0) {\n    user.addBuff(paramId, turns);\n  } else {\n    skip = true;\n  }\n  animation = animation || buffAnimation;\n\n} else if (data.match(/ADD[ ](.*)[ ]DEBUFF,[ ](\\d+)[ ]TURN/i)) {\n  var str = String(RegExp.$1).toUpperCase();\n  var turns = parseInt(RegExp.$2);\n  var paramId = DataManager.getParamId(str);\n  if (paramId >= 0) {\n    user.addDebuff(paramId, turns);\n  } else {\n    skip = true;\n  }\n  animation = animation || debuffAnimation;\n\n} else if (data.match(/ADD[ ](.*)[ ]DEBUFF/i)) {\n  var str = String(RegExp.$1).toUpperCase();\n  var turns = 5;\n  var paramId = DataManager.getParamId(str);\n  if (paramId >= 0) {\n    user.addDebuff(paramId, turns);\n  } else {\n    skip = true;\n  }\n  animation = animation || debuffAnimation;\n\n} else if (data.match(/REMOVE[ ](.*)[ ](?:BUFF|DEBUFF)/i)) {\n  var str = String(RegExp.$1).toUpperCase();\n  var paramId = DataManager.getParamId(str);\n  if (paramId >= 0) {\n    user.removeBuff(paramId);\n  } else {\n    skip = true;\n  }\n  animation = animation || miscAnimation;\n\n// -----------------\n// Add/Remove States\n// -----------------\n} else if (data.match(/ADD STATE[ ](\\d+)/i)) {\n  var stateId = parseInt(RegExp.$1);\n  user.addState(stateId);\n  animation = animation || addStateAnimation;\n\n} else if (data.match(/REMOVE STATE[ ](\\d+)/i)) {\n  var stateId = parseInt(RegExp.$1);\n  if (user.isStateAffected(stateId)) {\n    user.removeState(stateId);\n    animation = animation || removeStateAnimation;\n  } else {\n    skip = true;\n  }\n\n// ----------------\n// Rolling Critical\n// ----------------\n} else if (data.match(/ROLLING CRITICAL[ ]([\\+\\-]\\d+)([%%])/i)) {\n  if (isSkill) {\n    rate = parseFloat(RegExp.$1) * 0.01;\n    user._rollingCritical = user._rollingCritical || {};\n    user._rollingCritical[skill.id] = user._rollingCritical[skill.id] || 0;\n    user._rollingCritical[skill.id] += rate;\n  } else {\n    skip = true;\n  }\n\n} else if (data.match(/ROLLING CRITICAL[ ](\\d+)([%%])/i)) {\n  if (isSkill) {\n    rate = parseFloat(RegExp.$1) * 0.01;\n    user._rollingCritical = user._rollingCritical || {};\n    user._rollingCritical[skill.id] = user._rollingCritical[skill.id] || 0;\n    user._rollingCritical[skill.id] = rate;\n  } else {\n    skip = true;\n  }\n\n// -------------------------------\n// Add new effects above this line\n// -------------------------------\n} else {\n  skip = true;\n}"
+ *
+ * @param Weakness Rate
+ * @text 弱点基準
+ * @parent ---一般---
+ * @type number
+ * @decimals 2
+ * @min 0
+ * @max 31
+ * @desc 属性レートが弱点とされる判定基準
+ * @default 1.20
+ *
+ * @param Resisted Rate
+ * @text 抵抗基準
+ * @parent ---一般---
+ * @type number
+ * @decimals 2
+ * @min 0
+ * @max 31
+ * @desc 属性レートが抵抗とされる判定基準
+ * @default 0.80
+ *
+ * @param ---アニメーション---
+ * @text ---アニメーション---
+ * @default
+ *
+ * @param HP Animation
+ * @text HPボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc HP回復のボーナス時の再生アニメーション
+ * @default 41
+ *
+ * @param MP Animation
+ * @text MPボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc MP回復のボーナス時の再生アニメーション
+ * @default 45
+ *
+ * @param TP Animation
+ * @text TPボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc TP回復のボーナス時の再生アニメーション
+ * @default 45
+ *
+ * @param Item Animation
+ * @text アイテムのボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc アイテム非消費のボーナス時の再生アニメーション
+ * @default 46
+ *
+ * @param Buff Animation
+ * @text バフのボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc バフのボーナス時の再生アニメーション
+ * @default 51
+ *
+ * @param Debuff Animation
+ * @text デバフのボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc デバフのボーナス時の再生アニメーション
+ * @default 54
+ *
+ * @param Add State Animation
+ * @text ステート追加のボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc ステート追加のボーナス時の再生アニメーション
+ * @default 53
+ *
+ * @param Remove State Animation
+ * @text ステート解除のボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc ステート解除のボーナス時の再生アニメーション
+ * @default 56
+ *
+ * @param Misc Animation
+ * @text その他のボーナス
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc その他のボーナス時の再生アニメーション
+ * @default 97
+ *
+ */

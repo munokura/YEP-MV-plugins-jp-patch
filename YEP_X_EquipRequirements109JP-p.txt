@@ -1,0 +1,313 @@
+/*:ja
+ * @plugindesc v1.09 (要YEP_EquipCore) 武器・防具に装備条件を設定できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Requirement Window
+ * @text 条件ウィンドウ
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 装備メニューの条件ウィンドウを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Battle Test Ignore
+ * @text 戦闘テスト無視
+ * @parent ---一般---
+ * @type boolean
+ * @on 無視
+ * @off 条件使用
+ * @desc 戦闘テスト中は装備条件を無視
+ * 条件使用:false / 無視:true
+ * @default true
+ *
+ * @param ---ウィンドウ---
+ * @text ---ウィンドウ---
+ * @default
+ *
+ * @param Requirement Title
+ * @text 条件のタイトル
+ * @parent ---ウィンドウ---
+ * @desc 装備の条件に使用されるタイトル
+ * @default 装備条件
+ *
+ * @param No Requirement
+ * @text 条件なし
+ * @parent ---ウィンドウ---
+ * @desc 条件なしの表示テキスト
+ * @default なし
+ *
+ * @param Positive Color
+ * @text 上昇色
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 上昇の文字色
+ * @default 24
+ *
+ * @param Negative Color
+ * @text 下降色
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 下降の文字色
+ * @default 25
+ *
+ * @param At Least Text
+ * @text 最低テキスト
+ * @parent ---ウィンドウ---
+ * @desc 説明テキスト >= 能力値
+ * %1:能力値 / %2:条件 / %3:比較
+ * @default \c[16]最低 %1:\c[0] %2 (%3)
+ *
+ * @param At Most Text
+ * @text 最大テキスト
+ * @parent ---ウィンドウ---
+ * @desc 説明テキスト >= 能力値
+ * %1:能力値 / %2:条件 / %3:比較
+ * @default \c[16]最大 %1:\c[0] %2 (%3)
+ *
+ * @param Draw Classes
+ * @text 必要職業表示
+ * @parent ---ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 必要職業を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Class Style
+ * @text 職業表示形式
+ * @parent ---ウィンドウ---
+ * @type select
+ * @option 名称
+ * @value 0
+ * @option アイコン
+ * @value 1
+ * @option アイコンと名称
+ * @value 2
+ * @desc 職業の表示形式
+ * 0:名称 / 1:アイコン / 2:アイコンと名称
+ * @default 0
+ *
+ * @param Class Text
+ * @text 職業テキスト
+ * @parent ---ウィンドウ---
+ * @desc 許可されている職業の表示テキスト
+ * @default 職業:
+ *
+ * @param Draw Skills
+ * @text 必要スキル
+ * @parent ---ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 必要スキルを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Skill Style
+ * @text 必要スキル表示形式
+ * @parent ---ウィンドウ---
+ * @type select
+ * @option 名称
+ * @value 0
+ * @option アイコン
+ * @value 1
+ * @option アイコンと名称
+ * @value 2
+ * @desc 必要スキルを表示する場合、表示するスタイル
+ * 0:名称 / 1:アイコン / 2:アイコンと名称
+ * @default 2
+ *
+ * @param Skill Text
+ * @text 必要スキルタイトル
+ * @parent ---ウィンドウ---
+ * @desc 必要スキルを説明する表示テキスト
+ * @default スキル:
+ *
+ * @param Draw Switches
+ * @text 必要スイッチ表示
+ * @parent ---ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 必要なスイッチ名を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインが動作するにはYEP_EquipCoreが必要です。
+ * プラグイン管理のYEP_EquipCoreの下に
+ * このプラグインを置きます。
+ *
+ * アクターが武器や防具を装備できる条件を設けます。
+ * レベル条件、能力値条件、スイッチ条件などを設定します。
+ * 装備品を装備するために何が必要かをプレイヤーに示すための
+ * 別の装備条件ウィンドウも提供します。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 武器や防具に条件を実装するためにこれらのメモタグを使うことができます。
+ * これらのメモは、特定の方法で設定する必要があります。
+ *
+ * 武器、防具のメモタグ
+ *
+ *   <Equip Requirement>
+ *    requirement
+ *    requirement
+ *   </Equip Requirement>
+ *   - 主な条件は、これらのメモタグの間に配置する必要があります。
+ *   武器/防具について多くの条件を設定できます。
+ *   以下のいずれかで'requirement'を置き換えます。
+ *
+ * 武器、防具の条件
+ *
+ *   param > x
+ *   param >= x
+ *   param === x
+ *   param <= x
+ *   param < x
+ *   - 'param'を'level'、'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、
+ *   'agi'、'luk'に置き換えてください。
+ *   装備は、アクターの通常能力値が
+ *     より大きい(>)
+ *     以上(>=)
+ *     等しい(===)
+ *     以下(<=)
+ *     より小さい(<)
+ *   である必要があります。
+ *   通常能力値だけで判定されます。
+ *   通常能力値は、
+ *   使用者の職業・能力値、
+ *   装備から受け取るボーナス、
+ *   永続的な能力値の増加によって計算されます。
+ *
+ *   class: x
+ *   class: name
+ *   - 装備はアクターが職業xである必要があります。
+ *   'name'を使用すると、
+ *   データベース内で最も高いIDを持つ職業が優先されます。
+ *   職業を追加するには、これらの条件を複数挿入します。
+ *   複数の職業を挿入することは、
+ *   アクターが職業のいずれかになれば装備できることを意味します。
+ *
+ *   skill: x
+ *   skill: name
+ *   - 装備はアクターがスキルxを習得している必要があります。
+ *   'name'を使用すると、
+ *   データベース内で最も高いIDを持つスキルが優先されます。
+ *   スキルを追加するには、
+ *   これらの条件を複数挿入してください。
+ *   複数のスキルを挿入すると、
+ *   装備できるようにするためには、
+ *   アクターは全てのスキルを習得していなければなりません。
+ *   注:アクターはスキルを習得している必要があります。
+ *   特性を通してアクターのスキルライブラリにスキルを追加した場合、
+ *   それはカウントされないことを意味します。
+ *
+ *   switch: x
+ *   - スイッチXをオンにする必要があります。
+ *   そうでなければ、装備品は着用できません。
+ *   オンにするために必要なスイッチをさらに追加するには、
+ *   これらの複数を挿入します。
+ *
+ *   unique only
+ *   - 装備品を'ユニーク'にし、
+ *   アクターがその種類のものを2つ以上つけることができないようにします。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム装備条件
+ * ===========================================================================
+ *
+ * JavaScriptを使用する下記のメモタグを使用して、
+ * 装備に特別な条件を設けることができます。
+ *
+ * 武器、防具のメモタグ
+ *
+ *   <Custom Equip Requirement Condition>
+ *    if (user.name() === 'Harold') {
+ *      condition = true;
+ *    } else {
+ *      condition = false;
+ *    }
+ *   </Custom Equip Requirement Condition>
+ *   'condition'変数は、その装備が使用者によって着用可能かどうかを決定します。
+ *   'condition'が'true'を返す場合、その装備は装着できます。
+ *   'condition'が'false'を返す場合、その装備は着用できません。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム装備条件テキスト
+ * ===========================================================================
+ *
+ * JavaScriptを使用する下記のメモタグを使用して、
+ * 条件ウィンドウに表示されるテキストを変更できます。
+ *
+ * 武器、防具のメモタグ
+ *
+ *   <Custom Equip Requirement Text>
+ *    text = user.name() + ' has used this sword since young!\n';
+ *    text += 'This is another line for the text!'
+ *   </Custom Equip Requirement Text>
+ *   条件ウィンドウにカスタムテキストを書きたい人のために、
+ *   このメモタグを使うことができます。
+ *   ここではテキストコードが許可されています。
+ *   改行には\nを使用してください。
+ *   テキストコードの使用を予定している場合、
+ *   \i[4]は\\i[4]と表示されます。
+ *   'text'変数が最後に持っている値が表示されるテキストになります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.09:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.07:
+ * - Fixed a bug that caused unique equipment to not work properly.
+ *
+ * Version 1.06:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.05a:
+ * - Fixed a bug that caused unremovable items to be removed.
+ * - Added anti-crash for non-existent actors.
+ *
+ * Version 1.04:
+ * - Fixed a bug that caused stat comparisons to remain after cancel.
+ *
+ * Version 1.03:
+ * - Notetags now allows spaces (whitespace) to be before the requirements.
+ *
+ * Version 1.02:
+ * - Fixed a bug where Optimize was able to bypass equip requirements.
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

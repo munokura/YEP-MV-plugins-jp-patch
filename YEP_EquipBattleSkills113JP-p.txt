@@ -1,0 +1,262 @@
+/*:ja
+ * @plugindesc v1.13 戦闘中は装備スキルだけが使用できるシステムを追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Command Name
+ * @text コマンドテキスト
+ * @parent ---一般---
+ * @desc スキルメニューに表示する装備コマンドテキスト
+ * @default スキル装備
+ *
+ * @param Starting Skill Slots
+ * @text 開始スキルスロット数
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc スキルスロットのデフォルト開始数
+ * @default 4
+ *
+ * @param Maximum Skills
+ * @text スキルスロット最大数
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc スキルスロットの最大数。数を超えてボーナスを獲得することはできません。
+ * @default 8
+ *
+ * @param All Equippable?
+ * @text 全スキル装備可能
+ * @parent ---一般---
+ * @type boolean
+ * @on 可能
+ * @off 不可能
+ * @desc 全てのスキルを装備可能。アクターにないスキルタイプのスキルも含まれます。 不可能:false / 可能:true
+ * @default false
+ *
+ * @param ---ウィンドウ---
+ * @text ---ウィンドウ---
+ * @default
+ *
+ * @param Empty Slot
+ * @text 空スロット
+ * @parent ---ウィンドウ---
+ * @desc 空スロットのテキスト表示
+ * @default - 空き -
+ *
+ * @param Empty Color
+ * @text 空スロット色
+ * @parent ---ウィンドウ---
+ * @type number
+ * @max 31
+ * @desc 空きのテキストを表示するテキスト色
+ * @default 16
+ *
+ * @param Empty Icon
+ * @text 空スロットアイコン
+ * @parent ---ウィンドウ---
+ * @type number
+ * @max 31
+ * @desc 空きのアイコン
+ * @default 16
+ *
+ * @param Equipped Color
+ * @text 装備スキル色
+ * @parent ---ウィンドウ---
+ * @type number
+ * @max 31
+ * @desc 既に装備しているスキルのテキスト色
+ * @default 17
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * プレイヤーが戦闘に使用できるスキルを装備する新しいシステムを提供します。
+ * スキルメニューからどのスキルを装備するかを選択することができます。
+ * 装備されたスキルは能力値やステートのボーナスを追加することができます。
+ *
+ * *注:戦闘テスト中、スキルスロットは無効になります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下のメモタグは、装備可能な戦闘スキルに関する様々な側面を調整します。
+ *
+ * アクターのメモタグ
+ *   <Starting Skill Slots: x>
+ *   アクターの開始スキルスロットをx個に設定します。
+ *   この値は、アクターが最大スキルスロット制限を回避することを許可しません。
+ *
+ * スキルのメモタグ
+ *   <Equip stat: +x>
+ *   <Equip stat: -x>
+ *   'stat'を'HP'、'MP'、'ATK'、'DEF'、'MAT'、'MDF'、'AGI'、
+ *   'LUK'に置き換えます。
+ *   スキルを装備した戦闘中、x量を増減します。
+ *
+ *   <Equip State: x>
+ *   <Equip State: x, x, x>
+ *   <Equip State: x through x>
+ *   スキルを装備した戦闘中、ステートxの影響を受けます。
+ *
+ *   <Unequippable>
+ *   スキルを装備できなくします。
+ *
+ *   <All Access Equippable>
+ *   アクターがスキルを利用可能なスキルタイプを持っているかどうかに関わらず、
+ *   スキルを装備することができます。
+ *
+ *   <Access Only Equippable>
+ *   スキルは特定のスキルタイプを持つアクターにのみ装備可能になります。
+ *   スキルタイプを持たないアクターは装備できません。
+ *
+ * 職業、スキル、武器、防具、ステートのメモタグ
+ *   <Equip Skill Slots: +x>
+ *   <Equip Skill Slots: -x>
+ *   装備できるスキルスロットがx個増減します。
+ *   この値は、最大スキルスロット制限を回避することを許可しません。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下のプラグインコマンドを使って、
+ * 特定のアクターのスキルスロット数を増減することができます。
+ *
+ * プラグインコマンド
+ *
+ *   IncreaseActorBattleSlots 3 by 4
+ *   - アクター3のスキルスロット数が4増加します。
+ *   スキルスロットの合計数は、
+ *   'Maximum Skills'(スキルスロット最大数)プラグインパラメータを
+ *   超えることはできません。
+ *
+ *   DecreaseActorBattleSlots 5 by 2
+ *   - アクター5のスキルスロット数が2減少します。
+ *   スキルスロットの合計数が1を下回ることはできません。
+ *
+ *
+ *   EnableEquipBattleSkills
+ *   - スキルメニューの'スキル装備'コマンドが有効になります。
+ *
+ *   DisableEquipBattleSkills
+ *   - スキルメニューの'スキル装備'コマンドを無効にします。
+ *
+ *   ShowEquipBattleSkills
+ *   - スキルメニューに'スキル装備'コマンドを表示します。
+ *
+ *   HideEquipBattleSkills
+ *   - スキルメニューの'スキル装備'コマンドを隠します。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * スクリプトコールやメモタグで
+ * このプラグインから以下の機能を使うことができます。
+ *
+ * JavaScript関数
+ *
+ *   actor.clearBattleSkillMaxPlus()
+ *   - アクターに利用可能なボーナススキルスロットがクリアされます。
+ *
+ *   actor.getBattleSkillMaxPlus()
+ *   - アクターに利用可能なボーナススキルスロットの量を返します。
+ *
+ *   actor.setBattleSkillMaxPlus(x)
+ *   - アクターのために利用可能なボーナススキルスロットをx個に設定します。
+ *   この値をマイナスにした場合、
+ *   アクターにスキルスロットを1個未満に強制することはできません。
+ *   プラスにした場合、
+ *   アクターに'Maximum Skills'(スキルスロット最大数)プラグインパラメータを
+ *   超えることはできません。
+ *
+ *   actor.increaseBattleSkillSlots(x)
+ *   - アクターのスキルスロットの最大数をxに引き上げますが、
+ *   'Maximum Skills'(スキルスロット最大数)プラグインパラメータを
+ *   超えることはできません。
+ *
+ *   actor.decreaseBattleSkillSlots(x)
+ *   - アクターのスキルスロットの最大数をxに減らしますが、
+ *   最低1つのスキルスロットを下回ることはできません。
+ *
+ *   actor.maxBattleSkills()
+ *   - アクターが現在装備できるスキルスロットの量を返します。
+ *
+ *   actor.battleSkills()
+ *   - アクターが現在装備しているスキルの配列をオブジェクト形式で返します。
+ *
+ *   actor.battleSkillsRaw()
+ *   - アクターが現在装備しているID形式のスキルの配列を返します。
+ *
+ *   actor.equipSkill(id, slot)
+ *   - アクターはスキルIDを特定のスロットに装備します。
+ *   アクターがスキルを装備できるかどうかを無視します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.13:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.12:
+ * - Fixed a bug that made the help window not update after changing a skill.
+ *
+ * Version 1.11:
+ * - Fixed a bug caused by Plugin Command 'DecreaseActorBattleSlots 5 by 2'
+ * that would increase instead of decrease.
+ *
+ * Version 1.10:
+ * - Added a new check to remove equipped battle skills from skills that were
+ * manually forgotten, unequipping items, or removing states.
+ *
+ * Version 1.09:
+ * - Fixed a bug that caused equipped skills to not list their applied states.
+ *
+ * Version 1.08:
+ * - Optimization update.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.3.2.
+ *
+ * Version 1.06b:
+ * - Users with Skill Core and using the <Hide in Battle> notetag will now
+ * have those skills hidden while in the battle if equipped.
+ * - Fixed a crash that occurs when no skills are equipped.
+ * - Optimization update for future plugins.
+ *
+ * Version 1.05a:
+ * - Compatibility update with Skill Core's <Hide if Learned Skill: x>
+ * notetag.
+ * - Updated to remove skills that are already equipped and to become hidden
+ * if learning a new skill through the <Hide if Learned Skill: x> notetag.
+ *
+ * Version 1.04:
+ * - Fixed an error stacking state.
+ * - Fixed drawing errors when actors have 0 MaxMP.
+ *
+ * Version 1.03:
+ * - Added four new plugin commands to enable, disable, show, and hide the
+ * 'Equip Skills' command from the skill menu.
+ *
+ * Version 1.02:
+ * - Fixed a bug that caused certain passive states to not appear correctly.
+ *
+ * Version 1.01:
+ * - Fixed a bug that prevented increasing or decreasing battle skill slots
+ * from working properly.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

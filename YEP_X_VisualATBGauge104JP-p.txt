@@ -1,0 +1,103 @@
+/*:ja
+ * @plugindesc v1.04 (要YEP_X_BattleSysATB)敵のATBゲージを表示します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Show Gauges
+ * @text ゲージ表示
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 個々のゲージの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Minimum Gauge Width
+ * @text ATBゲージ最小幅
+ * @type number
+ * @min 1
+ * @desc ATBゲージの最小幅(ピクセル単位)
+ * @default 144
+ *
+ * @param Always Show
+ * @text アクション中ATBゲージ表示
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクション中のATBゲージ表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Gauge Position
+ * @text ATBゲージの表示位置
+ * @type boolean
+ * @on 上方
+ * @off 下方
+ * @desc ATBゲージの表示位置
+ * 下方:false / 上方:true
+ * @default false
+ *
+ * @param Y Buffer
+ * @text ゲージYシフト量
+ * @type number
+ * @min 0
+ * @desc ゲージの位置Yシフト量
+ * @default -32
+ *
+ * @param Use Thick Gauges
+ * @text 厚いゲージ使用
+ * @type boolean
+ * @on 厚い
+ * @off 標準
+ * @desc プラグイン独自の厚いゲージ使用
+ * 標準:false / 厚い:true
+ * @default true
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BattleEngineCoreとYEP_X_BattleSysATBを必要とします。
+ * プラグイン管理のYEP_BattleEngineCoreとYEP_X_BattleSysATBの下に
+ * このプラグインがあることを確認してください。
+ *
+ * 現在の戦闘システムがATBの場合、敵のATBゲージを表示します。
+ * ゲージは敵の下・上に表示できます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下は、敵のATBゲージの外観を調整するために使用できるメモタグです。
+ *
+ * 敵のメモタグ
+ *   <Show ATB Gauge>
+ *   <Hide ATB Gauge>
+ *   ATBゲージが表示・非表示になり、パラメータのデフォルト設定が無視されます。
+ *
+ *   <ATB Gauge Width: x>
+ *   敵のATBゲージの幅を敵画像の幅と一致させる代わりにxに設定します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.02:
+ * - Optimization update.
+ *
+ * Version 1.01:
+ * - Fixed a graphical issue to synchronize the opacity value with battlers!
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

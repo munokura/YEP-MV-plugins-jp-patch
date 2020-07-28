@@ -1,0 +1,151 @@
+/*:ja
+ * @plugindesc v1.07 (要YEP_BuffsStatesCore) ステートのカテゴリを設定します。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BuffsStatesCoreを必要とします。
+ * プラグイン管理のYEP_BuffsStatesCoreの下に
+ * このプラグインがあることを確認してください。
+ *
+ * このプラグインを使用すると、ステートのカテゴリを設定できます。
+ * それらは1つのカテゴリー、複数のカテゴリー、
+ * カテゴリーなしにすることができます。
+ * このカテゴリシステムに関連するいくつかの新機能があります。
+ * 例えば、特定のカテゴリの下のステートの解除や、
+ * Deathの解除やRecoverAllの解除などの重要な解除の側面を回避する機能です。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * データベースオブジェクトのステートカテゴリを中心に展開している
+ * 様々な性質を変更するには、次のメモタグを使用します。
+ *
+ * ステートのメモタグ
+ *
+ *   <Category: text>
+ *   このステートに'text'カテゴリを追加します。
+ *   このメモタグを複数挿入して、
+ *   ステートに複数のカテゴリを付けることができます。
+ *
+ *   <Category: Bypass Death Removal>
+ *   ステートに'Bypass Death Removal'カテゴリを追加します。
+ *   死亡時にプラグインを解除しないようにするために
+ *   プラグインによって利用されるカテゴリです。
+ *
+ *   <Category: Bypass Recover All Removal>
+ *   'Bypass Recover All Removal'カテゴリをステートに追加します。
+ *   RecoverAllイベントの使用時にプラグインの解除を回避するために
+ *   プラグインが利用するカテゴリです。
+ *
+ *   <Category: Group Defeat>
+ *   'Group Defeat'カテゴリをステートに追加します。
+ *   全てのグループメンバーがこの効果を持つ敵によって苦しめられているならば、
+ *   それは敗北した戦闘とみなされます。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <Remove State Category: text>
+ *   アクションの対象からカテゴリ'text'から全てのステートを解除します。
+ *   パッシブステートを解除しようとしません。
+ *
+ *   <Remove x State Category: text>
+ *   アクションの対象からカテゴリ'text'からx個のステートを解除します。
+ *   解除されたステートは、
+ *   一致するカテゴリテキストを持つ優先順位が最も高いものから
+ *   低いものまでの最前面のx個のステートになります。
+ *   パッシブステートを解除しようとしません。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムステートカテゴリの解除
+ * ===========================================================================
+ *
+ * JavaScriptの経験があり、
+ * 関連カテゴリの動的な数のステートを解除したい場合、
+ * 次のメモタグを使用して解除できます。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <Custom Remove State Category: text>
+ *    value += user.level;
+ *    value -= target.level;
+ *   </Custom Remove State Category: text>
+ *   'value'変数はアクションによって解除されるステート値です。
+ *   スキル/アイテムのメモ欄に<Remove x State Category: text>がある場合、
+ *   'value'変数はその値で始まります。
+ *   そうでなければ、'value'変数は1から始まります。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * JavaScriptの経験がある人は、
+ * このプラグインで新たに追加された以下の機能を使用することができます。
+ * 'battler'変数は、アクターか敵のどちらかを指します。
+ *
+ * --- 関数 ---
+ *
+ * battler.removeStateCategoryAll('text');
+ * - バトラーからカテゴリ'text'の全てのステートを解除します。
+ * 'text'をカテゴリ名に置き換えますが、引用符は付けます。
+ * パッシブステートを解除しようとしません。
+ *
+ * battler.removeStateCategory('text', x);
+ * - バトラーからカテゴリ'text'のx個のステートを解除します。
+ * 'text'をカテゴリ名に置き換えますが、引用符は付けます。
+ * xを数字に置き換えます。
+ * パッシブステートを解除しようとしません。
+ *
+ * battler.isStateCategoryAffected('text')
+ * - バトラーがカテゴリ'text'のステートに影響されるかどうかをチェックした後に
+ * 'true'・'false'を返します。
+ * 'text'をカテゴリ名に置き換えますが、引用符は付けます。
+ * パッシブステートでもチェックします。
+ *
+ * battler.getStateCategoryAffectedCount('text');
+ * - バトラーがカテゴリ'text'で影響を受けるステート数(パッシブを含む)を
+ * 確認するための数値を返します。
+ * 'text'をカテゴリ名に置き換えますが、引用符は付けます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.07:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.06:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.05a:
+ * - Lunatic Mode fail safes added.
+ * - Fixed a documentation error with <Custom Remove State Category: text>.
+ *
+ * Version 1.04:
+ * - Compatibility update with Selection Control to not game over the player
+ * while there are still members alive.
+ *
+ * Version 1.03:
+ * - States with <Category: Bypass Death Removal> can now be added onto
+ * already dead battlers.
+ *
+ * Version 1.02:
+ * - When using the JavaScript functions, the categories will now
+ * automatically be converted to uppercase to function with the rest of the
+ * plugin.
+ *
+ * Version 1.01:
+ * - Added <Category: Group Defeat> effect.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

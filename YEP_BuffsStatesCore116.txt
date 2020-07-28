@@ -1,0 +1,748 @@
+/*:ja
+ * @plugindesc v1.16 バフ・デバフの残ターン数の表示やバフの計算式・上限回数などを変更します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---ターン表示---
+ * @default
+ *
+ * @param Show Turns
+ * @text 残ターン表示
+ * @parent ---ターン表示---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc バフとステートの残ターンの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---ターン表示---
+ * @type number
+ * @min 1
+ * @desc ターン数に使用されるデフォルトのフォントサイズ
+ * デフォルト:28
+ * @default 16
+ *
+ * @param Turn Alignment
+ * @text 文字揃え
+ * @parent ---ターン表示---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc ターン表示の文字揃え
+ * 左:left / 中央:center / 右:right
+ * @default right
+ *
+ * @param Turn Buffer X
+ * @text X位置
+ * @parent ---ターン表示---
+ * @desc ターン表示のx位置のバッファ
+ * 正:右 / 負:左
+ * @type number
+ * @min -9007
+ * @max 9007
+ * @default -3
+ *
+ * @param Turn Buffer Y
+ * @text Y位置
+ * @parent ---ターン表示---
+ * @desc ターン表示のy位置のバッファ
+ * 正:下 / 負:上
+ * @type number
+ * @min -9007
+ * @max 9007
+ * @default -6
+ *
+ * @param State Color
+ * @text ステートのテキスト色
+ * @parent ---ターン表示---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ステート残ターンのデフォルトのテキスト色
+ * @default 0
+ *
+ * @param Buff Color
+ * @text バフのテキスト色
+ * @parent ---ターン表示---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc バフ残ターンのデフォルトのテキスト色
+ * @default 24
+ *
+ * @param Debuff Color
+ * @text デバフのテキスト色
+ * @parent ---ターン表示---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc デバフ残ターンのデフォルトのテキスト色
+ * @default 2
+ *
+ * @param ---敵アイコン---
+ * @default
+ *
+ * @param Show Enemy Icons
+ * @text ステートアイコン表示
+ * @parent ---敵アイコン---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵のステートアイコンの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enemy Buff Turn
+ * @text バフターン表示
+ * @parent ---敵アイコン---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵のバフ残ターン数の表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enemy State Turn
+ * @text ステートターン表示
+ * @parent ---敵アイコン---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵のステート残ターン数の表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enemy State Counter
+ * @text ステートカウンター表示
+ * @parent ---敵アイコン---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵のステート残カウンターの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param---バフ設定---
+ * @default
+ *
+ * @param Default Limit
+ * @text 重ねがけ回数
+ * @parent---バフ設定---
+ * @type number
+ * @min 1
+ * @desc バフ/デバフを重ねがけできるデフォルトの回数
+ * デフォルト:2
+ * @default 4
+ *
+ * @param Maximum Limit
+ * @text 重ねがけ最大回数
+ * @parent---バフ設定---
+ * @type number
+ * @min 1
+ * @desc バフ/デバフを重ねがけできる最大回数
+ * @default 8
+ *
+ * @param Buff Formula
+ * @text バフ計算式
+ * @parent---バフ設定---
+ * @desc バフ率の計算に使用される式
+ * デフォルト:this._buffs[paramId] * 0.25 + 1.0
+ * @default this._buffs[paramId] * 0.25 + 1.0
+ *
+ * @param Show Buff Rate
+ * @text バフ率表示
+ * @parent---バフ設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc バフ/デバフ率の表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param ---ステート設定---
+ * @default
+ *
+ * @param Reapply Rules
+ * @text 適用ルール
+ * @parent ---ステート設定---
+ * @type select
+ * @option 無視
+ * @value 0
+ * @option リセット
+ * @value 1
+ * @option 加算
+ * @value 2
+ * @desc 既存のステートを適用するときの規則
+ * 無視:0 / リセット:1 / 加算:2
+ * @default 1
+ *
+ * @param Show Enemy Turns
+ * @text ターン表示
+ * @parent ---ステート設定---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc Battle Engine Core を使用時、ヘルプウィンドウに show turn を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---カウンター設定---
+ * @default
+ *
+ * @param Counter Font Size
+ * @text フォントサイズ
+ * @parent ---カウンター設定---
+ * @type number
+ * @min 1
+ * @desc ステートカウンターのデフォルトのフォントサイズ
+ * デフォルト:28
+ * @default 16
+ *
+ * @param Counter Alignment
+ * @text 文字揃え
+ * @parent ---カウンター設定---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc カウンター表示の文字揃え
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Counter Buffer X
+ * @text X位置
+ * @parent ---カウンター設定---
+ * @desc カウンタ表示のx位置をバッファ
+ * 正:右 / 負:左
+ * @type number
+ * @min -9007
+ * @max 9007
+ * @default 0
+ *
+ * @param Counter Buffer Y
+ * @text Y位置
+ * @parent ---カウンター設定---
+ * @desc カウンター表示のy位置をバッファ
+ * 正:下 / 負:上
+ * @type number
+ * @min -9007
+ * @max 9007
+ * @default 8
+ *
+ * @param Counter Color
+ * @text テキスト色
+ * @parent ---カウンター設定---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ステートカウンターのデフォルトのテキスト色
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * YEP_BattleEngineCore.js を使用している場合、
+ * プラグイン管理でこのプラグインを YEP_BattleEngineCore の下にしてください。
+ *
+ * バフの基本的な仕組みはRPGツクールMVのエディタ内では調整できません。
+ * そのシステムは、バフが重ねがけできる最大回数の変更、
+ * バフとステートに残っているターンの変更、
+ * ステートを再適用する場合、含まれる規則を含みます。
+ *
+ * バフ、デバフ、ステートに残っているターン数を示すために
+ * ターンインジケーターを追加しました。
+ * バフとデバフはプラグインのパラメータ設定を無効にして動作しますが、
+ * ステートに独自の設定を選択すると、
+ * ステートは個々の設定を操作できます。
+ *
+ * このプラグインには多くの Lunatic Mode オプションが追加されており、
+ * JavaScript でステートや独自の効果を最大限に制御することができます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下は、ステートやバフを変更するために使用できるメモタグです。
+ *
+ * --- バフ関連 ---
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ:
+ *   <Max stat Buff: +x>
+ *   <Max stat Buff: -x>
+ *   <Max stat Debuff: +x>
+ *   <Max stat Debuff: -x>
+ *   'stat'を 'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'へ
+ *   引用符なしで置き換えます。
+ *   このメモタグは、能力値がプラグインパラメータ内の最大キャップ値まで
+ *   バフ/デバフできる最大回数を調整します。
+ *
+ * スキルとアイテムのメモタグ:
+ *   <stat Buff Turns: +x>
+ *   <stat Buff Turns: -x>
+ *   <stat Debuff Turns: +x>
+ *   <stat Debuff Turns: -x>
+ *   既に適用されているバフ/デバフのターンオンを x 値で修正します。
+ *   これにより、バフ/デバフが0以下になった場合、バフ/デバフは解除されます。
+ *
+ * --- ステート関連 ---
+ *
+ * ステートのメモタグ:
+ *   <Show Turns>
+ *   <Hide Turns>
+ *   ステートの残りのターン数を表示/非表示にします。
+ *   これはデフォルト設定を上書きします。
+ *
+ *   <Turn Font Size: x>
+ *   指定したステートに使用されるフォントサイズをxに設定します。
+ *   これはデフォルト設定を上書きします。
+ *
+ *   <Turn Alignment: Left>
+ *   <Turn Alignment: Center>
+ *   <Turn Alignment: Right>
+ *   ターンカウントインジケーターのテキスト配置を設定します。
+ *   これはデフォルト設定を上書きします。
+ *
+ *   <Turn Buffer X: +x>
+ *   <Turn Buffer X: -x>
+ *   <Turn Buffer Y: +x>
+ *   <Turn Buffer Y: -x>
+ *   指定したステートのターン数に対して、手動でx / y位置を調整できます。
+ *   これはデフォルト設定を上書きします。
+ *
+ *   <Turn Color: x>
+ *   ターンカウント表示色をテキスト色 x に設定します。
+ *   これはデフォルト設定を上書きします。
+ *
+ *   <Reapply Ignore Turns>
+ *   <Reapply Reset Turns>
+ *   <Reapply Add Turns>
+ *   このステートがバトラーに再適用された場合、ルールを変更します。
+ *   無視すると、ターン数は変わりません。
+ *   リセットすると、ターン数はデフォルトの変動量に戻ります。
+ *   追加すると、ターン数が追加されます。
+ *
+ * スキル、アイテムのメモタグ:
+ *   <State x Turns: +y>
+ *   <State x Turns: -y>
+ *   <State named Turns: +y>
+ *   <State named Turns: -y>
+ *   既に適用されているステート x を対象上の y 値だけ変更します。
+ *   これによりステートが0以下になると、
+ *   そのステートは解除されます。
+ *   名前付きのステートを使用していて、同じ名前のステートが複数ある場合、
+ *   最も高いIDを持つステートが優先されます。
+ *
+ * 敵のメモタグ:
+ *   <Show State Turns>
+ *   <Hide State Turns>
+ *   Battle Engine Core の影響を受けます。
+ *   敵を選択すると、そのステートがヘルプウィンドウに表示されます。
+ *   これを使用して、特定の敵にステートの変化を表示/非表示できます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムターン修飾子
+ * ===========================================================================
+ *
+ * JavaScript を使用して、対象のバフ/ステートのターン数を変更する場合、
+ * これらのメモタグを使って条件付きターンを設定できます。
+ * 以下の手順に従ってください。
+ *
+ * スキル、アイテムのメモタグ:
+ *
+ *   <Custom stat Buff Turn>
+ *    turn = 10;
+ *    turn += user.agi;
+ *   </Custom stat Buff Turn>
+ *   'stat'を'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'で
+ *   引用符なしで置き換えます。
+ *   'turn'変数はステートのバフのターン数を返します。
+ *
+ *   <Custom stat Debuff Turn>
+ *    turn = 10;
+ *    turn += user.agi;
+ *   </Custom stat Debuff Turn>
+ *   'stat'を'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'で
+ *   引用符なしで置き換えます。
+ *   'turn'変数はステートのデバフのターン数を返します。
+ *
+ *   <Custom State X Turn>
+ *    turn = 10;
+ *    turn += user.agi;
+ *   </Custom State X Turn>
+ *   ステートxのターン数を変更します。
+ *   'turn'変数はステートxのターン数を返します。
+ *
+ *   <Custom State name Turn>
+ *    turn = 10;
+ *    turn += user.agi;
+ *   </Custom State name Turn>
+ *   ステート'name'のターン数を変えます。
+ *   'turn'変数はステート'name'のターン数を返します。
+ *   データベースに同じ名前のステートが複数ある場合、
+ *   IDが最も高いステートが優先されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムタイミング効果
+ * ===========================================================================
+ *
+ * JavaScript を使って、下記のメモタグを使用して
+ * コードを特定の場合、実行することができます。
+ *
+ * クイックリファレンス:
+ *   - Apply:        ステートが追加された時
+ *   - Remove:       ステートが削除された時
+ *   - Leave:        ステートが0ターンに達して期限切れになった時
+ *   - Turn Start:   バトラーのターンが始まる時
+ *   - Action Start: バトラーが新しいアクションを実行する時
+ *   - Action End:   バトラーが行動を終える時
+ *   - Regenerate:   バトラーがHP / MP / TPを再生成する時
+ *   - Turn End:     バトラーのターンが終了する時
+ *   - Battle:       戦闘が始まる時
+ *   - Victory:      戦闘に勝った時はいつでも *注1
+ *   - Escape:       戦闘から逃げる時 *注1
+ *   - Defeat:       戦闘が失われる時 *注1
+ *
+ * *注1: ステートが戦闘終了時、期限切れになるように設定されている場合、
+ * カスタム効果が発生する前に期限切れが発生します。
+ * つまり、期限切れがオフに設定されていない限り、
+ * 効果はまったく発生しません。
+ *
+ * ステートのメモタグ:
+ *
+ * --- タイミング効果 ---
+ *
+ * 下記の効果は、特定の間隔/タイミングで発生します。
+ *
+ *   <Custom Apply Effect>
+ *    code
+ *    code
+ *   </Custom Apply Effect>
+ *   メモタグの間にあるコードは、
+ *   ステートがバトラーに追加された場合、実行されます。
+ *   コードはステートが実際に適用された後に処理されます。
+ *
+ *   <Custom Remove Effect>
+ *    code
+ *    code
+ *   </Custom Remove Effect>
+ *   メモタグのコードは手動/ターン数でステートが
+ *   バトラーから解除された場合、実行されます。
+ *   コードは、ステートが実際に解除されてから
+ *   <Custom Leave Effect> の前に処理されます。
+ *
+ *   <Custom Leave Effect>
+ *    code
+ *    code
+ *   </Custom Leave Effect>
+ *   メモタグのコードはターン数でステート解除された場合、実行されます。
+ *   ステートが実際に解除された後と
+ *   <Custom Remove Effect> の後にコードが処理されます。
+ *
+ *   <Custom Turn Start Effect>
+ *    code
+ *    code
+ *   </Custom Turn Start Effect>
+ *   YEP_BattleEngineCore が必要です。
+ *   この効果はバトラーの各ターンの開始時に、実行されます。
+ *   他の全てのターン開始効果の後でコードは処理されます。
+ *
+ *   <Custom Action Start Effect>
+ *    code
+ *    code
+ *   </Custom Action Start Effect>
+ *   この効果は各バトラーの行動の開始時に、実行されます。
+ *   スキル/アイテムコストが発生する前にコードが処理されます。
+ *
+ *   <Custom Action End Effect>
+ *    code
+ *    code
+ *   </Custom Action End Effect>
+ *   この効果は、バトラーの各アクションの終わりに実行されます。
+ *   アクション終了ステップが行われる前に、コードが処理されます。
+ *
+ *   <Custom Regenerate Effect>
+ *    code
+ *    code
+ *   </Custom Regenerate Effect>
+ *   この効果はバトラーがHP、MP、TPを再生時に、実行されます。
+ *   他の全ての再生効果が実行された後にコードが処理されます。
+ *
+ *   <Custom Turn End Effect>
+ *    code
+ *    code
+ *   </Custom Turn End Effect>
+ *   この効果は各戦闘のターンの終わりに実行されます。
+ *   他の全てのターン終了効果の終了後に、コードは処理されます。
+ *
+ *   <Custom Battle Effect>
+ *    code
+ *    code
+ *   </Custom Battle Effect>
+ *   この効果は、バトラーが既にステートが適用されている場合
+ *   （通常はパッシブステートを介して）、戦闘開始時に発生します。
+ *
+ *   <Custom Victory Effect>
+ *    code
+ *    code
+ *   </Custom Victory Effect>
+ *   パーティーが勝利した時、この効果は戦闘終了時に発生します。
+ *   これはプレイヤーのパーティーにのみ適用されます。
+ *   このステートが戦闘終了時に解除される場合、
+ *   この効果が起こる前にステートの解除が起こるのでこの効果は起こりません。
+ *
+ *   <Custom Escape Effect>
+ *    code
+ *    code
+ *   </Custom Escape Effect>
+ *   パーティーが逃げ出した場合、この効果は戦闘終了時に発生します。
+ *   これはプレイヤーのパーティーにのみ適用されます。
+ *   このステートが戦闘終了時に解除される場合、
+ *   この効果が起こる前にステートの解除が起こるのでこの効果は起こりません。
+ *
+ *   <Custom Defeat Effect>
+ *    code
+ *    code
+ *   </Custom Defeat Effect>
+ *   パーティーが敗北した場合、この効果は戦闘終了時に発生します。
+ *   これはプレイヤーのパーティーにのみ適用されます。
+ *   このステートが戦闘終了時に解除される場合、
+ *   この効果が起こる前にステートの解除が起こるのでこの効果は起こりません。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムアクション効果
+ * ===========================================================================
+ *
+ * JavaScript を使って、アクション中にコードを実行させるために
+ * 下記のメモタグを使うことができます。
+ *
+ * クイックリファレンス:
+ *   アクション開始
+ *   - Attacker: Initiate
+ *   - Defender: Select
+ *   成功はヒットとしてつなぎ, ミス/回避した場合はスキップ
+ *   - Attacker: Confirm
+ *   - Defender: React
+ *   ダメージは防御側に適用されます
+ *   - Defender: Respond
+ *   - Attacker: Establish
+ *   アクションが正常にヒットしたかどうかにかかわらず発生
+ *   - Defender: Deselect
+ *   - Attacker: Conclude
+ *
+ * ステートのメモタグ:
+ *
+ * --- アクション効果について ---
+ *
+ * 下記の効果は、バトラーが行動の対象となっている場合に発生します。
+ *
+ *   <Custom Initiate Effect>
+ *    code
+ *    code
+ *   </Custom Initiate Effect>
+ *   この効果はバトラーが目標を選択した場合、発生します。
+ *   これはヒット/ミス/確認を回避し実行にダメージを与える前に発生します。
+ *   この効果は、他の全てがうまくいく前に実行されます。
+ *
+ *   <Custom Select Effect>
+ *    code
+ *    code
+ *   </Custom Select Effect>
+ *   この効果はバトラーが対象として選択された場合、実行されます。
+ *   これはヒット/ミス/確認を回避し実行にダメージを与える前に発生します。
+ *   この効果は、他の全てが実行される前、
+ *   <Custom Initiate Effect> の後に実行されます。
+ *
+ *   <Custom Confirm Effect>
+ *    code
+ *    code
+ *   </Custom Confirm Effect>
+ *   この効果は、バトラーが命中してダメージが発生する前に発生します。
+ *   この効果は<Custom Initiate Effect>と<Custom Select Effect>の後、
+ *   他の全ての前に実行されます。
+ *
+ *   <Custom React Effect>
+ *    value -= 100;
+ *    value -= user.def;
+ *   </Custom React Effect>
+ *   この効果はバトラーが対象として選択された場合、実行されます。
+ *   これはアクションが接続した場合にのみ発生し、
+ *   ダメージの実行前に発生します。
+ *   この効果はダメージ計算が行われる前に実行され、
+ *   ダメージ修正値として 'value'変数を返します。
+ *   <カスタム確認効果>の後、この効果が実行されます。
+ *
+ *   <Custom Respond Effect>
+ *    code
+ *    code
+ *   </Custom Respond Effect>
+ *   この効果はバトラーが対象として選択された場合、実行されます。
+ *   これはアクションが接続した場合にのみ発生し、
+ *   ダメージの実行後に発生します。
+ *   この効果はダメージ計算後に発生します。
+ *   'value'変数はバトラーに与えられたダメージを代入します。
+ *   これはダメージの実行が行われた後に実行される最初の効果です。
+ *
+ *   <Custom Establish Effect>
+ *    code
+ *    code
+ *   </Custom Establish Effect>
+ *   この効果は、バトラーが命中したときとダメージの実行後に発生します。
+ *   <Custom Respond Effect> が発生した後、それ以外の全ての前に実行されます。
+ *
+ *   <Custom Deselect Effect>
+ *    code
+ *    code
+ *   </Custom Deselect Effect>
+ *   この効果はバトラーが対象として選択された場合、実行されます。
+ *   これはヒット/ミス/回避確認をし、実行にダメージを与えた後に発生します。
+ *   この効果は、他の全ての後に実行されます。
+ *
+ *   <Custom Conclude Effect>
+ *    code
+ *    code
+ *   </Custom Conclude Effect>
+ *   バトラーが目標を選択した後に実行される最後の効果であり、
+ *   ヒット/ミス/回避確認、ダメージ実行の後に発生します。
+ *
+ * ===========================================================================
+ * ルナティックモード - ステートカウンター
+ * ===========================================================================
+ *
+ * ステートカウンタは、ステートを補足するために新たに追加された機能です。
+ * それらは純粋にカスタムの方法で使用されます。
+ * つまり、それ自体では機能を果たしません。
+ * ステートカウンターは、重ねがけの数、保存された割合、
+ * メッセージの表示などに使用できます。
+ * これらは全て、JavaScript機能に基づいて純粋に更新されます。
+ *
+ * ---
+ *
+ * ステートに使用できるメモタグの組み合わせがあります。
+ *
+ *   <Counter Font Size: x>
+ *   カウンターのフォントサイズを調整します。
+ *
+ *   <Counter Alignment: left>
+ *   <Counter Alignment: center>
+ *   <Counter Alignment: right>
+ *   カウンターテキストの配置を変更します。
+ *
+ *   <Counter Buffer X: +x>
+ *   <Counter Buffer X: -x>
+ *   カウンターテキストの X バッファ範囲を調整します。
+ *
+ *   <Counter Buffer Y: +x>
+ *   <Counter Buffer Y: -x>
+ *   カウンターテキストのYバッファ範囲を調整します。
+ *
+ *   <Counter Text Color: x>
+ *   テキストのフォント色を文字色 x に変更します。
+ *
+ * ---
+ *
+ * 以下は、カウンタを調整するために使用できるJavaScript関数です。
+ *
+ *   battler.clearStateCounters();
+ *   - 全てのステートの全てのカウンタ値が消去されます。
+ *
+ *   battler.setStateCounter(stateId, value);
+ *   - 特定のステートのカウンター値を 'value'に設定します。
+ *
+ *   battler.addStateCounter(stateId, value);
+ *   - ステートのカウンタ値に追加されます。
+ *     これが機能するためには、カウンタは数値である必要があります。
+ *
+ *   battler.clampStateCounter(stateId, min, max);
+ *   - これは特定のステートのカウンタ値の最小値と最大値を設定します。
+ *   これが機能するためには、カウンタは数値である必要があります。
+ *
+ *   battler.removeStateCounter(stateId)
+ *   - ステートのカウンタ値が消去されます。
+ *
+ *   battler.getStateCounter(stateId)
+ *   - 現在ステートのカウンタ値を返します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.16:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.15:
+ * - Updated for RPG Maker MV version 1.6.1.
+ *
+ * Version 1.14:
+ * - Updated for RPG Maker MV version 1.5.0.
+ * - Fixed documentation error.
+ *
+ * Version 1.13:
+ * - Custom Turn End effects will no longer occur outside of battle.
+ *
+ * Version 1.12a:
+ * - Lunatic Mode fail safes added.
+ * - Optimization update.
+ *
+ * Version 1.11:
+ * - Fixed a bug involving Lunatic state effects not occuring in the right
+ * order when a state is removed.
+ *
+ * Version 1.10b:
+ * - Added new plugin parameter: Show Buff Rate. This will display the current
+ * buff or debuff rate on the buff icon.
+ * - Optimization Update.
+ * - Documentation fix for battler.clampStateCounter(stateId, min, max).
+ *
+ * Version 1.09b:
+ * - Added new plugin parameters: Show Enemy Icons, Enemy Buff Turn, Enemy
+ * State Turn, and Enemy State Counter to optionally display the enemy state
+ * icons, states, buffs, their turns, and their counters.
+ * - Added 'Lunatic Mode - State Counters'. Read more on it in the help file!
+ * - Added anti-crash method for newly added effect in case non-YEP plugins
+ * have non-battlers attached to battler sprites.
+ * - Fixed a bug that prevented screen flashes when walking around on the map
+ * when an actor is poisoned.
+ *
+ * Version 1.08:
+ * - Fixed an issue that caused adding states midway through Lunatic Mode to
+ * shift the order of states around causing some effects to be skipped.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.06:
+ * - Added new notetags for <Custom Battle Effect>, <Custom Victory Effect>,
+ * <Custom Escape Effect>, and <Custom Defeat Effect> for Lunatic Mode.
+ *
+ * Version 1.05a:
+ * - Fixed a bug with the 'Show Turns' parameter not working properly.
+ * - Fixed a bug with math issues for timed states.
+ *
+ * Version 1.04:
+ * - Changed timing of when Add/Remove/Leave Lunatic Effects occur to add more
+ * flexibility in custom effects.
+ * - Added a fail safe for when there are no targets to modify.
+ * - Fixed a bug with reapply ignore states.
+ *
+ * Version 1.03a:
+ * - Fixed a bug that would cause NaN to show up in state turns.
+ *
+ * Version 1.02:
+ * - Synched up <Custom Turn End Effect> with tick-based battle systems.
+ *
+ * Version 1.01:
+ * - Fixed a bug that didn't reset the font settings with the battle status.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

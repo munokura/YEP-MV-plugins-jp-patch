@@ -1,0 +1,190 @@
+/*:ja
+ * @plugindesc v1.05 (要YEP_BattleEngineCore) STB（Standard Turn Battle）システムを追加できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Action Speed
+ * @text 行動速度
+ * @parent ---一般---
+ * @desc 行動の基本速度に使用される式
+ *デフォルト:agi + Math.randomInt(Math.floor(5 + agi / 4))
+ * @default agi
+ *
+ * @param Delay Status Adjust
+ * @text ステータスウィンドウ遅延
+ * @parent ---一般---
+ * @type boolean
+ * @on 遅延
+ * @off デフォルト
+ * @desc 中央へステータスウィンドウが移動するのを遅延。
+ * 遅延:true / デフォルト:false
+ * @default true
+ *
+ * @param ---逃走---
+ * @default
+ *
+ * @param Escape Ratio
+ * @text 逃走成功率
+ * @parent ---逃走---
+ * @desc 逃走成功率を計算する式。デフォルト:0.5 * $gameParty.agility() / $gameTroop.agility()
+ * @default 0.125 * $gameParty.agility() / $gameTroop.agility()
+ *
+ * @param Fail Escape Boost
+ * @text 逃走失敗ブースト
+ * @parent ---逃走---
+ * @desc 逃走に失敗する度に、上げる成功率。デフォルト:0.1
+ * @default 0.025
+ *
+ * @param ---ターン順ウィンドウ---
+ * @default
+ *
+ * @param Show Turn Window
+ * @text ウィンドウ表示
+ * @parent ---ターン順ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc ターン順ウィンドウの表示
+ * 表示:true / 非表示:false
+ * @default false
+ *
+ * @param Turn Window X
+ * @text ウィンドウ X位置
+ * @parent ---ターン順ウィンドウ---
+ * @desc ターン順ウィンドウのx位置。式を使えます
+ * @default Graphics.boxWidth - width
+ *
+ * @param Turn Window Y
+ * @text ウィンドウ Y位置
+ * @parent ---ターン順ウィンドウ---
+ * @desc ターン順ウィンドウのy位置。式を使えます
+ * @default this.fittingHeight(2)
+ *
+ * @param Turn Window Width
+ * @text ウィンドウ幅
+ * @parent ---ターン順ウィンドウ---
+ * @desc ターン順ウィンドウの幅。式を使えます
+ * @default 200
+ *
+ * @param Turn Window Height
+ * @text ウィンドウ高
+ * @parent ---ターン順ウィンドウ---
+ * @desc ターン順ウィンドウの高さ。式を使えます
+ * @default Graphics.boxHeight - statusHeight - this.fittingHeight(2)
+ *
+ * @param Current Battler Color
+ * @text 行動バトラー文字色
+ * @parent ---ターン順ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 現在のバトラーに使用されている文字色
+ * @default 6
+ *
+ * @param Actor Battler Color
+ * @text アクター文字色
+ * @parent ---ターン順ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターに使用される文字色
+ * @default 4
+ *
+ * @param Enemy Battler Color
+ * @text 敵キャラ文字色
+ * @parent ---ターン順ウィンドウ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 敵に使用される文字色
+ * @default 2
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_BattleEngineCore を必要とします。
+ * このプラグインがプラグイン管理で
+ * YEP_BattleEngineCore の下にあることを確認してください。
+ *
+ * STBシステムを使用するには、Battle Engine Coreプラグインに行き、
+ * パラメータの'Default System'設定を 'stb'に変更してください。
+ *
+ * ターンバトルシステム(STB)は、
+ * デフォルト戦闘のターンシステムの構造から機能します。
+ * 行動命令はバトラーのAGI値(俊敏性)によって決定されます。
+ * ただし、ターン開始時には行動は選択されません。
+ * 代わりに、各バトラーのターンが来ると行動が選択され、
+ * すぐに実行されます。
+ *
+ * 各バトラーの行動は1ターンにつき1回のみです。
+ * バトラーの俊敏性が他のバトラーの2倍であっても、
+ * 1人のバトラーが他のバトラーの2倍のターン数を持つことはできません。
+ * ターンベースとティックベースの戦闘システムと比較して、
+ * ティックベース戦闘システムはバランスを取るのが遥かに困難になる傾向があり、
+ * この問題を防ぐためです。
+ *
+ * STBシステムの性質上、
+ * データベースにあるアイテムやスキルの行動スピードの値は、
+ * ターン順で戦闘を進めることができないため無効になります。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 下記のプラグインコマンドを使用して、
+ * デフォルト戦闘とSTBのシステムを切り替えることができます。
+ *
+ * プラグインコマンド
+ *   setBattleSys STB      戦闘システムをSTBに設定します。
+ *   setBattleSys DTB      戦闘システムをデフォルト戦闘に設定します。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下は、STBシステムに関連し、影響を与えるメモタグです。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <STB Help>
+ *    text
+ *    text
+ *   </STB Help>
+ *   複数の戦闘システムを使用することを計画している人は、
+ *   STB使用中、スキルが異なって実行されるようにするかもしれません。
+ *   その場合、このメモタグを使用することで、
+ *   STBが有効になっている間にスキルと項目に
+ *   異なるヘルプテキストを表示することができます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Fixed Forced Action endless bug and added compatibility with Instant
+ * Cast.
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Instant Cast compatibility update.
+ *
+ * Version 1.01:
+ * - Fixed a bug that caused escaping to crash the game if not using STB.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

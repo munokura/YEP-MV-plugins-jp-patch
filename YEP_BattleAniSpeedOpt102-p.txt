@@ -1,0 +1,213 @@
+/*:ja
+ * @plugindesc v1.01 戦闘アニメーションの再生速度をオプションメニューから選択できるようにします
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、プレイヤーがオプションメニューの中から
+ * 戦闘アニメーションの再生速度を選択する機能を追加します。
+ * 4つのリアルフレームにつき1つのアニメーションフレームを再生する
+ * デフォルトの速度から、
+ * 1つのリアルフレームにつき1つのアニメーションフレームを再生する
+ * 最速の設定まで、
+ * プレイヤーは物事の進行速度を選択できます。
+ *
+ * ===========================================================================
+ * 互換性
+ * ===========================================================================
+ *
+ * このプラグインは以下のプラグインと互換性があります。
+ * - YEP_BattleEngineCore
+ * - YEP_X_ActSeqPack1
+ * - YEP_X_ActSeqPack2
+ * - YEP_X_ActSeqPack3
+ *
+ * 表示されているプラグインを使用している場合、
+ * このプラグインをプラグインマネージャ管理の
+ * 各プラグインの下に配置してください。
+ * アクションシーケンスが戦闘アニメーションの速度が
+ * オプションで正しく機能するためです。
+ *
+ * ===========================================================================
+ * Options Core 設定 - 新しいオプションを追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCore を使用している場合、
+ * このプラグインを使用して新しいオプションを追加できます。
+ * 以下は共に使用できるコード/パラメータ設定です。
+ *
+ * ---------
+ * Settings:
+ * ---------
+ *
+ * Name:
+ * \i[302]Battle Animation Speed
+ *
+ * Help Description:
+ * Changes the speed of battle animations.
+ *
+ * Symbol:
+ * battleAniSpeed
+ *
+ * Show/Hide:
+ * show = Imported.YEP_BattleAniSpeedOpt;
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var quarterWidth = statusWidth / 4;
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changePaintOpacity(value === 4);
+ * var text = this.battleAnimationSpeedText(4);
+ * this.drawText(text, titleWidth + quarterWidth * 0, rect.y, quarterWidth, 'center');
+ * this.changePaintOpacity(value === 3);
+ * var text = this.battleAnimationSpeedText(3);
+ * this.drawText(text, titleWidth + quarterWidth * 1, rect.y, quarterWidth, 'center');
+ * this.changePaintOpacity(value === 2);
+ * var text = this.battleAnimationSpeedText(2);
+ * this.drawText(text, titleWidth + quarterWidth * 2, rect.y, quarterWidth, 'center');
+ * this.changePaintOpacity(value === 1);
+ * var text = this.battleAnimationSpeedText(1);
+ * this.drawText(text, titleWidth + quarterWidth * 3, rect.y, quarterWidth, 'center');
+ *
+ * Process OK Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value -= 1;
+ * if (value <= 0) value = 4;
+ * value = value.clamp(1, 4);
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Right Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value -= 1;
+ * value = value.clamp(1, 4);
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Left Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value += 1;
+ * value = value.clamp(1, 4);
+ * this.changeValue(symbol, value);
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Updated Float and Jump compatibility to allow for negative values.
+ *
+ * Version 1.01:
+ * - Compatibility update with YEP_OptionsCore.js.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Option Name
+ * @text オプション名
+ * @parent ---一般---
+ * @desc ゲーム内で使用されるオプション表示テキスト
+ * @default 戦闘アニメーション
+ *
+ * @param Default Speed
+ * @text デフォルト速度
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc 戦闘アニメーションに使用されるデフォルトの速度
+ * @default 4
+ *
+ * @param Affect Movement?
+ * @text 移動に影響
+ * @parent ---一般---
+ * @type boolean
+ * @on 影響する
+ * @off 影響しない
+ * @desc バトラーの移動速度に影響する
+ * @default true
+ *
+ * @param Affect Waiting?
+ * @text 待機に影響
+ * @parent ---一般---
+ * @type boolean
+ * @on 影響する
+ * @off 影響しない
+ * @desc 戦闘中のアニメーションの待機やイベントにも影響する
+ * @default true
+ *
+ * @param ---Vocabulary---
+ * @text ---表示テキスト---
+ * @default
+ *
+ * @param Speed 1
+ * @text 速度1
+ * @parent ---Vocabulary---
+ * @desc 速度の表示テキスト
+ * @default 最速
+ *
+ * @param Speed 2
+ * @text 速度2
+ * @parent ---Vocabulary---
+ * @desc 速度の表示テキスト
+ * @default 高速
+ *
+ * @param Speed 3
+ * @text 速度3
+ * @parent ---Vocabulary---
+ * @desc 速度の表示テキスト
+ * @default 早送り
+ *
+ * @param Speed 4
+ * @text 速度4
+ * @parent ---Vocabulary---
+ * @desc 速度の表示テキスト
+ * @default 標準
+ *
+ */

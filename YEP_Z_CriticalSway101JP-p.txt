@@ -1,0 +1,343 @@
+/*:ja
+ * @plugindesc v1.01(Lunatic Pack)スキル、アイテム、ステートのクリティカル率を調整し新しい効果を追加できます
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは以下のプラグインを必要とします。
+ * - Battle Engine Core
+ * - Damage Core
+ * - Critical Control
+ *
+ * このプラグインをプラグイン管理で上記のプラグインの下に置きます。
+ *
+ * クリティカルヒットがどのように決定されるか、
+ * もう少し多様にしたいと思ったことはありませんか。
+ * このプラグインはスキル、アイテム、ステートの
+ * クリティカルヒット率を左右する能力を与えます。
+ * それに影響を受けた使用者は、
+ * 自分のHP値や敵の行動に基づいてクリティカルが発生することがあります。
+ * クリティカルヒット率をアクションの属性率にリンクさせることもできます。
+ * 使用者・対象のステート数、バフ数、デバフ数に基づいて
+ * クリティカルヒット率を変更することもできます。
+ *
+ * *注意*:このプラグインはRPGツクールMVバージョン1.5.0以降でよく使われます。
+ * まだ低いバージョンでもこのプラグインを使用することができます、
+ * しかし、プラグインパラメータを変更することはずっと困難になります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下の効果の1つを与えるために、
+ * スキル・アイテムのメモ欄に以下のメモタグを挿入してください。
+ *
+ * ---
+ *
+ * スキル、アイテム、ステートのメモタグ
+ *
+ *   <Custom Critical Rate: effect>
+ *   - このプラグインのメモタグのほとんどは上記のフォーマットに従います。
+ *   下記のEFFECTセクションから、
+ *   下記のエントリーの1つと'effect'を置き換えてください。
+ *   スキル/アイテム/ステートに複数の効果を与えるために
+ *   複数のエントリーを挿入してください。
+ *   クリティカル率を変更する複数の効果がある場合、
+ *   それらはまずスキル/アイテムの順に進み、
+ *   次に使用者のステートの優先順になります。
+ *   別の方法で述べられていない限り、
+ *   同じメモタグ効果の複数のエントリーは互いに積み重ねることができます。
+ *
+ *   <Custom Critical Rate: effect, nonstackable>
+ *   - 上記のメモタグフォーマットを使用し、
+ *   効果の最後に'nonstackable'を付けると、
+ *   同じタイプの他の修飾子と一緒に使用することができなくなります。
+ *   その結果、効果が強いか弱いかにかかわらず、
+ *   類似した効果の最初のエントリだけを採用します。
+ *   最初にスキル/アイテムの順に進み、
+ *   次に使用者のステートの優先順に進みます。
+ *   全ての効果が積み重ねられなくなるわけではありません。
+ *   上記の効果は、
+ *   それらが積み重ねられなくなる可能性があるかどうかを示唆します。
+ *
+ * =-=-=-= 効果条件 =-=-=-=
+ *
+ *   --- 使用者能力値レート ---
+ *
+ *   <Custom Critical Rate: x Pride y%>
+ *   <Custom Critical Rate: x Pride y%, nonstackable>
+ *   - 'x'を'HP'、'MP'、'TP'に置き換えます。
+ *   攻撃者の現在のHP、MP、TP率をクリティカルヒット率の修正として使用します。
+ *   この修飾子をどの程度重要にしたいかによって、
+ *   'y'をパーセント値で置き換えます。
+ *   攻撃者のHP、MP、TPの比率が高いほど、修飾子は高くなります。
+ *   提案者:Yanfly
+ *
+ *   <Custom Critical Rate: x Crisis y%>
+ *   <Custom Critical Rate: x Crisis y%, nonstackable>
+ *   - 'x'を'HP'、'MP'、'TP'に置き換えます。
+ *   攻撃者の現在のHP、MP、TP率をクリティカルヒット率の修正として使用します。
+ *   この修飾子をどの程度重要にしたいかによって、
+ *   'y'をパーセント値で置き換えます。
+ *   攻撃者のHP、MP、TPの比率が高いほど、修飾子は高くなります。
+ *   提案者:Yanfly
+ *
+ *   --- 対象能力値レート ---
+ *
+ *   <Custom Critical Rate: x Hero y%>
+ *   <Custom Critical Rate: x Hero y%, nonstackable>
+ *   - 'x'を'HP'、'MP'、'TP'に置き換えます。
+ *   防御側の現在のHP、MP、TP率をクリティカルヒット率の修正値として使用します。
+ *   この修飾子をどの程度重要にしたいかによって、
+ *   'y'をパーセント値で置き換えます。
+ *   防御側のHP、MP、TPの率が高いほど、修正値は高くなります。
+ *   提案者:Yanfly
+ *
+ *   <Custom Critical Rate: x Bully y%>
+ *   <Custom Critical Rate: x Bully y%, nonstackable>
+ *   - 'x'を'HP'、'MP'、'TP'に置き換えます。
+ *   防御側の現在のHP、MP、TP率をクリティカルヒット率の修正値として使用します。
+ *   この修飾子をどの程度重要にしたいかによって、
+ *   'y'をパーセント値で置き換えます。
+ *   防御側のHP、MP、TPの率が高いほど、修正値は高くなります。
+ *   提案者:Yanfly
+ *
+ *   --- 属性レート ---
+ *
+ *   <Custom Critical Rate: Element Rate x%>
+ *   <Custom Critical Rate: Element Rate x%, nonstackable>
+ *   - 現在のアクションにそれに適合している属性がある場合、
+ *   この効果はそのアクションの属性に対する対象のダメージ率に基づいて
+ *   クリティカルヒット率を調整します。
+ *   'x'を、属性レートがクリティカルヒット率に
+ *   どのくらい影響を与えたいかのパーセンテージ値で置き換えてください。
+ *   提案者:Yanfly
+ *
+ *   --- ステート数 ---
+ *
+ *   <Custom Critical Rate: User States +x%>
+ *   <Custom Critical Rate: User States -x%>
+ *   <Custom Critical Rate: User States +x%, nonstackable>
+ *   <Custom Critical Rate: User States -x%, nonstackable>
+ *   - 使用者が持っているステートの数に基づいて、
+ *   現在のアクションのクリティカルレートを変更します。
+ *   変更された量は、ステート毎の現在のクリティカルヒット率を
+ *   増減するためのパーセント'x'によって決まります。
+ *   提案者:Yanfly
+ *
+ *   <Custom Critical Rate: Target States +x%>
+ *   <Custom Critical Rate: Target States -x%>
+ *   <Custom Critical Rate: Target States +x%, nonstackable>
+ *   <Custom Critical Rate: Target States -x%, nonstackable>
+ *   - 対象が持っているステートの数に基づいて
+ *   現在のアクションのクリティカルレートを変更します。
+ *   変更された量は、
+ *   ステート毎の現在のクリティカルヒット率を増減するための
+ *   パーセント'x'によって決まります。
+ *   提案者:Yanfly
+ *
+ *   --- バフ数 ---
+ *
+ *   <Custom Critical Rate: User Buffs +x%>
+ *   <Custom Critical Rate: User Buffs -x%>
+ *   <Custom Critical Rate: User Buffs +x%, nonstackable>
+ *   <Custom Critical Rate: User Buffs -x%, nonstackable>
+ *   - 使用者が持っているバフの種類の数に基づいて、
+ *   現在のアクションのクリティカル率を変更します。
+ *   変更された量は、
+ *   バフタイプ毎の現在のクリティカルヒット率を
+ *   増加/減少させるパーセント'x'によって決定されます。
+ *   これには1バフあたりの積み重ねは含まれません。
+ *   提案者:Yanfly
+ *
+ *   <Custom Critical Rate: Target States +x%>
+ *   <Custom Critical Rate: Target States -x%>
+ *   <Custom Critical Rate: Target States +x%, nonstackable>
+ *   <Custom Critical Rate: Target States -x%, nonstackable>
+ *   - 対象が持っているバフの種類の数に基づいて
+ *   現在のアクションのクリティカルレートを変更します。
+ *   変更された量は、
+ *   バフタイプ毎の現在のクリティカルヒット率を
+ *   増加/減少させるパーセント'x'によって決定されます。
+ *   これには1バフあたりのスタックは含まれません。
+ *   提案者:Yanfly
+ *
+ *   --- デバフ数 ---
+ *
+ *   <Custom Critical Rate: User Buffs +x%>
+ *   <Custom Critical Rate: User Buffs -x%>
+ *   <Custom Critical Rate: User Buffs +x%, nonstackable>
+ *   <Custom Critical Rate: User Buffs -x%, nonstackable>
+ *   - 使用者が持っているデバフタイプの数に基づいて
+ *   現在のアクションのクリティカルレートを変更します。
+ *   変更された量は、
+ *   デバフタイプ毎の現在のクリティカルヒット率を
+ *   増減するためのパーセント'x'によって決まります。
+ *   これには、デバフ毎の積み重ねは含まれません。
+ *   提案者:Yanfly
+ *
+ *   <Custom Critical Rate: Target States +x%>
+ *   <Custom Critical Rate: Target States -x%>
+ *   <Custom Critical Rate: Target States +x%, nonstackable>
+ *   <Custom Critical Rate: Target States -x%, nonstackable>
+ *   - 対象が持っているデバフタイプの数に基づいて
+ *   現在のアクションのクリティカル率を変更します。
+ *   変更された量は、
+ *   デバフタイプ毎の現在のクリティカルヒット率を
+ *   増減するためのパーセント'x'によって決まります。
+ *   これには、デバフ毎の積み重ねは含まれません。
+ *   提案者:Yanfly
+ *
+ * =-=-=-= 効果の例 =-=-=-=
+ *
+ *   <Custom Critical Rate: TP Pride 50%>
+ *   - 使用者の現在のTPレートに対する使用者のクリティカルヒット率が
+ *   最大50%上昇します(1TP毎に0.5%のクリティカルヒット率が追加されます)。
+ *
+ *   <Custom Critical Rate: HP Crisis 200%>
+ *   <Custom Critical Rate: HP Hero 50%>
+ *   - 使用者の現在のHPがどれだけ低いか、
+ *   対象の現在のHPがどれだけ高いかに基づいて、
+ *   使用者のクリティカルヒット率が上昇します。
+ *   使用者が行方不明になっている1%HP毎に、
+ *   クリティカルヒット率は2%増加し、
+ *   対象が持っている1%HP毎に、
+ *   クリティカルヒット率も0.5%増加します。
+ *
+ *   <Custom Critical Rate: Element Rate 100%>
+ *   - 現在の行動が基本的なものである場合、
+ *   対象に対する使用者のクリティカルヒット率を変更します。
+ *   目標がその属性に対して200%弱い場合、
+ *   クリティカルヒット率も200%増加します。
+ *   対象がその属性に対して50%耐性である場合、
+ *   クリティカルヒット率も50%低くなるように調整されます。
+ *
+ *   <Custom Critical Rate: Target States +5%>
+ *   - 対象が影響を受ける全てのステートで、
+ *   使用者のクリティカルヒット率が5%上昇します。
+ *
+ *   <Custom Critical Rate: User Buffs +3%>
+ *   <Custom Critical Rate: Target Debuffs +6%>
+ *   - 使用者が持っているバフ毎に3%、
+ *   対象が持っているデバフ毎に6%、
+ *   使用者のクリティカルヒット率を3%上昇させます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 効果コード
+ * ===========================================================================
+ *
+ * RPGツクールMV1.5.0+を使用しているJavaScript経験豊富な使用者に、
+ * プラグインで使用できる新しいメモタグ効果を追加するか、
+ * プラグインパラメーターから現在存在するメモタグ効果の効果を変更できます。
+ * 次のようになります。
+ *
+ * ---
+ *
+ * // ---------------
+ * // User Param Rate
+ * // ---------------
+ * if (data.match(/(.*)[ ]PRIDE[ ](\d+)([%%])/i)) {
+ *   var param = String(RegExp.$1).toUpperCase();
+ *   var modifier = parseFloat(RegExp.$2) * 0.01;
+ *   if (param === 'HP') {
+ *     var paramRate = user.hpRate();
+ *     if (nonstack) {
+ *       stackCheck = this._stackHpPride;
+ *       this._stackHpPride = true;
+ *     }
+ *   } else if (param === 'MP') {
+ *     var paramRate = user.mpRate();
+ *     if (nonstack) {
+ *       stackCheck = this._stackMpPride;
+ *       this._stackMpPride = true;
+ *     }
+ *   } else if (param === 'TP') {
+ *     var paramRate = user.tpRate();
+ *     if (nonstack) {
+ *       stackCheck = this._stackTpPride;
+ *       this._stackTpPride = true;
+ *     }
+ *   } else {
+ *     skip = true;
+ *   }
+ *   rate += paramRate * modifier;
+ *
+ * ...
+ *
+ * // -------------------------------
+ * // Add new effects above this line
+ * // -------------------------------
+ * } else {
+ *   skip = true;
+ * }
+ *
+ * ---
+ *
+ * このコードビットで使用されている各変数は、次のとおりです。
+ *
+ *   --------------------   --------------------------------------------------
+ *   変数:                  参照:
+ *   --------------------   --------------------------------------------------
+ *   rate                   現在のクリティカルヒット率を返す
+ *
+ *   item                   アクションで使用されているアイテム
+ *   skill                  アクションで使用されているスキル
+ *
+ *   isItem                 アクションがアイテムの場合はtrueを返す
+ *   isSkill                アクションがスキルの場合はtrueを返す
+ *
+ *   a                      アクション使用者を返す
+ *   user                   アクション使用者を返す
+ *   subject                アクション使用者を返す
+ *
+ *   b                      アクションの現在の対象を返す
+ *   target                 アクションの現在の対象を返す
+ *
+ *   s[x]                   スイッチxを返す(true / false)
+ *   v[x]                   変数xの現在値を返す
+ *
+ *   user._result           使用者の現在の結果
+ *   target._result         対象の現在の結果
+ *   userPreviousResult     変更前の使用者の結果
+ *   targetPreviousResult   変更前の対象の結果
+ *
+ *   nonstack               効果が重なっていないかどうかを返す(true/false)
+ *   stackCheck             trueの場合、現在の効果を自動スキップします
+ *
+ *   skip                   デフォルト:false trueの場合、前のレートを返す
+ *
+ * ---
+ *
+ * エフェクトコードを元のステートに戻す必要がある場合、
+ * プラグイン管理からプラグインを削除してから、
+ * もう一度追加してください。コードはデフォルトに戻ります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param Effect Code
+ * @text 効果コード
+ * @type note
+ * @desc ルナティックモード:各メモタグの効果コードです。ここで使用されている変数についてはヘルプファイルを参照してください。
+ * @default "// ---------------\n// User Param Rate\n// ---------------\nif (data.match(/(.*)[ ]PRIDE[ ](\\d+)([%%])/i)) {\n  var param = String(RegExp.$1).toUpperCase();\n  var modifier = parseFloat(RegExp.$2) * 0.01;\n  if (param === 'HP') {\n    var paramRate = user.hpRate();\n    if (nonstack) {\n      stackCheck = this._stackHpPride;\n      this._stackHpPride = true;\n    }\n  } else if (param === 'MP') {\n    var paramRate = user.mpRate();\n    if (nonstack) {\n      stackCheck = this._stackMpPride;\n      this._stackMpPride = true;\n    }\n  } else if (param === 'TP') {\n    var paramRate = user.tpRate();\n    if (nonstack) {\n      stackCheck = this._stackTpPride;\n      this._stackTpPride = true;\n    }\n  } else {\n    skip = true;\n  }\n  rate += paramRate * modifier;\n\n} else if (data.match(/(.*)[ ]CRISIS[ ](\\d+)([%%])/i)) {\n  var param = String(RegExp.$1).toUpperCase();\n  var modifier = parseFloat(RegExp.$2) * 0.01;\n  if (param === 'HP') {\n    var paramRate = 1 - user.hpRate();\n    if (nonstack) {\n      stackCheck = this._stackHpCrisis;\n      this._stackHpCrisis = true;\n    }\n  } else if (param === 'MP') {\n    var paramRate = 1 - user.mpRate();\n    if (nonstack) {\n      stackCheck = this._stackMpCrisis;\n      this._stackMpCrisis = true;\n    }\n  } else if (param === 'TP') {\n    var paramRate = 1 - user.tpRate();\n    if (nonstack) {\n      stackCheck = this._stackTpCrisis;\n      this._stackTpCrisis = true;\n    }\n  } else {\n    skip = true;\n  }\n  rate += paramRate * modifier;\n\n// -----------------\n// Target Param Rate\n// -----------------\n} else if (data.match(/(.*)[ ]HERO[ ](\\d+)([%%])/i)) {\n  var param = String(RegExp.$1).toUpperCase();\n  var modifier = parseFloat(RegExp.$2) * 0.01;\n  if (param === 'HP') {\n    var paramRate = target.hpRate();\n    if (nonstack) {\n      stackCheck = this._stackHpHero;\n      this._stackHpHero = true;\n    }\n  } else if (param === 'MP') {\n    var paramRate = target.mpRate();\n    if (nonstack) {\n      stackCheck = this._stackMpHero;\n      this._stackMpHero = true;\n    }\n  } else if (param === 'TP') {\n    var paramRate = target.tpRate();\n    if (nonstack) {\n      stackCheck = this._stackTpHero;\n      this._stackTpHero = true;\n    }\n  } else {\n    skip = true;\n  }\n  rate += paramRate * modifier;\n\n} else if (data.match(/(.*)[ ]BULLY[ ](\\d+)([%%])/i)) {\n  var param = String(RegExp.$1).toUpperCase();\n  var modifier = parseFloat(RegExp.$2) * 0.01;\n  if (param === 'HP') {\n    var paramRate = 1 - target.hpRate();\n    if (nonstack) {\n      stackCheck = this._stackHpBully;\n      this._stackHpBully = true;\n    }\n  } else if (param === 'MP') {\n    var paramRate = 1 - target.mpRate();\n    if (nonstack) {\n      stackCheck = this._stackMpBully;\n      this._stackMpBully = true;\n    }\n  } else if (param === 'TP') {\n    var paramRate = 1 - target.tpRate();\n    if (nonstack) {\n      stackCheck = this._stackTpBully;\n      this._stackTpBully = true;\n    }\n  } else {\n    skip = true;\n  }\n  rate += paramRate * modifier;\n\n// ------------\n// Element Rate\n// ------------\n} else if (data.match(/ELEMENT RATE[ ](\\d+)([%%])/i)) {\n  if (nonstack) {\n    stackCheck = this._stackAddElementRate;\n    this._stackAddElementRate = true;\n  }\n  var modifier = parseFloat(RegExp.$1) * 0.01;\n  var eleRate = this.calcElementRate(target);\n  rate *= eleRate * modifier;\n\n// ---------------\n// State Modifiers\n// ---------------\n} else if (data.match(/USER STATES[ ]([\\+\\-]\\d+)([%%])/i)) {\n  if (nonstack) {\n    stackCheck = this._stackUserStates;\n    this._stackUserStates = true;\n  }\n  var modifier = parseFloat(RegExp.$1) * 0.01;\n  var total = user.states().length;\n  rate += total * modifier;\n\n} else if (data.match(/TARGET STATES[ ]([\\+\\-]\\d+)([%%])/i)) {\n  if (nonstack) {\n    stackCheck = this._stackTargetStates;\n    this._stackTargetStates = true;\n  }\n  var modifier = parseFloat(RegExp.$1) * 0.01;\n  var total = target.states().length;\n  rate += total * modifier;\n\n// --------------\n// Buff Modifiers\n// --------------\n} else if (data.match(/USER BUFFS[ ]([\\+\\-]\\d+)([%%])/i)) {\n  if (nonstack) {\n    stackCheck = this._stackUserBuffs;\n    this._stackUserBuffs = true;\n  }\n  var modifier = parseFloat(RegExp.$1) * 0.01;\n  var total = user.totalBuffs();\n  rate += total * modifier;\n\n} else if (data.match(/USER DEBUFFS[ ]([\\+\\-]\\d+)([%%])/i)) {\n  if (nonstack) {\n    stackCheck = this._stackUserDebuffs;\n    this._stackUserDebuffs = true;\n  }\n  var modifier = parseFloat(RegExp.$1) * 0.01;\n  var total = user.totalDebuffs();\n  rate += total * modifier;\n\n// ----------------\n// Debuff Modifiers\n// ----------------\n} else if (data.match(/TARGET BUFFS[ ]([\\+\\-]\\d+)([%%])/i)) {\n  if (nonstack) {\n    stackCheck = this._stackTargetBuffs;\n    this._stackTargetBuffs = true;\n  }\n  var modifier = parseFloat(RegExp.$1) * 0.01;\n  var total = target.totalBuffs();\n  rate += total * modifier;\n\n} else if (data.match(/TARGET DEBUFFS[ ]([\\+\\-]\\d+)([%%])/i)) {\n  if (nonstack) {\n    stackCheck = this._stackTargetDebuffs;\n    this._stackTargetDebuffs = true;\n  }\n  var modifier = parseFloat(RegExp.$1) * 0.01;\n  var total = target.totalDebuffs();\n  rate += total * modifier;\n\n// -------------------------------\n// Add new effects above this line\n// -------------------------------\n} else {\n  skip = true;\n}"
+ *
+ */

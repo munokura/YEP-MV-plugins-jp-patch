@@ -1,0 +1,1070 @@
+/*:ja
+ * @plugindesc v1.16 隊列システムを導入し、位置によるステートを設定できます
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Maximum Rows
+ * @text 最大行
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @max 10
+ * @desc 使用される最大列数。この値はゲーム中には変更できません。 最小:1 / 最大:10
+ * @default 3
+ *
+ * @param Command Name
+ * @text コマンド名
+ * @parent ---一般---
+ * @desc 隊列形成コマンドに使用されるコマンド名
+ * @default 隊列
+ *
+ * @param Auto Add Menu
+ * @text メニュー自動追加
+ * @parent ---一般---
+ * @type boolean
+ * @on 追加する
+ * @off 追加しない
+ * @desc メインメニューに 'Row'コマンドを自動的に追加
+ * 追加しない:false / 追加する:true
+ * @default true
+ *
+ * @param Show Menu Command
+ * @text メニューコマンド表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc メインメニューにコマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Menu Command
+ * @text メニューコマンド有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc メインメニューのコマンドを許可
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @param Show Battle Command
+ * @text バトルコマンド表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 戦闘メニューにコマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Battle Command
+ * @text バトルコマンド有効化
+ * @parent ---一般---
+ * @desc 戦闘メニューでコマンドを許可
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @param Battle Cooldown
+ * @text 戦闘中クールダウン
+ * @parent ---一般---
+ * @type number
+ * @desc 隊列を変えた後に待つ必要があるターン数
+ * @default 1
+ *
+ * @param ---デフォルト---
+ * @text ---デフォルト---
+ * @default
+ *
+ * @param Default Row
+ * @text デフォルト隊列
+ * @parent ---デフォルト---
+ * @type number
+ * @min 1
+ * @max 10
+ * @desc メモタグによって変更されない限り、全てのバトラーに使用されるデフォルトの隊列。 最小:1 / 最大:10
+ * @default 1
+ *
+ * @param Enemy Row Lock
+ * @text 敵の隊列ロック
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on ロックする
+ * @off ロックしない
+ * @desc 隊列を変更した後、敵の隊列をロックする
+ * ロックしない:false / ロックする:true
+ * @default false
+ *
+ * @param ---メニュー設定---
+ * @text ---メニュー設定---
+ * @default
+ *
+ * @param Use Map Sprite
+ * @text 歩行キャラを使用
+ * @parent ---メニュー設定---
+ * @type boolean
+ * @on 
+歩行キャラ
+ * @off [SV]戦闘キャラ
+ * @desc メニュー表示画像
+ * [SV]戦闘キャラ:false / 歩行キャラ:true
+ * @default false
+ *
+ * @param Front Buffer Y
+ * @text フロントビューY位置
+ * @parent ---メニュー設定---
+ * @desc フロントビュー使用時、スプライトバッファのY式
+ * @default (rect.height - 48) / 2;
+ *
+ * @param Side Buffer Y
+ * @text サイドビューY位置
+ * @parent ---メニュー設定---
+ * @desc サイドビュー使用時、スプライトバッファのY式
+ * @default (rect.height - 64) / 2;
+ *
+ * @param ---位置設定---
+ * @text ---位置設定---
+ * @default
+ *
+ * @param Alive Row Index
+ * @text 隊列基準を生存者のみ
+ * @parent ---位置設定---
+ * @type boolean
+ * @on 生メンバーのみ
+ * @off 全メンバー
+ * @desc 隊列インデックスを計算
+ * 対象基準の生のみ:true / 戦闘不能を含める:false
+ * @default false
+ *
+ * @param Maximum Row X
+ * @text 隊列最大X
+ * @parent ---位置設定---
+ * @desc 隊列X値の最大X位置値
+ * @default screenWidth - partySize * 32 - 16
+ *
+ * @param Maximum Row Y
+ * @text 隊列最大Y
+ * @parent ---位置設定---
+ * @desc 隊列Y値の最大Y位置値
+ * @default screenHeight - statusHeight - 16
+ *
+ * @param Minimum Row Y
+ * @text 隊列最小Y
+ * @parent ---位置設定---
+ * @desc 隊列Y値の最大Y位置値
+ * @default screenHeight - statusHeight - 16 - (maxSize * 64)
+ *
+ * @param Center Row Y
+ * @text 隊列中央Y
+ * @parent ---位置設定---
+ * @desc 隊列Y値の中央Y位置値
+ * @default (maxRowY + minRowY) / 2 + 16
+ *
+ * @param ---隊列1設定---
+ * @text ---隊列1設定---
+ * @default
+ *
+ * @param Row 1 Name
+ * @text 隊列1名称
+ * @parent ---隊列1設定---
+ * @desc 隊列の呼称
+ * @default 前列
+ *
+ * @param Row 1 Help Line 1
+ * @text 隊列1ヘルプ隊列1
+ * @parent ---隊列1設定---
+ * @desc 隊列のヘルプ説明
+ * @default 最前列です。
+ *
+ * @param Row 1 Help Line 2
+ * @text 隊列1ヘルプ隊列2
+ * @parent ---隊列1設定---
+ * @desc 隊列のヘルプ説明
+ * @default 近接戦闘職を配置します。
+ *
+ * @param Row 1 States
+ * @text 隊列1ステート
+ * @parent ---隊列1設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 1 States 1.5.0
+ * @text 隊列1ステート1.5.0
+ * @parent ---隊列1設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 1 Home X
+ * @text 隊列1のホームX
+ * @parent ---隊列1設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 1 Home Y
+ * @text 隊列1ホームY
+ * @parent ---隊列1設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列2設定---
+ * @text ---隊列2設定---
+ * @default
+ *
+ * @param Row 2 Name
+ * @text 隊列2名称
+ * @parent ---隊列2設定---
+ * @desc 隊列の呼称
+ * @default 中列
+ *
+ * @param Row 2 Help Line 1
+ * @text 隊列2ヘルプ隊列1
+ * @parent ---隊列2設定---
+ * @desc 隊列のヘルプ説明
+ * @default 中央の列です。
+ *
+ * @param Row 2 Help Line 2
+ * @text 隊列2ヘルプ隊列2
+ * @parent ---隊列2設定---
+ * @desc 隊列のヘルプ説明
+ * @default 中央から戦うことができる者を配置します
+ *
+ * @param Row 2 States
+ * @text 隊列2ステート
+ * @parent ---隊列2設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 2 States 1.5.0
+ * @text 隊列2ステート1.5.0
+ * @parent ---隊列2設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 2 Home X
+ * @text 隊列2ホームX
+ * @parent ---隊列2設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 2 Home Y
+ * @text 隊列2ホームY
+ * @parent ---隊列2設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列3設定---
+ * @text ---隊列3設定----
+ * @default
+ *
+ * @param Row 3 Name
+ * @text 隊列3名称
+ * @parent ---隊列3設定---
+ * @desc 隊列の呼称
+ * @default 後列
+ *
+ * @param Row 3 Help Line 1
+ * @text 隊列3ヘルプ隊列1
+ * @parent ---隊列3設定---
+ * @desc 隊列のヘルプ説明
+ * @default 後列です。
+ *
+ * @param Row 3 Help Line 2
+ * @text 隊列3ヘルプ隊列2
+ * @parent ---隊列3設定---
+ * @desc 隊列のヘルプ説明
+ * @default 近接ダメージを軽減します。
+ *
+ * @param Row 3 States
+ * @text 隊列3ステート
+ * @parent ---隊列3設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 3 States 1.5.0
+ * @text 隊列3ステート1.5.0
+ * @parent ---隊列3設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 3 Home X
+ * @text 隊列3ホームX
+ * @parent ---隊列3設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 3 Home Y
+ * @text 隊列3ホームY
+ * @parent ---隊列3設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列4設定---
+ * @text ---隊列4設定---
+ * @default
+ *
+ * @param Row 4 Name
+ * @text 隊列4名称
+ * @parent ---隊列4設定---
+ * @desc 隊列の呼称
+ * @default Row 4
+ *
+ * @param Row 4 Help Line 1
+ * @text 隊列4ヘルプ隊列1
+ * @parent ---隊列4設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 4 Help Line 2
+ * @text 隊列4ヘルプ隊列2
+ * @parent ---隊列4設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 4 States
+ * @text 隊列4ステート
+ * @parent ---隊列4設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 4 States 1.5.0
+ * @text 隊列4ステート1.5.0
+ * @parent ---隊列4設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 4 Home X
+ * @text 隊列4ホームX
+ * @parent ---隊列4設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 4 Home Y
+ * @text 隊列4ホームY
+ * @parent ---隊列4設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列5設定---
+ * @text ---隊列5設定---
+ * @default
+ *
+ * @param Row 5 Name
+ * @text 隊列5名称
+ * @parent ---隊列5設定---
+ * @desc 隊列の呼称
+ * @default Row 5
+ *
+ * @param Row 5 Help Line 1
+ * @text 隊列5ヘルプ隊列1
+ * @parent ---隊列5設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 5 Help Line 2
+ * @text 隊列5ヘルプ隊列2
+ * @parent ---隊列5設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 5 States
+ * @text 隊列5ステート
+ * @parent ---隊列5設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 5 States 1.5.0
+ * @text 隊列5ステート1.5.0
+ * @parent ---隊列5設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 5 Home X
+ * @text 隊列5ホームX
+ * @parent ---隊列5設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 5 Home Y
+ * @text 隊列5ホームY
+ * @parent ---隊列5設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列6設定---
+ * @text ---隊列6設定---
+ * @default
+ *
+ * @param Row 6 Name
+ * @text 隊列6名称
+ * @parent ---隊列6設定---
+ * @desc 隊列の呼称
+ * @default Row 6
+ *
+ * @param Row 6 Help Line 1
+ * @text 隊列6ヘルプ隊列1
+ * @parent ---隊列6設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 6 Help Line 2
+ * @text 隊列6ヘルプ隊列2
+ * @parent ---隊列6設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 6 States
+ * @text 隊列6ステート
+ * @parent ---隊列6設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 6 States 1.5.0
+ * @text 隊列6ステート1.5.0
+ * @parent ---隊列6設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 6 Home X
+ * @text 隊列6ホームX
+ * @parent ---隊列6設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 6 Home Y
+ * @text 隊列6ホームY
+ * @parent ---隊列6設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列7設定---
+ * @text ---隊列7設定---
+ * @default
+ *
+ * @param Row 7 Name
+ * @text 隊列7名称
+ * @parent ---隊列7設定---
+ * @desc 隊列の呼称
+ * @default Row 7
+ *
+ * @param Row 7 Help Line 1
+ * @text 隊列7ヘルプ隊列1
+ * @parent ---隊列7設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 7 Help Line 2
+ * @text 隊列7ヘルプ隊列2
+ * @parent ---隊列7設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 7 States
+ * @text 隊列7ステート
+ * @parent ---隊列7設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 7 States 1.5.0
+ * @text 隊列7ステート1.5.0
+ * @parent ---隊列7設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 7 Home X
+ * @text 隊列7ホームX
+ * @parent ---隊列7設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 7 Home Y
+ * @text 隊列7ホームY
+ * @parent ---隊列7設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列8設定---
+ * @text ---隊列8設定---
+ * @default
+ *
+ * @param Row 8 Name
+ * @text 隊列8名称
+ * @parent ---隊列8設定---
+ * @desc 隊列の呼称
+ * @default Row 8
+ *
+ * @param Row 8 Help Line 1
+ * @text 隊列8ヘルプ隊列1
+ * @parent ---隊列8設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 8 Help Line 2
+ * @text 隊列8ヘルプ隊列2
+ * @parent ---隊列8設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 8 States
+ * @text 隊列8ステート
+ * @parent ---隊列8設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 8 States 1.5.0
+ * @text 隊列8ステート1.5.0
+ * @parent ---隊列8設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * MV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 8 Home X
+ * @text 隊列8ホームX
+ * @parent ---隊列8設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 8 Home Y
+ * @text 隊列8ホームY
+ * @parent ---隊列8設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列9設定---
+ * @text ---隊列9設定---
+ * @default
+ *
+ * @param Row 9 Name
+ * @text 隊列9名称
+ * @parent ---隊列9設定---
+ * @desc 隊列の呼称
+ * @default Row 9
+ *
+ * @param Row 9 Help Line 1
+ * @text 隊列9ヘルプ隊列1
+ * @parent ---隊列9設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 9 Help Line 2
+ * @text 隊列9ヘルプ隊列2
+ * @parent ---隊列9設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 9 States
+ * @text 隊列9ステート
+ * @parent ---隊列9設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 9 States 1.5.0
+ * @text 隊列9ステート1.5.0
+ * @parent ---隊列9設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 9 Home X
+ * @text 隊列9ホームX
+ * @parent ---隊列9設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 9 Home Y
+ * @text 隊列9ホームY
+ * @parent ---隊列9設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---隊列10設定---
+ * @text ---隊列10設定---
+ * @default
+ *
+ * @param Row 10 Name
+ * @text 隊列10名称
+ * @parent ---隊列10設定---
+ * @desc 隊列の呼称
+ * @default Row 10
+ *
+ * @param Row 10 Help Line 1
+ * @text 隊列10ヘルプ隊列1
+ * @parent ---隊列10設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 10 Help Line 2
+ * @text 隊列10ヘルプ隊列2
+ * @parent ---隊列10設定---
+ * @desc 隊列のヘルプ説明
+ * @default ヘルプ説明文
+ *
+ * @param Row 10 States
+ * @text 隊列10ステート
+ * @parent ---隊列10設定---
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * 割り当てるステートを半角スペース区切り
+ * @default
+ *
+ * @param Row 10 States 1.5.0
+ * @text 隊列10ステート1.5.0
+ * @parent ---隊列10設定---
+ * @type state[]
+ * @desc バトラーがこの列にいる時、適用されるステートを指定
+ * これはMV1.5.0以降で使用できます。
+ * @default []
+ *
+ * @param Row 10 Home X
+ * @text 隊列10ホームX
+ * @parent ---隊列10設定---
+ * @desc 隊列の Home X の場所を決定する式
+ * @default maxRowX - (maxRows - rowId) * 112 + rowIndex * 32
+ *
+ * @param Row 10 Home Y
+ * @text 隊列10ホームY
+ * @parent ---隊列10設定---
+ * @desc 隊列の Home Y の位置を決定する式
+ * @default centerY + ((rowSize / -2 + 0.5) + rowIndex) * 32
+ *
+ * @param ---敵隊列---
+ * @text ---敵隊列---
+ * @default
+ *
+ * @param Adjust Relative
+ * @text 戦闘開始時調整
+ * @parent ---敵隊列---
+ * @type boolean
+ * @on 調整する
+ * @off 調整しない
+ * @desc 戦闘開始時、敵の列を調整
+ * false:調整しない / true:調整する
+ * @default false
+ *
+ * @param Enemy Row X
+ * @text 敵の列X
+ * @parent ---敵隊列---
+ * @desc 敵が列を変更時、調整するX位置
+ * これは式です。
+ * @default screenX - (rowId - 1) * 64
+ *
+ * @param Enemy Row Y
+ * @text 敵の列Y
+ * @parent ---敵隊列---
+ * @desc 敵が列を変更時、調整するY位置
+ * これは式です。
+ * @default screenY
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、隊列の位置による利点を与える隊列システムを形成します。
+ * スキルとアイテムは、対象を異なる隊列の場所に移動することができます。
+ *
+ * YEP_BattleEngineCore を使用している場合、
+ * このプラグインをプラグイン管理で
+ * YEP_BattleEngineCore の下に配置することで、
+ * 戦闘中に隊列を変更できるなどの追加機能を利用できます。
+ *
+ * ===========================================================================
+ * 隊列とは
+ * ===========================================================================
+ *
+ * 隊列は、パーティーメンバーが配置される位置です。
+ * プロジェクトの隊列の設定方法（およびその数）によっては、
+ * 単にその隊列にいるだけでも、
+ * 隊列はパーティーメンバーに様々な利点をもたらします。
+ *
+ * 利点はプラグインパラメータ設定から
+ * パーティーメンバーに与えられるステートを通して与えられます。
+ * これらの利点をどのように設定するかは完全にあなた次第です。
+ *
+ * ---
+ *
+ * 設定例:
+ *
+ * 前列:
+ * 最前列のメンバーは、近接の要素から最大のダメージを受けるでしょう。
+ *
+ * 中列:
+ * 中列のメンバーは、近接攻撃によるダメージがわずかに少なくなりますが、
+ * 遠距離武器を持っていない限り、攻撃コマンドは使えなくなります。
+ *
+ * 後列:
+ * 後列のメンバーは、近接攻撃によるダメージがずっと少なくなり、
+ * 遠距離武器を装備していない限り攻撃コマンドを使用することはできません。
+ *
+ * ---
+ *
+ * 隊列をどのように設定するかは、
+ * 隊列が影響を与えるステートをどのように設定できるかによって異なります。
+ * これらのステートはスキルによって削除することはできず、
+ * 受動的な効果があると見なされます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 下記のメモタグを使用して、隊列の特性を変更できます。
+ *
+ * アクターと敵のメモタグ:
+ *   <Default Row: x>
+ *   <Default Row: x, x, x>
+ *   デフォルトで戦士に割り当てられているデフォルトの隊列です。
+ *   デフォルトのパラメータ設定を上書きします。
+ *   複数の x 値が割り当てられている場合、
+ *   バトラーはそれらの隊列のいずれからでも開始できます。
+ *   複数の列が含まれている場合、
+ *   戦闘開始時には、バトラーはランダムな隊列を含めて開始します。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ:
+ *   <Row Lock>
+ *   影響を受けたバトラーは隊列をロックされ、
+ *   列を切り替えることができなくなります。
+ *   敵の場合、これはデフォルトのパラメータを上書きします。
+ *
+ *   <Not Row Lock>
+ *   影響を受けたバトラーは隊列をロックされずに、
+ *   列を切り替えることができます。
+ *   デフォルトでは全ての味方がロックされていないため、
+ *   これは主に敵用です。
+ *   これはデフォルトのパラメータを上書きします。
+ *
+ * スキル、アイテムのメモタグ:
+ *   <Row Only: x>
+ *   <Row Only: x, x, x>
+ *   <Row Only: x to y>
+ *   このスキル/アイテムは、バトラーが列 x にいる場合にのみ
+ *   バトラーが使用できるようになります。
+ *   複数の列が使用されている場合、
+ *   バトラーはそれらの列のどれにでも存在することができます。
+ *   もしあなたが x から y へのタグを使った場合、
+ *   x から y までの全ての列を指します。
+ *
+ *   <Change Target Row: x>
+ *   対象の列を x に変更します。
+ *   これは1を下回ることも、
+ *   パラメータに設定された指定最大行数を超えることもできません。
+ *
+ *   <Push Back Target Row: x>
+ *   対象を x 列分後退します。
+ *   パラメータに設定された最大列数を超えることはできません。
+ *
+ *   <Pull Forward Target Row: x>
+ *   対象を前方にx列全身させます。
+ *   パラメータに設定されている最大行数を超えることはできません。
+ *
+ *   <Change User Row: x>
+ *   ユーザーの列を x に変更します。
+ *   これは1を下回ることも、
+ *   パラメータに設定された指定最大列数を超えることもできません。
+ *
+ *   <Push Back User Row: x>
+ *   ユーザーは x 列分後退します。
+ *   パラメータに設定された最大行数を超えることはできません。
+ *
+ *   <Pull Forward User Row: x>
+ *   ユーザーは x 列前進します。
+ *   パラメータに設定されている最大行数を超えることはできません。
+ *
+ * ===========================================================================
+ * ルナティックモード - 条件付き隊列変更
+ * ===========================================================================
+ *
+ * JavaScript を使って、下記のメモタグでスキルやアイテムに
+ * カスタムの隊列変更プロパティを設定できます。
+ *
+ * スキルとアイテムのメモタグ:
+ *
+ *   <Custom Target Row>
+ *    if (user.hpRate() > 0.50) {
+ *      row += 1;
+ *    } else {
+ *      row = 1;
+ *    }
+ *   </Custom Target Row>
+ *   'row'変数は対象の列を参照します。
+ *   値に基づいて対象の列を設定または変更できます。
+ *   列番号が小さいほど、使用者は相手方に近いことを覚えておいてください。
+ *
+ *   <Custom User Row>
+ *    if (user.hpRate() > 0.50) {
+ *      row += 1;
+ *    } else {
+ *      row = 1;
+ *    }
+ *   </Custom User Row>
+ *   'row'変数は対象の列を参照します。
+ *   値に基づいて使用者の列を設定または変更できます。
+ *   列番号が小さいほど、使用者は相手方に近いことを覚えておいてください。
+ *
+ * ===========================================================================
+ * ルナティックモード - 条件付き隊列のステート
+ * ===========================================================================
+ *
+ * JavaScript と下記のメモタグを使用して、
+ * 隊列のステートに条件付きの有効化を与えることができます。
+ * これらのステートは、プラグインパラメータの Row States を介して
+ * 適用する必要があります。
+ * ただし、条件が満たされない限り、それらはバトラーに適用されません。
+ *
+ * ステートのメモタグ:
+ *   <Custom Row Condition>
+ *   if (user.hp / user.mhp <= 0.25) {
+ *     condition = true;
+ *   } else {
+ *     condition = false;
+ *   }
+ *   </Custom Row Condition>
+ *   'condition'変数は、条件が満たされるかどうかを決定します。
+ *   条件が true であれば、列ステートとしてバトラーに適用されます。
+ *   'condition'変数が false の場合、列ステートはバトラーに適用されません。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * JavaScript を使ってバトラー情報を評価する際に、
+ * これらの新しく追加された機能のいくつかを利用できます。
+ *
+ * battler.row()
+ * バトラーが現在いる列を返します。
+ *
+ * battler.rowIndex()
+ * 同チームの同列の他のバトラーのインデックスを返します。
+ *
+ * battler.isRowLocked()
+ * バトラーが列ロックされているか、 true/false を返します。
+ *
+ * battler.setRow(x)
+ * バトラーの列を x に設定します。
+ * 戦闘中、バトラーがアクティブなバトラーでない限り、
+ * これはバトラーを移動し表示します。
+ *
+ * battler.alterRow(x)
+ * バトラーの列を x だけ変えます。
+ * 戦闘中、バトラーがアクティブでない限り、
+ * これはバトラーを移動し表示します。
+ *
+ * $gameParty.rowSize(x)
+ * $gameTroop.rowSize(x)
+ * グループの列 x で見つかったメンバーの数を返します。
+ *
+ * $gameParty.rowAliveSize(x)
+ * $gameTroop.rowAliveSize(x)
+ * グループの列 x で見つかった生存中のメンバーの数を返します。
+ *
+ * $gameParty.rowDeadSize(x)
+ * $gameTroop.rowDeadSize(x)
+ * グループの列 x で見つかった戦闘不能のメンバーの数を返します。
+ *
+ * $gameParty.rowMembers(x)
+ * $gameTroop.rowMembers(x)
+ * グループの列 x の各メンバーを返します。
+ *
+ * $gameParty.rowAliveMembers(x)
+ * $gameTroop.rowAliveMembers(x)
+ * グループの列 x の各生存メンバーを返します。
+ *
+ * $gameParty.rowDeadMembers(x)
+ * $gameTroop.rowDeadMembers(x)
+ * グループの列 x の各戦闘不能メンバーを返します。
+ *
+ * $gameParty.updateRows();
+ * $gameTroop.updateRows();
+ * 特別なコマンドです。
+ * パーティーの各列をチェックします。
+ * 列が空の場合、または生きているメンバーがいない場合、
+ * その列の後ろにある残りの全てのメンバーは、
+ * 全ての空の列がなくなるまで1列進みます。
+ *
+ * ===========================================================================
+ * Main Menu Manager - 隊列コマンドの配置
+ * ===========================================================================
+ *
+ * YEP Main Menu Manager を使用していて、
+ * 隊列コマンドを好きな場所に配置したい場合、次の形式を使用します。
+ *
+ *       Name: Yanfly.Param.RowCmdName
+ *     Symbol: row
+ *       Show: $gameSystem.isShowRowMenu()
+ *    Enabled: $gameSystem.isEnabledRowMenu()
+ *        Ext:
+ *  Main Bind: this.commandRow.bind(this)
+ * Actor Bind:
+ *
+ * YEP Main Menu Manager のスロットに上記の設定を挿入します。
+ * 正確な設定を必要な場所にコピーすると、
+ * 表示名の使用、有効化、無効化、非表示、
+ * プラグインパラメータによって指定された設定にしたがって
+ * 表示されます。
+ *
+ * プラグインパラメータ 'Auto Add Menu' を必ずオフにしてください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下は、ゲーム中に隊列を調整するために使用できるプラグインコマンドです。
+ *
+ * プラグインコマンド:
+ *
+ *   ShowMenuRow
+ *   HideMenuRow
+ *   メインメニューから隊列コマンドを表示/非表示にします。
+ *
+ *   EnableMenuRow
+ *   DisableMenuRow
+ *   メインメニューから隊列コマンドを有効/無効にします。
+ *
+ *   ShowBattleRow
+ *   HideBattleRow
+ *   戦闘メニューから隊列コマンドを表示/非表示にします。
+ *   これを有効にするには YEP_BattleEngineCore が必要です。
+ *
+ *   EnableBattleRow
+ *   DisableBattleRow
+ *   戦闘中パーティーメニューから隊列コマンドが有効/無効になります。
+ *   これを有効にするには YEP_BattleEngineCore が必要です。
+ *
+ *   SetActorRow actorId x
+ *   アクターIdのアクターを隊列 x に移動するように設定します。
+ *   アクター3を隊列2に移動したい場合、下記のプラグインコマンドを使います。
+ *   SetActorRow 3 2
+ *
+ *   SetPartyRow slotId x
+ *   スロットIdのパーティメンバーが隊列 x に移動するように設定します。
+ *   隊列3のパーティを隊列2に移動したい場合、
+ *   プラグインコマンドは下記になります。
+ *   SetPartyRow 3 2
+ *
+ *   SetEnemyRow slotId x
+ *   スロットIdの敵のメンバーが隊列 x に移動します。
+ *   隊列3の敵メンバーを隊列2に移動したい場合、
+ *   プラグインコマンドは下記になります。
+ *   SetEnemyRow 3 2
+ *     注: ターン0の間にこのプラグインコマンドを使用し、
+ *     パラメータ 'Adjust Relative'が false の場合、敵は移動しません。
+ *     ターン0以降にこのプラグインを使用すると、
+ *     敵は画面上の別の位置に視覚的に移動します。
+ *     パラメータ 'Adjust Relative'が true の場合、敵は移動します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.16:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.15:
+ * - Updated for RPG Maker MV version 1.5.0.
+ * - Added new 'Row x States 1.5.0' plugin parameters.
+ * - Added new 'Alive Row Index' plugin parameter.
+ *
+ * Version 1.14:
+ * - Game now refreshes all battlers upon reentry into the battle after
+ * entering and leaving the Row formation menu mid-battle.
+ *
+ * Version 1.13:
+ * - Bug fixed where setting an actor's home position didn't mark their
+ * original index value.
+ *
+ * Version 1.12:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.11:
+ * - Updated the conditional passives for rows to occur more frequently.
+ *
+ * Version 1.10:
+ * - Updated <Default Row: x> notetag to also include <Default Row: x, x, x>
+ * so that actors or enemies can start in any of those default rows. If
+ * multiple rows are included, then at the start of the game (for actors) or
+ * start of battle (for enemies), the battler will start in a random row
+ * included.
+ *
+ * Version 1.09b:
+ * - Updated Lunatic Mode to have an innate 'user' variable.
+ * - Added 'Auto Add Menu' to plugin parameters. This way, users don't have to
+ * make conflict with it if manually positioning the command with the Main
+ * Menu Manager plugin.
+ * - Documentation update for 'SetEnemyRow slotId x' plugin command.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.07b:
+ * - Fixed a bug that prevented the Row command in-battle from updating.
+ * - Optimization update.
+ * - Disabled Row States from being applied outside of battle.
+ *
+ * Version 1.06a:
+ * - Fixed a bug where Lunatic Mode effects weren't working properly.
+ * - Added a 'Use Map Sprite' plugin parameter for those using battlers that
+ * are too big for the Row changing menu.
+ * - Added new section to Help File on how to place Row Formation into the
+ * Main Menu Manager.
+ *
+ * Version 1.05:
+ * - Fixed a bug with user row changing notetags not working properly.
+ *
+ * Version 1.04:
+ * - Fixed a bug with the SetPartyRow slotId x plugin command.
+ * - Added 'Adjust Relative' plugin parameter for enemy rows.
+ * If this value is set to false, their positions in the Troops tab is where
+ * their designated row is. Meaning if you have a Wisp in Row 3, its current
+ * location in the Troops tab is where it would be if it be if it was in Row
+ * 3. If this value is set to true, their positions in the Troops tab is where
+ * their row 1 is. Meaning if you have a Wisp in Row 3, upon starting battle,
+ * it will be pushed back in positioning relative to its Troops tab position,
+ * which is row 1.
+ *
+ * Version 1.03a:
+ * - More positioning fixes. Enemies no longer shift when entering and exiting
+ * the in-battle menu.
+ *
+ * Version 1.02:
+ * - Made a change where enemies of different default rows don't automatically
+ * move positions at the start of battle.
+ * - Fixed an incompatibility issue for those using larger screen resolutions
+ * and battle repositioning.
+ *
+ * Version 1.01:
+ * - Fixed a bug that caused music to not replay properly when accessing the
+ * Row change menu from battle.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

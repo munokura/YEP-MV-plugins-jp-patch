@@ -1,0 +1,70 @@
+/*:ja
+ * @plugindesc v1.05 (要YEP_BattleEngineCore & YEP_EquipCore)アクターが戦闘中に装備を変更できるようにします。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Command Name
+ * @text 装備変更の表示テキスト
+ * @desc 装備の変更のコマンドの表示名
+ * @default 装備変更
+ *
+ * @param Equip Cooldown
+ * @text 変更後クールダウン
+ * @type number
+ * @min 0
+ * @desc コマンドを選択した時、コマンドがクールダウンするデフォルトのターン数
+ * @default 1
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_BattleEngineCore と YEP_EquipCore を必要とします。
+ * このプラグインが、プラグイン管理の
+ * YEP_BattleEngineCore と YEP_EquipCore の
+ * 下にあることを確認してください。
+ *
+ * このプラグインを使用すると、
+ * プレイヤーは戦闘中にアクターの装備を切り替えることができます。
+ * これにより、プレイヤーはバトルシーンの中に入るのではなく、
+ * 装備メニューに移動します。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * アクター、職業、武器、防具、ステートのメモタグ
+ *
+ *   <Change Battle Equip Cooldown: +x>
+ *   <Change Battle Equip Cooldown: -x>
+ *   アクターが装備を再び変更できるようになるまでに、
+ *   アクターが戦闘で待機しなければならないターンの数 x を増減します。
+ *
+ *   <Disable Change Battle Equip>
+ *   アクターが戦闘中に装備を変更することができなくなります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.6.1.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Game now refreshes all battlers upon reentry into the battle after
+ * entering and leaving the equipment change menu mid-battle.
+ *
+ * Version 1.01a:
+ * - Fixed a bug that made <Disable Change Battle Equip> not work.
+ * - Optimization update.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

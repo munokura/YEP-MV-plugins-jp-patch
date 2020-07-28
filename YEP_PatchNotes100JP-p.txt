@@ -1,0 +1,140 @@
+/*:ja
+ * @plugindesc v1.00 ゲーム中にパッチノートを読む機能を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Patch Notes File
+ * @text ファイル名
+ * @parent ---一般---
+ * @desc パッチノートのファイル名/URL。プロジェクトのトップディレクトリ内に配置します。
+ * @default patchnotes.html
+ *
+ * @param ---タイトル---
+ * @default
+ *
+ * @param PatchTitleCommand
+ * @text タイトル画面テキスト
+ * @parent ---タイトル---
+ * @desc タイトル画面での表示テキスト
+ * @default パッチノート
+ *
+ * @param Add Title Screen
+ * @text タイトル画面表示
+ * @parent ---タイトル---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc タイトル画面での「パッチノート」コマンドの表示有効化
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---メインメニュー---
+ * @default
+ *
+ * @param PatchMenuCommand
+ * @text 表示テキスト
+ * @parent ---メインメニュー---
+ * @desc メインメニューでの表示テキスト
+ * @default パッチノート
+ *
+ * @param Auto Add Menu
+ * @text 追加許可
+ * @parent ---メインメニュー---
+ * @type boolean
+ * @on 許可
+ * @off 非許可
+ * @desc 「パッチノート」コマンドを追加許可
+ * 非許可:false / 許可:true
+ * @default true
+ *
+ * @param Show Command
+ * @text デフォルト表示
+ * @parent ---メインメニュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 「パッチコマンド」のデフォルト表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Auto Place Command
+ * @text 自動配置
+ * @parent ---メインメニュー---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc 配置の有効設定 (MainMenuManagerで指定する場合、無効に) 無効:false / 有効:true
+ * @default true
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインにより、
+ * プレーヤーはゲーム内からパッチノートにアクセスできます。
+ * ゲームの内側から何を変更したかをプレイヤーに伝えることができると、
+ * ゲームがユーザ体験に大きな違いをもたらす可能性があります。
+ * このプラグインは、プレイヤーがタイトル画面、メインメニュー、
+ * ゲーム内で実行されたプラグインコマンドから
+ * パッチノートにアクセスできるようにします。
+ *
+ * ===========================================================================
+ * 使い方
+ * ===========================================================================
+ *
+ * パッチノートファイル(HTML/TXTファイルのいずれか)を
+ * プロジェクトのトップディレクトリ内に配置します。
+ * デフォルトでファイル名は'patchnotes.html'になっています。
+ * 別のファイル名/ファイルタイプを使用する場合、
+ * プラグインパラメーターで変更してください。
+ *
+ * ※日本語のテキストファイルでは文字化けしてしまうようです。
+ * テスト用のHTMLファイル(patchnotes.html)を添付します。
+ *
+ * ===========================================================================
+ * Main Menu Manager - パッチコマンドの追加
+ * ===========================================================================
+ *
+ * YEP_MainMenuManagerを使用していて、
+ * PatchNotesコマンドを配置する場合、次の形式を使用します。
+ *
+ *       Name: Yanfly.Param.PatchCmd
+ *     Symbol: PatchNotes
+ *       Show: $gameSystem.isShowPatchNotesCommand()
+ *    Enabled: true
+ *        Ext:
+ *  Main Bind: this.commandPatchNotes.bind(this)
+ * Actor Bind:
+ *
+ * MainMenuManagerスロットに上記のセットアップを挿入します。
+ * 必要な場所に正確な設定をコピーすると、
+ * プラグインパラメーターによって行われた
+ * 表示名、有効化/無効化、表示/非表示に反映されます。
+ *
+ * プラグインパラメータ'Auto Add Menu'を忘れずに無効にしてください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 次のプラグインコマンドを使用して、
+ * ゲームのPatchファイルへのアクセス方法を調整できます。
+ *
+ * プラグインコマンド
+ *
+ *   OpenPatchNotes
+ *   - ゲームのパッチファイルまたはURLが開きます。
+ *
+ *   ShowMenuPatchNotesCommand
+ *   - メインメニューで「PatchNotes」コマンドを表示します。
+ *
+ *   HideMenuPatchNotesCommand
+ *   - メインメニューで「PatchNotes」コマンドを非表示にします。
+ */

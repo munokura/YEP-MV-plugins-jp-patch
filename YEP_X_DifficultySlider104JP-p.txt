@@ -1,0 +1,269 @@
+/*:ja
+ * @plugindesc v1.04 (要YEP_EnemyLevels) プレイヤーが難易度を変更できるオプションを追加します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---オプション---
+ * @text ---オプション---
+ * @default
+ *
+ * @param Command Text
+ * @text コマンド表示テキスト
+ * @parent ---オプション---
+ * @desc オプションメニューでのコマンドの表示テキスト
+ * @default 難易度
+ *
+ * @param Default Show
+ * @text デフォルト表示
+ * @parent ---オプション---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでのコマンド表示。オフの場合、デフォルトは100です。
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param ---設定---
+ * @text ---設定---
+ * @default
+ *
+ * @param Default Difficulty
+ * @text デフォルトの難易度
+ * @parent ---設定---
+ * @desc デフォルトの難易度
+ * @type Number
+ * @default 100
+ *
+ * @param Minimum Difficulty
+ * @text 最小難易度
+ * @parent ---設定---
+ * @desc 最小難易度
+ * @type Number
+ * @default 50
+ *
+ * @param Maximum Difficulty
+ * @text 最大難易度
+ * @parent ---設定---
+ * @desc 最大難易度
+ * @type Number
+ * @default 200
+ *
+ * @param Change Increment
+ * @text 難易度の増加量
+ * @parent ---設定---
+ * @desc 難易度が増加する毎に変わる量
+ * @type Number
+ * @default 25
+ *
+ * @param ---式---
+ * @text ---式---
+ * @default
+ *
+ * @param Base Level Formula
+ * @text 基準レベルの式
+ * @parent ---式---
+ * @desc 基準レベルを決定するために使用される式
+ * level:現在のレベル / multiplier:乗数
+ * @default levelmultiplier / 100
+ *
+ * @param Maximum Level Formula
+ * @text 最大レベルの式
+ * @parent ---式---
+ * @desc 最大レベルを決定するために使用される式
+ * level:現在のレベル / multiplier:乗数
+ * @default levelmultiplier / 100
+ *
+ * @param Minimum Level Formula
+ * @text 最小レベルの式
+ * @parent ---式---
+ * @desc 最小レベルを決定するために使用される式
+ * level:現在のレベル / multiplier:乗数
+ * @default levelmultiplier / 100
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_EnemyLevelsを必要とします。
+ * プラグイン管理のYEP_EnemyLevelsの下に
+ * このプラグインがあることを確認してください。
+ *
+ * 時々、プレーヤーはゲームの難易度を増減できることを望みます。
+ * 難易度スライダーは、オプションメニューからアクセスできる機能になります。
+ * プレイヤーは戦闘中に現れる敵のレベルを一定の範囲内で変更することができます
+ * (開発者が設定します)。
+ *
+ * 難易度スライダーは敵のレベルを変えるだけで他には何もしません。
+ * 200%の難易度はレベルの200%の増加のみを意味しますが、
+ * ATKの200%の増加などではありません。
+ * 敵の攻撃力の値は、攻撃力の元の200%になります。
+ *
+ * 難易度スライダーがゲームで無効になっている場合、
+ * レベル乗数は100%に戻ります。
+ * プラグインコマンドを通してこの機能を有効・無効にすることができます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 難易度スライダープラグインに使用できるメモタグがあります。
+ *
+ * 敵のメモタグ
+ *
+ *   <Unaffected by Difficulty Slider>
+ * - 敵のレベルが難易度スライダーの影響を受けないようにします。
+ * 敵は常に現在の計算レベルの100%になります。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲームの途中で難易度スライダーを
+ * オプションメニューから表示/非表示にしたい方は、
+ * 以下のプラグインコマンドを使ってコントロールできます。
+ *
+ * プラグインコマンド
+ *
+ *   ShowDifficultySlider
+ * - 難易度スライダーを表示し、
+ * メモタグを持たない全ての敵に適用できるようにします。
+ *
+ *   HideDifficultySlider
+ * - 難易度スライダーを隠し、
+ * ゲーム内の敵のレベルに対するスライダーの効果も無効にします。
+ *
+ * ===========================================================================
+ * 追加情報
+ * ===========================================================================
+ *
+ * スクリプトコールで難易度スライダーを使用したい人のために、
+ * あなたはプレーヤーが使用して設定した値を見つけることができます。
+ *
+ *   ConfigManager.difficultySlider
+ *
+ * この値は整数を返します。
+ * 難易度を100%に設定すると100になり、
+ * 難易度を200%に設定すると200になります。
+ * したがって、
+ * より高い難度でのみ表示されるチェックを行いたい場合、
+ * 次のようにします。
+ *
+ *   if (ConfigManager.difficultySlider >= 200) {
+ *     // Do stuff
+ *   }
+ *
+ * ===========================================================================
+ * Options Core 設定 - 新しいオプションの追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCoreを使用している場合、
+ * このプラグインを使用して新しいオプションを追加できます。
+ * 使用できる以下のコード/パラメータ設定です。
+ *
+ * ---------
+ * Settings:
+ * ---------
+ *
+ * Name:
+ * \i[87]Enemy Difficulty
+ *
+ * Help Description:
+ * Determines the level strength of enemies.
+ *
+ * Symbol:
+ * difficultySlider
+ *
+ * Show/Hide:
+ * if (Imported.YEP_X_DifficultySlider) {
+ *   show = $gameSystem.showDifficultySlider();
+ * } else {
+ *   show = false;
+ * }
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ * var value = this.getConfigValue(symbol);
+ * var rate = value / Yanfly.Param.DSliderMaxDif;
+ * var gaugeColor1 = this.textColor(28);
+ * var gaugeColor2 = this.textColor(29);
+ * this.drawOptionsGauge(index, rate, gaugeColor1, gaugeColor2);
+ * this.drawText(this.statusText(index), titleWidth, rect.y, statusWidth, 'center');
+ *
+ * Process OK Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value += Yanfly.Param.DSliderChange;
+ * if (value > Yanfly.Param.DSliderMaxDif) value = Yanfly.Param.DSliderMinDif;
+ * value = value.clamp(Yanfly.Param.DSliderMinDif, Yanfly.Param.DSliderMaxDif);
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Right Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value += Yanfly.Param.DSliderChange;
+ * value = value.clamp(Yanfly.Param.DSliderMinDif, Yanfly.Param.DSliderMaxDif);
+ * this.changeValue(symbol, value);
+ *
+ * Cursor Left Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * value -= Yanfly.Param.DSliderChange;
+ * value = value.clamp(Yanfly.Param.DSliderMinDif,
+ * Yanfly.Param.DSliderMaxDif);
+ * this.changeValue(symbol, value);
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.03:
+ * - Compatibility update for YEP_OptionsCore.js.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.01:
+ * - Bug fixed: Error with pressing right on the difficulty slider causing
+ * the game to crash unexpectedly.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

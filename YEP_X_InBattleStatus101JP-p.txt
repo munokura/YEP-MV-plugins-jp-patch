@@ -1,0 +1,383 @@
+/*:ja
+ * @plugindesc v1.01 (要YEP_BattleEngineCore) 戦闘中のパーティーコマンドに'ステータス'を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Command Text
+ * @text コマンドの表示テキスト
+ * @parent ---一般---
+ * @desc パーティーウィンドウの'ステータス'コマンドの表示テキスト
+ * @default ステータス
+ *
+ * @param Show Command
+ * @text コマンド表示有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトで戦闘中の'ステータス'コマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Window X
+ * @text ウィンドウX位置
+ * @parent ---一般---
+ * @desc 戦闘中ステータスウィンドウのデフォルトのX位置。式を使えます
+ * @default 0
+ *
+ * @param Window Y
+ * @text ウィンドウY位置
+ * @parent ---一般---
+ * @desc 戦闘中ステータスウィンドウのデフォルトのY位置。式を使えます
+ * @default this.fittingHeight(2)
+ *
+ * @param Window Width
+ * @text ウィンドウ幅
+ * @parent ---一般---
+ * @desc 戦闘中ステータスウィンドウのデフォルトの幅。式を使えます
+ * @default Graphics.boxWidth
+ *
+ * @param Window Height
+ * @text ウィンドウ高さ
+ * @parent ---一般---
+ * @desc 戦闘中ステータスウィンドウのデフォルトの高さ。式を使えます
+ * @default Graphics.boxHeight - this.fittingHeight(2) - this.fittingHeight(4)
+ *
+ * @param ---ステート一覧---
+ * @default
+ *
+ * @param Status Width
+ * @text ステート一覧の幅
+ * @parent ---ステート一覧---
+ * @desc ステート一覧の幅。式を使えます
+ * @default Math.max(312, Graphics.boxWidth / 4);
+ *
+ * @param State Help Front
+ * @text ステートヘルプ前テキスト
+ * @parent ---ステート一覧---
+ * @desc 各ステートのヘルプの説明の前に置かれるテキスト
+ * %1:ステートアイコン / %2:ステート名
+ * @default \i[%1]%2
+ *
+ * @param State Help End
+ * @text ステートヘルプ末テキスト
+ * @parent ---ステート一覧---
+ * @desc 各ステートのヘルプの説明の末尾に配置されているテキスト
+ * %1:ステートアイコン / %2:ステート名
+ * @default
+ *
+ * @param Healthy Icon
+ * @text 健全アイコン
+ * @parent ---ステート一覧---
+ * @type number
+ * @desc バトラーが健全(ステートなし)であることを示すアイコンID
+ * @default 127
+ *
+ * @param Healthy Text
+ * @text 健全テキスト
+ * @parent ---ステート一覧---
+ * @desc 健全状態を示すためのテキスト
+ * @default ステートなし
+ *
+ * @param Healthy Help
+ * @text 健全ヘルプ
+ * @parent ---ステート一覧---
+ * @desc 健全時にヘルプウィンドウに表示されるテキスト
+ * @default 現在ステートの影響を受けていません。
+ *
+ * @param ---バフ一覧---
+ * @default
+ *
+ * @param MaxHP Buff Text
+ * @text MaxHPバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc MaxHPバフの表示テキスト
+ * @default 最大HP増強
+ *
+ * @param MaxHP Buff Help
+ * @text MaxHPヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc MaxHPヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 最大HP %1% 増強
+ *
+ * @param MaxMP Buff Text
+ * @text MaxMPバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc MaxMPバフの表示テキスト
+ * @default 最大MP増強
+ *
+ * @param MaxMP Buff Help
+ * @text MaxMPヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc MaxMPヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 最大MP %1% 増強
+ *
+ * @param ATK Buff Text
+ * @text ATKバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc ATKバフの表示テキスト
+ * @default 攻撃力増強
+ *
+ * @param ATK Buff Help
+ * @text ATKバフのヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc ATKバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 攻撃力 %1% 増強
+ *
+ * @param DEF Buff Text
+ * @text DEFバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc DEFバフの表示テキスト
+ * @default 防御力増強
+ *
+ * @param DEF Buff Help
+ * @text DEFバフのヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc DEFバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 防御力 %1% 増強
+ *
+ * @param MAT Buff Text
+ * @text MATバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc MATバフの表示テキスト
+ * @default 魔法力増強
+ *
+ * @param MAT Buff Help
+ * @text MATバフのヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc MATバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 魔法力 %1% 増強
+ *
+ * @param MDF Buff Text
+ * @text MDFバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc MDFバフの表示テキスト
+ * @default 魔法防御
+ *
+ * @param MDF Buff Help
+ * @text MDFバフのヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc MDFバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 魔法防御 %1% 増強
+ *
+ * @param AGI Buff Text
+ * @text AGIバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc AGIバフの表示テキスト
+ * @default 俊敏性増強
+ *
+ * @param AGI Buff Help
+ * @text AGIバフのヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc AGIバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 俊敏性 %1% 増強
+ *
+ * @param LUK Buff Text
+ * @text LUKバフの表示テキスト
+ * @parent ---バフ一覧---
+ * @desc LUKバフの表示テキスト
+ * @default 運増強
+ *
+ * @param LUK Buff Help
+ * @text LUKバフのヘルプ文章
+ * @parent ---バフ一覧---
+ * @desc LUKバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 運 %1% 増強
+ *
+ * @param ---デバフ一覧---
+ * @default
+ *
+ * @param MaxHP Debuff Text
+ * @text MaxHPデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc MaxHPデバフの表示テキスト
+ * @default 最大HP減弱
+ *
+ * @param MaxHP Debuff Help
+ * @text MaxHPデバフのヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc MaxHPデバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 最大HP %1% 減弱
+ *
+ * @param MaxMP Debuff Text
+ * @text MaxMPデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc MaxMPデバフの表示テキスト
+ * @default 最大MP減弱
+ *
+ * @param MaxMP Debuff Help
+ * @text MaxMPデバフのヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc MaxMPデバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 最大MP %1% 減弱
+ *
+ * @param ATK Debuff Text
+ * @text ATKデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc ATKデバフの表示テキスト
+ * @default 攻撃力減弱
+ *
+ * @param ATK Debuff Help
+ * @text ATKヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc ATKヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 攻撃力 %1% 減弱
+ *
+ * @param DEF Debuff Text
+ * @text DEFデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc DEFデバフの表示テキスト
+ * @default 防御力減弱
+ *
+ * @param DEF Debuff Help
+ * @text DEFデバフのヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc DEFデバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 防御力 %1% 減弱
+ *
+ * @param MAT Debuff Text
+ * @text MATデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc MATデバフの表示テキスト
+ * @default 魔法力減弱
+ *
+ * @param MAT Debuff Help
+ * @text MATデバフのヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc MATデバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 魔法力 %1% 減弱
+ *
+ * @param MDF Debuff Text
+ * @text MDFデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc MDFデバフの表示テキスト
+ * @default 魔法防御減弱
+ *
+ * @param MDF Debuff Help
+ * @text MDFデバフのヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc MDFデバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 魔法防御 %1% 減弱
+ *
+ * @param AGI Debuff Text
+ * @text AGIデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc AGIデバフの表示テキスト
+ * @default 俊敏性減弱
+ *
+ * @param AGI Debuff Help
+ * @text AGIデバフのヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc AGIデバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 俊敏性 %1% 減弱
+ *
+ * @param LUK Debuff Text
+ * @text LUKデバフの表示テキスト
+ * @parent ---デバフ一覧---
+ * @desc LUKデバフの表示テキスト
+ * @default 運減弱
+ *
+ * @param LUK Debuff Help
+ * @text LUKデバフのヘルプ文章
+ * @parent ---デバフ一覧---
+ * @desc LUKデバフのヘルプ文章
+ * %1:率 / %2:重ね / %3:ターン
+ * @default 運 %1% 減弱
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BattleEngineCoreを必要とします。
+ * プラグイン管理のYEP_BattleEngineCoreの下に
+ * このプラグインがあることを確認してください。
+ *
+ * デフォルトでの戦闘では、
+ * プレイヤーパーティーのステータスをチェックする方法はありません。
+ * このプラグインは、
+ * プレイヤーがパーティーメンバーを確認できるように、
+ * パーティーコマンドウィンドウに新しい'ステータス'コマンドを追加します。
+ * ここでは、
+ * プレイヤーは各パーティメンバーの現在の能力値を見たり、
+ * 全てのステートのリスト、バフ、デバフを取得したりできます。
+ * プレイヤーはリストをスクロールして、ヘルプウィンドウにステート、
+ * バフ、デバフの新しく追加されたヘルプの説明を表示できます。
+ *
+ * *注:YEP_X_BattleSysCTBを使用している場合、
+ * プラグイン管理でこのプラグインを下に配置してください。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * ステートにヘルプの説明を追加したい人のために、
+ * 以下のメモタグを使用してください。
+ *
+ * ステートのメモタグ
+ *
+ *   <Help Description>
+ *    text
+ *    text
+ *   </Help Description>
+ * - ステートのヘルプ説明をメモタグで使用されているテキストに設定します。
+ * 制御文字を使うことができます。
+ *
+ * ===========================================================================
+ * 制御文字
+ * ===========================================================================
+ *
+ * 文章に下記の制御文字を使用することで、次のコードに置き換わります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   \th[x]       - ステートxのヘルプの説明テキストに置き換えられます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲームの途中で'ステータス'コマンドを表示/非表示を変更するために、
+ * 以下のプラグインコマンドを使用することができます。
+ *
+ * プラグインコマンド
+ *
+ *   ShowInBattleStatus
+ *   - 'Status'コマンドが表示されます。
+ *
+ *   HideInBattleStatus
+ *   - 'Status'コマンドを非表示にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,250 @@
+/*:ja
+ * @plugindesc v1.02 (要YEP_SaveCore) セーブデータの持ち越しを可能にするNew Game+ モードを追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Command Text
+ * @text コマンドテキスト
+ * @parent ---一般---
+ * @desc New Game+ オプションの保存コマンドの表示テキスト
+ * @default New Game+
+ *
+ * @param Command Help
+ * @text コマンドヘルプ
+ * @parent ---一般---
+ * @desc New Game+ オプションの保存メニューに表示されるヘルプテキスト
+ * @default 保存データを引き継いで初めからゲームを始めてください。
+ *
+ * @param ---New Game+ データ---
+ * @text ---New Game+ データ---
+ * @default
+ *
+ * @param Carried Switches
+ * @text 持越スイッチ
+ * @parent ---New Game+ データ---
+ * @desc 持ち越されるスイッチデータのリスト。各スイッチIDはコンマ区切り
+ * @default 0
+ *
+ * @param Carried Variables
+ * @text 持越変数
+ * @parent ---New Game+ データ---
+ * @desc 持ち越される変数データのリスト。各変数IDはコンマ区切り
+ * @default 0
+ *
+ * @param Playtime
+ * @text プレイ時間
+ * @parent ---New Game+ データ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc New Game+ のプレイ時間を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Save Count
+ * @text セーブ回数
+ * @parent ---New Game+ データ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc New Game+ のセーブ回数を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Step Count
+ * @text 歩数
+ * @parent ---New Game+ データ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc New Game+ の歩数を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Battle Count
+ * @text 戦闘回数
+ * @parent ---New Game+ データ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc New Game+ の戦闘回数を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Victory Count
+ * @text 勝利数
+ * @parent ---New Game+ データ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc New Game+ の勝利数を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Escape Count
+ * @text 逃走数
+ * @parent ---New Game+ データ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc New Game+ の逃走数を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param ---New Game+ アクター---
+ * @text ---New Game+ アクター---
+ * @default
+ *
+ * @param Copy Actor
+ * @text アクターをコピー
+ * @parent ---New Game+ アクター---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc アクターの設定を全て引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param EXP
+ * @text 経験値
+ * @parent ---New Game+ アクター---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc 各アクターの経験値を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param JP
+ * @text JP
+ * @parent ---New Game+ アクター---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc 要YEP_JobPoints.js: 各アクターのJPを引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Skills
+ * @text スキル
+ * @parent ---New Game+ アクター---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc 各アクターのスキルを引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param ---New Game+ パーティ---
+ * @text ---New Game+ パーティ---
+ * @default
+ *
+ * @param Gold
+ * @text 所持金
+ * @parent ---New Game+ パーティ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc パーティーの所持金を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Items
+ * @text アイテム
+ * @parent ---New Game+ パーティ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc パーティーのアイテムを引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Weapons
+ * @text 武器
+ * @parent ---New Game+ パーティ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc パーティーの武器を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @param Armors
+ * @text 防具
+ * @parent ---New Game+ パーティ---
+ * @type boolean
+ * @on 引き継ぐ
+ * @off リセット
+ * @desc パーティーの防具を引き継ぐ
+ * リセット:false / 引き継ぐ:true
+ * @default true
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_SaveCore を必要とします。
+ * このプラグインがプラグイン管理の
+ * YEP_SaveCore の下にあることを確認してください。
+ *
+ * NewGame+はあなたのゲームにリプレイ価値を提供する素晴らしい方法です。
+ * それは、
+ *   持ち越されたアイテム、
+ *   持ち越されたパーティーメンバー、
+ *   持ち越されたスキル、
+ *   スイッチ、
+ *   変数、
+ * のいずれかを使用して、
+ * プレイヤーに異なる方法でゲームを再体験させます。
+ * NewGame+がどのように機能するかを変更するためのオプションは沢山あります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * アクター、アイテム、武器、防具のメモタグ
+ *
+ *   <No New Game+ Carry Over>
+ *   - アイテム、武器、防具が NewGame+ に持ち越されるのを防ぎます。
+ *   これがアクターに使用されると、
+ *   そのアクターはデフォルトステートになります。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 現在のセーブを New Game+ に設定するには、
+ * 下記のプラグインコマンドを使用して設定を変更する必要があります。
+ *
+ * プラグインコマンド
+ *
+ *   EnableNewGamePlus
+ *   - 有効にされた後にロードスクリーン上の"Load"コマンドの代わりに、
+ *   New Game+ オプションを持つための保存をします。
+ *
+ *   DisableNewGamePlus
+ *   - このプラグインコマンドが実行された後に行われたセーブに
+ *   New Game+ オプションを無効にします。
+ *   "New Game+"の代わりに "Load"オプションが表示されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.01:
+ * - Bug fixed where the DisableNewGamePlus plugin command didn't work.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

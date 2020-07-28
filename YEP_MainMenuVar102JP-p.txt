@@ -1,0 +1,281 @@
+/*:ja
+ * @plugindesc v1.02 メインメニューに変数を表示するウィンドウを追加できます。10個までの変数を表示が可能です。
+ * @author Yanfly Engine Plugins + Tigress Collaboration
+ *
+ * @param ---設定---
+ * @text ---設定---
+ * @default
+ *
+ * @param Window X
+ * @text ウィンドウX位置
+ * @parent ---設定---
+ * @desc ウィンドウのx位置。自動算出には 'auto'を使用
+ * @default auto
+ *
+ * @param Window Y
+ * @text ウィンドウY位置
+ * @parent ---設定---
+ * @desc ウィンドウのy位置。自動算出には 'auto'を使用
+ * @default auto
+ *
+ * @param Window Width
+ * @text ウィンドウ幅
+ * @parent ---設定---
+ * @desc ウィンドウの幅。自動算出には 'auto'を使用
+ * @default auto
+ *
+ * @param Window Height
+ * @text ウィンドウ高
+ * @parent ---設定---
+ * @desc ウィンドウの高さ。自動算出には 'auto'を使用
+ * @default auto
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---設定---
+ * @desc テキストのフォントサイズ。自動算出には 'auto'を使用
+ * @default 28
+ *
+ * @param Standard Padding
+ * @text 標準余白
+ * @parent ---設定---
+ * @type number
+ * @min 1
+ * @decimals 0
+ * @desc ウィンドウ余白値
+ * @default 18
+ *
+ * @param Text Padding
+ * @text テキストの余白
+ * @parent ---設定---
+ * @type number
+ * @min 1
+ * @decimals 0
+ * @desc テキスト余白値
+ * @default 6
+ *
+ * @param Back Opacity
+ * @text 背景不透明度
+ * @parent ---設定---
+ * @type number
+ * @max 255
+ * @decimals 0
+ * @desc ウィンドウ背景の不透明度
+ * @default 192
+ *
+ * @param Window Opacity
+ * @text ウィンドウ不透明度
+ * @parent ---設定---
+ * @type number
+ * @max 255
+ * @decimals 0
+ * @desc ウィンドウの不透明度
+ * @default 255
+ *
+ * @param ---変数---
+ * @text ---変数---
+ * @default
+ *
+ * @param Displayed Variable 1
+ * @text 表示変数1
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 1
+ * @text 表示変数1のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 2
+ * @text 表示変数2
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 2
+ * @text 表示変数2のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 3
+ * @text 表示変数3
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 3
+ * @text 表示変数3のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 4
+ * @text 表示変数4
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 4
+ * @text 表示変数4のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 5
+ * @text 表示変数5
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 5
+ * @text 表示変数5のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 6
+ * @text 表示変数6
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 6
+ * @text 表示変数6のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 7
+ * @text 表示変数7
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 7
+ * @text 表示変数7のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 8
+ * @text 表示変数8
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 8
+ * @text 表示変数8のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 9
+ * @text 表示変数9
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 9
+ * @text 表示変数9のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @param Displayed Variable 10
+ * @text 表示変数10
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 表示する変数。 変数を表示しない場合は0
+ * @default 0
+ *
+ * @param Show Switch Variable 10
+ * @text 表示変数10のスイッチ
+ * @parent ---変数---
+ * @type number
+ * @decimals 0
+ * @desc 変数を表示するには、このスイッチをオンにする必要があります。変数がスイッチを必要としない場合は0
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGツクールMVでは、メインメニューには
+ * パーティーの所持金のみがゲーム内の所持金として表示されます。
+ * ただし、メインメニューに所持金以外のものを表示するゲームもありますが、
+ * その場合は変数の形式で表示される可能性があります。
+ * あなたはこのプラグインを使ってそうすることができます。
+ *
+ * このプラグインはメインメニューに最大10個の変数を表示できます。
+ * 変数の名前とその値が表示されます。
+ * 特定の時点まで特定の変数を非表示にしたい場合、
+ * それにスイッチを組み合わせて、スイッチがオンの場合にのみ
+ * 変数を表示させることができます。
+ *
+ * メインメニューの変数ウィンドウもカスタマイズ可能です。
+ * プラグインのパラメータ内で、x、y、幅、高さ、フォント等を設定できます。
+ * ゲームのメインメニューに合うようにすることができます。
+ *
+ * これは、Yanfly Engine Pluginsライブラリとの互換性を確保するための
+ * Tigress と Yanfly による共同作業プラグインです。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Compatibility update made with YEP_X_MoreCurrencies. If a variable has
+ * << and >> in its name, it will remove it the text in between like with the
+ * YEP_X_MoreCurrencies plugin.
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

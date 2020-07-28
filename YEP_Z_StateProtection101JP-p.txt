@@ -1,0 +1,319 @@
+/*:ja
+ * @plugindesc v1.01 (Lunatic Pack) 様々な特殊保護のステート設定が可能になります。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは以下のプラグインを必要とします。
+ * - Battle Engine Core
+ * - Buffs & States Core
+ *
+ * プラグイン管理の上記のプラグインの下にこのプラグインを置きます。
+ *
+ * このプラグインを使用すると、元のダメージの一部をカットし、
+ * 特定のブレークポイントに到達したらダメージを完全にブロックして
+ * キャッピングするなど、
+ * より独自の方法でHP・MPのダメージを軽減できます。
+ * 特定の方法でダメージを与え、そして致命的なダメージを受けます。
+ * そして、これらの効果のいずれかが発生した場合、
+ * 特殊エフェクトを実行するようにステートを設定することもできます。
+ *
+ * *注意*:このプラグインはRPGツクールMVバージョン1.5.0以降でよく使われます。
+ * まだ低いバージョンでこのプラグインを使用することができます、
+ * しかしプラグインパラメータを変更することは困難でしょう。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下の効果の1つを与えるために、
+ * スキル・アイテムのメモ欄に以下のメモタグを挿入してください。
+ *
+ * ---
+ *
+ * ステートのメモタグ
+ *
+ *   <Protection Animation: x>
+ *   - 保護効果が消えると、
+ *   保護されたユニットにアニメーションxが表示されます。
+ *   このアニメーションはデフォルトのアニメーションの代わりに再生され、
+ *   効果が発生したことを示します。
+ *
+ *   <type Protection: effect>
+ *   - このプラグインのメモのほとんどは上記のフォーマットに従います。
+ *   どのタイプのダメージから保護されるかを示すために、
+ *   'type'は'HP'、'MP'、'Both'のいずれかに置き換えられます。
+ *   下記の効果のうちの1つと'effect'を置き換えてください。
+ *   複数の効果を与えるためにはメモタグの複数のエントリーを挿入してください。
+ *   効果の順番は、メモ欄に挿入された順番で再生されます。
+ *
+ * =-=-=-= 保護効果 =-=-=-=
+ *
+ *   --- 被害軽減 ---
+ *
+ *   <type Protection: Damage Cut x%>
+ *   - 'x'を数字に置き換えます。
+ *   現在の値ではなく、元のダメージ値のx%だけダメージを軽減します。
+ *   提案者:Yanfly
+ *
+ *   <type Protection: Damage Block -x>
+ *   <type Protection: Damage Block +x>
+ *   - 'x'を、ダメージをブロックする(増やす)ための固定値に置き換えます。
+ *   ダメージの最終値へのフラットな変更です。
+ *   提案者:Yanfly
+ *
+ *   --- ダメージ無効化 ---
+ *
+ *   <type Protection: Damage Null x%>
+ *   - 'x'をブレークポイントとして設定したい対象の
+ *   MaxHP/MaxMPのパーセント値に置き換えます。
+ *   ダメージ値がブレークポイント以下の場合、
+ *   ダメージは無効になり、ゼロに設定されます。
+ *   提案者:Yanfly
+ *
+ *   <type Protection: Damage Barrier x%>
+ *   - 'x'をブレークポイントとして設定したい対象の
+ *   MaxHP/MaxMPのパーセント値に置き換えます。
+ *   ダメージ値がブレークポイント以下の場合、
+ *   ダメージは無効になり、ゼロに設定されます。
+ *   提案者:Yanfly
+ *
+ *   --- ダメージキャッパー ---
+ *
+ *   <type Protection: Damage Ceiling x%>
+ *   - 'x'をブレークポイントとして設定したい対象の
+ *   MaxHP/MaxMPのパーセント値に置き換えます。
+ *   現在のダメージ値がブレークポイントを超えている場合、
+ *   ダメージ値はブレークポイントになります。
+ *   提案者:Yanfly
+ *
+ *   <type Protection: Damage Floor x%>
+ *   - 'x'をブレークポイントとして設定したい対象の
+ *   MaxHP/MaxMPのパーセント値に置き換えます。
+ *   現在のダメージ値がブレークポイントを下回ると、
+ *   ダメージ値がブレークポイントになります。
+ *   提案者:Yanfly
+ *
+ *   --- 死の詐欺師 ---
+ *
+ *   <HP Protection: Guts x%>
+ *   - HPタイプでのみ動作します。
+ *   'x'をこの効果を与えたい成功率のパーセンテージに置き換えてください。
+ *   影響を受けた対象がこの攻撃の結果として
+ *   致命的なダメージを受けることになっている場合、
+ *   対象が1HPの距離で生き残ることができる可能性がx%あります。
+ *   対象のHPがちょうど1HPの場合、発生しません。
+ *   提案者:Yanfly
+ *
+ *   <HP Protection: True Guts x%>
+ *   - HPタイプでのみ動作します。
+ *   'x'をこの効果を与えたい成功率のパーセンテージに置き換えてください。
+ *   影響を受けた対象がこの攻撃の結果として
+ *   致命的なダメージを受けることになっている場合、
+ *   対象が1HPで生き残ることができる可能性がx%あります。
+ *   通常の方法とは異なり、
+ *   使用者が正確に1HP離れている場合でも有効です。
+ *   提案者:JoshuaPactor
+ *
+ *   <HP Protection: Fatal Damage Absorb x%>
+ *   - HPタイプでのみ動作します。
+ *   'x'をこの効果を与えたい成功率のパーセンテージに置き換えてください。
+ *   影響を受けた対象がこの攻撃の結果として
+ *   致命的なダメージを受けることになっていた場合、
+ *   対象は代わりに回復したHPとしてダメージを受けます。
+ *   提案者:ショーン・パッテンデン
+ *
+ *   --- トリガー ---
+ *
+ *   <type Protection: Trigger Removal x%>
+ *   - このステートのいずれかの保護効果が誘発/活性化されている場合、
+ *   その効果が起こった結果としてこのステートを取り除いてください。
+ *   'x'をこの効果が起こることを望む成功率で置き換えてください。
+ *   提案者:Yanfly
+ *
+ *   <type Protection: Trigger Add x Buff>
+ *   <type Protection: Trigger Add x Buff, y Turns>
+ *   <type Protection: Trigger Add x Debuff>
+ *   <type Protection: Trigger Add x Debuff, y Turns>
+ *   - このステートのいずれかの保護効果が誘発/起動された場合、
+ *   パラメータ'x'にバフ/デバフを追加してください。
+ *   'x'を'MaxHP'、'MaxMP'、'ATK'、'DEF'、'MAT'、
+ *   'MDF'、'AGI'、'LUK'に置き換えます。
+ *   'y'がバフ/デバフの継続ターン数になります。
+ *   もしターン数と一緒にメモタグバリエーションを使わないなら、
+ *   それはデフォルトとして5ターンになるでしょう。
+ *   提案者:Yanfly
+ *
+ *   <type Protection: Trigger Remove x Buff>
+ *   <type Protection: Trigger Remove x Debuff>
+ *   - このステートのいずれかの保護効果が誘発/起動された場合、
+ *   パラメータ'x'のバフ/デバフを削除します。
+ *   'x'を'MaxHP'、'MaxMP'、'ATK'、'DEF'、
+ *   'MAT'、'MDF'、'AGI'、'LUK'に置き換えます。
+ *   提案者:Yanfly
+ *
+ *   <type Protection: Trigger Add State x>
+ *   - このステートのいずれかの保護効果が誘発/起動された場合、
+ *   対象にステート'x'を追加します。
+ *   'x'を対象に適用したいステートIDに置き換えます。
+ *   提案者:Yanfly
+ *
+ *   <type Protection: Trigger Remove State x>
+ *   - このステートのいずれかの保護効果が誘発/起動された場合、
+ *   対象からステート'x'を削除します。
+ *   'x'を対象から削除したいステートIDに置き換えます。
+ *   提案者:Yanfly
+ *
+ * =-=-=-= 使用例 =-=-=-=
+ *
+ *   <HP Protection: Damage Cut 70%>
+ *   - 影響を受けるユニットに対するHPダメージを70%減らすことができます。
+ *   ダメージの30%しか受けられないことを意味します。
+ *
+ *   <HP Protection: Damage Block -500>
+ *   <HP Protection: Damage Null 20%>
+ *   - 影響を受けたユニットに与えられるHPのダメージが固定値500だけ減少します。
+ *   ダメージがユニットのMaxHPの20%以下であれば、
+ *   それは完全に無効になります。
+ *
+ *   <MP Protection: Damage Barrier 20%>
+ *   - 影響を受けたユニットがMPのダメージを受け、
+ *   MPのダメージがユニットの最大MPの20%を超えている場合、
+ *   そのダメージを完全に無効にします。
+ *
+ *   <HP Protection: Damage Ceiling 30%>
+ *   - 影響を受けたユニットがHPのダメージを受け、
+ *   HPのダメージがユニットの最大HPの30%を超える場合、
+ *   そのダメージはユニットの最大HPの30%になります。
+ *
+ *   <HP Protection: Guts 100%>
+ *   <HP Protection: Trigger Removal 100%>
+ *   - 影響を受けたユニットがHPに与えられる致命的なダメージを受けた場合、
+ *   そのユニットに1HPのHPが残されるまでダメージは減少します。
+ *   その時点で、Guts効果を与えるステートは削除されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 効果コード
+ * ===========================================================================
+ *
+ * JavaScriptを知っていてRPGツクールMV1.5.0+を使用している経験豊富な使用者に、
+ * プラグインで使用できる新しいメモタグ効果を追加するか、
+ * プラグインパラメーターから現在存在するメモタグ効果の効果を変更できます。
+ * 次のようになります。
+ *
+ * ---
+ *
+ * // ----------------
+ * // Damage Reduction
+ * // ----------------
+ * if (data.match(/DAMAGE CUT[ ](\d+)([%%])/i)) {
+ *   rate = parseFloat(RegExp.$1) * 0.01;
+ *   blocked = originalValue * rate;
+ *   value -= blocked;
+ *   value = Math.max(value, 0);
+ *
+ * } else if (data.match(/DAMAGE BLOCK[ ]([\+\-]\d+)/i)) {
+ *   blocked = parseInt(RegExp.$1);
+ *   value -= blocked;
+ *   value = Math.max(value, 0);
+ *
+ * ...
+ *
+ * // -------------------------------
+ * // Add new effects above this line
+ * // -------------------------------
+ * } else {
+ *   skip = true;
+ * }
+ *
+ * ---
+ *
+ * このコードビットで使用されている各変数は、次のとおりです。
+ *
+ *   --------------------   ---------------------------------------------------
+ *   変数:                  参照:
+ *   --------------------   ---------------------------------------------------
+ *   state                  この効果が属するステート
+ *   stateId                この効果が属するステートID
+ *
+ *   value                  HP/MPのダメージはこの影響を受けています
+ *                          この値を変更しても、
+ *                          効果がスキップされない限り永続的になります
+ *
+ *
+ *   originalValue          保護ステートの効果が適用される前の元の
+ *                          HP/MPのダメージ
+ *
+ *   item                   このアクションで使用されているアイテム
+ *   skill                  このアクションで使用されているスキル
+ *
+ *   isItem                 アクションがアイテムの場合はtrueを返す
+ *   isSkill                アクションがスキルの場合はtrueを返す
+ *
+ *   a                      アクション使用者を返す
+ *   user                   アクション使用者を返す
+ *   subject                アクション使用者を返す
+ *
+ *   b                      アクションの現在の対象を返す
+ *   target                 アクションの現在の対象を返す
+ *
+ *   s[x]                   スイッチxを返す(true / false)
+ *   v[x]                   変数xの現在値を返す
+ *
+ *   user._result           使用者の現在の結果
+ *   target._result         対象の現在の結果
+ *   userPreviousResult     変更前の使用者の結果
+ *   targetPreviousResult   変更前の対象の結果
+ *
+ *   animation              再生するアニメーション
+ *
+ *   triggered              このステートの保護効果がトリガーされたか(true)、
+ *                          そうでないか(false)を返す
+ *
+ *
+ *   skip                   デフォルト:false。trueの場合、
+ *                          ポップアップとアニメーションをスキップします
+ *
+ * ---
+ *
+ * エフェクトコードを元のステートに戻す必要がある場合、
+ * プラグインマネージャ管理からプラグインを削除してから、
+ * もう一度追加してください。
+ * コードはデフォルトに戻ります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Effect Code
+ * @text 効果コード
+ * @parent ---一般---
+ * @type note
+ * @desc ルナティックモード:各メモタグ効果のコードです。ここで使用されている変数についてはヘルプファイルを参照してください。
+ * @default "// ----------------\n// Damage Reduction\n// ----------------\nif (data.match(/DAMAGE CUT[ ](\\d+)([%%])/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  blocked = originalValue * rate;\n  value -= blocked;\n  value = Math.max(value, 0);\n\n} else if (data.match(/ELEMENT[ ](\\d+)[ ]CUT[ ](\\d+)([%%])/i)) {\n  var eleId = parseInt(RegExp.$1);\n  if (Imported.YEP_ElementCore) {\n    var match = this.getItemElements().contains(eleId);\n  } else {\n    var match = this.item().damage.elementId === eleId;\n  }\n  if (match) {\n    rate = parseFloat(RegExp.$2) * 0.01;\n    blocked = originalValue * rate;\n    value -= blocked;\n    value = Math.max(value, 0);\n  } else {\n    skip = true;\n  }\n\n} else if (data.match(/DAMAGE BLOCK[ ]([\\+\\-]\\d+)/i)) {\n  blocked = parseInt(RegExp.$1);\n  value -= blocked;\n  value = Math.max(value, 0);\n\n// -----------------\n// Damage Nullifiers\n// -----------------\n} else if (data.match(/DAMAGE NULL[ ](\\d+)([%%])/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  if (this.isHpEffect()) {\n    var breakpoint = Math.round(target.mhp * rate);\n  } else if (this.isHpEffect()) {\n    var breakpoint = Math.round(targer.mmp * rate);\n  } else {\n    skip = true;\n  }\n  if (!skip && value <= breakpoint) {\n    value = 0;\n  } else {\n    skip = true;\n  }\n\n} else if (data.match(/DAMAGE BARRIER[ ](\\d+)([%%])/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  if (this.isHpEffect()) {\n    var breakpoint = Math.round(target.mhp * rate);\n  } else if (this.isHpEffect()) {\n    var breakpoint = Math.round(target.mmp * rate);\n  } else {\n    skip = true;\n  }\n  if (!skip && value >= breakpoint) {\n    value = 0;\n  } else {\n    skip = true;\n  }\n\n// --------------\n// Damage Cappers\n// --------------\n} else if (data.match(/DAMAGE CEILING[ ](\\d+)([%%])/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  if (this.isHpEffect()) {\n    var breakpoint = Math.round(target.mhp * rate);\n  } else if (this.isHpEffect()) {\n    var breakpoint = Math.round(target.mmp * rate);\n  } else {\n    skip = true;\n  }\n  if (!skip) {\n    value = Math.min(value, breakpoint);\n  }\n\n} else if (data.match(/DAMAGE FLOOR[ ](\\d+)([%%])/i)) {\n  rate = parseFloat(RegExp.$1) * 0.01;\n  if (this.isHpEffect()) {\n    var breakpoint = Math.round(target.mhp * rate);\n  } else if (this.isHpEffect()) {\n    var breakpoint = Math.round(target.mmp * rate);\n  } else {\n    skip = true;\n  }\n  if (!skip) {\n    value = Math.max(value, breakpoint);\n  }\n\n// --------------\n// Death Cheaters\n// --------------\n} else if (data.match(/TRUE GUTS[ ](\\d+)([%%])/i)) {\n  skip = true;\n  if (this.isHpEffect()) {\n    if (value > target.hp) {\n      rate = parseFloat(RegExp.$1) * 0.01;\n      if (Math.random() < rate) {\n        skip = false;\n        value = target.hp - 1;\n      }\n    }\n  }\n\n} else if (data.match(/GUTS[ ](\\d+)([%%])/i)) {\n  skip = true;\n  if (this.isHpEffect() && target.hp > 1) {\n    if (value > target.hp) {\n      rate = parseFloat(RegExp.$1) * 0.01;\n      if (Math.random() < rate) {\n        skip = false;\n        value = target.hp - 1;\n      }\n    }\n  }\n\n} else if (data.match(/ABSORB FATAL DAMAGE[ ](\\d+)([%%])/i)) {\n  skip = true;\n  if (this.isHpEffect()) {\n    if (value > target.hp) {\n      rate = parseFloat(RegExp.$1) * 0.01;\n      if (Math.random() < rate) {\n        skip = false;\n        value *= -1;\n      }\n    }\n  }\n\n// -------------------\n// Protection Triggers\n// -------------------\n} else if (data.match(/TRIGGER REMOVAL[ ](\\d+)([%%])/i)) {\n  skip = true;\n  if (triggered) {\n    rate = parseFloat(RegExp.$1) * 0.01;\n    if (Math.random() < rate) {\n      skip = false;\n      target.removeState(stateId);\n    }\n  }\n\n} else if (data.match(/TRIGGER ADD[ ](.*)[ ]BUFF,[ ](\\d+)[ ]TURN/i)) {\n  skip = true;\n  if (triggered) {\n    skip = false;\n    var str = String(RegExp.$1).toUpperCase();\n    var turns = parseInt(RegExp.$2);\n    var paramId = DataManager.getParamId(str);\n    target.addBuff(paramId, turns);\n  }\n\n} else if (data.match(/TRIGGER ADD[ ](.*)[ ]BUFF/i)) {\n  skip = true;\n  if (triggered) {\n    skip = false;\n    var str = String(RegExp.$1).toUpperCase();\n    var turns = 5;\n    var paramId = DataManager.getParamId(str);\n    target.addBuff(paramId, turns);\n  }\n\n} else if (data.match(/TRIGGER ADD[ ](.*)[ ]DEBUFF,[ ](\\d+)[ ]TURN/i)) {\n  skip = true;\n  if (triggered) {\n    skip = false;\n    var str = String(RegExp.$1).toUpperCase();\n    var turns = parseInt(RegExp.$2);\n    var paramId = DataManager.getParamId(str);\n    target.addDebuff(paramId, turns);\n  }\n\n} else if (data.match(/TRIGGER ADD[ ](.*)[ ]DEBUFF/i)) {\n  skip = true;\n  if (triggered) {\n    skip = false;\n    var str = String(RegExp.$1).toUpperCase();\n    var turns = 5;\n    var paramId = DataManager.getParamId(str);\n    target.addDebuff(paramId, turns);\n  }\n\n} else if (data.match(/TRIGGER REMOVE[ ](.*)[ ](?:BUFF|DEBUFF)/i)) {\n  skip = true;\n  if (triggered) {\n    skip = false;\n    var str = String(RegExp.$1).toUpperCase();\n    var paramId = DataManager.getParamId(str);\n    target.removeBuff(paramId);\n  }\n\n} else if (data.match(/TRIGGER ADD STATE[ ](\\d+)/i)) {\n  skip = true;\n  if (triggered) {\n    skip = false;\n    var stateId = parseInt(RegExp.$1);\n    user.addState(stateId);\n  }\n\n} else if (data.match(/TRIGGER REMOVE STATE[ ](\\d+)/i)) {\n  skip = true;\n  if (triggered) {\n    skip = false;\n    var stateId = parseInt(RegExp.$1);\n    user.removeState(stateId);\n  }\n\n// -------------------------------\n// Add new effects above this line\n// -------------------------------\n} else {\n  skip = true;\n}"
+ *
+ * @param Protection Animation
+ * @text 保護アニメーション
+ * @parent ---アニメーション---
+ * @type animation
+ * @desc 保護効果が働いた時の再生アニメーションには、HP/MPの保護が含まれます。
+ * @default 53
+ *
+ */

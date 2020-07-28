@@ -1,0 +1,264 @@
+/*:ja
+ * @plugindesc v1.03 (要YEP_EventChasePlayer) Event Chase Playerプラグインにステルス機能を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Player Transparency
+ * @text プレイヤー透明度
+ * @parent ---一般---
+ * @desc ステルスモード中のプレイヤーの透明度
+ * @default 0.5
+ *
+ * @param Disable Dash
+ * @text ダッシュ禁止
+ * @parent ---一般---
+ * @type boolean
+ * @on 禁止
+ * @off 許可
+ * @desc ステルスモードでダッシュの使用禁止
+ * @default true
+ *
+ * @param Move Speed
+ * @text 移動速度
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc ステルスモードでの移動速度
+ * @default 3
+ *
+ * @param ---ステルスリージョン---
+ * @text ---ステルスリージョン---
+ * @default
+ *
+ * @param Stealth Regions
+ * @text ステルスリージョン
+ * @parent ---ステルスリージョン---
+ * @desc ステルスリージョンID。複数のIDはスペースで区切ります。
+ * @default 0
+ *
+ * @param ---ステルスゲージ---
+ * @text ---ステルスゲージ---
+ * @default
+ *
+ * @param Show Gauge
+ * @text ゲージ表示
+ * @parent ---ステルスゲージ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc ステルスゲージの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Gauge Opacity
+ * @text ゲージ不透明度
+ * @parent ---ステルスゲージ---
+ * @type number
+ * @min 0
+ * @max 255
+ * @desc ステルスゲージの不透明度
+ * @default 100
+ *
+ * @param Show Timer
+ * @text タイマー表示
+ * @parent ---ステルスゲージ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc ステルスモード中のタイマー表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Unlimited Text
+ * @text 無制限テキスト
+ * @parent ---ステルスゲージ---
+ * @desc 無制限ステルスモードでの表示テキスト
+ * @default ∞
+ *
+ * @param Gauge X
+ * @text ゲージX位置
+ * @parent ---ステルスゲージ---
+ * @desc ステルスゲージのx位置。 式を使えます
+ * @default 96
+ *
+ * @param Gauge Y
+ * @text ゲージY位置
+ * @parent ---ステルスゲージ---
+ * @desc ステルスゲージのy位置。式を使えます
+ * @default Graphics.boxHeight - 84
+ *
+ * @param Gauge Width
+ * @text ゲージ幅
+ * @parent ---ステルスゲージ---
+ * @desc ステルスゲージの幅。式を使えます
+ * @default Graphics.boxWidth - 192
+ *
+ * @param Gauge Height
+ * @text ゲージ高さ
+ * @parent ---ステルスゲージ---
+ * @desc ステルスゲージの高さ。式を使えます
+ * @default 36
+ *
+ * @param Gauge Color 1
+ * @text ゲージ色1
+ * @parent ---ステルスゲージ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ゲージの文字色1
+ * @default 9
+ *
+ * @param Gauge Color 2
+ * @text ゲージ色2
+ * @parent ---ステルスゲージ---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc ゲージの文字色2
+ * @default 13
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_EventChasePlayer を必要とします。
+ * プラグイン管理で YEP_EventChasePlayer より下に置いて下さい。
+ * また、YEP_EventChasePlayer が最新版であることを確認してください。
+ *
+ * プレーヤーに、限定または無制限の間、ステルスモードに入る能力を与えます。
+ * ステルスモードでは、Event Chase Player プラグインで設定されたイベントは
+ * プレイヤーに 反応しません。
+ * このプラグインには、ステルスリージョンと見なされる
+ * リージョンエリアも含まれています。
+ *
+ * ===========================================================================
+ * 説明 - ステルスリージョン
+ * ===========================================================================
+ *
+ * ステルスリージョンは、リージョンIDでマークできるマップ上の場所です。
+ * どのリージョンをステルスリージョンと見なすか、プラグインパラメータ内か
+ * マップのメモ欄内に以下のメモタグを使用して決定できます。
+ *
+ * <Stealth Regions: x>
+ * <Stealth Regions: x, x, x>
+ * <Stealth Regions: x to y>
+ * リージョンx（またはxからy）がステルスリージョンとして設定されます。
+ *
+ * プレーヤーがステルスリージョンの内側にいる間は、
+ * ステルスリージョンの外側にあるイベントはプレーヤーを検出できません。
+ * ただし、プレイヤーがステルスリージョンの内側にいて、
+ * 敵も同じステルスリージョンの内側にいる場合、
+ * 敵はプレイヤーを検出できます。
+ *
+ * プレイヤーが敵がいるステルスリージョンIDとは
+ * 異なるステルスリージョンIDの内側にいる場合、
+ * 敵はプレイヤーを検出しません。
+ *
+ * プレイヤーが検出されると、ステルスリージョンは効果を中止し、
+ * プレイヤーが別のステルスリージョンに入っても、
+ * 検出したイベントはプレイヤーを追いかけます（または逃げます）。
+ * イベントがプレイヤーを追いかける（または逃げる）ことがなくなるまで、
+ * ステルスリージョンは無効のままになります。
+ *
+ * ===========================================================================
+ * 説明 - ステルスモード
+ * ===========================================================================
+ *
+ * ステルスモードに入るには、プラグインコマンドを使用する必要があります。
+ * ステルスモードでは、有効になっていると、ステルスゲージはモードが切れるまで
+ * 維持する時間をプレイヤーに表示します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ステルスモードを調整するには、次のプラグインコマンドを使用できます。
+ *
+ * プラグインコマンド
+ *
+ *   StealthTime x
+ *   -  xフレームの間、プレイヤーキャラクターをステルスモードにします。
+ *   タイマーが起動すると、プレイヤーはステルスモードを終了します。
+ *
+ *   StealthMode On
+ *   - プレイヤーキャラクターをステルスモードにします。タイマーはありません。
+ *
+ *   StealthMode Off
+ *   - プレイヤーキャラクターをステルスモードから外します。
+ *   これにより、タイマーも0にリセットされます。
+ *
+ *   EnableStealthDash
+ *   - ステルスモード中にプレイヤーがダッシュできるようにします。
+ *
+ *   DisableStealthDash
+ *   - ステルスモード中にプレイヤーがダッシュできないようにします。
+ *
+ *   SetStealthMoveSpeed x
+ *   - ステルスモード中の移動速度をxに設定します。
+ *
+ *   HideStealthGauge
+ *   - ステルスゲージが非表示になります。
+ *
+ *   ShowStealthGauge
+ *   - プレイヤーがステルスモード中、ステルスゲージを表示します。
+ *
+ *   EnableDifferentStealthSpeed
+ *   - ステルスモードでは、プレーヤーの移動速度が異なるように設定します。
+ *
+ *   DisableDifferentStealthSpeed
+ *   - ステルスモードでは、プレイヤーの移動速度は変わりません。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * 条件付き分岐にスクリプトを使用したり、
+ * スクリプトコールでステルスモードを調整したい場合、
+ * 次の新しい関数を使用できます。
+ *
+ * $gamePlayer.isStealthMode()
+ * - プレイヤーのステルスモードを確認します。
+ * ステルスモードであれば、true を返します。
+ * ステルスモードでなければ、false を返します。
+
+ * $gamePlayer.setStealthMode(true)
+ * $gamePlayer.setStealthMode(false)
+ * - true の場合、プレイヤーは無制限のステルスモードに設定されます。
+ * false の場合、プレーヤーがステルスモードタイマーをオンにしていても、
+ * これはプレーヤーからステルスモードを解除します。
+ *
+ * $gamePlayer.setStealthTimer(x)
+ * - これはプレイヤーがステルスモードになるフレーム数を設定します。
+ * x を設定したいフレーム数に置き換えます。
+ *
+ * $gameMap.isStealthRegion(x)
+ * - リージョン x がステルスリージョンかを確認します。
+ * もしそうなら、true を返します。
+ * そうでなければ、false を返します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Fixed a bug where changing the stealth movement speed would affect all
+ * events on the map.
+ *
+ * Version 1.01:
+ * - Added 'EnableDifferentStealthSpeed' and 'DisableDifferentStealthSpeed'
+ * plugin commands to enable different stealth movement speed adjustments.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

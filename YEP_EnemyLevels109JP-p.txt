@@ -1,0 +1,651 @@
+/*:ja
+ * @plugindesc v1.09 敵のレベルとレベルによる能力値変更を追加できます
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Show Level
+ * @text レベル表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでの敵レベルの表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Level Format
+ * @text レベル表示形式
+ * @parent ---一般---
+ * @desc 敵レベル表示時の敵の名前表示形式
+ * %:レベル / %2:名前
+ * @default Lv%1 %2
+ *
+ * @param Minimum Level
+ * @text 最低レベル
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc デフォルトでの敵の最低レベル
+ * @default 1
+ *
+ * @param Maximum Level
+ * @text 最高レベル
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc デフォルトでの敵の最高レベル
+ * @default 9999
+ *
+ * @param Maximum Cap
+ * @text 最大上限
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc 敵が到達可能な最高レベル
+ * @default 9999
+ *
+ * @param Preserve Rate
+ * @text HP/MPの変化
+ * @parent ---一般---
+ * @type boolean
+ * @on 率で変化
+ * @off 変化なし
+ * @desc 敵レベル変化時の HP/MP 率の変化
+ * 変化なし:false / 率で変化:true
+ * @default true
+ *
+ * @param ---レベル設定---
+ * @default
+ *
+ * @param Default Type
+ * @text デフォルトタイプ
+ * @parent ---レベル設定---
+ * @type select
+ * @option 0)プレイヤーパーティーに参加中の全アクター内の最低レベル
+ * @value 0
+ * @option 1)バトルパーティーに参加中の全アクター内の最低レベル
+ * @value 1
+ * @option 2)プレイヤーパーティーに参加中の全アクター内の平均レベル
+ * @value 2
+ * @option 3)戦闘中の全参加者の平均レベル
+ * @value 3
+ * @option 4)プレイヤーパーティーに参加中の全アクター内の最高レベル
+ * @value 4
+ * @option 5)バトルパーティーに参加中の全アクター内の最高レベル
+ * @value 5
+ * @desc プレイヤーパーティーに対して計算されたデフォルトレベル:デフォルトのレベルタイプについてはヘルプ参照
+ * @default 5
+ *
+ * @param Positive Fluctuation
+ * @text 正の変動
+ * @parent ---レベル設定---
+ * @type number
+ * @desc 全ての敵に対するデフォルトの正のレベル変動
+ * @default 2
+ *
+ * @param Negative Fluctuation
+ * @text 負の変動
+ * @parent ---レベル設定---
+ * @type number
+ * @desc 全ての敵に対するデフォルトの負のレベル変動
+ * @default 2
+ *
+ * @param ---最大HP 成長---
+ * @default
+ *
+ * @param MaxHP Formula
+ * @text 計算式
+ * @parent ---最大HP 成長---
+ * @desc 最大HPの計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param MaxHP Rate Growth
+ * @text 成長率
+ * @parent ---最大HP 成長---
+ * @type number
+ * @decimals 2
+ * @desc 最大HPのレベル毎の成長率
+ * @default 0.15
+ *
+ * @param MaxHP Flat Growth
+ * @text 固定成長値
+ * @parent ---最大HP 成長---
+ * @type number
+ * @decimals 2
+ * @desc 最大HPのレベル毎の固定成長値
+ * @default 50.0
+ *
+ * @param ---最大MP 成長---
+ * @default
+ *
+ * @param MaxMP Formula
+ * @text 計算式
+ * @parent ---最大MP 成長---
+ * @desc 最大MPの計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param MaxMP Rate Growth
+ * @text 成長率
+ * @parent ---最大MP 成長---
+ * @type number
+ * @decimals 2
+ * @desc 最大MPのレベル毎の成長率
+ * @default 0.10
+ *
+ * @param MaxMP Flat Growth
+ * @text 固定成長値
+ * @parent ---最大MP 成長---
+ * @type number
+ * @decimals 2
+ * @desc 最大MPのレベル毎の固定成長値
+ * @default 10.0
+ *
+ * @param ---攻撃力 成長---
+ * @default
+ *
+ * @param ATK Formula
+ * @text 計算式
+ * @parent ---攻撃力 成長---
+ * @desc 攻撃力の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param ATK Rate Growth
+ * @text 成長率
+ * @parent ---攻撃力 成長---
+ * @type number
+ * @decimals 2
+ * @desc 攻撃力のレベル毎の成長率
+ * @default 0.05
+ *
+ * @param ATK Flat Growth
+ * @text 固定成長値
+ * @parent ---攻撃力 成長---
+ * @type number
+ * @decimals 2
+ * @desc 攻撃力のレベル毎の固定成長値
+ * @default 2.5
+ *
+ * @param ---防御力 成長---
+ * @default
+ *
+ * @param DEF Formula
+ * @text 計算式
+ * @parent ---防御力 成長---
+ * @desc 防御力の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param DEF Rate Growth
+ * @text 成長率
+ * @parent ---防御力 成長---
+ * @type number
+ * @decimals 2
+ * @desc 防御力のレベル毎の成長率
+ * @default 0.05
+ *
+ * @param DEF Flat Growth
+ * @text 固定成長値
+ * @parent ---防御力 成長---
+ * @type number
+ * @decimals 2
+ * @desc 防御力のレベル毎の固定成長値
+ * @default 2.5
+ *
+ * @param ---魔法力 成長---
+ * @default
+ *
+ * @param MAT Formula
+ * @text 計算式
+ * @parent ---魔法力 成長---
+ * @desc 魔法力の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param MAT Rate Growth
+ * @text 成長率
+ * @parent ---魔法力 成長---
+ * @type number
+ * @decimals 2
+ * @desc 魔法力のレベル毎の成長率
+ * @default 0.05
+ *
+ * @param MAT Flat Growth
+ * @text 固定成長値
+ * @parent ---魔法力 成長---
+ * @type number
+ * @decimals 2
+ * @desc 魔法力のレベル毎の固定成長値
+ * @default 2.5
+ *
+ * @param ---魔法防御 成長---
+ * @default
+ *
+ * @param MDF Formula
+ * @text 計算式
+ * @parent ---魔法防御 成長---
+ * @desc 魔法防御の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param MDF Rate Growth
+ * @text 成長率
+ * @parent ---魔法防御 成長---
+ * @type number
+ * @decimals 2
+ * @desc 魔法防御のレベル毎の成長率
+ * @default 0.05
+ *
+ * @param MDF Flat Growth
+ * @text 固定成長値
+ * @parent ---魔法防御 成長---
+ * @type number
+ * @decimals 2
+ * @desc 魔法防御のレベル毎の固定成長値
+ * @default 2.5
+ *
+ * @param ---俊敏性 成長---
+ * @default
+ *
+ * @param AGI Formula
+ * @text 計算式
+ * @parent ---俊敏性 成長---
+ * @desc 俊敏性の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param AGI Rate Growth
+ * @text 成長率
+ * @parent ---俊敏性 成長---
+ * @type number
+ * @decimals 2
+ * @desc 俊敏性のレベル毎の成長率
+ * @default 0.05
+ *
+ * @param AGI Flat Growth
+ * @text 固定成長値
+ * @parent ---俊敏性 成長---
+ * @type number
+ * @decimals 2
+ * @desc 俊敏性のレベル毎の固定成長値
+ * @default 2.5
+ *
+ * @param ---運 成長---
+ * @default
+ *
+ * @param LUK Formula
+ * @text 計算式
+ * @parent ---運 成長---
+ * @desc 運の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param LUK Rate Growth
+ * @text 成長率
+ * @parent ---運 成長---
+ * @type number
+ * @decimals 2
+ * @desc 運のレベル毎の成長率
+ * @default 0.05
+ *
+ * @param LUK Flat Growth
+ * @text 固定成長値
+ * @parent ---運 成長---
+ * @type number
+ * @decimals 2
+ * @desc 運のレベル毎の固定成長値
+ * @default 2.5
+ *
+ * @param ---経験値 成長---
+ * @default
+ *
+ * @param EXP Formula
+ * @text 計算式
+ * @parent ---経験値 成長---
+ * @desc 経験値の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param EXP Rate Growth
+ * @text 成長率
+ * @parent ---経験値 成長---
+ * @type number
+ * @decimals 2
+ * @desc 経験値のレベル毎の成長率
+ * @default 0.15
+ *
+ * @param EXP Flat Growth
+ * @text 固定成長値
+ * @parent ---経験値 成長---
+ * @type number
+ * @decimals 2
+ * @desc 経験値のレベル毎の固定成長値
+ * @default 10.0
+ *
+ * @param ---所持金 成長---
+ * @default
+ *
+ * @param Gold Formula
+ * @text 計算式
+ * @parent ---所持金 成長---
+ * @desc 所持金の計算に使用される式
+ * @default base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *
+ * @param Gold Rate Growth
+ * @text 成長率
+ * @parent ---所持金 成長---
+ * @type number
+ * @decimals 2
+ * @desc 所持金のレベル毎の成長率
+ * @default 0.15
+ *
+ * @param Gold Flat Growth
+ * @text 固定成長値
+ * @parent ---所持金 成長---
+ * @type number
+ * @decimals 2
+ * @desc 所持金のレベル毎の固定成長値
+ * @default 10.0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは敵キャラがレベルアップするシステムを可能にします。
+ * 敵のレベルは特定のルールに基づいてレベルアップし、
+ * レベルに基づいてそのステータスは増加します。
+ *
+ * ===========================================================================
+ * Default Level Types
+ * ===========================================================================
+ *
+ * 敵が戦闘に出現した時、一連のルールから初期レベルを決定します。
+ * これらは 'Default Type'プラグインパラメータを変更することで、
+ * 様々なルールを設定できます。
+ *
+ * Type:
+ *
+ * - Type 0 - プレイヤーパーティーに参加中の全アクター内の最低レベル
+ * - Type 1 - バトルパーティーに参加中の全アクター内の最低レベル
+ * - Type 2 - プレイヤーパーティーに参加中の全アクター内の平均レベル
+ * - Type 3 - 戦闘中の全参加者の平均レベル
+ * - Type 4 - プレイヤーパーティーに参加中の全アクター内の最高レベル
+ * - Type 5 - バトルパーティーに参加中の全アクター内の最高レベル
+ *
+ * 敵のレベルタイプが決定された後、ランダムなレベル変動が追加されます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 下記のメモタグで敵のレベルを個別に設定できます。
+ *
+ * 敵のメモタグ:
+ *
+ *   <Show Level>
+ *   <Hide Level>
+ *   敵は対象選択時にそのレベルを表示/非表示にします。
+ *
+ *   <Minimum Level: x>
+ *   <Maximum Level: x>
+ *   敵の最小レベルと最大レベルをそれぞれ x に設定します。
+ *   これにより、敵は戦闘開始時にこの特定の範囲内のレベルに調整されます。
+ *   最大レベルの上限を回避するのでなければ、
+ *   敵のレベルを変更するスキルはこれらの制限を回避できます。
+ *
+ *   <Static Level: x>
+ *   敵の開始レベルを x に設定します。
+ *   これにより、敵は戦闘開始時にこの特定の範囲内のレベルに調整されます。
+ *   最大レベルの上限を回避するのでなければ、
+ *   敵のレベルを変更するスキルはこれらの制限を回避できます。
+ *
+ *   <Starting Level Type: x>
+ *   敵の開始レベルタイプを0から5の x に設定します。
+ *   レベルタイプの詳細はヘルプ'Default Level Types'を確認してください。
+ *
+ *   <Positive Level Fluctuation: x>
+ *   <Negative Level Fluctuation: x>
+ *   敵の正/負のレベル変動を設定します。
+ *   レベルは戦闘開始時に決定されますが、
+ *   開始レベルのタイプが決定された後に再設定されます。
+ *
+ *   <Level Fluctuation: x>
+ *   敵の正負両方のレベル変動を x に設定します。
+ *   レベルは戦闘開始時に決定されますが、
+ *   開始レベルのタイプが決定された後に再設定されます。
+ *
+ *   <stat Rate: +x% per level>
+ *   <stat Rate: -x% per level>
+ *   <stat Rate: +x.y per level>
+ *   <stat Rate: -x.y per level>
+ *   'stat'を 'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'、
+ *   'exp'、'gold'に置き換えてください。
+ *   敵に各能力の x% の増減を設定します。
+ *   x.y の式を使用すると、+ x.y / - x.y の割合で増減します。
+ *
+ *   <stat Flat: +x per level>
+ *   <stat Flat: -x per level>
+ *   <stat Flat: +x.y per level>
+ *   <stat Flat: -x.y per level>
+ *   'stat'を 'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'、
+ *   'exp'、'gold'に置き換えてください。
+ *   敵は各能力に反映されたレベルの x の増減を持つようになります。
+ *   x.yの式を使用すると、+ x.y / -x.y の増減になります。
+ *
+ *   <Resist Level Change>
+ *   敵はスキルやアイテムを介してのレベルの変化の影響を受けなくなります。
+ *   しかし、スクリプトコールによるレベルの変化には影響を受けます。
+ *
+ *   <Skill x Require Level: y>
+ *   <Skill name Require Level: y>
+ *   敵がスキル x（またはスキル名）を使用する場合、
+ *   それを使用できるようにするにはレベル y 以上である必要を設定します。
+ *   敵がレベル y 以下の場合、スキルは封印され使用できません。
+ *
+ *   <Ignore Level Bonus>
+ *   敵はレベルによって追加された全てのステータス変更を無視し、
+ *   基本ステータスを現在のレベルステータスとして使用します。
+ *   現在のレベルを変更しても敵のステータスは変わりません。
+ *
+ * スキル、アイテムのメモタグ:
+ *
+ *   <Reset Enemy Level>
+ *   対象となる敵のレベルを戦闘開始時のレベルにリセットします。
+ *
+ *   <Change Enemy Level: +x>
+ *   <Change Enemy Level: -x>
+ *   このアクションが敵に対して使われると、
+ *   敵のレベルを +x / -x だけ変更します。
+ *   アクションにリセットとレベル変更の両方が含まれている場合、
+ *   レベル変更の前にリセットが行われます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム開始レベル
+ * ===========================================================================
+ *
+ * JavaScript を使って、敵に条件付きの開始レベルを持たせることができます。
+ * これらのルナティックモードのメモを敵のメモ欄に入れてください。
+ *
+ * 敵のメモタグ:
+ *
+ *   <Custom Starting Level>
+ *    level = $gameActors.actor(1).level + 5;
+ *   </Custom Starting Level>
+ *   'level'変数は敵の開始レベルになります。
+ *   このレベルは敵の最小と最大の開始レベルの設定によって影響されます。
+ *   開始レベルが決定された後、
+ *   それはまだランダムなレベル変動の影響を受けます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム能力値計算式
+ * ===========================================================================
+ *
+ * JavaScript を使って、
+ * 敵のレベルに関して能力値を計算するための式を使えます。
+ * 下記のメモタグを使用してください。
+ *
+ * 敵のメモタグ:
+ *
+ *   <Custom Parameter stat Formula>
+ *    base * (1 + (level - 1) * rate) + (flat * (level - 1))
+ *   </Custom Parameter stat Formula>
+ *   'stat'を 'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'、
+ *   'exp'、'gold'に置き換えてください。
+ *   最後の行の計算式で計算されたものが、statの能力値になります。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム敵レベル
+ * ===========================================================================
+ *
+ * JavaScript を使って、より動的な敵のレベルを変更をしたい場合は、
+ * 下記のようなメモタグを使用してください。
+ *
+ * スキル、アイテムのメモタグ:
+ *
+ *   <Custom Change Enemy Level>
+ *    level += user.atk;
+ *    level -= target.agi;
+ *   </Custom Change Enemy Level>
+ *   'level'変数は敵の現在のレベルになります。
+ *   'level'変数に行われる変更は、
+ *   この効果が完了した後に敵のレベルが変化することになります。
+ *   スキルにレベルリセット効果がある場合、それが最初に適用されます。
+ *   スキルに一定のレベル変更効果がある場合、次にその効果が適用されます。
+ *   これら2つの効果が適用された後、このカスタム敵レベルの変更が行われます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * このプラグインによって追加された新しいJavaScript関数がいくつかあります。
+ *
+ * enemy.level
+ * - 敵の現在のレベルを返します。
+ *
+ * enemy.originalLevel()
+ * - 戦闘開始時から敵の元のレベルを返します。
+ *
+ * enemy.changeLevel(x)
+ * - 敵のレベルを x に変えます。
+ *
+ * enemy.gainLevel(x)
+ * - 敵のレベルを x だけ引き上げます。
+ *
+ * enemy.loseLevel(x)
+ * - 敵のレベルを x だけ引き下げます。
+ *
+ * enemy.resetLevel()
+ * - 敵のレベルを戦闘開始時のレベルに戻します。
+ *
+ * $gameParty.lowestLevelAllMembers()
+ * - 全てのパーティメンバーの最低レベルを返します。
+ *
+ * $gameParty.lowestLevelBattleMembers()
+ * - 全てのバトラーの最低レベルを返します。
+ *
+ * $gameParty.averageLevelAllMembers()
+ * - 全てのパーティーメンバーの平均レベルを返します。
+ *
+ * $gameParty.averageLevelBattleMembers()
+ * - 全てのバトラーの平均レベルを返します。
+ *
+ * $gameParty.highestLevelAllMembers()
+ * - 全てのパーティーメンバーの最高レベルを返します。
+ *
+ * $gameParty.highestLevelBattleMembers()
+ * - 全てのバトラーの最高レベルを返します。
+ *
+ * $gameTroop.changeLevel(x)
+ * - 全ての敵のレベルを x に変更します。
+ *
+ * $gameTroop.gainLevel(x)
+ * - 全ての敵のレベルを x だけ引き上げます。
+ *
+ * $gameTroop.loseLevel(x)
+ * - 全ての敵のレベルを x だけ引き下げます。
+ *
+ * $gameTroop.resetLevel()
+ * - 戦闘開始時に全ての敵のレベルを元のレベルにリセットします。
+ *
+ * $gameTroop.lowestLevel()
+ * - 敵パーティの最低レベルを返します。
+ *
+ * $gameTroop.averageLevel()
+ * - 敵パーティのレベル平均を返します。
+ *
+ * $gameTroop.highestLevel()
+ * - 敵パーティの最高レベルを返します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * プラグインコマンドで敵のレベルを変更したい場合、
+ * 下記のプラグインコマンドを使用してそれらを変更できます。
+ * これらのプラグインコマンドは戦闘中にのみ使用されます。
+ *
+ * プラグインコマンド:
+ *
+ *   EnemyLevelChange 2 to 50
+ *   - ポジション2のレベルの敵を50に変更します。
+ *
+ *   EnemyLevelChangeAll 50
+ *   - 全ての敵のレベルを50に変更します。
+ *
+ *   EnemyGainLevel 3 by 20
+ *   - ポジション3の敵を20レベル引き上げます。
+ *
+ *   EnemyGainLevelAll 20
+ *   - 全ての敵を20レベル引き上げます。
+ *
+ *   EnemyLoseLevel 4 by 10
+ *   - ポジション4の敵を10レベル引き下げます。
+ *
+ *   EnemyLoseLevelAll 10
+ *   - 全ての敵を10レベル引き下げます。
+ *
+ *   EnemyLevelReset 5
+ *   - ポジション5の敵を、戦闘開始時のレベルにリセットします。
+ *
+ *   EnemyLevelResetAll
+ *   - 敵のレベルを全て元のレベルにリセットします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.09:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.07:
+ * - Enemy Transform event now adjusts for stat changes when transforming into
+ * a different enemy.
+ *
+ * Version 1.06:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.05:
+ * - Updated the custom level formula to have the formulas 'b', 'r', and 'f'
+ * to be able to use the formulas from FlyingDream's calculator.
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.03:
+ * - Fixed a bug with average level calculation types for enemies.
+ *
+ * Version 1.02:
+ * - Fixed a bug regarding a line of code that wasn't added properly.
+ *
+ * Version 1.01:
+ * - Added <Ignore Level Bonus> notetag. This causes enemies to maintain their
+ * current level but ignore any bonus stats applied by the level difference.
+ * If the enemy's level is altered, its stats remain static and unchanging.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

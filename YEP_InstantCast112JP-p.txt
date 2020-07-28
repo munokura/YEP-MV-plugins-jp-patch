@@ -1,0 +1,204 @@
+/*:ja
+ * @plugindesc v1.12 ターンを消費しないスキル/アイテムを作れます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Instant Icon
+ * @text ターン無消費アイコン
+ * @type number
+ * @min 0
+ * @desc アイコン上書きでターン無消費スキルをマークします。アイコンを使用しない場合は0
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * アクションがターン無消費特性を持つ場合、
+ * そのアクションはターンの開始を待つ必要なしにその場で即座に使用されます。
+ * それを使用した後、アクターは別のアクションを実行できます。
+ * ターン無消費アクションはターンを消費しないので、
+ * これはあなたのゲームに全く新しい次元の戦闘深度を加えることができます。
+ * アクターが複数のアクションを実行できる場合、
+ * ターン無消費はそれが最初に選択されたアクションであり、
+ * 後続のアクションではない場合のみ発生します。
+ *
+ * 敵がターン無消費のスキルを使用する場合、
+ * 敵のターンが上がると、ターン無消費のスキルを実行し、
+ * その後すぐに別のスキルを実行します。
+ *
+ * このプラグインをスキル制限を有効にする
+ * 別のプラグインと一緒に使用することを強くお勧めします。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下は、ターン無消費特性をアクションに適用するためのメモタグです。
+ *
+ * スキル、アイテムのメモタグ
+ *   <Instant>
+ *   <Instant Cast>
+ *   両方のメモタグは同じように機能します。
+ *   アクターの最初のアクションとしてこのアクションが選択された時、
+ *   即座に実行されます。
+ *   敵によって使用されると、
+ *   敵のターンを消費することなくフォローアップ行動を起こさせるでしょう。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *   <Instant Skill: x>
+ *   <Instant Skill: x, x, x>
+ *   <Instant Skill: x to y>
+ *   スキルxは、アクター、職業、敵、武器・防具が装備されている時、
+ *   ステートが適用される時、
+ *   いつでもターン無消費特性を持つようになります。
+ *   'x to y'を使用すると、
+ *   xからyまでの全てのスキルに適用されます。
+ *
+ *   <Instant Item: x>
+ *   <Instant Item: x, x, x>
+ *   <Instant Item: x to y>
+ *   アイテムxは、アクター、職業、敵、武器・防具が装備されている時、
+ *   ステートが適用される時、
+ *   いつでもターン無消費特性を持つようになります。
+ *   'x to y'を使用すると、
+ *   xからyまでの全ての項目に適用されます。
+ *
+ *   <Cancel Instant Skill: x>
+ *   <Cancel Instant Skill: x, x, x>
+ *   <Cancel Instant Skill: x to y>
+ *   スキルxを即座に実行できなくなります。
+ *   アクター、職業、敵、装備品、ステートがこのメモタグを持っている場合、
+ *   ターン無消費キャスティングに影響を与える可能性がある他の全ての特性よりも
+ *   優先されます。
+ *   'x to y'を使用する場合、xからyまでの全てのスキルに適用されます。
+ *
+ *   <Cancel Instant Item: x>
+ *   <Cancel Instant Item: x, x, x>
+ *   <Cancel Instant item: x to y>
+ *   アイテムxを即座に実行できなくなります。
+ *   アクター、職業、敵、装備品、ステートがこのメモタグを持っている場合、
+ *   ターン無消費キャスティングに影響を与える可能性がある他の全ての特性よりも
+ *   優先されます。
+ *   'x to y'を使用する場合、xからyまでの全ての項目に適用されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 条件付きインスタント
+ * ===========================================================================
+ *
+ * ターン無消費であるかどうかに関わらず動的にアクションを取りたい場合、
+ * 次のメモタグを使用できます。
+ *
+ * スキルとアイテムのメモタグ
+ *   <Instant Eval>
+ *    code
+ *    code
+ *   </Instant Eval>
+ *   コードは何でも構いません。
+ *   ただし、定義したいのは、変数'instant'をtrue/falseにすることです。
+ *   'instant = true'はアクションがターン無消費されることを意味し、
+ *   'instant = false'はアクションが実行されないことを意味します。
+ *   変数'instant'が結論に達しない場合、
+ *   他の修飾子を介してターン無消費要素を決定するために通常どおり再開します。
+ *   このメモタグと一緒にif/else文を使用することをお勧めします。
+ *
+ *   *注:これは<Cancel Instant>のメモタグよりも優先されます。
+ *   この規則の唯一の例外ですが、そのような方法で行われた場合、
+ *   それが独自の<Cancel Instant>として機能できるからです。
+ *
+ * 例:
+ *   <Instant Eval>
+ *   if (user.atk >= 300) instant = true;
+ *   </Instant Eval>
+ *
+ * 上記の例では、
+ * ユーザーのATK値が300以上の場合、
+ * このメモタグを持つアクションは
+ * ターン無消費特性を持つと見なされます。
+ *
+ * ===========================================================================
+ * インスタントキャストの優先度設定
+ * ===========================================================================
+ *
+ * スキルやアイテムがターン無消費特性を持つかを決定する要素は多くありますが、
+ * 優先順位は次のとおりです。
+ *
+ * 1.ターン無消費評価のメモタグ
+ * スキル/アイテムの<Instant Eval>のメモタグに 'instant = true' か
+ * 'instant = false' が指定されている場合、
+ * その設定が他の全てのものより優先されます。
+ *
+ * 2.ターン無消費キャンセルのメモタグ
+ * アクター、職業、敵、武器、防具、ステートのターン無消費を
+ * キャンセルする要素がある場合、
+ * これは Instant Eval のメモタグで指定されているもの以外は全て優先されます。
+ *
+ * 3.ターン無消費スキル/アイテム付与のメモタグ
+ * ターン無消費の特性をスキルやアイテムに付与する
+ * アクター、職業、敵、武器、防具、ステートのメモタグは、
+ * このリストの上に示されたものを除く全てのものに優先します。
+ *
+ * 4.固有のターン無消費特性のメモタグ
+ * 上記のいずれも使用・適用されていない場合、
+ * スキル・アイテムがターン無消費特性を持つかどうかは、
+ * そのメモ欄に <Instant Cast> があるかどうかによって決まります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.12:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.11:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.10:
+ * - Compatibility update for future plugins.
+ *
+ * Version 1.09:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.07b:
+ * - Optimized to fit Tick-Based Battle Systems better.
+ * - Fixed a bug where if the user uses an instant action self-berserks itself,
+ * the user will still be able to input an action.
+ * - Added failsafes for those using independent items and then adding this
+ * plugin later. Effects are not applied retroactively.
+ *
+ * Version 1.06c:
+ * - Fixed a bug if instant casting a skill that would make an opponent battler
+ * to force an action to end incorrectly. Thanks to DoubleX for the fix.
+ * - Added a more consistent window refresh upon using instant actions.
+ * - Instant icons are now shown outside of battle.
+ *
+ * Version 1.05:
+ * - Added a fail safe to keep an action that once it's being used, it will
+ * maintain its current status of being an instant or non-instant until the
+ * action is finished to prevent inconsistencies if a skill were to change
+ * mid-action from instant to non-instant or vice versa.
+ *
+ * Version 1.04:
+ * - Fixed a bug that would cause the game to lock up if using an Instant
+ * action after a common event that would jump labels.
+ *
+ * Version 1.03:
+ * - Fixed a bug with Forced Actions locking out the battle.
+ *
+ * Version 1.02:
+ * - Fixed a bug that caused common events after a forced action to interrupt.
+ *
+ * Version 1.01:
+ * - Compatibility update with ChangeWeaponOnBattle.js.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

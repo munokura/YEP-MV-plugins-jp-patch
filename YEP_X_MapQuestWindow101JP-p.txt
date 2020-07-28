@@ -1,0 +1,435 @@
+/*:ja
+ * @plugindesc v1.01 (要YEP_QuestJournal) マップ移動中に表示するクエストウィンドウをオプションメニューに追加
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_QuestJournalを必要とします。
+ * プラグイン管理でYEP_QuestJournalの下に
+ * このプラグインがあることを確認してください。
+ *
+ * このプラグインは、マップシーンに新しいウィンドウを追加します。
+ * 進行中クエストとその未完了の目的を表示するクエストウィンドウです。
+ * このようにして、
+ * プレイヤーは完了するのに必要な必要なクエスト目的を見ることができます。
+ * プレイヤーはQuestJournalSystemメニューから
+ * 進行中クエストを設定・クリアすることもできます。
+ *
+ * ===========================================================================
+ * 説明 - Map Quest Window の有効化設定
+ * ===========================================================================
+ *
+ * プラグインパラメータ'WindowSettings'はデフォルトでも動作しますが
+ * 変更したいければ、下記を読んでください。
+ *
+ * ---
+ *
+ * Word Wrap Objectives
+ * - YEP_MessageCore がインストールされている場合、
+ * 目的をワードラップするかどうかを設定できます。
+ * これを有効にすると、クエストの目的がワードラップになります。
+ * ※2バイト文字(日本語等)では正常に動作しません。
+ *
+ * Default Show
+ * - このウィンドウをデフォルトで表示するかどうかが決まります。
+ * プレイヤーの[オプション]メニューコマンドには関係ありませんが、
+ * ゲームのシステムからクエストマップウィンドウを
+ * 無効にすることができます。
+ *
+ * ---
+ *
+ * Window Settings
+ * - カテゴリウィンドウをカスタマイズしたい場合、
+ * ここでそのプロパティを調整できます。
+ * ただし、JavaScriptに精通していない限り、
+ * ここでエラーを発生させてウィンドウがゲーム内で
+ * 機能しなくなる可能性があることに注意してください。
+ *
+ * X: Graphics.boxWidth - width
+ * Y: 0
+ * Scale: 0.50
+ * Width: Graphics.boxWidth / 3
+ * Line Height: 36
+ * Font Face: GameFont
+ * Font Size: 28
+ * Standard Padding: 18
+ * Text Padding: 6
+ * Standard Opacity: 255
+ * Back Opacity: 192
+ * Window Skin: Window
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * クエストマップウィンドウの動作を変更するには、
+ * 次のプラグインコマンドを使用できます。
+ *
+ * プラグインコマンド
+ *
+ *   SetActiveQuest x
+ *  - 進行中クエストをxに設定
+ *
+ *   RefreshActiveQuestWindow
+ *  - クエストマップウィンドウを更新します。
+ *
+ *   ShowActiveQuestWindow
+ *   HideActiveQuestWindow
+ *   - クエストマップウィンドウを表示/非表示に変更します。
+ *   ウィンドウを隠すためのプレイヤーのオプションメニューの設定を
+ *   上書きしません。
+ *
+ * ===========================================================================
+ * Options Core 設定 - 新しいオプションの追加
+ * ===========================================================================
+ *
+ * YEP_OptionsCore を使用している場合、
+ * このプラグインを使用して新しいオプションを追加できます。
+ * それと共に使用できる以下のコード/パラメータ設定です。
+ *
+ * ---------
+ * Settings:
+ * ---------
+ *
+ * Name:
+ * \i[87]Quest Window
+ *
+ * Help Description:
+ * Show a window displaying the currently active
+ * quest on the screen while exploring.
+ *
+ * Symbol:
+ * mapQuestWindow
+ *
+ * Show/Hide:
+ * show = Imported.YEP_X_MapQuestWindow;
+ *
+ * Enable:
+ * enabled = true;
+ *
+ * Ext:
+ * ext = 0;
+ *
+ * ----------
+ * Functions:
+ * ----------
+ *
+ * Make Option Code:
+ * this.addCommand(name, symbol, enabled, ext);
+ *
+ * Draw Option Code:
+ * var rect = this.itemRectForText(index);
+ * var statusWidth = this.statusWidth();
+ * var titleWidth = rect.width - statusWidth;
+ * this.resetTextColor();
+ * this.changePaintOpacity(this.isCommandEnabled(index));
+ * this.drawOptionsName(index);
+ * this.drawOptionsOnOff(index);
+ *
+ * Process OK Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, !value);
+ *
+ * Cursor Right Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, true);
+ *
+ * Cursor Left Code:
+ * var index = this.index();
+ * var symbol = this.commandSymbol(index);
+ * var value = this.getConfigValue(symbol);
+ * this.changeValue(symbol, false);
+ *
+ * Default Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Save Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * Load Config Code:
+ * // Empty. Provided by this plugin.
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Compatibility update for YEP_OptionsCore.js.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+  * @param ---メイン---
+ * @default
+ *
+ * @param Window Settings
+ * @text ウィンドウ設定
+ * @parent ---メイン---
+ * @type struct<WindowSettings>
+ * @desc クエストマップウィンドウのプロパティ設定
+ * @default {"---General---":"","Word Wrap Objectives":"true","Default Show":"true","---Window Settings---":"","X":"Graphics.boxWidth - width","Y":"0","Scale":"0.50","Width":"Graphics.boxWidth / 3","Line Height":"36","Font Face":"GameFont","Font Size":"28","Standard Padding":"18","Text Padding":"6","Standard Opacity":"255","Back Opacity":"192","Window Skin":"Window"}
+ *
+ * @param Set Active
+ * @text Set Active 表示テキスト
+ * @parent ---メイン---
+ * @desc 'Set Active'オプションの表示テキスト。文字コード使用可
+ * @default \i[189]ウィンドウへ追加
+ *
+ * @param Currently Active
+ * @text Currently Active 表示テキスト
+ * @parent ---メイン---
+ * @desc 'Currently Active'オプションの表示テキスト。文字コード使用可
+ * @default \i[189]ウィンドウに表示中
+ *
+ * @param Clear Active
+ * @text Clear Active表示テキスト
+ * @parent ---メイン---
+ * @desc 'Clear Active'オプションの表示テキスト。文字コード使用可
+ * @default \i[186]ウィンドウから消去
+ *
+ * @param ---オプション---
+ * @default
+ *
+ * @param Options Command
+ * @text オプションコマンド
+ * @parent ---オプション---
+ * @desc ActiveQuestWindowのオプションコマンド
+ * @default クエストウィンドウ
+ *
+ * @param Options Enable
+ * @text オプションコマンド有効化
+ * @parent ---オプション---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc ActiveQuestWindowのデフォルトオプションコマンド
+ *
+ * @default true
+ *
+ * @param ---自動更新---
+ * @default
+ *
+ * @param Quest Add
+ * @text 新クエスト追加時
+ * @parent ---自動更新---
+ * @type boolean
+ * @on 更新する
+ * @off 更新しない
+ * @desc 新しいクエストを追加する時、クエストウィンドウを更新。最新の進行中クエストを今追加されたものに設定
+ * @default true
+ *
+ * @param Quest Complete
+ * @text クエスト完了時
+ * @parent ---自動更新---
+ * @type boolean
+ * @on 設定する
+ * @off 設定しない
+ * @desc 進行中クエストが完了した時、ウィンドウは次に利用可能な未完了のクエストを設定
+ * @default true
+ *
+ * @param Quest Failed
+ * @text クエスト失敗時
+ * @parent ---自動更新---
+ * @type boolean
+ * @on 設定する
+ * @off 設定しない
+ * @desc 進行中クエストが失敗した時、ウィンドウは次に利用可能な未完のクエストを設定
+ * @default true
+ *
+ * @param Change Objectives
+ * @text クエスト目的変更時
+ * @parent ---自動更新---
+ * @type boolean
+ * @on 更新する
+ * @off 更新しない
+ * @desc クエスト目的が変更された時、ウィンドウを更新
+ * @default true
+ *
+ * @param Event Update
+ * @text イベント更新時
+ * @parent ---自動更新---
+ * @type boolean
+ * @on 更新する
+ * @off 更新しない
+ * @desc スイッチ、変数、パーティーメンバー、アイテム、武器、防具が変わった時、ウィンドウを更新
+ * @default true
+ *
+ */
+//===========================================================================
+/* Plugin Parameter Structure Settings
+ *===========================================================================
+ */
+/* ---------------------------------------------------------------------------
+ * CategoryWindow Parameter Structure
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~WindowSettings:ja
+ * @param ---一般---
+ * @default
+ *
+ * @param Word Wrap Objectives
+ * @text ワードラップ適用
+ * @parent ---一般---
+ * @type boolean
+ * @on 適用する
+ * @off 適用しない
+ * @desc YEP_MessageCoreが入っている時、目的にワードラップを適用
+ * @default true
+ *
+ * @param Default Show
+ * @text デフォルト表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトの進行中クエストウィンドウ表示
+ * @default true
+ *
+ * @param ---ウィンドウ設定---
+ * @default
+ *
+ * @param X
+ * @text X位置
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxWidth - width
+ * @desc ウィンドウのX位置の式
+ * @default Graphics.boxWidth - width
+ *
+ * @param Y
+ * @text Y位置
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxHeight - height
+ * @desc ウィンドウのY位置の式
+ * @default 0
+ *
+ * @param Scale
+ * @text 拡縮率
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 1.00
+ * @option 0.75
+ * @option 0.66
+ * @option 0.50
+ * @option 0.33
+ * @option 0.25
+ * @desc ウィンドウの拡縮率
+ * @default 0.50
+ *
+ * @param Width
+ * @text 幅
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option Graphics.boxWidth
+ * @option Graphics.boxWidth / 2
+ * @option Graphics.boxWidth / 3
+ * @option Graphics.boxWidth2 / 3
+ * @option Graphics.boxWidth / 4
+ * @option Graphics.boxWidth3 / 4
+ * @option Graphics.boxWidth / 5
+ * @option Graphics.boxWidth4 / 5
+ * @desc ウィンドウ幅の式
+ * @default Graphics.boxWidth / 3
+ *
+ * @param Line Height
+ * @text 行高
+ * @parent ---ウィンドウ設定---
+ * @type number
+ * @min 1
+ * @desc 各エントリの行高
+ * @default 36
+ *
+ * @param Font Face
+ * @text フォント
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option GameFont
+ * @option Arial
+ * @option Courier New
+ * @option SimHei
+ * @option Heiti TC
+ * @option Dotum
+ * @option AppleGothic
+ * @desc 使用フォント
+ * @default GameFont
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 20
+ * @option 28
+ * @option Window_Base.prototype.standardFontSize.call(this);
+ * @desc フォントサイズ
+ * @default 28
+ *
+ * @param Standard Padding
+ * @text 余白
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 0
+ * @option 10
+ * @option 18
+ * @option 24
+ * @desc ウィンドウ余白の式
+ * @default 18
+ *
+ * @param Text Padding
+ * @text テキスト余白
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 0
+ * @option 6
+ * @option 12
+ * @desc テキスト表示する前に使用される余白の式
+ * @default 6
+ *
+ * @param Standard Opacity
+ * @text 標準的な不透明度
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウの標準的な不透明度の式
+ * @default 255
+ *
+ * @param Back Opacity
+ * @text 不透明度
+ * @parent ---ウィンドウ設定---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ背景の不透明度の式
+ * @default 192
+ *
+ * @param Window Skin
+ * @text ウィンドウスキン
+ * @parent ---ウィンドウ設定---
+ * @type file
+ * @dir img/system/
+ * @desc ウィンドウスキン
+ * @default Window
+ *
+ */

@@ -1,0 +1,418 @@
+/*:ja
+ * @plugindesc v1.11 アイテム合成システムを導入し、プレイヤーがアイテムを生成できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Synthesis Command
+ * @text メニュー表示テキスト
+ * @parent ---一般---
+ * @desc アイテム合成メニューの表示テキスト
+ * @default 合成
+ *
+ * @param Show Command
+ * @text メニュー表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトのメインメニューに合成コマンドの表示有効化(レシピを持っていないと表示されません)
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Command
+ * @text メニュー有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc メインメニューの合成コマンドのデフォルト有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Auto Place Command
+ * @text 自動配置
+ * @parent ---一般---
+ * @type boolean
+ * @on 自動
+ * @off 手動
+ * @desc メニューの配置位置を自動化
+ * 手動:false / 自動:true
+ * @default true
+ *
+ * @param ---コマンドウィンドウ---
+ * @default
+ *
+ * @param Item Command
+ * @text アイテム合成テキスト
+ * @parent ---コマンドウィンドウ---
+ * @desc アイテムを合成する表示テキスト
+ * @default アイテム合成
+ *
+ * @param Weapon Command
+ * @text 武器合成テキスト
+ * @parent ---コマンドウィンドウ---
+ * @desc 武器を合成する表示テキスト
+ * @default 武器合成
+ *
+ * @param Armor Command
+ * @text 防具合成テキスト
+ * @parent ---コマンドウィンドウ---
+ * @desc 防具を合成する表示テキスト
+ * @default 防具合成
+ *
+ * @param Finish Command
+ * @text 合成完了テキスト
+ * @parent ---コマンドウィンドウ---
+ * @desc 合成シーンを終了する表示テキスト
+ * @default 完了
+ *
+ * @param Text Alignment
+ * @text テキスト揃え
+ * @parent ---コマンドウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc コマンドウィンドウのテキスト揃え
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param ---ステータスウィンドウ---
+ * @default
+ *
+ * @param Collected Recipes
+ * @text レシピ数タイトル
+ * @parent ---ステータスウィンドウ---
+ * @desc 入手したレシピの合計を表す表示タイトル。表示しない場合、空白
+ * @default 入手レシピ
+ *
+ * @param Crafted Items
+ * @text 合成済アイテム
+ * @parent ---ステータスウィンドウ---
+ * @desc 合成されたアイテムを表す表示タイトル。 表示しない場合、空白
+ * @default 合成済アイテム
+ *
+ * @param Crafted Weapons
+ * @text 合成済武器
+ * @parent ---ステータスウィンドウ---
+ * @desc 合成された武器を表す表示タイトル。 表示しない場合、空白
+ * @default 合成済武器
+ *
+ * @param Crafted Armors
+ * @text 合成済防具
+ * @parent ---ステータスウィンドウ---
+ * @desc 合成された防具を表す表示タイトル。 表示しない場合、空白
+ * @default 合成済防具
+ *
+ * @param ---リストウィンドウ---
+ * @default
+ *
+ * @param Equipped Recipes
+ * @text 装備チェック
+ * @parent ---リストウィンドウ---
+ * @type boolean
+ * @on 含める
+ * @off 含めない
+ * @desc 装備品を含めてレシピを確認
+ * 含めない:false / 含める:true
+ * @default true
+ *
+ * @param Mask Unknown
+ * @text 未合成アイテム名
+ * @parent ---リストウィンドウ---
+ * @type boolean
+ * @on 隠す
+ * @off 隠さない
+ * @desc 未合成アイテム名を隠す
+ * 隠さない:false / 隠す:true
+ * @default true
+ *
+ * @param Mask Text
+ * @text 未合成表示テキスト
+ * @parent ---リストウィンドウ---
+ * @desc 未合成アイテム名を隠す時の表示テキスト
+ * @default ?
+ *
+ * @param Mask Italic
+ * @text 未合成テキスト斜体
+ * @parent ---リストウィンドウ---
+ * @type boolean
+ * @on 斜体
+ * @off 通常
+ * @desc 未合成アイテム名を斜体で表示
+ * @default true
+ *
+ * @param Mask Help Text
+ * @text 未合成ヘルプテキスト
+ * @parent ---リストウィンドウ---
+ * @desc 未合成アイテムのヘルプウィンドウの表示テキスト
+ * @default このアイテムはまだ合成されていません。
+ *
+ * @param Ingredients Text
+ * @text 材料テキスト
+ * @parent ---リストウィンドウ---
+ * @desc 材料リスト説明の表示テキスト
+ * @default 材料
+ *
+ * @param Amount Text
+ * @text 量テキスト
+ * @parent ---リストウィンドウ---
+ * @desc 合成する量に使用されるテキスト
+ * @default 合成量
+ *
+ * @param Amount Format
+ * @text 材料表示形式
+ * @parent ---リストウィンドウ---
+ * @type boolean
+ * @on 使用量/所持量
+ * @off 所持量/使用量
+ * @desc 材料数の表示形式
+ * true:使用量/所持量 / false:所持量/使用量
+ * @default false
+ *
+ * @param Quantity Text Size
+ * @text 数量フォントサイズ
+ * @parent ---リストウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 数量のフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param ---音響---
+ * @default
+ *
+ * @param Default SE
+ * @text デフォルトSE
+ * @parent ---音響---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc アイテム合成音デフォルトSE。ファイル名は大文字と小文字を区別し、拡張子を含めないでください。
+ * @default Twine
+ *
+ * @param Default Volume
+ * @text デフォルト音量
+ * @parent ---音響---
+ * @type number
+ * @min 0
+ * @desc アイテム合成音のデフォルト音量
+ * @default 100
+ *
+ * @param Default Pitch
+ * @text デフォルトピッチ
+ * @parent ---音響---
+ * @type number
+ * @desc アイテム合成音のデフォルトピッチ
+ * @default 100
+ *
+ * @param Default Pan
+ * @text デフォルトパン
+ * @parent ---音響---
+ * @type number
+ * @desc アイテム合成音のデフォルトパン
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * アイテム合成は、レシピを入手した後にプレーヤーが自分のアイテムを
+ * 作ることができるほとんどのRPGの今ではかなり一般的なシステムです。
+ * このプラグインはプレーヤーがレシピを得た後、
+ * 合成をすることを可能にします。
+ * レシピから、アイテム、武器、防具を作ることができます。
+ * これらのアイテムは、メインメニューや合成場所から作成できます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * プレイヤーが特定のアイテムを作れるようにするには、
+ * プレイヤーが持っているレシピに含まれていなければなりません。
+ *
+ * ===========================================================================
+ * レシピのメモタグ
+ * ===========================================================================
+ * レシピとなるアイテムに下記のメモタグを挿入します。
+ *
+ * アイテム、武器、防具のメモタグ
+ *   <Item Recipe: x>
+ *   <Item Recipe: x, x, x>
+ *   <Item Recipe: x to y>
+ *
+ *   xアイテムのレシピにします。
+ *   このレシピをパーティーで所持している限り、
+ *   プレイヤーが適切な量の材料を持っていれば、
+ *   アイテムxをプレイヤーが合成することができます。
+ *   *注: 名前のないエントリは含まれません。
+ *   合成コストと材料リストの両方がないエントリは含まれません。
+ *
+ *   <Weapon Recipe: x>
+ *   <Weapon Recipe: x, x, x>
+ *   <Weapon Recipe: x to y>
+ *
+ *   武器xのレシピにします。
+ *   このレシピをパーティーで所持している限り、
+ *   プレイヤーが適切な量の材料を持っていれば、
+ *   武器xをプレイヤーが合成することができます。
+ *   *注: 名前のないエントリは含まれません。
+ *   合成コストと材料リストの両方がないエントリは含まれません。
+ *
+ *   <Armor Recipe: x>
+ *   <Armor Recipe: x, x, x>
+ *   <Armor Recipe: x to y>
+ *
+ *   防具xのレシピにします。
+ *   このレシピをパーティーで所持している限り、
+ *   プレイヤーが適切な量の材料を持っていれば、
+ *   防具xをプレイヤーが合成することができます。
+ *   *注: 名前のないエントリは含まれません。
+ *   合成コストと材料リストの両方がないエントリは含まれません。
+ *
+ * ===========================================================================
+ * 合成アイテムのメモタグ
+ * ===========================================================================
+ * 合成結果となるアイテムに材料リストとなるメモタグを挿入します。
+ *
+ * アイテム、武器、防具のメモタグ
+ *   <Synthesis Ingredients>
+ *     item id
+ *     item id: x
+ *     weapon id
+ *     weapon id: x
+ *     armor id
+ *     armor id: x
+ *     gold: x
+ *     named item
+ *     named item: x
+ *   </Synthesis Ingredients>
+ *
+ *   アイテムに上記のタグを使用すると、
+ *   それらのアイテムはプレイヤーが合成するのに必要な材料として設定されます。
+ *   "id"を適切なアイテム、武器、防具のIDに置き換えてください。
+ *   ": x"は必要量です。
+ *   ": x"が使用されていない場合、
+ *   データベースはそのアイテムの1個を必要原料として設定します。
+ *   'gold: x'が使用されている場合、
+ *   アイテムを合成するのに必要なコストになります。
+ *
+ *   名前付きエントリを使用している場合、
+ *   アイテム、武器、防具の順で最も高いIDが優先されます。
+ *
+ *   *注: YEP_ItemCoreを使用している場合、
+ *   独立アイテムはレシピの材料になることはできないため、
+ *   自動的に省略されます。
+ *
+ *   <Mask Name: x>
+ *   未知のアイテムの名前を隠している場合、
+ *   未知のアイテムに対して表示されるテキストをxで変更できます。
+ *   これにより、通常のマスク名の代わりのマスク名を使用します。
+ *   プレイヤーは'奇妙な液体'や'奇妙なクリスタル'など、
+ *   合成できる可能性のアイデアを得ることができます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム合成効果
+ * ===========================================================================
+ *
+ * JavaScript を使ったメモタグを使うことで、
+ * 特定のアイテムが合成された時、起こるカスタム効果を作ることができます。
+ * 例えば、ポーションが作られる時、
+ * 合成の副産物として空のボトルを与えることができます。
+ *
+ * ---
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <Custom Synthesis Effect>
+ *    var bottle = $dataItems[123];
+ *    $gameParty.gainItem(bottle, 2);
+ *   </Custom Synthesis Effect>
+ *
+ * このメモタグでは、'item'変数は合成されているアイテムを参照します。
+ * 変更しても何もしませんが、参照するための便利な変数として使用されます。
+ *
+ * ---
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下は、イベントで使用できるプラグインコマンドです。
+ *
+ * プラグインコマンド:
+ *   OpenSynthesis          フィールドから合成シーンを開きます。
+ *   ShowSynthesis          メインメニューから合成コマンドを表示します。
+ *   HideSynthesis          メインメニューから合成コマンドを隠します。
+ *   EnableSynthesis        メインメニューから合成コマンドを有効にします。
+ *   DisableSynthesis       メインメニューから合成コマンドを無効にします。
+ *
+ * プレイヤーに特定のレシピのみを合成させたい場合、
+ * 次のコマンドを使用できます。
+ *
+ *   OpenSynthesis Item 15 Recipe
+ *   - 又は -
+ *   OpenSynthesis Weapon 20 Recipe
+ *   - 又は -
+ *   OpenSynthesis Armor 30 Recipe
+ *
+ * OpenSynthesis に続けてレシピアイテムを指定すると、
+ * そのレシピのみの合成シーンを開きます。
+ * そのレシピを所持している必要はありません。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.11:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.10:
+ * - Added 'Amount Format' plugin parameter. Now you can switch the way the
+ * needed ingredients are shown between Need/Own and Own/Need.
+ *
+ * Version 1.09:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.08:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.07:
+ * - Added <Custom Synthesis Effect> Lunatic Mode notetag.
+ *
+ * Version 1.06:
+ * - Fixed an error with the calculation of total recipes.
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.04:
+ * - Added failsafes to prevent crashes from saved games that did not have
+ * this plugin already installed.
+ *
+ * Version 1.03a:
+ * - Fixed a bug that caused a crash for OpenSynthesis recipe commands.
+ * - Fixed an issue with recipe counts not appearing right.
+ *
+ * Version 1.02:
+ * - Added 'Equipped Recipes' plugin parameter. If enabled, this will allow
+ * the Item Synthesis menu to check your party's equipment to see if any of
+ * them are recipe holders.
+ *
+ * Version 1.01:
+ * - Fixed a bug with the synthesis gold costs taking more than they should.
+ * - Extended the OpenSynthesis plugin command. If you add Item, Weapon, or
+ * Armor after the command along with an ID, the synthesis menu will only show
+ * the items listed on the recipe for Item x, Weapon x, or Armor x.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

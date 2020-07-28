@@ -1,0 +1,190 @@
+/*:ja
+ * @plugindesc v1.02 (要YEP_BattleEngineCore & YEP_BuffsStatesCore) ステートに視覚効果を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---アクター---
+ * @default
+ *
+ * @param Actor State Overlay
+ * @text ステートオーバーレイ
+ * @parent ---アクター---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターにステートのオーバーレイを表示
+ * 表示:true / 非表示:false / デフォルト:true
+ * @default true
+ *
+ * @param Actor State Icons
+ * @text ステートアイコン
+ * @parent ---アクター---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターにステートアイコンを表示
+ * 表示:true / 非表示:false / デフォルト:false
+ * @default true
+ *
+ * @param Actor State Animation
+ * @text ステートアニメーション
+ * @parent ---アクター---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターにステートのアニメーションを表示
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param ---敵---
+ * @default
+ *
+ * @param Enemy State Overlay
+ * @text ステートオーバーレイ
+ * @parent ---敵---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵にステートのオーバーレイを表示
+ * 表示:true / 非表示:false / デフォルト:false
+ * @default true
+ *
+ * @param Enemy State Icons
+ * @text ステートアイコン
+ * @parent ---敵---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵にステートアイコンを表示
+ * 表示:true / 非表示:false / デフォルト:true
+ * @default true
+ *
+ * @param Enemy State Animation
+ * @text ステートアニメーション
+ * @parent ---敵---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 敵にステートアニメーションを表示
+ * 表示:true / 非表示:false
+ * @default true
+ *
+ * @param ---アニメーション設定---
+ * @default
+ *
+ * @param Allow Target Flash
+ * @text 対象フラッシュ効果
+ * @parent ---アニメーション設定---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ステートアニメーションに対象フラッシュ効果
+ * 有効:true / 無効:false
+ * @default true
+ *
+ * @param Allow Screen Flash
+ * @text 画面フラッシュ効果
+ * @parent ---アニメーション設定---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ステートアニメーションに画面フラッシュ効果
+ * 有効:true / 無効:false
+ * @default false
+ *
+ * @param Allow Hide Target
+ * @text 対象消去効果
+ * @parent ---アニメーション設定---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ステートアニメーションに対象消去効果
+ * 有効:true / 無効:false
+ * @default false
+ *
+ * @param Allow Sound
+ * @text 効果音
+ * @parent ---アニメーション設定---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ステートアニメーションに効果音
+ * 再生:true / 非再生:false
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_BattleEngineCoreとYEP_BuffsStatesCoreを必要とします。
+ * このプラグインがプラグイン管理の
+ * 両方のプラグインの下にあることを確認してください。
+ *
+ * YEP_X_AnimatedSVEnemies を使用している場合、互換性を高めるために、
+ * このプラグインをプラグイン管理で
+ * YEP_X_AnimatedSVEnemies の下に置きます。
+ *
+ * ステートは戦闘システムの最も重要な面の1つです。
+ * このプラグインを使用すると、
+ * ステートに関する詳細や視覚効果を追加して適切なデータを表示できます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * ステートに視覚効果を与えるために、以下のメモタグを使うことができます。
+ *
+ * ステートのメモタグ
+ *
+ *   <State Motion: Walk>
+ *   <State Motion: Wait>
+ *   <State Motion: Chant>
+ *   <State Motion: Guard>
+ *   <State Motion: Damage>
+ *   <State Motion: Evade>
+ *   <State Motion: Thrust>
+ *   <State Motion: Swing>
+ *   <State Motion: Missile>
+ *   <State Motion: Skill>
+ *   <State Motion: Spell>
+ *   <State Motion: Item>
+ *   <State Motion: Escape>
+ *   <State Motion: Victory>
+ *   <State Motion: Dying>
+ *   <State Motion: Abnormal>
+ *   <State Motion: Sleep>
+ *   <State Motion: Dead>
+ *   - バトラーがこのステートの影響を受けた時、
+ *   カスタムモーションを設定することを可能にします。
+ *   バトラーがカスタムモーションを持つ複数のステートを受けている場合、
+ *   優先順位はこの State Motion メモタグで(データベース内で)
+ *   最も高い優先順位番号を持つステートに行きます。
+ *
+ *   <State Animation: x>
+ *   - バトラーがこのメモタグを持つステートの影響を受けた時、
+ *   繰り返しのアニメーションxが戦闘中にバトラーで再生されます。
+ *   バトラーがこのメモタグで複数のステートの影響を受けた時、
+ *   優先順位はこの State Motion メモタグで(データベース内で)
+ *   最も高い優先順位番号を持つステートに行きます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Fixed a bug where enemy icon settings would match actor icon settings
+ * regardless of the settings made in the plugin parameters.
+ *
+ * Version 1.01:
+ * - State animations are now adjusted to fit the opacity of the battler.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

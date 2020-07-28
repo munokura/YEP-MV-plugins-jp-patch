@@ -1,0 +1,1834 @@
+/*:ja
+ * @plugindesc v1.01 (要YEP_MessageCore) メッセージシステムに1から100のマクロを追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---設定---
+ * @text ---設定---
+ * @default
+ *
+ * @param Enable Quick Macro
+ * @text クイックマクロ有効化
+ * @parent ---設定---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc クイックマクロを許可。例:\m[harold]の代わりに\haroldを使える
+ * 禁止:false / 許可:true
+ * @default false
+ *
+ * @param ---マクロ1---
+ * @text ---マクロ1---
+ * @default
+ *
+ * @param Macro 1 Text
+ * @text マクロ1文字
+ * @parent ---マクロ1---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 
+ * 制御文字を使用できます。
+ * @default \n<\c[6]\n[1]\c[0]>
+ *
+ * @param Macro 1 Name
+ * @text マクロ1名
+ * @parent ---マクロ1---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default ハロルド
+ *
+ * @param ---マクロ2---
+ * @text ---マクロ2---
+ * @default
+ *
+ * @param Macro 2 Text
+ * @text マクロ2文字
+ * @parent ---マクロ2---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default \n<\c[6]\n[2]\c[0]>
+ *
+ * @param Macro 2 Name
+ * @text マクロ2名
+ * @parent ---マクロ2---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default テレーゼ
+ *
+ * @param ---マクロ3---
+ * @text ---マクロ3---
+ * @default
+ *
+ * @param Macro 3 Text
+ * @text マクロ3文字
+ * @parent ---マクロ3---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default \n<\c[6]\n[3]\c[0]>
+ *
+ * @param Macro 3 Name
+ * @text マクロ3名
+ * @parent ---マクロ3---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default マーシャ
+ *
+ * @param ---マクロ4---
+ * @text ---マクロ4---
+ * @default
+ *
+ * @param Macro 4 Text
+ * @text マクロ4文字
+ * @parent ---マクロ4---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default \n<\c[6]\n[4]\c[0]>
+ *
+ * @param Macro 4 Name
+ * @text マクロ4名
+ * @parent ---マクロ4---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default ルキウス
+ *
+ * @param ---マクロ5---
+ * @text ---マクロ5---
+ * @default
+ *
+ * @param Macro 5 Text
+ * @text マクロ5文字
+ * @parent ---マクロ5---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 5 Name
+ * @text マクロ5名
+ * @parent ---マクロ5---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ6---
+ * @text ---マクロ6---
+ * @default
+ *
+ * @param Macro 6 Text
+ * @text マクロ6文字
+ * @parent ---マクロ6---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 6 Name
+ * @text マクロ6名
+ * @parent ---マクロ6---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ7---
+ * @text ---マクロ7---
+ * @default
+ *
+ * @param Macro 7 Text
+ * @text マクロ7文字
+ * @parent ---マクロ7---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 7 Name
+ * @text マクロ7名
+ * @parent ---マクロ7---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ8---
+ * @text ---マクロ8---
+ * @default
+ *
+ * @param Macro 8 Text
+ * @text マクロ8文字
+ * @parent ---マクロ8---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 8 Name
+ * @text マクロ8名
+ * @parent ---マクロ8---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ9---
+ * @text ---マクロ9---
+ * @default
+ *
+ * @param Macro 9 Text
+ * @text マクロ9文字
+ * @parent ---マクロ9---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 9 Name
+ * @text マクロ9名
+ * @parent ---マクロ9---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ10---
+ * @text ---マクロ10---
+ * @default
+ *
+ * @param Macro 10 Text
+ * @text マクロ10文字
+ * @parent ---マクロ10---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 10 Name
+ * @text マクロ10名
+ * @parent ---マクロ10---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ11---
+ * @text ---マクロ11---
+ * @default
+ *
+ * @param Macro 11 Text
+ * @text マクロ11文字
+ * @parent ---マクロ11---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 11 Name
+ * @text マクロ11名
+ * @parent ---マクロ11---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ12---
+ * @text ---マクロ12---
+ * @default
+ *
+ * @param Macro 12 Text
+ * @text マクロ12文字
+ * @parent ---マクロ12---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 12 Name
+ * @text マクロ12名
+ * @parent ---マクロ12---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ13---
+ * @text ---マクロ13---
+ * @default
+ *
+ * @param Macro 13 Text
+ * @text マクロ13文字
+ * @parent ---マクロ13---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 13 Name
+ * @text マクロ13名
+ * @parent ---マクロ13---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ14---
+ * @text ---マクロ14---
+ * @default
+ *
+ * @param Macro 14 Text
+ * @text マクロ14文字
+ * @parent ---マクロ14---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 14 Name
+ * @text マクロ14名
+ * @parent ---マクロ14---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ15---
+ * @text ---マクロ15---
+ * @default
+ *
+ * @param Macro 15 Text
+ * @text マクロ15文字
+ * @parent ---マクロ15---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 15 Name
+ * @text マクロ15名
+ * @parent ---マクロ15---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ16---
+ * @text ---マクロ16---
+ * @default
+ *
+ * @param Macro 16 Text
+ * @text マクロ16文字
+ * @parent ---マクロ16---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 16 Name
+ * @text マクロ16名
+ * @parent ---マクロ16---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ17---
+ * @text ---マクロ17---
+ * @default
+ *
+ * @param Macro 17 Text
+ * @text マクロ17文字
+ * @parent ---マクロ17---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 17 Name
+ * @text マクロ17名
+ * @parent ---マクロ17---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ18---
+ * @text ---マクロ18---
+ * @default
+ *
+ * @param Macro 18 Text
+ * @text マクロ18文字
+ * @parent ---マクロ18---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 18 Name
+ * @text マクロ18名
+ * @parent ---マクロ18---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ19---
+ * @text ---マクロ19---
+ * @default
+ *
+ * @param Macro 19 Text
+ * @text マクロ19文字
+ * @parent ---マクロ19---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 19 Name
+ * @text マクロ19名
+ * @parent ---マクロ19---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ20---
+ * @text ---マクロ20---
+ * @default
+ *
+ * @param Macro 20 Text
+ * @text マクロ20文字
+ * @parent ---マクロ20---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 20 Name
+ * @text マクロ20名
+ * @parent ---マクロ20---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ21---
+ * @text ---マクロ21---
+ * @default
+ *
+ * @param Macro 21 Text
+ * @text マクロ21文字
+ * @parent ---マクロ21---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 21 Name
+ * @text マクロ21名
+ * @parent ---マクロ21---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ22---
+ * @text ---マクロ22---
+ * @default
+ *
+ * @param Macro 22 Text
+ * @text マクロ22文字
+ * @parent ---マクロ22---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 22 Name
+ * @text マクロ22名
+ * @parent ---マクロ22---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ23---
+ * @text ---マクロ23---
+ * @default
+ *
+ * @param Macro 23 Text
+ * @text マクロ23文字
+ * @parent ---マクロ23---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 23 Name
+ * @text マクロ23名
+ * @parent ---マクロ23---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ24---
+ * @text ---マクロ24---
+ * @default
+ *
+ * @param Macro 24 Text
+ * @text マクロ24文字
+ * @parent ---マクロ24---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 24 Name
+ * @text マクロ24名
+ * @parent ---マクロ24---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ25---
+ * @text ---マクロ25---
+ * @default
+ *
+ * @param Macro 25 Text
+ * @text マクロ25文字
+ * @parent ---マクロ25---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 25 Name
+ * @text マクロ25名
+ * @parent ---マクロ25---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ26---
+ * @text ---マクロ26---
+ * @default
+ *
+ * @param Macro 26 Text
+ * @text マクロ26文字
+ * @parent ---マクロ26---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 26 Name
+ * @text マクロ26名
+ * @parent ---マクロ26---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ27---
+ * @text ---マクロ27---
+ * @default
+ *
+ * @param Macro 27 Text
+ * @text マクロ27文字
+ * @parent ---マクロ27---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 27 Name
+ * @text マクロ27名
+ * @parent ---マクロ27---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ28---
+ * @text ---マクロ28---
+ * @default
+ *
+ * @param Macro 28 Text
+ * @text マクロ28文字
+ * @parent ---マクロ28---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 28 Name
+ * @text マクロ28名
+ * @parent ---マクロ28---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ29---
+ * @text ---マクロ29---
+ * @default
+ *
+ * @param Macro 29 Text
+ * @text マクロ29文字
+ * @parent ---マクロ29---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 29 Name
+ * @text マクロ29名
+ * @parent ---マクロ29---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ30---
+ * @text ---マクロ30---
+ * @default
+ *
+ * @param Macro 30 Text
+ * @text マクロ30文字
+ * @parent ---マクロ30---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 30 Name
+ * @text マクロ30名
+ * @parent ---マクロ30---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ31---
+ * @text ---マクロ31---
+ * @default
+ *
+ * @param Macro 31 Text
+ * @text マクロ31文字
+ * @parent ---マクロ31---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 31 Name
+ * @text マクロ31名
+ * @parent ---マクロ31---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ32---
+ * @text ---マクロ32---
+ * @default
+ *
+ * @param Macro 32 Text
+ * @text マクロ32文字
+ * @parent ---マクロ32---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 32 Name
+ * @text マクロ32名
+ * @parent ---マクロ32---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ33---
+ * @text ---マクロ33---
+ * @default
+ *
+ * @param Macro 33 Text
+ * @text マクロ33文字
+ * @parent ---マクロ33---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 33 Name
+ * @text マクロ33名
+ * @parent ---マクロ33---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ34---
+ * @text ---マクロ34---
+ * @default
+ *
+ * @param Macro 34 Text
+ * @text マクロ34文字
+ * @parent ---マクロ34---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 34 Name
+ * @text マクロ34名
+ * @parent ---マクロ34---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ35---
+ * @text ---マクロ35---
+ * @default
+ *
+ * @param Macro 35 Text
+ * @text マクロ35文字
+ * @parent ---マクロ35---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 35 Name
+ * @text マクロ35名
+ * @parent ---マクロ35---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ36---
+ * @text ---マクロ36---
+ * @default
+ *
+ * @param Macro 36 Text
+ * @text マクロ36文字
+ * @parent ---マクロ36---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 36 Name
+ * @text マクロ36名
+ * @parent ---マクロ36---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ37---
+ * @text ---マクロ37---
+ * @default
+ *
+ * @param Macro 37 Text
+ * @text マクロ37文字
+ * @parent ---マクロ37---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 37 Name
+ * @text マクロ37名
+ * @parent ---マクロ37---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ38---
+ * @text ---マクロ38---
+ * @default
+ *
+ * @param Macro 38 Text
+ * @text マクロ38文字
+ * @parent ---マクロ38---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 38 Name
+ * @text マクロ38名
+ * @parent ---マクロ38---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ39---
+ * @text ---マクロ39---
+ * @default
+ *
+ * @param Macro 39 Text
+ * @text マクロ39文字
+ * @parent ---マクロ39---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 39 Name
+ * @text マクロ39名
+ * @parent ---マクロ39---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ40---
+ * @text ---マクロ40---
+ * @default
+ *
+ * @param Macro 40 Text
+ * @text マクロ40文字
+ * @parent ---マクロ40---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 40 Name
+ * @text マクロ40名
+ * @parent ---マクロ40---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ41---
+ * @text ---マクロ41---
+ * @default
+ *
+ * @param Macro 41 Text
+ * @text マクロ41文字
+ * @parent ---マクロ41---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 41 Name
+ * @text マクロ41名
+ * @parent ---マクロ41---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ42---
+ * @text ---マクロ42---
+ * @default
+ *
+ * @param Macro 42 Text
+ * @text マクロ42文字
+ * @parent ---マクロ42---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 生命、宇宙、そして全ての究極の質問に対する答え。
+ *
+ * @param Macro 42 Name
+ * @text マクロ42名
+ * @parent ---マクロ42---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 命
+ *
+ * @param ---マクロ43---
+ * @text ---マクロ43---
+ * @default
+ *
+ * @param Macro 43 Text
+ * @text マクロ43文字
+ * @parent ---マクロ43---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 43 Name
+ * @text マクロ43名
+ * @parent ---マクロ43---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ44---
+ * @text ---マクロ44---
+ * @default
+ *
+ * @param Macro 44 Text
+ * @text マクロ44文字
+ * @parent ---マクロ44---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 44 Name
+ * @text マクロ44名
+ * @parent ---マクロ44---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ45---
+ * @text ---マクロ45---
+ * @default
+ *
+ * @param Macro 45 Text
+ * @text マクロ45文字
+ * @parent ---マクロ45---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 45 Name
+ * @text マクロ45名
+ * @parent ---マクロ45---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ46---
+ * @text ---マクロ46---
+ * @default
+ *
+ * @param Macro 46 Text
+ * @text マクロ46文字
+ * @parent ---マクロ46---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 46 Name
+ * @text マクロ46名
+ * @parent ---マクロ46---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ47---
+ * @text ---マクロ47---
+ * @default
+ *
+ * @param Macro 47 Text
+ * @text マクロ47文字
+ * @parent ---マクロ47---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 47 Name
+ * @text マクロ47名
+ * @parent ---マクロ47---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ48---
+ * @text ---マクロ48---
+ * @default
+ *
+ * @param Macro 48 Text
+ * @text マクロ48文字
+ * @parent ---マクロ48---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 48 Name
+ * @text マクロ48名
+ * @parent ---マクロ48---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ49---
+ * @text ---マクロ49---
+ * @default
+ *
+ * @param Macro 49 Text
+ * @text マクロ49文字
+ * @parent ---マクロ49---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 49 Name
+ * @text マクロ49名
+ * @parent ---マクロ49---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ50---
+ * @text ---マクロ50---
+ * @default
+ *
+ * @param Macro 50 Text
+ * @text マクロ50文字
+ * @parent ---マクロ50---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 50 Name
+ * @text マクロ50名
+ * @parent ---マクロ50---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ51---
+ * @text ---マクロ51---
+ * @default
+ *
+ * @param Macro 51 Text
+ * @text マクロ51文字
+ * @parent ---マクロ51---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 51 Name
+ * @text マクロ51名
+ * @parent ---マクロ51---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ52---
+ * @text ---マクロ52---
+ * @default
+ *
+ * @param Macro 52 Text
+ * @text マクロ52文字
+ * @parent ---マクロ52---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 52 Name
+ * @text マクロ52名
+ * @parent ---マクロ52---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ53---
+ * @text ---マクロ53---
+ * @default
+ *
+ * @param Macro 53 Text
+ * @text マクロ53文字
+ * @parent ---マクロ53---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 53 Name
+ * @text マクロ53名
+ * @parent ---マクロ53---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ54---
+ * @text ---マクロ54---
+ * @default
+ *
+ * @param Macro 54 Text
+ * @text マクロ54文字
+ * @parent ---マクロ54---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 54 Name
+ * @text マクロ54名
+ * @parent ---マクロ54---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ55---
+ * @text ---マクロ55---
+ * @default
+ *
+ * @param Macro 55 Text
+ * @text マクロ55文字
+ * @parent ---マクロ55---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 55 Name
+ * @text マクロ55名
+ * @parent ---マクロ55---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ56---
+ * @text ---マクロ56---
+ * @default
+ *
+ * @param Macro 56 Text
+ * @text マクロ56文字
+ * @parent ---マクロ56---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 56 Name
+ * @text マクロ56名
+ * @parent ---マクロ56---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ57---
+ * @text ---マクロ57---
+ * @default
+ *
+ * @param Macro 57 Text
+ * @text マクロ57文字
+ * @parent ---マクロ57---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 57 Name
+ * @text マクロ57名
+ * @parent ---マクロ57---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ58---
+ * @text ---マクロ58---
+ * @default
+ *
+ * @param Macro 58 Text
+ * @text マクロ58文字
+ * @parent ---マクロ58---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 58 Name
+ * @text マクロ58名
+ * @parent ---マクロ58---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ59---
+ * @text ---マクロ59---
+ * @default
+ *
+ * @param Macro 59 Text
+ * @text マクロ59文字
+ * @parent ---マクロ59---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 59 Name
+ * @text マクロ59名
+ * @parent ---マクロ59---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ60---
+ * @text ---マクロ60---
+ * @default
+ *
+ * @param Macro 60 Text
+ * @text マクロ60文字
+ * @parent ---マクロ60---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 60 Name
+ * @text マクロ60名
+ * @parent ---マクロ60---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ61---
+ * @text ---マクロ61---
+ * @default
+ *
+ * @param Macro 61 Text
+ * @text マクロ61文字
+ * @parent ---マクロ61---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 61 Name
+ * @text マクロ61名
+ * @parent ---マクロ61---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ62---
+ * @text ---マクロ62---
+ * @default
+ *
+ * @param Macro 62 Text
+ * @text マクロ62文字
+ * @parent ---マクロ62---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 62 Name
+ * @text マクロ62名
+ * @parent ---マクロ62---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ63---
+ * @text ---マクロ63---
+ * @default
+ *
+ * @param Macro 63 Text
+ * @text マクロ63文字
+ * @parent ---マクロ63---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 63 Name
+ * @text マクロ63名
+ * @parent ---マクロ63---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ64---
+ * @text ---マクロ64---
+ * @default
+ *
+ * @param Macro 64 Text
+ * @text マクロ64文字
+ * @parent ---マクロ64---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 64 Name
+ * @text マクロ64名
+ * @parent ---マクロ64---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ65---
+ * @text ---マクロ65---
+ * @default
+ *
+ * @param Macro 65 Text
+ * @text マクロ65文字
+ * @parent ---マクロ65---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 65 Name
+ * @text マクロ65名
+ * @parent ---マクロ65---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ66---
+ * @text ---マクロ66---
+ * @default
+ *
+ * @param Macro 66 Text
+ * @text マクロ66文字
+ * @parent ---マクロ66---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 66 Name
+ * @text マクロ66名
+ * @parent ---マクロ66---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ67---
+ * @text ---マクロ67---
+ * @default
+ *
+ * @param Macro 67 Text
+ * @text マクロ67文字
+ * @parent ---マクロ67---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 67 Name
+ * @text マクロ67名
+ * @parent ---マクロ67---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ68---
+ * @text ---マクロ68---
+ * @default
+ *
+ * @param Macro 68 Text
+ * @text マクロ68文字
+ * @parent ---マクロ68---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 68 Name
+ * @text マクロ68名
+ * @parent ---マクロ68---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ69---
+ * @text ---マクロ69---
+ * @default
+ *
+ * @param Macro 69 Text
+ * @text マクロ69文字
+ * @parent ---マクロ69---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 69 Name
+ * @text マクロ69名
+ * @parent ---マクロ69---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ70---
+ * @text ---マクロ70---
+ * @default
+ *
+ * @param Macro 70 Text
+ * @text マクロ70文字
+ * @parent ---マクロ70---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 70 Name
+ * @text マクロ70名
+ * @parent ---マクロ70---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ71---
+ * @text ---マクロ71---
+ * @default
+ *
+ * @param Macro 71 Text
+ * @text マクロ71文字
+ * @parent ---マクロ71---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 71 Name
+ * @text マクロ71名
+ * @parent ---マクロ71---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ72---
+ * @text ---マクロ72---
+ * @default
+ *
+ * @param Macro 72 Text
+ * @text マクロ72文字
+ * @parent ---マクロ72---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 72 Name
+ * @text マクロ72名
+ * @parent ---マクロ72---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ73---
+ * @text ---マクロ73---
+ * @default
+ *
+ * @param Macro 73 Text
+ * @text マクロ73文字
+ * @parent ---マクロ73---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 73 Name
+ * @text マクロ73名
+ * @parent ---マクロ73---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ74---
+ * @text ---マクロ74---
+ * @default
+ *
+ * @param Macro 74 Text
+ * @text マクロ74文字
+ * @parent ---マクロ74---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 74 Name
+ * @text マクロ74名
+ * @parent ---マクロ74---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ75---
+ * @text ---マクロ75---
+ * @default
+ *
+ * @param Macro 75 Text
+ * @text マクロ75文字
+ * @parent ---マクロ75---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 75 Name
+ * @text マクロ75名
+ * @parent ---マクロ75---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ76---
+ * @text ---マクロ76---
+ * @default
+ *
+ * @param Macro 76 Text
+ * @text マクロ76文字
+ * @parent ---マクロ76---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 76 Name
+ * @text マクロ76名
+ * @parent ---マクロ76---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ77---
+ * @text ---マクロ77---
+ * @default
+ *
+ * @param Macro 77 Text
+ * @text マクロ77文字
+ * @parent ---マクロ77---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 77 Name
+ * @text マクロ77名
+ * @parent ---マクロ77---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ78---
+ * @text ---マクロ78---
+ * @default
+ *
+ * @param Macro 78 Text
+ * @text マクロ78文字
+ * @parent ---マクロ78---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 78 Name
+ * @text マクロ78名
+ * @parent ---マクロ78---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ79---
+ * @text ---マクロ79---
+ * @default
+ *
+ * @param Macro 79 Text
+ * @text マクロ79文字
+ * @parent ---マクロ79---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 79 Name
+ * @text マクロ79名
+ * @parent ---マクロ79---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ80---
+ * @text ---マクロ80---
+ * @default
+ *
+ * @param Macro 80 Text
+ * @text マクロ80文字
+ * @parent ---マクロ80---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 80 Name
+ * @text マクロ80名
+ * @parent ---マクロ80---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ81---
+ * @text ---マクロ81---
+ * @default
+ *
+ * @param Macro 81 Text
+ * @text マクロ81文字
+ * @parent ---マクロ81---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 81 Name
+ * @text マクロ81名
+ * @parent ---マクロ81---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ82---
+ * @text ---マクロ82---
+ * @default
+ *
+ * @param Macro 82 Text
+ * @text マクロ82文字
+ * @parent ---マクロ82---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 82 Name
+ * @text マクロ82名
+ * @parent ---マクロ82---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ83---
+ * @text ---マクロ83---
+ * @default
+ *
+ * @param Macro 83 Text
+ * @text マクロ83文字
+ * @parent ---マクロ83---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 83 Name
+ * @text マクロ83名
+ * @parent ---マクロ83---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ84---
+ * @text ---マクロ84---
+ * @default
+ *
+ * @param Macro 84 Text
+ * @text マクロ84文字
+ * @parent ---マクロ84---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 84 Name
+ * @text マクロ84名
+ * @parent ---マクロ84---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ85---
+ * @text ---マクロ85---
+ * @default
+ *
+ * @param Macro 85 Text
+ * @text マクロ85文字
+ * @parent ---マクロ85---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 85 Name
+ * @text マクロ85名
+ * @parent ---マクロ85---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ86---
+ * @text ---マクロ86---
+ * @default
+ *
+ * @param Macro 86 Text
+ * @text マクロ86文字
+ * @parent ---マクロ86---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 86 Name
+ * @text マクロ86名
+ * @parent ---マクロ86---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ87---
+ * @text ---マクロ87---
+ * @default
+ *
+ * @param Macro 87 Text
+ * @text マクロ87文字
+ * @parent ---マクロ87---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 87 Name
+ * @text マクロ87名
+ * @parent ---マクロ87---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ88---
+ * @text ---マクロ88---
+ * @default
+ *
+ * @param Macro 88 Text
+ * @text マクロ88文字
+ * @parent ---マクロ88---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 88 Name
+ * @text マクロ88名
+ * @parent ---マクロ88---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ89---
+ * @text ---マクロ89---
+ * @default
+ *
+ * @param Macro 89 Text
+ * @text マクロ89文字
+ * @parent ---マクロ89---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 89 Name
+ * @text マクロ89名
+ * @parent ---マクロ89---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ90---
+ * @text ---マクロ90---
+ * @default
+ *
+ * @param Macro 90 Text
+ * @text マクロ90文字
+ * @parent ---マクロ90---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 90 Name
+ * @text マクロ90名
+ * @parent ---マクロ90---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ91---
+ * @text ---マクロ91---
+ * @default
+ *
+ * @param Macro 91 Text
+ * @text マクロ91文字
+ * @parent ---マクロ91---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 91 Name
+ * @text マクロ91名
+ * @parent ---マクロ91---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ92---
+ * @text ---マクロ92---
+ * @default
+ *
+ * @param Macro 92 Text
+ * @text マクロ92文字
+ * @parent ---マクロ92---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 92 Name
+ * @text マクロ92名
+ * @parent ---マクロ92---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ93---
+ * @text ---マクロ93---
+ * @default
+ *
+ * @param Macro 93 Text
+ * @text マクロ93文字
+ * @parent ---マクロ93---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 93 Name
+ * @text マクロ93名
+ * @parent ---マクロ93---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ94---
+ * @text ---マクロ94---
+ * @default
+ *
+ * @param Macro 94 Text
+ * @text マクロ94文字
+ * @parent ---マクロ94---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 94 Name
+ * @text マクロ94名
+ * @parent ---マクロ94---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ95---
+ * @text ---マクロ95---
+ * @default
+ *
+ * @param Macro 95 Text
+ * @text マクロ95文字
+ * @parent ---マクロ95---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 95 Name
+ * @text マクロ95名
+ * @parent ---マクロ95---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ96---
+ * @text ---マクロ96---
+ * @default
+ *
+ * @param Macro 96 Text
+ * @text マクロ96文字
+ * @parent ---マクロ96---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 96 Name
+ * @text マクロ96名
+ * @parent ---マクロ96---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ97---
+ * @text ---マクロ97---
+ * @default
+ *
+ * @param Macro 97 Text
+ * @text マクロ97文字
+ * @parent ---マクロ97---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 97 Name
+ * @text マクロ97名
+ * @parent ---マクロ97---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ98---
+ * @text ---マクロ98---
+ * @default
+ *
+ * @param Macro 98 Text
+ * @text マクロ98文字
+ * @parent ---マクロ98---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 98 Name
+ * @text マクロ98名
+ * @parent ---マクロ98---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ99---
+ * @text ---マクロ99---
+ * @default
+ *
+ * @param Macro 99 Text
+ * @text マクロ99文字
+ * @parent ---マクロ99---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 99 Name
+ * @text マクロ99名
+ * @parent ---マクロ99---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @param ---マクロ100---
+ * @text ---マクロ100---
+ * @default
+ *
+ * @param Macro 100 Text
+ * @text マクロ100文字
+ * @parent ---マクロ100---
+ * @desc \m[x]を使用時、x がマクロID番号を使用すると表示されます。
+ * 制御文字を使用できます。
+ * @default 未定義
+ *
+ * @param Macro 100 Name
+ * @text マクロ100名
+ * @parent ---マクロ100---
+ * @desc \m[x]を使用時、マクロIDの代わりにマクロ名を使用できます。
+ * @default 未定義
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインを実行するには YEP_MessageCore が必要です。
+ * このプラグインをプラグイン管理のYEP_MessageCoreの下に置きます。
+ *
+ * \n<\c[6]\n[1]\c[0]>をやらなければならないことに飽きたことはありませんか。
+ * このプラグインを使用すると、\m[1]と入力できるマクロを作成でき、
+ * それだけで実行できます。
+ * これは開発者のためのユーティリティプラグインです。
+ * このプラグインを使用して、メッセージシステム用または一般に
+ * 制御文字を使用できるマクロを開発することができます。
+ * このプラグインを使用すると、どのマクロIDがゲーム内の
+ * どのテキストに変わるかを定義できます。
+ *
+ * ===========================================================================
+ * 説明 - マクロを設定
+ * ===========================================================================
+ *
+ * 以下がプラグインパラメータで表示できる例です。
+ *
+ * ---マクロ1---
+ * Macro 1 Text   \n<\c[6]\n[1]\c[0]>
+ * Macro 1 Name   Harold
+ *
+ * ShowTextイベントで'\m[1]'と入力すると、
+ * それを'\n<\c[6]\n[1]\c[0]>'に変換します。
+ * その後、独自の制御文字に変換されます。
+ * 書き出されたテキストは、Macro1Textのプラグインパラメータ設定によって
+ * 割り当てられます。
+ *
+ * マクロIDの代わりに名前を使うことも出来ます。
+ * '\m[Harold]'と入力してもできます。
+ * '\n<\c[6]\n[1]\c[0]>'を書き出すには、'\m[1]'と同じ扱いをしてください。
+ *
+ * *** WARNING ***
+ *
+ * 何らかの理由で同じ名前識別子を持つ複数のマクロがある場合は、
+ * 低いIDを持つマクロが優先されます。
+ * 下記は例です。
+ *
+ * ---マクロ10---
+ * Macro 10 Text   Macro 10
+ * Macro 10 Name   abc
+ *
+ * ---マクロ11---
+ * Macro 11 Text   Macro 11
+ * Macro 11 Name   abc
+ *
+ * '\m[abc]'と入力すると、'Macro11'ではなく'Macro10'になります。
+ * これは、マクロ名参照'abc'の10が、
+ * マクロリストの11よりも小さいIDであるためです。
+ *
+ * ===========================================================================
+ * 説明 - クイックマクロ
+ * ===========================================================================
+ *
+ * YEP_X_MessageMacros1 には、
+ * オプション'クイックマクロを有効にする'があります。
+ * これが true に設定されている場合、より速くマクロを使用できます。
+ * 以下の例はクイックマクロが有効である(true)と仮定します。
+ *
+ * ---マクロ1---
+ * Macro 1 Text   \n<\c[6]\n[1]\c[0]>
+ * Macro 1 Name   Harold
+ *
+ * '\m[1]'は'\n<\c[6]\n[1]\c[0]>'となります。
+ * '\m[Harold]'も'\n<\c[6]\n[1]\c[0]>'となります。
+ * クイックマクロを有効にすると、
+ * '\Harold'は'\n<\c[6]\n[1]\c[0]>'となり、
+ * マクロをもっと早く打ち出すことができます。
+ *
+ * *** 警告 ***
+ *
+ * 覚えておくべきことがいくつかあります。
+ * 他の制御文字と衝突するようなマクロを設定した場合、
+ * そのマクロが制御文字よりも優先されます。
+ * 例えば、クイックマクロ「\c」を作成した場合、
+ * 代わりにクイックマクロが優先されるため、
+ * 全てのカラー制御文字が機能しなくなります。
+ *
+ * さらに、同様のマクロ名設定がある場合、
+ * クイックマクロはIDの高いクイックマクロよりも
+ * IDの低いクイックマクロを優先します。
+ * 下記は例です。
+ *
+ * ---マクロ10---
+ * Macro 10 Text   Macro 10
+ * Macro 10 Name   abc
+ *
+ * ---マクロ11---
+ * Macro 11 Text   Macro 11
+ * Macro 11 Name   abc123
+ *
+ * 上記の設定で、'\abc123'と入力すると'Macro10'になります。
+ * これはMacro10は'\abc'を持ち、
+ * '\abc123'の最初の3文字を含み'\abc'よりも高いIDを持つため、
+ * 低いIDが優先されて作動します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

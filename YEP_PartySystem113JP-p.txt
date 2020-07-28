@@ -1,0 +1,355 @@
+/*:ja
+ * @plugindesc v1.13 メインメニューの'並び替え'を戦闘パーティ編成メニューに置き換えます(戦闘中の機能にはYEP_BattleEngineCoreが必要)
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Max Battle Members
+ * @text 戦闘アクター最大数
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc 戦闘に参加できるアクターの最大数
+ * デフォルト:4
+ * @default 4
+ *
+ * @param Show Battle Command
+ * @text 戦闘コマンド表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 戦闘パーティコマンドに'並び替え'コマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Battle Command
+ * @text 戦闘コマンド有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc 戦闘パーティコマンドで'並び替え'を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Battle Cooldown
+ * @text 交代後の待機ターン
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc パーティ交代後に待機するターン数
+ * @default 1
+ *
+ * @param Maximum Followers
+ * @text 隊列歩行最大数
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc マップ上の隊列歩行キャラの最大数
+ * デフォルト:4
+ * @default 4
+ *
+ * @param EXP Distribution
+ * @text 経験値均等割
+ * @parent ---一般---
+ * @type boolean
+ * @on 均等割
+ * @off デフォルト
+ * @desc 得られる経験値を戦闘終了時に生存戦闘アクターで均等割
+ * デフォルト(生存戦闘アクターに単純加算):false / 均等割:true
+ * @default false
+ *
+ * @param ---メニュー---
+ * @default
+ *
+ * @param Help Window
+ * @text ヘルプウィンドウ
+ * @parent ---メニュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc パーティメニューにヘルプウィンドウを表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Text Alignment
+ * @text テキスト配置
+ * @parent ---メニュー---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc コマンドウィンドウのテキスト配置
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Change Command
+ * @text 交代表示
+ * @parent ---メニュー---
+ * @desc コマンドメニューの'交代'表示テキスト。無入力で非表示に
+ * @default 交代
+ *
+ * @param Remove Command
+ * @text 離脱表示
+ * @parent ---メニュー---
+ * @desc コマンドメニューの'離脱'表示テキスト。無入力で非表示に
+ * @default 離脱
+ *
+ * @param Revert Command
+ * @text リセット表示
+ * @parent ---メニュー---
+ * @desc コマンドメニューの'リセット'表示テキスト。無入力で非表示に
+ * @default リセット
+ *
+ * @param Finish Command
+ * @text 完了表示
+ * @parent ---メニュー---
+ * @desc コマンドメニューの'完了'表示テキスト。無入力で非表示に
+ * @default 完了
+ *
+ * @param ---選択---
+ * @default
+ *
+ * @param Empty Text
+ * @text 空スロット表示
+ * @parent ---選択---
+ * @desc 空のアクタースロットの表示テキスト
+ * @default - 空き -
+ *
+ * @param Actor Face
+ * @text アクター顔画像
+ * @parent ---選択---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターの顔画像を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Actor Sprite
+ * @text アクター歩行画像
+ * @parent ---選択---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターの歩行画像を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---リスト---
+ * @default
+ *
+ * @param Remove Icon
+ * @text 離脱アイコン
+ * @parent ---リスト---
+ * @type number
+ * @desc '離脱'の横に表示されるアイコン
+ * @default 16
+ *
+ * @param Show Sprite
+ * @text 歩行画像
+ * @parent ---リスト---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクターの歩行画像を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Sprite Y Buffer
+ * @text 歩行画像Y調整
+ * @parent ---リスト---
+ * @type number
+ * @desc 歩行画像表示位置Y調整量
+ * @default 16
+ *
+ * @param In Party Text Color
+ * @text 戦闘パーティ参加テキスト色
+ * @parent ---リスト---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 戦闘パーティに参加しているアクターのテキスト色
+ * @default 6
+ *
+ * @param ---固定---
+ * @default
+ *
+ * @param Lock First Actor
+ * @text 先頭アクターの固定
+ * @parent ---固定---
+ * @type boolean
+ * @on 固定する
+ * @off 固定しない
+ * @desc デフォルトで先頭のアクターを固定
+ * 固定しない:false / 固定する:true
+ * @default false
+ *
+ * @param Locked Icon
+ * @text 固定アイコン
+ * @parent ---固定---
+ * @type number
+ * @min 0
+ * @desc アクターが固定されているアイコン
+ * @default 195
+ *
+ * @param Required Icon
+ * @text 必須アイコン
+ * @parent ---固定---
+ * @type number
+ * @min 0
+ * @desc 必須アクターの表示アイコン
+ * @default 205
+ *
+ * @param ---ウィンドウ詳細---
+ * @default
+ *
+ * @param Enable Detail Window
+ * @text ウィンドウ表示
+ * @parent ---ウィンドウ詳細---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc リストの横に詳細パーティウィンドウを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param List Width
+ * @text ウィンドウ幅
+ * @parent ---ウィンドウ詳細---
+ * @type number
+ * @min 1
+ * @desc 詳細ウィンドウの幅
+ * @default 300
+ *
+ * @param Actor Parameters
+ * @text アクター能力値
+ * @parent ---ウィンドウ詳細---
+ * @desc アクター能力値の見出しテキスト
+ * @default 能力値
+ *
+ * @param Actor Equipment
+ * @text アクター装備
+ * @parent ---ウィンドウ詳細---
+ * @desc アクター装備の見出しテキスト
+ * @default 装備
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、ゲーム内メニューにある'並び替え'を、
+ * プレイヤーが自分が望むパーティに変更できる新しいシーンに置き換えます。
+ * 戦闘の途中で戦闘アクターの切り替えを有効にしたい場合、
+ * プラグイン管理でYEP_BattleEngineCoreの下に
+ * このプラグインを置いてください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * プラグインコマンド:
+ *  OpenPartyMenu - マップ画面で並び替え画面を開きます。
+ *
+ *  交代できるアクターが居ないとプレーヤーを戸惑わせるかもしれません。
+ *  プレーヤーが並び替え画面から出るには、
+ *  戦闘枠にアクターが必要です。
+ *  最大戦闘人数よりも多くのアクターを用意しない場合、
+ *  この点を覚えておいてください。
+ *  プレーヤーが並び替え画面で戸惑わないように配慮してください。
+ *
+ * プラグインコマンド:
+ *  ShowBattleFormation    - '並べ替え'を戦闘中に表示
+ *  HideBattleFormation    - '並べ替え'を戦闘中に非表示
+ *  EnableBattleFormation  - '並べ替え'を戦闘中に許可
+ *  DisableBattleFormation - '並べ替え'を戦闘中に禁止
+ *
+ *  LockActor 3          - アクター3 を固定
+ *  LockActor 4 5 6      - アクター4, 5, 6 を固定
+ *  UnlockActor 3        - アクター3 を固定解除
+ *  UnlockActor 4 5 6    - アクター4, 5, 6 を固定解除
+ *    * 固定されたアクターは現在の位置から移動できず、
+ *      パーティに参加する必要があります。
+ *
+ *  RequireActor 3       -アクター3 が戦闘枠から外せなくなります。
+ *  RequireActor 4 5 6   -アクター4, 5, 6 が戦闘枠から外せなくなります。
+ *  UnrequireActor 3     -アクター3 が戦闘枠から外せるようになります。
+ *  UnrequireActor 4 5 6 -アクター4, 5, 6 が戦闘枠から外せるようになります。
+ *     * プレイヤーがパーティメニューを終了するには、
+ *       必要なアクターが戦闘枠に参加している必要があります。
+ *
+ *   ChangePartyMax 5     - 最大戦闘人数を5に変更します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.13:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.12:
+ * - Functions updated to maintain compatibility.
+ *
+ * Version 1.11:
+ * - 'Show Sprite' plugin parameter added for those who would wish to
+ * show/hide the sprites in the list on the left side of the menu.
+ * - Change for 'Remove Icon' plugin parameter: if the icon ID used here is 0,
+ * an icon will not be drawn at all and the text will be realigned to the
+ * left.
+ * - Game now refreshes all battlers upon reentry into the battle after
+ * entering and leaving the Party change menu mid-battle.
+ *
+ * Version 1.10:
+ * - Optimization update.
+ *
+ * Version 1.09:
+ * - Fixed a bug that caused party members to not index themselves properly in
+ * battle. When in battle, actor index will now refer to the index of their
+ * battle member positions.
+ *
+ * Version 1.08:
+ * - Added 'EXP Distribution' parameter into the plugin parameters. Enabling
+ * this will cause the EXP distributed to party members to be divided based on
+ * the number of alive members at the end of battle.
+ *
+ * Version 1.07:
+ * - Fixed a bug that caused music to not replay properly when accessing the
+ * Party change menu from battle.
+ *
+ * Version 1.06:
+ * - Fixed a bug with certain actors not drawing properly.
+ *
+ * Version 1.05:
+ * - Added 'Maximum Followers' parameter. This number should be the maximum
+ * number you have in your game if you ever increase the maximum party size
+ * midway through your game.
+ *
+ * Version 1.04:
+ * - Fixed a visual bug with mid-battle formation changing against backgrounds
+ * without battlebacks.
+ * - Formation changes during mid-battle will resume bgm/bgs currently played.
+ *
+ * Version 1.03:
+ * - Fixed a bug that would cause AutoBattlers to stall if they got added into
+ * the party mid-battle.
+ *
+ * Version 1.02:
+ * - Made a change so that the number of followers updates properly when you
+ * increase the maximum number of battle members.
+ *
+ * Version 1.01:
+ * - Added 'Battle Cooldown' plugin parameter.
+ * - Added 'ChangePartyMax x' plugin command.
+ * - Added feature where if you leave the class comand name empty, it will
+ * remove the command.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

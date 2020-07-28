@@ -1,0 +1,3677 @@
+/*:ja
+ * @plugindesc v1.02 'クレジット'コマンドをタイトル画面に追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Command Name
+ * @text コマンド表示テキスト
+ * @parent ---一般---
+ * @desc タイトルメニューに表示される表示コマンド名
+ * @default クレジット
+ *
+ * @param ---クレジット行---
+ * @text ---クレジット行---
+ * @default
+ *
+ * @param Line 1 Text
+ * @text 1行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 1 URL
+ * @text 1行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 2 Text
+ * @text 2行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 2 URL
+ * @text 2行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 3 Text
+ * @text 3行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 3 URL
+ * @text 3行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 4 Text
+ * @text 4行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 4 URL
+ * @text 4行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 5 Text
+ * @text 5行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 5 URL
+ * @text 5行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 6 Text
+ * @text 6行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 6 URL
+ * @text 6行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 7 Text
+ * @text 7行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 7 URL
+ * @text 7行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 8 Text
+ * @text 8行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 8 URL
+ * @text 8行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 9 Text
+ * @text 9行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 9 URL
+ * @text 9行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 10 Text
+ * @text 10行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 10 URL
+ * @text 10行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 11 Text
+ * @text 11行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 11 URL
+ * @text 11行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 12 Text
+ * @text 12行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 12 URL
+ * @text 12行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 13 Text
+ * @text 13行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 13 URL
+ * @text 13行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 14 Text
+ * @text 14行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 14 URL
+ * @text 14行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 15 Text
+ * @text 15行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 15 URL
+ * @text 15行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 16 Text
+ * @text 16行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 16 URL
+ * @text 16行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 17 Text
+ * @text 17行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 17 URL
+ * @text 17行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 18 Text
+ * @text 18行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 18 URL
+ * @text 18行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 19 Text
+ * @text 19行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 19 URL
+ * @text 19行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 20 Text
+ * @text 20行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 20 URL
+ * @text 20行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 21 Text
+ * @text 21行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 21 URL
+ * @text 21行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 22 Text
+ * @text 22行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 22 URL
+ * @text 22行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 23 Text
+ * @text 23行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 23 URL
+ * @text 23行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 24 Text
+ * @text 24行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 24 URL
+ * @text 24行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 25 Text
+ * @text 25行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 25 URL
+ * @text 25行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 26 Text
+ * @text 26行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 26 URL
+ * @text 26行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 27 Text
+ * @text 27行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 27 URL
+ * @text 27行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 28 Text
+ * @text 28行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 28 URL
+ * @text 28行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 29 Text
+ * @text 29行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 29 URL
+ * @text 29行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ *  @param Line 30 Text
+ * @text  30行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 30 URL
+ * @text 30行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 31 Text
+ * @text 31行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 31 URL
+ * @text 31行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 32 Text
+ * @text 32行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 32 URL
+ * @text 32行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 33 Text
+ * @text 33行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 33 URL
+ * @text 33行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 34 Text
+ * @text 34行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 34 URL
+ * @text 34行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 35 Text
+ * @text 35行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 35 URL
+ * @text 35行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 36 Text
+ * @text 36行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 36 URL
+ * @text 36行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 37 Text
+ * @text 37行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 37 URL
+ * @text 37行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 38 Text
+ * @text 38行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 38 URL
+ * @text 38行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 39 Text
+ * @text 39行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 39 URL
+ * @text 39行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ *  @param Line 40 Text
+ * @text  40行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 40 URL
+ * @text 40行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 41 Text
+ * @text 41行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 41 URL
+ * @text 41行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 42 Text
+ * @text 42行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 42 URL
+ * @text 42行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 43 Text
+ * @text 43行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 43 URL
+ * @text 43行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 44 Text
+ * @text 44行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 44 URL
+ * @text 44行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 45 Text
+ * @text 45行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 45 URL
+ * @text 45行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 46 Text
+ * @text 46行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 46 URL
+ * @text 46行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 47 Text
+ * @text 47行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 47 URL
+ * @text 47行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 48 Text
+ * @text 48行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 48 URL
+ * @text 48行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 49 Text
+ * @text 49行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 49 URL
+ * @text 49行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ *  @param Line 50 Text
+ * @text  50行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 50 URL
+ * @text 50行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 51 Text
+ * @text 51行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 51 URL
+ * @text 51行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 52 Text
+ * @text 52行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 52 URL
+ * @text 52行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 53 Text
+ * @text 53行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 53 URL
+ * @text 53行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 54 Text
+ * @text 54行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 54 URL
+ * @text 54行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 55 Text
+ * @text 55行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 55 URL
+ * @text 55行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 56 Text
+ * @text 56行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 56 URL
+ * @text 56行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 57 Text
+ * @text 57行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 57 URL
+ * @text 57行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 58 Text
+ * @text 58行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 58 URL
+ * @text 58行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 59 Text
+ * @text 59行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 59 URL
+ * @text 59行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ *  @param Line 60 Text
+ * @text  60行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 60 URL
+ * @text 60行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 61 Text
+ * @text 61行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 61 URL
+ * @text 61行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 62 Text
+ * @text 62行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 62 URL
+ * @text 62行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 63 Text
+ * @text 63行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 63 URL
+ * @text 63行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 64 Text
+ * @text 64行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 64 URL
+ * @text 64行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 65 Text
+ * @text 65行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 65 URL
+ * @text 65行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 66 Text
+ * @text 66行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 66 URL
+ * @text 66行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 67 Text
+ * @text 67行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 67 URL
+ * @text 67行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 68 Text
+ * @text 68行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 68 URL
+ * @text 68行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 69 Text
+ * @text 69行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 69 URL
+ * @text 69行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ *  @param Line 70 Text
+ * @text  70行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 70 URL
+ * @text 70行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 71 Text
+ * @text 71行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 71 URL
+ * @text 71行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 72 Text
+ * @text 72行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 72 URL
+ * @text 72行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 73 Text
+ * @text 73行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 73 URL
+ * @text 73行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 74 Text
+ * @text 74行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 74 URL
+ * @text 74行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 75 Text
+ * @text 75行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 75 URL
+ * @text 75行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 76 Text
+ * @text 76行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 76 URL
+ * @text 76行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 77 Text
+ * @text 77行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 77 URL
+ * @text 77行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 78 Text
+ * @text 78行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 78 URL
+ * @text 78行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 79 Text
+ * @text 79行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 79 URL
+ * @text 79行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ *  @param Line 80 Text
+ * @text  80行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 80 URL
+ * @text 80行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 81 Text
+ * @text 81行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 81 URL
+ * @text 81行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 82 Text
+ * @text 82行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 82 URL
+ * @text 82行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 83 Text
+ * @text 83行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 83 URL
+ * @text 83行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 84 Text
+ * @text 84行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 84 URL
+ * @text 84行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 85 Text
+ * @text 85行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 85 URL
+ * @text 85行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 86 Text
+ * @text 86行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 86 URL
+ * @text 86行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 87 Text
+ * @text 87行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 87 URL
+ * @text 87行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 88 Text
+ * @text 88行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 88 URL
+ * @text 88行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 89 Text
+ * @text 89行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 89 URL
+ * @text 89行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ *  @param Line 90 Text
+ * @text  90行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 90 URL
+ * @text 90行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 91 Text
+ * @text 91行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 91 URL
+ * @text 91行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 92 Text
+ * @text 92行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 92 URL
+ * @text 92行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 93 Text
+ * @text 93行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 93 URL
+ * @text 93行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 94 Text
+ * @text 94行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 94 URL
+ * @text 94行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 95 Text
+ * @text 95行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 95 URL
+ * @text 95行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 96 Text
+ * @text 96行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 96 URL
+ * @text 96行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 97 Text
+ * @text 97行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 97 URL
+ * @text 97行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 98 Text
+ * @text 98行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 98 URL
+ * @text 98行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 99 Text
+ * @text 99行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 99 URL
+ * @text 99行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 100 Text
+ * @text 100行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 100 URL
+ * @text 100行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 101 Text
+ * @text 101行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 101 URL
+ * @text 101行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 102 Text
+ * @text 102行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 102 URL
+ * @text 102行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 103 Text
+ * @text 103行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 103 URL
+ * @text 103行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 104 Text
+ * @text 104行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 104 URL
+ * @text 104行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 105 Text
+ * @text 105行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 105 URL
+ * @text 105行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 106 Text
+ * @text 106行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 106 URL
+ * @text 106行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 107 Text
+ * @text 107行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 107 URL
+ * @text 107行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 108 Text
+ * @text 108行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 108 URL
+ * @text 108行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 109 Text
+ * @text 109行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 109 URL
+ * @text 109行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 110 Text
+ * @text 110行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 110 URL
+ * @text 110行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 111 Text
+ * @text 111行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 111 URL
+ * @text 111行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 112 Text
+ * @text 112行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 112 URL
+ * @text 112行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 113 Text
+ * @text 113行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 113 URL
+ * @text 113行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 114 Text
+ * @text 114行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 114 URL
+ * @text 114行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 115 Text
+ * @text 115行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 115 URL
+ * @text 115行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 116 Text
+ * @text 116行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 116 URL
+ * @text 116行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 117 Text
+ * @text 117行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 117 URL
+ * @text 117行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 118 Text
+ * @text 118行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 118 URL
+ * @text 118行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 119 Text
+ * @text 119行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 119 URL
+ * @text 119行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 120 Text
+ * @text 120行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 120 URL
+ * @text 120行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 121 Text
+ * @text 121行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 121 URL
+ * @text 121行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 122 Text
+ * @text 122行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 122 URL
+ * @text 122行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 123 Text
+ * @text 123行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 123 URL
+ * @text 123行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 124 Text
+ * @text 124行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 124 URL
+ * @text 124行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 125 Text
+ * @text 125行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 125 URL
+ * @text 125行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 126 Text
+ * @text 126行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 126 URL
+ * @text 126行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 127 Text
+ * @text 127行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 127 URL
+ * @text 127行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 128 Text
+ * @text 128行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 128 URL
+ * @text 128行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 129 Text
+ * @text 129行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 129 URL
+ * @text 129行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 130 Text
+ * @text 130行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 130 URL
+ * @text 130行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 131 Text
+ * @text 131行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 131 URL
+ * @text 131行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 132 Text
+ * @text 132行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 132 URL
+ * @text 132行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 133 Text
+ * @text 133行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 133 URL
+ * @text 133行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 134 Text
+ * @text 134行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 134 URL
+ * @text 134行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 135 Text
+ * @text 135行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 135 URL
+ * @text 135行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 136 Text
+ * @text 136行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 136 URL
+ * @text 136行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 137 Text
+ * @text 137行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 137 URL
+ * @text 137行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 138 Text
+ * @text 138行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 138 URL
+ * @text 138行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 139 Text
+ * @text 139行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 139 URL
+ * @text 139行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 140 Text
+ * @text 140行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 140 URL
+ * @text 140行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 141 Text
+ * @text 141行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 141 URL
+ * @text 141行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 142 Text
+ * @text 142行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 142 URL
+ * @text 142行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 143 Text
+ * @text 143行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 143 URL
+ * @text 143行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 144 Text
+ * @text 144行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 144 URL
+ * @text 144行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 145 Text
+ * @text 145行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 145 URL
+ * @text 145行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 146 Text
+ * @text 146行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 146 URL
+ * @text 146行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 147 Text
+ * @text 147行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 147 URL
+ * @text 147行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 148 Text
+ * @text 148行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 148 URL
+ * @text 148行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 149 Text
+ * @text 149行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 149 URL
+ * @text 149行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 150 Text
+ * @text 150行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 150 URL
+ * @text 150行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 151 Text
+ * @text 151行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 151 URL
+ * @text 151行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 152 Text
+ * @text 152行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 152 URL
+ * @text 152行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 153 Text
+ * @text 153行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 153 URL
+ * @text 153行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 154 Text
+ * @text 154行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 154 URL
+ * @text 154行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 155 Text
+ * @text 155行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 155 URL
+ * @text 155行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 156 Text
+ * @text 156行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 156 URL
+ * @text 156行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 157 Text
+ * @text 157行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 157 URL
+ * @text 157行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 158 Text
+ * @text 158行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 158 URL
+ * @text 158行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 159 Text
+ * @text 159行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 159 URL
+ * @text 159行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 160 Text
+ * @text 160行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 160 URL
+ * @text 160行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 161 Text
+ * @text 161行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 161 URL
+ * @text 161行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 162 Text
+ * @text 162行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 162 URL
+ * @text 162行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 163 Text
+ * @text 163行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 163 URL
+ * @text 163行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 164 Text
+ * @text 164行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 164 URL
+ * @text 164行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 165 Text
+ * @text 165行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 165 URL
+ * @text 165行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 166 Text
+ * @text 166行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 166 URL
+ * @text 166行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 167 Text
+ * @text 167行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 167 URL
+ * @text 167行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 168 Text
+ * @text 168行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 168 URL
+ * @text 168行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 169 Text
+ * @text 169行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 169 URL
+ * @text 169行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 170 Text
+ * @text 170行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 170 URL
+ * @text 170行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 171 Text
+ * @text 171行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 171 URL
+ * @text 171行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 172 Text
+ * @text 172行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 172 URL
+ * @text 172行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 173 Text
+ * @text 173行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 173 URL
+ * @text 173行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 174 Text
+ * @text 174行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 174 URL
+ * @text 174行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 175 Text
+ * @text 175行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 175 URL
+ * @text 175行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 176 Text
+ * @text 176行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 176 URL
+ * @text 176行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 177 Text
+ * @text 177行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 177 URL
+ * @text 177行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 178 Text
+ * @text 178行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 178 URL
+ * @text 178行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 179 Text
+ * @text 179行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 179 URL
+ * @text 179行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 180 Text
+ * @text 180行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 180 URL
+ * @text 180行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 181 Text
+ * @text 181行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 181 URL
+ * @text 181行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 182 Text
+ * @text 182行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 182 URL
+ * @text 182行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 183 Text
+ * @text 183行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 183 URL
+ * @text 183行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 184 Text
+ * @text 184行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 184 URL
+ * @text 184行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 185 Text
+ * @text 185行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 185 URL
+ * @text 185行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 186 Text
+ * @text 186行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 186 URL
+ * @text 186行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 187 Text
+ * @text 187行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 187 URL
+ * @text 187行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 188 Text
+ * @text 188行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 188 URL
+ * @text 188行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 189 Text
+ * @text 189行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 189 URL
+ * @text 189行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 190 Text
+ * @text 190行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 190 URL
+ * @text 190行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 191 Text
+ * @text 191行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 191 URL
+ * @text 191行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 192 Text
+ * @text 192行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 192 URL
+ * @text 192行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 193 Text
+ * @text 193行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 193 URL
+ * @text 193行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 194 Text
+ * @text 194行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 194 URL
+ * @text 194行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 195 Text
+ * @text 195行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 195 URL
+ * @text 195行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 196 Text
+ * @text 196行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 196 URL
+ * @text 196行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 197 Text
+ * @text 197行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 197 URL
+ * @text 197行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 198 Text
+ * @text 198行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 198 URL
+ * @text 198行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 199 Text
+ * @text 199行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 199 URL
+ * @text 199行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 200 Text
+ * @text 200行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 200 URL
+ * @text 200行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 201 Text
+ * @text 201行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 201 URL
+ * @text 201行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 202 Text
+ * @text 202行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 202 URL
+ * @text 202行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 203 Text
+ * @text 203行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 203 URL
+ * @text 203行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 204 Text
+ * @text 204行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 204 URL
+ * @text 204行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 205 Text
+ * @text 205行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 205 URL
+ * @text 205行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 206 Text
+ * @text 206行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 206 URL
+ * @text 206行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 207 Text
+ * @text 207行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 207 URL
+ * @text 207行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 208 Text
+ * @text 208行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 208 URL
+ * @text 208行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 209 Text
+ * @text 209行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 209 URL
+ * @text 209行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 210 Text
+ * @text 210行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 210 URL
+ * @text 210行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 211 Text
+ * @text 211行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 211 URL
+ * @text 211行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 212 Text
+ * @text 212行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 212 URL
+ * @text 212行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 213 Text
+ * @text 213行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 213 URL
+ * @text 213行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 214 Text
+ * @text 214行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 214 URL
+ * @text 214行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 215 Text
+ * @text 215行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 215 URL
+ * @text 215行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 216 Text
+ * @text 216行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 216 URL
+ * @text 216行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 217 Text
+ * @text 217行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 217 URL
+ * @text 217行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 218 Text
+ * @text 218行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 218 URL
+ * @text 218行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 219 Text
+ * @text 219行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 219 URL
+ * @text 219行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 220 Text
+ * @text 220行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 220 URL
+ * @text 220行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 221 Text
+ * @text 221行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 221 URL
+ * @text 221行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 222 Text
+ * @text 222行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 222 URL
+ * @text 222行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 223 Text
+ * @text 223行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 223 URL
+ * @text 223行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 224 Text
+ * @text 224行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 224 URL
+ * @text 224行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 225 Text
+ * @text 225行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 225 URL
+ * @text 225行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 226 Text
+ * @text 226行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 226 URL
+ * @text 226行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 227 Text
+ * @text 227行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 227 URL
+ * @text 227行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 228 Text
+ * @text 228行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 228 URL
+ * @text 228行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 229 Text
+ * @text 229行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 229 URL
+ * @text 229行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 230 Text
+ * @text 230行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 230 URL
+ * @text 230行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 231 Text
+ * @text 231行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 231 URL
+ * @text 231行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 232 Text
+ * @text 232行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 232 URL
+ * @text 232行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 233 Text
+ * @text 233行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 233 URL
+ * @text 233行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 234 Text
+ * @text 234行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 234 URL
+ * @text 234行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 235 Text
+ * @text 235行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 235 URL
+ * @text 235行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 236 Text
+ * @text 236行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 236 URL
+ * @text 236行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 237 Text
+ * @text 237行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 237 URL
+ * @text 237行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 238 Text
+ * @text 238行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 238 URL
+ * @text 238行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 239 Text
+ * @text 239行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 239 URL
+ * @text 239行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 240 Text
+ * @text 240行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 240 URL
+ * @text 240行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 241 Text
+ * @text 241行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 241 URL
+ * @text 241行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 242 Text
+ * @text 242行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 242 URL
+ * @text 242行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 243 Text
+ * @text 243行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 243 URL
+ * @text 243行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 244 Text
+ * @text 244行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 244 URL
+ * @text 244行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 245 Text
+ * @text 245行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 245 URL
+ * @text 245行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 246 Text
+ * @text 246行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 246 URL
+ * @text 246行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 247 Text
+ * @text 247行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 247 URL
+ * @text 247行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 248 Text
+ * @text 248行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 248 URL
+ * @text 248行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 249 Text
+ * @text 249行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 249 URL
+ * @text 249行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 250 Text
+ * @text 250行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 250 URL
+ * @text 250行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 251 Text
+ * @text 251行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 251 URL
+ * @text 251行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 252 Text
+ * @text 252行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 252 URL
+ * @text 252行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 253 Text
+ * @text 253行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 253 URL
+ * @text 253行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 254 Text
+ * @text 254行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 254 URL
+ * @text 254行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 255 Text
+ * @text 255行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 255 URL
+ * @text 255行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 256 Text
+ * @text 256行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 256 URL
+ * @text 256行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 257 Text
+ * @text 257行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 257 URL
+ * @text 257行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 258 Text
+ * @text 258行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 258 URL
+ * @text 258行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 259 Text
+ * @text 259行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 259 URL
+ * @text 259行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 260 Text
+ * @text 260行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 260 URL
+ * @text 260行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 261 Text
+ * @text 261行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 261 URL
+ * @text 261行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 262 Text
+ * @text 262行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 262 URL
+ * @text 262行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 263 Text
+ * @text 263行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 263 URL
+ * @text 263行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 264 Text
+ * @text 264行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 264 URL
+ * @text 264行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 265 Text
+ * @text 265行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 265 URL
+ * @text 265行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 266 Text
+ * @text 266行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 266 URL
+ * @text 266行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 267 Text
+ * @text 267行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 267 URL
+ * @text 267行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 268 Text
+ * @text 268行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 268 URL
+ * @text 268行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 269 Text
+ * @text 269行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 269 URL
+ * @text 269行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 270 Text
+ * @text 270行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 270 URL
+ * @text 270行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 271 Text
+ * @text 271行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 271 URL
+ * @text 271行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 272 Text
+ * @text 272行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 272 URL
+ * @text 272行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 273 Text
+ * @text 273行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 273 URL
+ * @text 273行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 274 Text
+ * @text 274行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 274 URL
+ * @text 274行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 275 Text
+ * @text 275行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 275 URL
+ * @text 275行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 276 Text
+ * @text 276行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 276 URL
+ * @text 276行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 277 Text
+ * @text 277行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 277 URL
+ * @text 277行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 278 Text
+ * @text 278行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 278 URL
+ * @text 278行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 279 Text
+ * @text 279行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 279 URL
+ * @text 279行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 280 Text
+ * @text 280行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 280 URL
+ * @text 280行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 281 Text
+ * @text 281行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 281 URL
+ * @text 281行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 282 Text
+ * @text 282行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 282 URL
+ * @text 282行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 283 Text
+ * @text 283行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 283 URL
+ * @text 283行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 284 Text
+ * @text 284行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 284 URL
+ * @text 284行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 285 Text
+ * @text 285行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 285 URL
+ * @text 285行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 286 Text
+ * @text 286行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 286 URL
+ * @text 286行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 287 Text
+ * @text 287行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 287 URL
+ * @text 287行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 288 Text
+ * @text 288行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 288 URL
+ * @text 288行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 289 Text
+ * @text 289行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 289 URL
+ * @text 289行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 290 Text
+ * @text 290行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 290 URL
+ * @text 290行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 291 Text
+ * @text 291行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 291 URL
+ * @text 291行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 292 Text
+ * @text 292行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 292 URL
+ * @text 292行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 293 Text
+ * @text 293行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 293 URL
+ * @text 293行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 294 Text
+ * @text 294行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 294 URL
+ * @text 294行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 295 Text
+ * @text 295行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 295 URL
+ * @text 295行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 296 Text
+ * @text 296行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 296 URL
+ * @text 296行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 297 Text
+ * @text 297行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 297 URL
+ * @text 297行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 298 Text
+ * @text 298行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 298 URL
+ * @text 298行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 299 Text
+ * @text 299行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 299 URL
+ * @text 299行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @param Line 300 Text
+ * @text 300行目表示テキスト
+ * @parent ---クレジット行---
+ * @desc この行の表示テキスト
+ * @default
+ *
+ * @param Line 300 URL
+ * @text 300行目URL
+ * @parent ---クレジット行---
+ * @desc URLを入れると、リンクします
+ * @default
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、タイトル画面に'クレジット'コマンドを追加して、
+ * クレジットページのウィンドウを表示します。
+ * テキストページをクレジットページに使用して、
+ * カスタマイズオプションを増やすことができます。
+ * 特定のエントリをURLに関連付けて、
+ * クレジットを提供したエントリにリンクを張ることもできます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * Line x Textと表示されているプラグインのパラメータは、
+ * 表示テキストを入力します。
+ * クレジットページで制御文字を使用して書き出すことができます。
+ *
+ * Line x URLエントリを含むURLを入力すると、
+ * 新しいウィンドウが開き、指定されたURLにリンクされます。
+ * これはオプションです。
+ * 何も使用しないと、リンクは行われません。
+ *
+ * エントリが空白のままの場合、スキップされます。
+ * 空行を残したい場合、
+ * テキストエントリに少なくとも1つのスペース' 'を入力してください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲーム中にマップシーンからクレジットウィンドウを表示したい人のために、
+ * プラグインコマンドを使ってこれを実行できます。
+ *
+ * プラグインコマンド
+ *
+ *   OpenCreditsWindow
+ *   - マップシーンの間にゲーム内からクレジットウィンドウを開きます。
+ *   ウィンドウが開いている間は、プレイヤーとイベントは移動できなくなります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Added new plugin command 'OpenCreditsWindow'.
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

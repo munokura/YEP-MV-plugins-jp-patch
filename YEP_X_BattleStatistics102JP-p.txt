@@ -1,0 +1,160 @@
+/*:ja
+ * @plugindesc v1.02 (要YEP_StatusMenuCore) アクターの戦闘統計を表示します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Command Name
+ * @text コマンドテキスト
+ * @parent ---一般---
+ * @desc [ステータスメニュー]コマンドリストの表示テキスト
+ * @default 戦闘統計
+ *
+ * @param Battle Count Text
+ * @text 戦闘数テキスト
+ * @parent ---一般---
+ * @desc 戦闘回数の表示テキスト
+ * @default 戦闘回数
+ *
+ * @param Battle Count Format
+ * @text 戦闘数表示形式
+ * @parent ---一般---
+ * @desc 表示形式
+ * %1:アクター戦闘回数  %2:パーティ戦闘回数  %3:割合
+ * @default 全 %2 回中 %1 回戦闘 (%3%)
+ *
+ * @param ---割合---
+ * @text ---割合---
+ * @default
+ *
+ * @param Kill Count Text
+ * @text キル数テキスト
+ * @parent ---割合---
+ * @desc キル数の表示テキスト
+ * @default キル
+ *
+ * @param Kill Count Format
+ * @text キル数表示形式
+ * @parent ---割合---
+ * @desc 表示形式 %1:キル率
+ * @default キル率 %1
+ *
+ * @param Death Count Text
+ * @text 死者数テキスト
+ * @parent ---割合---
+ * @desc デス数の表示テキスト
+ * @default デス
+ *
+ * @param Death Count Format
+ * @text 死亡数表示形式
+ * @parent ---割合---
+ * @desc 表示形式 %1:デス率
+ * @default デス率 %1
+ *
+ * @param Assist Count Text
+ * @text アシスト数テキスト
+ * @parent ---割合---
+ * @desc アシスト数の表示テキスト
+ * @default アシスト
+ *
+ * @param Assist Count Format
+ * @text アシスト数表示形式
+ * @parent ---割合---
+ * @desc アシスト数の表示形式
+ * %1:アシスト率
+ * @default アシスト数 %1
+ *
+ * @param ---合計---
+ * @text ---合計---
+ * @default
+ *
+ * @param Damage Dealt
+ * @text 与ダメージ
+ * @parent ---合計---
+ * @desc 与ダメージの表示テキスト
+ * @default 与ダメージ
+ *
+ * @param Damage Taken
+ * @text 被ダメージ
+ * @parent ---合計---
+ * @desc 被ダメージの表示テキスト
+ * @default 被ダメージ
+ *
+ * @param Healing Dealt
+ * @text 与回復数
+ * @parent ---合計---
+ * @desc 与回復数の表示テキスト
+ * @default 与回復数
+ *
+ * @param Healing Taken
+ * @text 被回復数
+ * @parent ---合計---
+ * @desc 被回復数の表示テキスト
+ * @default 被回復数
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_StatusMenuCoreを必要とします。
+ * プラグイン管理のYEP_StatusMenuCoreの下に
+ * このプラグインがあることを確認してください。
+ *
+ * 特定の場所にステータスメニューのBattleStatisticsタブを配置したい場合、
+ * StatusMenuCoreのCommandOrderパラメータに
+ * 引用符なしで'Statistics'を配置してください。
+ * 表示されていない場合、
+ * [カスタム]タブで自動的に追加されます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * このプラグインはプラグアンドプレイです。
+ * 全ての戦闘情報は戦闘統計タブに記録されます。
+ * 情報は次のとおりです。
+ *
+ * Battles Initiated
+ * アクターがスターティングパーティーに何回参加したか、またその比率は?
+ *
+ * Kills/Deaths/Assists
+ * アクター全体で行われたキル数、デス数、アシスト数に関する情報を表示します。
+ * アクターが敵を倒すとキルが発生します。
+ * アクターが戦闘で戦闘不能になるとデスが上がります。
+ * アクターが敵のキルの間に参加しているならばアシストが上がります。
+ *
+ * Damage Dealt
+ * ゲーム中にアクターによって与えられたダメージの合計量。
+ *
+ * Damage Taken
+ * ゲーム中にアクターが受けたダメージの合計量。
+ *
+ * Healing Dealt
+ * ゲームの過程でアクターによって与えられた回復の合計量。
+ *
+ * Healing Taken
+ * ゲームの過程でアクターが受けた回復の合計量。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.01:
+ * - Calculations for recorded HP damage dealt are now calculated based on the
+ * actual HP damage taken as per the results rather than based off of the raw
+ * incoming value (in the event that raw value gets modified as per the
+ * effects of other plugins).
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,949 @@
+/*:ja
+ * @plugindesc v1.08 ダメージ計算を多くの機能と効果で拡張します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---ダメージキャップ---
+ * @text ---ダメージキャップ---
+ * @default
+ *
+ * @param Enable Cap
+ * @text キャップ有効化
+ * @parent ---ダメージキャップ---
+ * @type boolean
+ * @on キャップ有効
+ * @off キャップ無効
+ * @desc ダメージキャップ全般
+ * 無効:false / 有効:true / デフォルト:false
+ * @default true
+ *
+ * @param Maximum Damage
+ * @text 最大ダメージ
+ * @parent ---ダメージキャップ---
+ * @type number
+ * @min 0
+ * @desc キャップが有効の場合、デフォルトの最大ダメージ
+ * @default 9999
+ *
+ * @param Maximum Healing
+ * @text 最大回復量
+ * @parent ---ダメージキャップ---
+ * @type number
+ * @min 0
+ * @desc キャップが有効の場合、デフォルトの最大回復量
+ * @default 9999
+ *
+ * @param ---ダメージステップ---
+ * @text ---ダメージステップ---
+ * @default
+ *
+ * @param Damage Step 1
+ * @text 1
+ * @parent ---ダメージステップ---
+ * @desc 基本値が計算された後のステップ
+ * 前行:baseDamage = this.evalDamageFormula(target);
+ * @default baseDamage = this.modifyBaseDamage(value, baseDamage, target);
+ *
+ * @param Damage Step 2
+ * @text 2
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default baseDamage *= this.calcElementRate(target);
+ *
+ * @param Damage Step 3
+ * @text 3
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 4
+ * @text 4
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 5
+ * @text 5
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 6
+ * @text 6
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default critical = this.modifyCritical(critical, baseDamage, target);
+ *
+ * @param Damage Step 7
+ * @text 7
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default target.result().critical = critical;
+ *
+ * @param Damage Step 8
+ * @text 8
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = baseDamage;
+ *
+ * @param Damage Step 9
+ * @text 9
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 10
+ * @text 10
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (baseDamage > 0) {
+ *
+ * @param Damage Step 11
+ * @text 11
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyDamageRate(value, baseDamage, target);
+ *
+ * @param Damage Step 12
+ * @text 12
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 13
+ * @text 13
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 14
+ * @text 14
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 15
+ * @text 15
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 16
+ * @text 16
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 17
+ * @text 17
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 18
+ * @text 18
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 19
+ * @text 19
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 20
+ * @text 20
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (baseDamage < 0) {
+ *
+ * @param Damage Step 21
+ * @text 21
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyHealRate(value, baseDamage, target);
+ *
+ * @param Damage Step 22
+ * @text 22
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 23
+ * @text 23
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 24
+ * @text 24
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 25
+ * @text 25
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 26
+ * @text 26
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 27
+ * @text 27
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 28
+ * @text 28
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 29
+ * @text 29
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 30
+ * @text 30
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (critical) {
+ *
+ * @param Damage Step 31
+ * @text 31
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyCriticalRate(value, baseDamage, target);
+ *
+ * @param Damage Step 32
+ * @text 32
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 33
+ * @text 33
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 34
+ * @text 34
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 35
+ * @text 35
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 36
+ * @text 36
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 37
+ * @text 37
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 38
+ * @text 38
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 39
+ * @text 39
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 40
+ * @text 40
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (this.isPhysical()) {
+ *
+ * @param Damage Step 41
+ * @text 41
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyPhysicalRate(value, baseDamage, target);
+ *
+ * @param Damage Step 42
+ * @text 42
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 43
+ * @text 43
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 44
+ * @text 44
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 45
+ * @text 45
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 46
+ * @text 46
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 47
+ * @text 47
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyFlatPhysical(value, baseDamage, target);
+ *
+ * @param Damage Step 48
+ * @text 48
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 49
+ * @text 49
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 50
+ * @text 50
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (this.isMagical()) {
+ *
+ * @param Damage Step 51
+ * @text 51
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyMagicalRate(value, baseDamage, target);
+ *
+ * @param Damage Step 52
+ * @text 52
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 53
+ * @text 53
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 54
+ * @text 54
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 55
+ * @text 55
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 56
+ * @text 56
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 57
+ * @text 57
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyFlatMagical(value, baseDamage, target);
+ *
+ * @param Damage Step 58
+ * @text 58
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 59
+ * @text 59
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 60
+ * @text 60
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (baseDamage > 0) {
+ *
+ * @param Damage Step 61
+ * @text 61
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyFlatDamage(value, baseDamage, target);
+ *
+ * @param Damage Step 62
+ * @text 62
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 63
+ * @text 63
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 64
+ * @text 64
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 65
+ * @text 65
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 66
+ * @text 66
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 67
+ * @text 67
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 68
+ * @text 68
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 69
+ * @text 69
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 70
+ * @text 70
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (baseDamage < 0) {
+ *
+ * @param Damage Step 71
+ * @text 71
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyFlatHeal(value, baseDamage, target);
+ *
+ * @param Damage Step 72
+ * @text 72
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 73
+ * @text 73
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 74
+ * @text 74
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 75
+ * @text 75
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 76
+ * @text 76
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 77
+ * @text 77
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 78
+ * @text 78
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 79
+ * @text 79
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 80
+ * @text 80
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default if (critical) {
+ *
+ * @param Damage Step 81
+ * @text 81
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyFlatCritical(value, baseDamage, target);
+ *
+ * @param Damage Step 82
+ * @text 82
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 83
+ * @text 83
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 84
+ * @text 84
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 85
+ * @text 85
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 86
+ * @text 86
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 87
+ * @text 87
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 88
+ * @text 88
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default }
+ *
+ * @param Damage Step 89
+ * @text 89
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 90
+ * @text 90
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyVariance(value, item.damage.variance);
+ *
+ * @param Damage Step 91
+ * @text 91
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 92
+ * @text 92
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 93
+ * @text 93
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 94
+ * @text 94
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 95
+ * @text 95
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyGuard(value, target);
+ *
+ * @param Damage Step 96
+ * @text 96
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 97
+ * @text 97
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 98
+ * @text 98
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default
+ *
+ * @param Damage Step 99
+ * @text 99
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローのステップ
+ * @default value = this.applyFlatGlobal(value, baseDamage, target);
+ *
+ * @param Damage Step 100
+ * @text 100
+ * @parent ---ダメージステップ---
+ * @desc ダメージフローの最後のステップ
+ * 次行:return Math.round(value);
+ * @default value = this.applyMinimumDamage(value, baseDamage, target);
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGツクールMVはダメージ計算式に対して多くの設定ができますが、
+ * 何でも自由に設定できるわけではありません。
+ * このプラグインは製作者の変更を挿入し、
+ * ダメージ計算式を制御できるようにします。
+ *
+ * YEP_BattleEngineCore とこのプラグインを利用する場合、
+ * プラグイン管理でこのプラグインを YEP_BattleEngineCore の下にしてください。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下はダメージキャップを修正するために使用できるメモタグです。
+ *
+ * スキル、アイテムのメモタグ:
+ *   <Bypass Damage Cap>
+ *   スキル/アイテムはダメージキャップを無視し、
+ *   計算されたダメージの通常の値で進むようになります。
+ *   これはダメージキャップ効果をキャンセルします。
+ *   これはダメージキャップ効果よりも優先されます。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ:
+ *   <Bypass Damage Cap>
+ *   関連するバトラーはダメージキャップする効果を回避し、
+ *   そのスキル/アイテムは計算された上限値を使います。
+ *
+ *   <Damage Cap: x>
+ *   <Heal Cap: x>
+ *   ダメージ/回復キャップが x になるようにスキルが設定されます。
+ *   ダメージキャップのバイパスをキャンセルします。
+ *   バトラーが複数のダメージキャップを持っている場合、
+ *   それは最も高い値になります。
+ *   ダメージキャップを99,999にする武器と
+ *   ダメージキャップを999,999にする装飾品を持っているアクターがいる場合、
+ *   バトラーのダメージキャップは高い値である999,999になります。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下は、ダメージキャップルールを設定するプラグインコマンドです。
+ * 装備、スキルなどの個々の特徴が
+ * これらのデフォルトの上限よりも優先されることに注意してください。
+ *
+ * プラグインコマンド:
+ *   SetDamageCap 9999     デフォルトのダメージキャップを9999に設定
+ *   SetHealingCap 9999    デフォルトの回復キャップを9999に設定
+ *   EnableDamageCap       ダメージと回復の両方に対してデフォルトの上限を有効
+ *   DisableDamageCap      ダメージと回復の両方に対してデフォルトの上限を無効
+ *
+ * ===========================================================================
+ * ルナティックモード - ダメージ計算式
+ * ===========================================================================
+ *
+ * ダメージ計算式ボックスが小さすぎて、
+ * 代わりにダメージ計算式を記載するためにメモ欄を使用したい場合、
+ * 以下のメモタグを使うことができます。
+ *
+ * スキル、アイテムのメモタグ:
+ *   <damage formula>
+ *    value = 500;
+ *    value += 2500;
+ *   </damage formula>
+ *   一番上にあるダメージ式を上書きし、代わりにタグ内の式を使用します。
+ *   ここでコメントを使用すると、
+ *   その後に続くものは全て取り消されることに注意してください。
+ *   ダメージ計算を簡単にするために、新しい変数を使用することもできます。
+ *
+ *   value    - 基本ダメージ値となる量
+ *   user     - スキル/アイテムを使っているアクター/敵
+ *   subject  - スキル/アイテムを使っているアクター/敵
+ *   target   - スキル/アイテムの対象アクター/敵
+ *
+ * ===========================================================================
+ * ルナティックモード - ダメージステップ
+ * ===========================================================================
+ *
+ * ダメージの計算式は、最後にダメージを計算するだけではありません。
+ * このプラグインのパラメータには、
+ * ダメージステップの大きなリストがあります。
+ * これらは、ダメージ出力を計算して確定するために実行されるコードの行です。
+ *
+ * パラメータは、入力されたコードや
+ * 他のプラグインによって提供されるカスタムコードを
+ * 挿入したい場所へのアクセスを容易にすることを可能にします。
+ * 下記は元のダメージの流れがどのようになっていたかについての
+ * クイックリファレンスです。
+ *
+ * Game_Action.prototype.makeDamageValue = function(target, critical) {
+ *     var item = this.item();
+ *     var baseDamage = this.evalDamageFormula(target);
+ *     var value = baseDamage * this.calcElementRate(target);
+ *     if (this.isPhysical()) {
+ *         value *= target.pdr;
+ *     }
+ *     if (this.isMagical()) {
+ *         value *= target.mdr;
+ *     }
+ *     if (baseDamage < 0) {
+ *         value *= target.rec;
+ *     }
+ *     if (critical) {
+ *         value = this.applyCritical(value);
+ *     }
+ *     value = this.applyVariance(value, item.damage.variance);
+ *     value = this.applyGuard(value, target);
+ *     value = Math.round(value);
+ *     return value;
+ * };
+ *
+ * 全てを整理しておくために、新しい関数を組み込みました。
+ *
+ * 関数                                  新しい関数
+ *   value *= target.pdr                   value = this.applyPhysicalRate
+ *   value *= target.mdr                   value = this.applyMagicalRate
+ *   value *= target.rec                   value = this.applyHealRate
+ *   value = this.applyCritical(value)     value = this.applyCriticalRate
+ *
+ * ===========================================================================
+ * Yanfly Engine Plugins - Battle Engine Extension - Action Sequence Commands
+ * ===========================================================================
+ *
+ * YEP_BattleEngineCore がこのプラグインと共にインストールされている場合、
+ * 下記の追加のダメージ関連のアクションシーケンスを利用できます。
+ *
+ * ===========================================================================
+ * BYPASS DAMAGE CAP
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 全てのダメージキャップを無効にします。
+ * 回復にも当てはまります。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: bypass damage cap
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * DAMAGE CAP: x
+ * HEALING CAP: x
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * アクションのダメージキャップを x に設定し、
+ * それ自身を除いて、場にある全てのダメージキャップを上書きします。
+ * 回復にも当てはまります。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: damage cap: 999
+ *     healing cap: 999999
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * DAMAGE RATE: x%
+ * DAMAGE RATE: x.y
+ * DAMAGE RATE: VARIABLE x
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 全種のダメージのダメージ率を変更します。
+ * 各アクションシーケンス完了後にリセットされます。
+ * 変数を使用すると、それは率として扱われます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: damage rate: 50%
+ *     damage rate: 8.667
+ *     damage rate: variable 3
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * FLAT DAMAGE: +x
+ * FLAT DAMAGE: -x
+ * FLAT DAMAGE: VARIABLE x
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 全種のダメージに固定値を加えます。
+ * 各アクションシーケンス完了後にリセットされます。
+ * 変数を使用すると、それはダメージに加算されます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: flat damage: +100
+ *     flat damage: -250
+ *     flat damage: variable 3
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * FLAT GLOBAL: +x
+ * FLAT GLOBAL: -x
+ * FLAT GLOBAL: VARIABLE x
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 全種のダメージ/回復に固定値を加えます。
+ * 各アクションシーケンス完了後にリセットされます。
+ * 変数を使用すると、加算されます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: flat global: +100
+ *     flat global: -250
+ *     flat global: variable 3
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * FLAT HEAL: +x
+ * FLAT HEAL: -x
+ * FLAT HEAL: VARIABLE x
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 全種の回復に固定値を加えます。
+ * 各アクションシーケンス完了後にリセットされます。
+ * 変数を使用すると、加算されます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: flat heal: +100
+ *     flat heal: -250
+ *     flat heal: variable 3
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * GLOBAL RATE: x%
+ * GLOBAL RATE: x.y
+ * GLOBAL RATE: VARIABLE x
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 全種のダメージ/回復の率を変更します。
+ * 各アクションシーケンス完了後にリセットされます。
+ * 変数を使用すると、それは率として扱われます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: global rate: 50%
+ *     global rate: 8.667
+ *     global rate: variable 3
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * HEAL RATE: x%
+ * HEAL RATE: x.y
+ * HEAL RATE: VARIABLE x
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 全種の回復の率を変更します。
+ * 各アクションシーケンス完了後にリセットされます。
+ * 変数を使用すると、それは率として扱われます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: heal rate: 50%
+ *     heal rate: 8.667
+ *     heal rate: variable 3
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * RESET DAMAGE CAP
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * ダメージキャップアクションシーケンスによって実行された
+ * ダメージキャップをリセットします。
+ * これは、バイパスダメージキャップによるアクションシーケンスの効果も
+ * リセットします。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: reset damage cap
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * RESET DAMAGE MODIFIERS
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * アクションシーケンスで起きた全ダメージ/回復の修正値がリセットされます。
+ * 通常は各アクションシーケンス完了後にリセットされますが、
+ * これを手動で行うことができます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 例: reset damage modifiers
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.08:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.06:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.05:
+ * - Added failsafe for damage cap check in case Lunatic Mode effects of other
+ * plugins would push the damage past the capped amount.
+ *
+ * Version 1.04:
+ * - Rewored Damage Steps 1 through 8. If you're updating from an old version,
+ * please update the these manually:
+ *   Step 1: baseDamage = this.modifyBaseDamage(value, baseDamage, target);
+ *   Step 2: baseDamage *= this.calcElementRate(target);
+ *   Steps 3 through 5: (empty)
+ *   Step 6: critical = this.modifyCritical(critical, baseDamage, target);
+ *   Step 7: target.result().critical = critical;
+ *   Step 8: value = baseDamage;
+ * - This change was made to Element Absorb and Disperse Damage better. This
+ * damage step change is also more efficient in calculating damage effects
+ * that alters the baseDamage.
+ *
+ * Version 1.03:
+ * - Changed default parameter in Damage Step 4 from
+ *   'baseDamage = this.modifyBaseDamage(value, baseDamage, target);' to
+ *   'value = this.modifyBaseDamage(value, baseDamage, target);'
+ * Be sure to manually change this yourself if you want to get things like the
+ * Selection Control's Disperse Damage mechanic to work.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.1.0.
+ * - <Damage Formula> notetag now supports comments.
+ *
+ * Version 1.01:
+ * - Fixed a bug with <Damage Formula> not recording custom formulas
+ * correctly.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

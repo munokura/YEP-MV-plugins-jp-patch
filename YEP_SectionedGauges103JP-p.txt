@@ -1,0 +1,99 @@
+/*:ja
+ * @plugindesc v1.03 各ゲージを分割し読みやすくします
+ * @author Yanfly Engine Plugins + Tigress Collaboration
+ *
+ * @param ---区分---
+ * @text ---区分---
+ * @default
+ *
+ * @param HP Gauge Sections
+ * @text HPゲージ区分
+ * @parent ---区分---
+ * @type Number
+ * @min 1
+ * @desc HPゲージの区分数
+ * @default 10
+ *
+ * @param MP Gauge Sections
+ * @text MPゲージ区分
+ * @parent ---区分---
+ * @type Number
+ * @min 1
+ * @desc MPゲージの区分数
+ * @default 4
+ *
+ * @param TP Gauge Sections
+ * @text TPゲージ区分
+ * @parent ---区分---
+ * @type Number
+ * @min 1
+ * @desc TPゲージの区分数
+ * @default 4
+ *
+ * @param ---Status Menu Core---
+ * @text ---ステータスメニューコア---
+ * @default
+ *
+ * @param EXP Gauge Sections
+ * @text 経験値ゲージ区分
+ * @parent ---Status Menu Core---
+ * @type Number
+ * @min 1
+ * @desc 経験値ゲージの区分数
+ * @default 10
+ *
+ * @param Param Gauge Sections
+ * @text 能力値ゲージ区分
+ * @parent ---Status Menu Core---
+ * @type Number
+ * @min 1
+ * @desc 能力値ゲージの区分数
+ * @default 10
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 普通のゲージは、長すぎると読みづらくなります。
+ * それらをセクション分けすることによって視覚的により親切にし、
+ * バトラーのHP、MP、TPが残っているかについて、
+ * 考えやすい表示にします。
+ * ゲージに必要なセクション数も設定できます。
+ *
+ * このプラグインはプラグアンドプレイですが、
+ * 設定に合わせてプラグインパラメータを調整できます。
+ * プラグインのパラメータにある値を調整して、
+ * ゲージのHP、MP、TPにあるセクションを変更するために調整されます。
+ * セクションはゲージのパーセンテージ部分に分割され、
+ * プレーヤーはHP、MP、TPゲージの%値を簡単に読み取ることができます。
+ *
+ * YEP_StatusMenuCore はこのプラグインとも互換性があり、
+ * EXPゲージとパラメータゲージのセクションゲージを表示します。
+ * 他のプラグインパラメータと同様に、
+ * ゲージ毎に追加されたセクションの数を調整して
+ * 見やすくすることができます。
+ *
+ * Yanfly Engine Plugins ライブラリとの互換性を確保するための
+ * Tigress と Yanfly による共同作業プラグインです。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Bug fix: adjusted gauge positioning issues courtesy of Fragrarch.
+ *
+ * Version 1.01:
+ * - Bug fix: Was missing a compatibility check.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,511 @@
+/*:ja
+ * @plugindesc v1.30 アイテムの処理を変更します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Max Items
+ * @text アイテムの最大値
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc アイテムの最大値を指定します。0にすると独立アイテムが無効に
+ * @default 0
+ *
+ * @param Max Weapons
+ * @text 武器の最大値
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc 武器の最大値を指定します。0にすると個別武器が無効に
+ * @default 100
+ *
+ * @param Max Armors
+ * @text 防具の最大値
+ * @parent ---一般---
+ * @type number
+ * @min 0
+ * @desc 防具の最大値を指定します。0にすると個別防具が無効に
+ * @default 100
+ *
+ * @param Starting ID
+ * @text 開始アイテムID
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc 独立アイテムの適用を始めるIDを指定します。デフォルトアイテムとの干渉を防ぎます。
+ * @default 3000
+ *
+ * @param Random Variance
+ * @text ランダム分散
+ * @parent ---一般---
+ * @type number
+ * @desc ショップ以外で手に入れたアイテムに対して、この値の範囲内でランダム値を付与します(増減)。0にすると無効に
+ * @default 0
+ *
+ * @param Negative Variance
+ * @text 負の分散有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc Random Varianceを使った場合、ランダム値の数値を0以下にすることを有効化。無効:false / 有効:true
+ * @default false
+ *
+ * @param Name Format
+ * @text 命名規則
+ * @parent ---一般---
+ * @desc アイテム名がどのように構成されるかを指定します。
+ * %1 - 接頭辞, %2 - ベース名, %3 - 接尾辞, %4 - 増減値
+ * @default %1%2%3%4
+ *
+ * @param Name Spacing
+ * @text 名前のスペース
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc 接頭辞と接尾辞の間にスペースを挿入有効化。無効:false / 有効:true
+ * @default true
+ *
+ * @param Boost Format
+ * @text 増減値の表示形式
+ * @parent ---一般---
+ * @desc 独立アイテムの増減値の表し方。%1:増減値
+ * @default (+%1)
+ *
+ * @param ---アイテムシーン---
+ * @default
+ *
+ * @param Updated Scene Item
+ * @text シーン形式
+ * @parent ---アイテムシーン---
+ * @type boolean
+ * @on 変更(推奨)
+ * @off 通常
+ * @desc アイテムシーンの見た目を変更。通常:false / 変更(推奨):true
+ * @default true
+ *
+ * @param List Equipped Items
+ * @text 装備アイテムのリスト表示
+ * @parent ---アイテムシーン---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 装備された独立アイテムをアイテムリスト表示。非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Icon
+ * @text アイコン表示
+ * @parent ---アイテムシーン---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc ステートウィンドウ内にアイコンを表示。非表示:false / 表示:true
+ * @default true
+ *
+ * @param Icon Size
+ * @text アイコンサイズ
+ * @parent ---アイテムシーン---
+ * @type number
+ * @min 0
+ * @desc アイコンのサイズを変更。通常は、デフォルトサイズの4倍
+ * @default 128
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---アイテムシーン---
+ * @type number
+ * @min 1
+ * @desc 詳細のフォントサイズを変更。デフォルト:28
+ * @default 20
+ *
+ * @param Command Alignment
+ * @text テキスト揃え
+ * @parent ---アイテムシーン---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc コマンドウィンドウでのテキスト揃え。左:left / 中央:center / 右:right
+ * @default left
+ *
+ * @param Recovery Format
+ * @text 回復テキスト
+ * @parent ---アイテムシーン---
+ * @desc HP/MP回復の表示テキスト形式
+ * @default %1 回復
+ *
+ * @param Add State
+ * @text ステート付加テキスト
+ * @parent ---アイテムシーン---
+ * @desc ステート付加時の表示テキスト形式
+ * @default +ステート
+ *
+ * @param Add Buff
+ * @text 強化テキスト
+ * @parent ---アイテムシーン---
+ * @desc 強化時の表示テキスト形式
+ * @default +強化
+ *
+ * @param Remove State
+ * @text ステート解除テキスト
+ * @parent ---アイテムシーン---
+ * @desc ステート解除時の表示テキスト形式
+ * @default -ステート
+ *
+ * @param Remove Buff
+ * @text 強化解除テキスト
+ * @parent ---アイテムシーン---
+ * @desc 強化解除時のテキスト形式を指定します。
+ * @default -強化
+ *
+ * @param Maximum Icons
+ * @text アイコン最大数
+ * @parent ---アイテムシーン---
+ * @type number
+ * @min 0
+ * @desc ステートと強化に描写されるアイコンの最大数
+ * @default 4
+ *
+ * @param Use Command
+ * @text アイテム使用表示テキスト
+ * @parent ---アイテムシーン---
+ * @desc 選択したアイテムを使う際のコマンド表示テキスト。%1:アイテムアイコンと名前
+ * @default %1 を使う
+ *
+ * @param Carry Format
+ * @text 独立アイテム表示形式
+ * @parent ---アイテムシーン---
+ * @desc 独立アイテムの表示形式。%1:ID / %2:最大値
+ * @default %1/%2
+ *
+ * @param ---Independent Items---
+ * @text ---独立アイテム---
+ * @default
+ *
+ * @param Midgame Note Parsing
+ * @text メモ解析タイミング
+ * @parent ---Independent Items---
+ * @type boolean
+ * @on ゲーム中
+ * @off 開始時(推奨)
+ * @desc メモ解析実行タイミング。開始時(推奨):false / ゲーム中:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ * このプラグインは、アイテムの扱われ方にいくつかの変更を行います。
+ *
+ * 1.独立アイテム
+ * アイテム・武器・防具などに上限値を設定した場合、
+ * 各アイテムは独立したアイテムとして扱われ、
+ * 個別にステートを持たせて管理することができます。
+ * このステートはアップグレードしたり、変更、修正などを行うことも可能で、
+ * 変更後も元の特性を保持し、別個のアイテムとして管理することができます。
+ * 上限設定のないアイテム(0指定)は、デフォルトアイテムと同様となります。
+ *
+ * 2.新しいアイテム画面
+ * アイテム画面の表示方法についても、変更されています。
+ * 新しいレイアウトでは、アイテムのリストは2列ではなく1列で構成されています。
+ * 「アイテム性能ウィンドウ」(アイテムの基本性能表示)や、
+ * 「アイテム情報ウィンドウ」(アップグレードの反映情報等を表示)
+ * が追加されています。
+ * また、アイテムを選択した際にアクションを選択する
+ * (使用する、アップグレードするなど。その他プラグインから追加も可能)
+ * 「アイテムアクションウィンドウ」も追加されています。
+ *
+ * 3.ランダムな値の付与
+ * ショップからの購入アイテムを除き、新たに取得したアイテムには、
+ * ランダムな値を付与することができます。
+ * アイテムのパラメータを、ランダムに標準値から増減させることができます。
+ * 不要な場合は、メモタグの"Varience value"を0にすることで、無効化できます。
+ * もし全てのアイテムでこの設定を無効化したい場合、
+ * パラメータを0にすることで設定することもできます。
+ *
+ * 注:戦闘テスト時は、上記の独立アイテム機能は無効になります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 独立アイテムのパラメータにはランダムな値が付与されます。
+ * (ショップ購入アイテムを除く)
+ *
+ * アイテム、武器、防具のメモタグ
+ *   <Random Variance: x>
+ *   そのアイテムがショップ購入アイテムでない場合、
+ *   正負 x の範囲内で、性能値がランダムに増減します。
+ *
+ *   <Not Independent item>
+ *   デフォルトの独立アイテムを、非独立アイテムに変換します。
+ *   これにより、独立アイテムに対する処理の影響を受けなくなります。
+ *
+ *   <Priority Name>
+ *   アイテム、武器や防具のプライオリティネーム(優先度の高い名称)を、
+ *   データベース上での見出し名に設定します。
+ *   これにより、ネームスキームがアイテムに影響することがなくなります。
+ *
+ *   <Text Color: x>
+ *   ウィンドウスキンで設定した文字色 ｘ を、
+ *   アイテム、武器、防具の文字色に設定します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 上記のランダム値の適用無しで、アイテムをインベントリに追加させたい場合、
+ * 下記のプラグインコマンドを用いてください。
+ *
+ * <プラグインコマンド>
+ *   EnableVarianceStock  - これより先のポイントで得られた全てのアイテムに
+ *                          標準の値を付与します。
+ *   DisableVarianceStock - これより先のポイントで得られた全てのアイテムに
+ *                          ランダムな値を付与します。
+ *
+ * 標準値を有効にしても、プレイヤーがタイトル画面からゲームをリスタートしたり
+ * プログラムを再起動したりすると、再びランダム値が適用されるようになります。
+ * このプラグインコマンドは、一時的なコマンドであることに注意してください。
+ *
+ * ===========================================================================
+ * イベントの変更
+ * ===========================================================================
+ *
+ * 独立アイテムのシステムを最適化させるために、
+ * イベント生成においてもいくつか変更されています。
+ *
+ * ・イベントページの条件と条件分岐
+ *   システムは、アイテムがパーティインベントリ内に存在するか確認することで
+ * そのアイテムが独立アイテムとして扱えるか否かを判断します。
+ * もしそのアイテムがアップグレード済だったとしても、
+ * アップグレード前のベースアイテム名と照合して、条件分岐を行います。
+ * 例）アップグレード済の"長剣(+1)"を持っていても、
+ *     イベントエディタの対象である"長剣"と照合し、
+ *    「"長剣"を持っている」という条件を満たしているとみなします。
+ *
+ * ・アクターの装備の条件
+ *   前述の条件分岐と同様に、アクターの所持装備がアップグレード済であっても、
+ * 「装備 x を所持している」という条件を満たしているものとみなされます。
+ * 例）アクターがアップグレード済の"長剣(+1)"を持っていても、
+ *    「アクターが"長剣"を持っている」という条件を満たしているとみなします。
+ *
+ * ・装備変更
+ *   対象となる装備が個別装備だった場合、最初に、
+ * 「合致するベースアイテムをアクターが持っているかどうか」を確認します。
+ * 持っていない場合、今度は「合致するベースアイテムをパーティが持っているか」
+ * を確認し、持っていた場合、それを使用します。
+ * そこでも持っていなかった場合、
+ * 新規で標準値のアイテムを作成し、それをアクターに装備させます。
+ *
+ * ===========================================================================
+ * アイテム命名システム
+ * ===========================================================================
+ *
+ * 独立アイテムの名前は以下の4つのパートで構成されています。
+ *
+ *  Prefix(接頭辞)  Base Name(ベース名)  Suffix(接尾辞)  Boost Count(増加値)
+ *
+ * 上記の4つはプラグインによって調整されます。
+ * 適用される効果によって、それぞれを入れ替えたり変更することも可能です。
+ * 例）接頭辞'Fiery' + ベースネーム'Sword' + 接尾辞'of Might'
+ *      + 増加値'5' で構成されたアイテムは、以下のように表示されます。
+ *
+ *      Fiery Sword of Might (+5)
+ *
+ * このアイテムは、各パーツが何らかの形で変更された場合のみ現れます。
+ *
+ * また、他にも第5の命名規則(プライオリティネーム)があり、
+ * 名称としてはそちらが優先されることに気を付けてください。
+ * このプライオリティネームは、現在の命名規を完全に上書きしてしまいます。
+ * 上記のように、アイテム名を 'Fiery Sword of Might (+5)'としたとしても、
+ * プライオリティネームが別の名前だった場合、そちらが優先されてしまいます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 独立したアイテムの作成
+ * ===========================================================================
+ *
+ * Lunatic ModeでJavaScriptを使うことで、アイテム作成時に
+ * コードを実行する事が出来ます。新しく作った独立アイテムに限ります。
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <On Creation Eval>
+ *    item.price = baseItem.price;
+ *    item.price += Math.floor(Random() * 100);
+ *   </On Creation Eval>
+ *   ここで書かれてる「item」は作成されている独立アイテムを指しています。
+ *   「baseItem」はベースアイテムのことです。「item」に変更があった場合、
+ *   独立アイテムにも同じ変更が実行されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム情報ウィンドウの表示
+ * ===========================================================================
+ *
+ * 端にある情報ウィンドウにオリジナルコンテンツを追加したい場合、
+ * 以下のメモタグを使用してください。
+ *
+ *   <Info Text Top>
+ *    text
+ *    text
+ *   </Info Text Top>
+ *   アイテム情報ウィンドウに足したい情報をここに書いてください。
+ *   好きなテキストをご自由に記載することができます。
+ *   テキストコードを使う事も出来ます。
+ *   ここに書かれてる情報はウィンドウの上部に表示されます。
+ *
+ *   <Info Text Bottom>
+ *    text
+ *    text
+ *   </Info Text Bottom>
+ *   アイテム情報ウィンドウに足したい情報をここに書いてください。
+ *   好きなテキストをご自由に記載することができます。
+ *   テキストコードを使う事も出来ます。
+ *   ここに書かれてる情報はウィンドウの下部に表示されます。
+ *
+ *   <Info Eval>
+ *    var variableId = 1;
+ *    var value = 500;
+ *    $gameVariables.setValue(variableId, value);
+ *   </Info Eval>
+ *   JavaScriptが書ける方はこちらのメモタグを使って、
+ *   新しい情報を表示する前にJavaScriptを実行する事が出来ます。
+ *   これを使う事によって、テキストコードなどで数値を表示するつもりでいれば、
+ *   表示する前にデータベースから新しい情報を引っ張ってきて、
+ *   最新の情報を表示する事が出来ます。
+ *
+ * ===========================================================================
+ * 独立アイテムとミッドゲームノートの解析
+ * ===========================================================================
+ *
+ * 追加した「Midgame Note Parsing」オプションは、
+ * 他のプラグインで、開始時にメモタグを解析させるのではなく、
+ * 途中で行っているようなプラグインのために追加されてます。
+ *
+ * 自己責任でのご使用をお願いいたします。
+ * 理由としては、これをオンにする事によって
+ * 独立アイテムもメモデータを残すので、ファイルや保存データが大きくなり、
+ * 下手をしたらゲームのラグを生じさせてしまう恐れがあるからです。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.30:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.29:
+ * - Updated for RPG Maker MV version 1.6.0:
+ *   Removal of the destructive code in Scene_Item.update function.
+ *
+ * Version 1.28:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.27:
+ * - Compatibility update for future plugins.
+ *
+ * Version 1.26:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.25:
+ * - Optimization Update
+ *
+ * Version 1.24a:
+ * - Fixed a typo within the code. Please update Item Core, Item Disassemble,
+ * Attachable Augments, and More Currencies if you are using those plugins.
+ * - Random variance is now disabled from fresh plugin installation by 
+ * default.
+ *
+ * Version 1.23:
+ * - Fixed an issue custom info text when using different font sizes.
+ *
+ * Version 1.22:
+ * - Fixed a removal bug that caused weapon and armor ID's to clash.
+ *
+ * Version 1.21:
+ * - Fixed an error with sorting algorithm when items have the same base ID.
+ *
+ * Version 1.20:
+ * - Added <On Creation Eval> Lunatic Mode notetag. Read the help file for
+ * more information about it.
+ *
+ * Version 1.19:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.18a:
+ * - Added 'Midgame Note Parsing' plugin parameter.
+ * - Fixed a visual error with MP recovery displaying a 0 instead of ---.
+ *
+ * Version 1.17:
+ * - Added <Text Color: x> notetag for items, weapons, and armors.
+ *
+ * Version 1.16:
+ * - Fixed a bug that made mid-game actor initialization not display items
+ * correctly in the item menu.
+ *
+ * Version 1.15:
+ * - Fixed a bug with independent items getting values that crash the game.
+ *
+ * Version 1.14:
+ * - Fixed an unintended function of the game not granting a piece of
+ * equipment through events.
+ *
+ * Version 1.13:
+ * - Fixed a bug that didn't unequip items properly.
+ *
+ * Version 1.12:
+ * - Added 'Negative Variance' parameter.
+ *
+ * Version 1.11:
+ * - Fixed a bug that caused random variance to not calculate correctly.
+ * - Fixed a bug that didn't return the correct conditional branch results.
+ * - Fixed the display in the shop window to show number of independent items
+ * owned by the player rather than just 0.
+ *
+ * Version 1.10:
+ * - Added Lunatic Mode - Custom Info Window Display.
+ *
+ * Version 1.09:
+ * - Fixed a bug with evented item removal that didn't remove equipped items
+ * if the 'Include Equipment' checkbox was checked.
+ *
+ * Version 1.08:
+ * - Fixed a bug with the Control Variable event that would not gather the
+ * right amount of independent items.
+ *
+ * Version 1.07:
+ * - Fixed a bug with the Change Equipment event where armors wouldn't equip.
+ *
+ * Version 1.06:
+ * - Fixed a bug and rewrote the initializing equipment process.
+ *
+ * Version 1.05:
+ * - Compatibility update with ItemBook.
+ *
+ * Version 1.04:
+ * - Added 'List Equipped Items' parameter to allow for equipment restricted
+ * actors to be able to alt their equipment.
+ *
+ * Version 1.03:
+ * - Fixed a bug where using events to remove independent items weren't
+ * working properly and instead added more items.
+ * - Fixed a bug where a Random Variance of 0 still gave random stats.
+ *
+ * Version 1.02:
+ * - Fixed a bug where initializing equipment slots didn't work properly
+ * and/or added incorrect equips from the wrong actors into the inventory.
+ *
+ * Version 1.01:
+ * - Fixed bug where if you are using no independent pieces of equipment,
+ * actors would fail to start with initial equipment.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

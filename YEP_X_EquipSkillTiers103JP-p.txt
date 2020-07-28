@@ -1,0 +1,283 @@
+/*:ja
+ * @plugindesc v1.03 (要YEP_EquipBattleSkills) スキルにランクを付け、装備できるスキルの数を制御します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Sort by Tier?
+ * @text ランク別に並替
+ * @parent ---一般---
+ * @type boolean
+ * @on ランク順
+ * @off ID順
+ * @desc 装備可能なスキルをランク別に並べ替え
+ * ID順:false / ランク順:true
+ * @default true
+ *
+ * @param ---ランク1---
+ * @text ---ランク1 ---
+ * @default
+ *
+ * @param Tier 1 Enabled
+ * @text ランク1有効化
+ * @parent ---ランク1---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ランク1を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Tier 1 Name
+ * @text ランク1名
+ * @parent ---ランク1---
+ * @desc ランク1スキル
+ * @default １つ星
+ *
+ * @param Tier 1 Icon
+ * @text ランク1アイコン
+ * @parent ---ランク1---
+ * @type number
+ * @min 0
+ * @desc ランク1スキルアイコン
+ * @default 307
+ *
+ * @param Tier 1 Maximum
+ * @text ランク1最大数
+ * @parent ---ランク1---
+ * @type number
+ * @min 1
+ * @desc ランク1スキルの最大装備数
+ * @default 8
+ *
+ * @param ---ランク2---
+ * @text ---ランク2 ---
+ * @default
+ *
+ * @param Tier 2 Enabled
+ * @text ランク2有効化
+ * @parent ---ランク2---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ランク2を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Tier 2 Name
+ * @text ランク2名
+ * @parent ---ランク2---
+ * @desc ランク2スキル
+ * @default ２つ星
+ *
+ * @param Tier 2 Icon
+ * @text ランク2アイコン
+ * @parent ---ランク2---
+ * @type number
+ * @min 0
+ * @desc ランク2スキルアイコン
+ * @default 309
+ *
+ * @param Tier 2 Maximum
+ * @text ランク2最大数
+ * @parent ---ランク2---
+ * @type number
+ * @min 1
+ * @desc ランク2スキルの最大装備数
+ * @default 6
+ *
+ * @param ---ランク3---
+ * @text ---ランク3 ---
+ * @default
+ *
+ * @param Tier 3 Enabled
+ * @text ランク3有効化
+ * @parent ---ランク3---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ランク3を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Tier 3 Name
+ * @text ランク3名
+ * @parent ---ランク3---
+ * @desc ランク3スキル
+ * @default ３つ星
+ *
+ * @param Tier 3 Icon
+ * @text ランク3アイコン
+ * @parent ---ランク3---
+ * @type number
+ * @min 0
+ * @desc ランク3スキルアイコン
+ * @default 310
+ *
+ * @param Tier 3 Maximum
+ * @text ランク3最大数
+ * @parent ---ランク3---
+ * @type number
+ * @min 1
+ * @desc ランク3スキルの最大装備数
+ * @default 4
+ *
+ * @param ---ランク4---
+ * @text ---ランク4 ---
+ * @default
+ *
+ * @param Tier 4 Enabled
+ * @text ランク4有効化
+ * @parent ---ランク4---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ランク4を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Tier 4 Name
+ * @text ランク4名
+ * @parent ---ランク4---
+ * @desc ランク4スキル
+ * @default ４つ星
+ *
+ * @param Tier 4 Icon
+ * @text ランク4アイコン
+ * @parent ---ランク4---
+ * @type number
+ * @min 0
+ * @desc ランク4スキルアイコン
+ * @default 311
+ *
+ * @param Tier 4 Maximum
+ * @text ランク4最大数
+ * @parent ---ランク4---
+ * @type number
+ * @min 1
+ * @desc ランク4スキルの最大装備数
+ * @default 3
+ *
+ * @param ---ランク5---
+ * @text ---ランク5 ---
+ * @default
+ *
+ * @param Tier 5 Enabled
+ * @text ランク5有効化
+ * @parent ---ランク5---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ランク5を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Tier 5 Name
+ * @text ランク5名
+ * @parent ---ランク5---
+ * @desc ランク5スキル
+ * @default ５つ星
+ *
+ * @param Tier 5 Icon
+ * @text ランク5アイコン
+ * @parent ---ランク5---
+ * @type number
+ * @min 0
+ * @desc ランク5スキルアイコン
+ * @default 312
+ *
+ * @param Tier 5 Maximum
+ * @text ランク5最大数
+ * @parent ---ランク5---
+ * @type number
+ * @min 1
+ * @desc ランク5スキルの最大装備数
+ * @default 2
+ *
+ * @param ---ランク6---
+ * @text ---ランク6 ---
+ * @default
+ *
+ * @param Tier 6 Enabled
+ * @text ランク6有効化
+ * @parent ---ランク6---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc ランク6を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Tier 6 Name
+ * @text ランク6名
+ * @parent ---ランク6---
+ * @desc ランク6スキル
+ * @default ６つ星
+ *
+ * @param Tier 6 Icon
+ * @text ランク6アイコン
+ * @parent ---ランク6---
+ * @type number
+ * @min 0
+ * @desc ランク6スキルアイコン
+ * @default 308
+ *
+ * @param Tier 6 Maximum
+ * @text ランク6最大数
+ * @parent ---ランク6---
+ * @type number
+ * @min 1
+ * @desc ランク6スキルの最大装備数
+ * @default 1
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_EquipBattleSkillsを必要とします。
+ * プラグイン管理のYEP_EquipBattleSkillsの下に
+ * このプラグインがあることを確認してください。
+ *
+ * ランクに基づいて装備できるスキルをアクターに制限を課します。
+ * プレイヤーは制限を守らなければなりません。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下は、スキルのランク設定を変更するメモタグです。
+ *
+ * スキルのメモタグ
+ *   <Skill Tier: x>
+ * スキルのランクをxに設定し、それをアクターに制限します。
+ *
+ * アクター、職業、スキル、武器、防具、ステートのメモタグ
+ *   <Skill Tier x Slots: +y>
+ *   <Skill Tier x Slots: -y>
+ *   スキルランクのスロットxをy増減します。
+ *   ここで行われた変更は0未満にはならず、
+ *   また最大の戦闘スキル装備制限を回避することもありません。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.3.2.
+ *
+ * Version 1.01:
+ * - Added anti-crash measures when equipping skills.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

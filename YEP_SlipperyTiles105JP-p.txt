@@ -1,0 +1,76 @@
+/*:ja
+ * @plugindesc v1.05 タイルの地形タグやリージョン番号で、滑るタイルを作成できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Slippery Frame
+ * @text 滑りフレーム数
+ * @type number
+ * @min 0
+ * @desc キャラクターが滑る際に使われるフレーム数
+ * @default 2
+ *
+ * @param Slippery Region
+ * @text 滑りリージョン
+ * @type number
+ * @min 0
+ * @max 255
+ * @desc 滑るタイルになるリージョン
+ * 無効にするには0
+ * @default 0
+ *
+ * @param Slippery Speed
+ * @text 滑り速度
+ * @type number
+ * @min 0
+ * @desc 滑るタイルの上でのプレーヤの移動速度。
+ * 現在の速度を維持するには0
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインを使うと、リージョンやメモタグによって、
+ * 滑るタイルを設定することができるようになります。
+ * リージョンを使う場合、パラメーター設定から、
+ * どのリージョンIDを紐づけたいか指定してください。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 下記のメモタグを使って、タイルセットに滑るタイルを加えてください。
+ *
+ * タイルセットのメモタグ:
+ *   <Slippery Tile: x>
+ *   <Slippery Tile: x, x, x>
+ *   これで地形ID x を持ったタイルが、滑るタイルとして指定されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.04:
+ * - Added 'Slippery Speed' plugin parameter to let you change the speed of
+ * a character when its on a slippery tile.
+ *
+ * Version 1.03:
+ * - Added anti-crash for switch checks from battle tests.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.01:
+ * - Added failsafe for people who aren't using tilesets
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

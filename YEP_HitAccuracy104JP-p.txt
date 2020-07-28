@@ -1,0 +1,125 @@
+/*:ja
+ * @plugindesc v1.04 デフォルトの式に制御を与え、RPGツクールMVの命中率の性質を変更します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---式---
+ * @text ---式---
+ * @default
+ *
+ * @param Accuracy Formula
+ * @text 命中率の式
+ * @parent ---式---
+ * @desc スキルの命中率を算出する式
+ * 変数:skillHitRate、userHitRate、targetEvadeRate
+ * @default skillHitRate * (userHitRate - targetEvadeRate)
+ *
+ * @param Evade Formula
+ * @text 回避率式
+ * @parent ---式---
+ * @desc スキルの回避率を算出する式
+ * 変数:skillHitRate、userHitRate、targetEvadeRate
+ * @default 0
+ *
+ * @param ---使用者命中率---
+ * @text ---使用者命中率---
+ * @default
+ *
+ * @param User Physical Hit
+ * @text 物理攻撃命中率
+ * @parent ---使用者命中率---
+ * @desc 使用者の物理攻撃に対する命中率を算出する式
+ * @default user.hit
+ *
+ * @param User Magical Hit
+ * @text 魔法攻撃命中率
+ * @parent ---使用者命中率---
+ * @desc 使用者の魔法攻撃に対する命中率を算出する式
+ * @default 1.00
+ *
+ * @param User Certain Hit
+ * @text 必中命中率
+ * @parent ---使用者命中率---
+ * @desc 必中に対する使用者の命中率を算出する式
+ * @default 1.00
+ *
+ * @param ---対象回避率---
+ * @text ---対象回避率---
+ * @default
+ *
+ * @param Target Physical Evade
+ * @text 物理攻撃回避率
+ * @parent ---対象回避率---
+ * @desc 物理攻撃に対する対象の回避率を算出する式
+ * @default target.eva
+ *
+ * @param Target Magical Evade
+ * @text 魔法攻撃回避率
+ * @parent ---対象回避率---
+ * @desc 魔法攻撃に対する対象の回避率を算出する式
+ * @default target.mev
+ *
+ * @param Target Certain Evade
+ * @text 必中回避率
+ * @parent ---対象回避率---
+ * @desc 必中に対する対象の回避率を算出する式
+ * @default 0.00
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGツクールMVデフォルトのアクション命中計算式は直感的に分かりにくいです。
+ * 注目すべきは最初のチェックの精度に関係なく、まずスキルの命中率が決定され、
+ * 次に対象の回避が決定されることです。
+ * 例えば攻撃者が1000%の命中率を持っていても、
+ * そのスキルは敵の5%の回避率によって回避される可能性があります。
+ * このプラグインはデフォルトの代わりに、
+ * アクションの命中率の式と回避の式に対する制御を提供します。
+ * このプラグインのデフォルト設定では、攻撃者の命中率と敵の回避率が
+ * 互いに直感的に正確になるように計算されます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * このプラグインはプラグアンドプレイすることができます。
+ * しかし、あなたの好みに合わせて精度の公式を変更したい場合、
+ * 個々の側面のそれぞれを変えるプラグインパラメータを調整してください。
+ *
+ * skillHitRate  - スキル/アイテムの本質的な命中率です。
+ *
+ * userHitRate  - 使用者の命中率です。
+ * 物理攻撃の場合、デフォルトで命中率が使われます。
+ * 魔法攻撃の場合、デフォルトで100%に修正されるでしょう。
+ * 成功率を変えないことを意味します。
+ *
+ * targetEvadeRate  - 対象の回避率です。
+ * 物理攻撃の場合、回避率がデフォルトで使用されます。
+ * 魔法攻撃の場合、魔法回避率がデフォルトで使用されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.01:
+ * - Made a correction to the calculation of the skillhitrate so that it's a
+ * proper float value instead.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

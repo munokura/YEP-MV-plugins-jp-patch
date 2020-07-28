@@ -1,0 +1,423 @@
+/*:ja
+ * @plugindesc v1.11 (要YEP_ClassChangeCore) アクターに主要職業に加えて、サブ職業を設定できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---職業メニュー---
+ * @text ---職業メニュー---
+ * @default
+ *
+ * @param Subclass Command
+ * @text コマンド表示テキスト
+ * @parent ---職業メニュー---
+ * @desc サブ職業コマンドの表示テキスト
+ * @default サブ職業
+ *
+ * @param Show Command
+ * @text コマンド表示有効化
+ * @parent ---職業メニュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでサブ職業コマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Command
+ * @text コマンド有効化
+ * @parent ---職業メニュー---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトでサブ職業コマンドを有効
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Name Format
+ * @text 職業の表示形式
+ * @parent ---職業メニュー---
+ * @desc 職業/サブ職業の表示形式
+ * %1:主要職業 / %2:サブ職業
+ * @default %1/%2
+ *
+ * @param Subclass Color
+ * @text サブ職業文字色
+ * @parent ---職業メニュー---
+ * @type number
+ * @max 31
+ * @desc アクターのサブ職業に使用される文字色
+ * @default 5
+ *
+ * @param ---能力値---
+ * @text ---能力値---
+ * @default
+ *
+ * @param MaxHP
+ * @text 最大HP
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の最大HPの追加率
+ * @default 0.10
+ *
+ * @param MaxMP
+ * @text 最大MP
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の最大MPの追加率
+ * @default 0.10
+ *
+ * @param ATK
+ * @text 攻撃力
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の攻撃力の追加率
+ * @default 0.20
+ *
+ * @param DEF
+ * @text 防御力
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の防御力の追加率
+ * @default 0.20
+ *
+ * @param MAT
+ * @text 魔法力
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の魔法力の追加率
+ * @default 0.20
+ *
+ * @param MDF
+ * @text 魔法防御
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の魔法防御の追加率
+ * @default 0.20
+ *
+ * @param AGI
+ * @text 敏捷性
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の敏捷性の追加率
+ * @default 0.20
+ *
+ * @param LUK
+ * @text 運
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc サブ職業の運の追加率
+ * @default 0.20
+ *
+ * @param EXP
+ * @text 経験値
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc 経験値のサブ職業の獲得率
+ * @default 0.25
+ *
+ * @param JP
+ * @text JP
+ * @parent ---能力値---
+ * @type number
+ * @decimals 2
+ * @desc 獲得JPのサブ職業の獲得率
+ * @default 0.25
+ *
+ * @param ---特殊・追加能力---
+ * @text ---特殊・追加能力---
+ * @default
+ *
+ * @param Skill Types
+ * @text スキルタイプ
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 使用可能
+ * @off 使用不可
+ * @desc サブ職業が所有するスキルタイプを使用
+ * 使用不可:false / 使用可能:true
+ * @default true
+ *
+ * @param Added Skills
+ * @text スキル追加
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業からスキル追加を引き継ぎ
+ * 不可:false / 可能:true
+ * @default true
+ *
+ * @param Param Rates
+ * @text 通常能力値
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から通常能力値を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param X-Param Values
+ * @text 追加能力値
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から追加能力値を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param S-Param Rates
+ * @text 特殊能力値
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から特殊能力値を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param Element Rates
+ * @text 属性有効度
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から属性有効度を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param Debuff Rates
+ * @text 弱体有効度
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から弱体有効度を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param State Rates
+ * @text ステート有効度
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業からステート有効度を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param State Resist
+ * @text ステート無効化
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業からステート無効化を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param Attack Element
+ * @text 攻撃時属性
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から攻撃時属性を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param Attack State
+ * @text 攻撃時ステート
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から攻撃時ステートを引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param Weapons
+ * @text 武器タイプ装備
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から武器タイプ装備を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @param Armors
+ * @text 防具タイプ装備
+ * @parent ---特殊・追加能力---
+ * @type boolean
+ * @on 可能
+ * @off 不可
+ * @desc サブ職業から防具タイプ装備を引き継ぎ
+ * 不可:false / 可能:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_ClassChangeCore を必要とします。
+ * このプラグインがプラグイン管理で
+ * YEP_ClassChangeCore の下にあることを確認してください。
+ *
+ * このプラグインを使用すると、
+ * アクターに主要職業に加えて、サブ職業を設定できます。
+ * サブ職業化した時、アクターはサブ職業の
+ * スキルセット・武器・防具のオプションの設定によって、
+ * サブ職業の恩恵を受けることができます。
+ * また、サブ職業をアクターに対して有効にすることで、
+ * ステータスボーナスを得られるか設定できます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * サブ職業化の設定を変更するには、次のメモタグを使用できます。
+ *
+ * アクターのメモタグ
+ *   <Subclass: x>
+ *   アクターのデフォルトのサブ職業をxに設定します。
+ *
+ *   <Cannot Change Subclass>
+ *   このアクターがサブ職業を変更できなくなります。
+ *   ただし、他のプラグインコマンドで変わる可能性があります。
+ *
+ *   <Restrict Class: x>
+ *   <Restrict Class: x, x, x>
+ *   <Restrict Class: x to y>
+ *   このアクターは、自分の主要職業を職業x(y)に切り替えることはできません。
+ *   これはサブ職業には適用されません。
+ *   アクターはイベントを通してこの職業に変更することができます。
+ *
+ *   <Restrict Subclass: x>
+ *   <Restrict Subclass: x, x, x>
+ *   <Restrict Subclass: x to y>
+ *   このアクターは、自分のサブ職業を職業x(y)に切り替えることはできません。
+ *   これは主要職業には適用されません。
+ *   アクターはイベントを通してこのサブ職業に変更することができます。
+ *
+ * 職業のメモタグ
+ *   <Primary Only>
+ *   この職業は主要職業にしか職業変更できません。
+ *   アクターはイベントを通してこの職業に変更できます。
+ *
+ *   <Subclass Only>
+ *   この職業はサブ職業に職業変更することができます。
+ *   アクターはイベントを通してこのサブ職業に変更することができます。
+ *
+ *   <Subclass x Combo Name: text>
+ *   この職業が主要職業でサブ職業が職業IDxの場合、
+ *   表示される職業名は'text'になります。
+ *   例えば、職業の組み合わせが 戦士/魔術師 の場合、
+ *   名前は 魔法戦士 として表示されることがあります。
+ *
+ *   <Hero Combo Name: text>
+ *   <Warrior Combo Name: text>
+ *   代わりに職業の名前を使用する場合、職業の名前を書き出すことができます。
+ *   同じ名前の職業が複数ある場合、最も高いIDを持つ職業が優先されます。
+ *
+ * スキル、アイテムのメモタグ
+ *   <Require Class: x>
+ *   <Require Class: x, x, x>
+ *   <Require Class: x to y>
+ *   xを職業のIDに置き換えます。
+ *   このスキル/アイテムはリストされた職業xのみが使用できます。
+ *   これは敵には適用されません。
+ *
+ *   <Require Subclass: x>
+ *   <Require Subclass: x, x, x>
+ *   <Require Subclass: x to y>
+ *   xを職業のIDに置き換えます。
+ *   このスキル/アイテムは、リストされたサブ職業xにのみ使用できます。
+ *   これは敵には適用されません。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲームを通してサブ職業を変えるために、
+ * 以下のプラグインコマンドを使うことができます。
+ *
+ * プラグインコマンド
+ *
+ *   ShowSubclass
+ *   HideSubclass
+ *   - 職業変更メニューのサブ職業コマンドを表示/非表示にします。
+ *
+ *   EnableSubclass
+ *   DisableSubclass
+ *   - 職業変更メニューのサブ職業コマンドを有効/無効にします。
+ *
+ *   ChangeSubclass x y
+ *   - アクターxのサブ職業をyに変更します。
+ *   サブ職業を削除するには、yを0に置き換えます。
+ *
+ *   EnableSubclassChange 5
+ *   DisableSubclassChange 5
+ *   - アクター5のサブ職業変更を有効/無効にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.11:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.10:
+ * - Compatibility update with Class Change Core's <Use Nickname> notetag.
+ *
+ * Version 1.09:
+ * - Added <Cannot Change Subclass> notetag for actors. Added plugin commands:
+ * EnableSubclassChange and DisableSubclassChange for actors.
+ *
+ * Version 1.08:
+ * - Compatibility update with other plugins.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.06:
+ * - Added 'EXP' plugin parameter. This determines the rate the equipped
+ * subclass will earn EXP.
+ * - Added 'JP' plugin parameter. This determines the rate the equipped
+ * subclass will earn JP.
+ *
+ * Version 1.05:
+ * - Fixed a bug where changing a dead actor's subclass would revive them.
+ *
+ * Version 1.04:
+ * - Fixed an issue that would turn the ATB gauge in battle a different color.
+ *
+ * Version 1.03:
+ * - Fixed a bug that would duplicate non-independent items.
+ *
+ * Version 1.02:
+ * - Fixed a bug that would heal an actor's HP to full by switching
+ * subclasses.
+ *
+ * Version 1.01:
+ * - Fixed a bug that added maximum rate for certain subclass inheritances.
+ * - Added a failsafe for undefined subclasses due to MV's database not
+ * updating the Classes.JSON file properly.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

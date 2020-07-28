@@ -1,0 +1,493 @@
+/*:ja
+ * @plugindesc v1.11 (要YEP_ItemCore.js) 装備に拡張スロットのシステムを追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---デフォルト---
+ * @text ---デフォルト---
+ * @default
+ *
+ * @param Weapon Slots
+ * @text 武器拡張スロット
+ * @parent ---デフォルト---
+ * @desc 武器のデフォルト拡張スロット。 各スロットはコンマ区切り
+ * @default グリフ, マーク, オーブ, オーブ
+ *
+ * @param Armor Slots
+ * @text 防具拡張スロット
+ * @parent ---デフォルト---
+ * @desc 防具のデフォルト拡張スロット。 各スロットはコンマ区切り
+ * @default 珠, オーブ, オーブ, オーブ
+ *
+ * @param Enable Augments
+ * @text 拡張有効化
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトの拡張有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Show Augments
+ * @desc 拡張表示
+ * @text Show Augments
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトの拡張表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---コマンド ウィンドウ---
+ * @text ---コマンド ウィンドウ---
+ * @default
+ *
+ * @param Augment Slot Format
+ * @text 拡張スロット表示形式
+ * @parent ---コマンド ウィンドウ---
+ * @desc 拡張スロットの表示形式
+ * %1:スロット名 / %2:装備名
+ * @default \c[0] %2:\c[16]%1
+ *
+ * @param No Augment Text
+ * @text No Augment Text
+ * @text 拡張なしテキスト
+ * @parent ---コマンド ウィンドウ---
+ * @desc 拡張がない場合のスロット表示形式
+ * @default \c[7]- 無し -
+ *
+ * @param Remove Augment
+ * @text 拡張解除テキスト
+ * @parent ---コマンド ウィンドウ---
+ * @desc アイテムから拡張を解除する表示テキスト
+ * @default \i[16]解除
+ *
+ * @param ---情報ウィンドウ---
+ * @text ---情報ウィンドウ---
+ * @default
+ *
+ * @param Show Augment Info
+ * @text 拡張情報表示
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 情報ウィンドウの拡張表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Info Title
+ * @text 拡張タイトル
+ * @parent ---情報ウィンドウ---
+ * @desc 拡張タイトルの表示テキスト
+ * @default 拡張
+ *
+ * @param Title Alignment
+ * @text タイトル文字揃え
+ * @parent ---情報ウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc タイトルの文字揃え
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_ItemCore を必要とします。
+ * プラグイン管理でこのプラグインが YEP_ItemCore の下にあることを
+ * 確認してください。
+ *
+ * このプラグインは YEP_ItemCore プラグインの拡張プラグインです。
+ * アイテム毎に定義できるスロットに
+ * 拡張コンポーネントを取り付けるのを可能にします。
+ * スロットは、アイテムの固有のものにも幅広く使えるものにもできます。
+ * 拡張で使用される効果は、パラメータ変更、スキルの追加、
+ * ステート抵抗の調整、属性の追加などを含みます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 装備に拡張がどのように機能するかを設定するために、次のメモタグを使えます。
+ *
+ * 武器、防具のメモタグ:
+ *
+ *   <Augment Slots>
+ *    Rune
+ *    Glyph
+ *    Orb
+ *    Mark
+ *   </Augment Slots>
+ *   アイテムに使用される拡張の種類を設定できます。
+ *   拡張スロットに使用される名前は、そのアイテムに使用される拡張タイプです。
+ *
+ *   <No Augment Slots>
+ *   アイテムに拡張スロットを持たせません。
+ *
+ * アイテム、武器、防具のメモタグ:
+ *
+ *   <Augment: type>
+ *    augment effect
+ *    augment effect
+ *   </Augment: type>
+ * アイテムを非独立アイテムに変更します。
+ * このアイテムは、装備を拡張するために使用することができます。
+ * このメモタグは、拡張を取り付けるためと取り外すための効果を決定します。
+ * 複数の拡張スロットタイプで拡張効果を使用するには、
+ * これら複数のメモタグを挿入します。
+ *
+ *   <Augment Attach: type>
+ *    augment effect
+ *    augment effect
+ *   </Augment Attach: type>
+ * アイテムを非独立アイテムに変更します。
+ * このアイテムは、装備を拡張するために使用することができます。
+ * このメモタグは、拡張を取り付ける効果を決定します。
+ * 複数の拡張スロットタイプで拡張効果を使用するには、
+ * これら複数のメモタグを挿入します。
+ *
+ *   <Augment Detach: type>
+ *    augment effect
+ *    augment effect
+ *   </Augment Detach: type>
+ * アイテムを非独立アイテムに変更します。
+ * このアイテムは、装備を拡張するために使用することができます。
+ * このメモタグは、拡張を取り外すための効果を決定します。
+ * 複数の拡張スロットタイプで拡張効果を使用するには、
+ * これら複数のメモタグを挿入します。
+ *
+ * ===========================================================================
+ * 拡張効果一覧
+ * ===========================================================================
+ *
+ * 以下は、アップグレードしたアイテムに目的の効果を適用するために
+ * <Augment：type>、<Augment Attach：type>、<Augment Detatch：type>
+ * メモタグに使用できる効果の一覧です。
+ *
+ * --- 効果 ---
+ *
+ * Param: +x
+ * Param: -x
+ * - 'Param'を'MaxHP'、MaxMP'、ATK'、DEF'、MAT'、MDF'、AGI'、
+ * 'LUK'に置き換えます。
+ * これにより、アイテムのパラメータが x だけ増減します。
+ *
+ * ---
+ *
+ * Param: +x%
+ * Param: -x%
+ * -'Param'を'MaxHP'、'MaxMP'、'ATK'、'DEF'、'MAT'、'MDF'、'AGI'、'LUK'、
+ * 'HIT'、'EVA'、'CRI''CEV'、'MEV'、'MRF'、'CNT'、'HRG'、'MRG'、'TRG'、
+ * 'TGR'、'GRD'、'REC'、'PHA'、'MCR'、'TCR''、'PDR'、'MDR'、'FDR'、'EXR'
+ * に置き換えます。
+ * これにより、アイテムのそのパラメータの割合が x% 増減します。
+ * これらの能力値に関する詳細については、
+ * BaseParameterControl、ExtraParameterFormula、SpecialParameterFormula
+ * プラグインを参照してください。
+ *
+ * ---
+ *
+ * Boost: +x
+ * Boost: -x
+ * - これはアイテムのブーストカウントを x だけ増減します。
+ *
+ * ---
+ *
+ * Price: +x
+ * Price: -x
+ * - 商品の価格が x だけ増減します。
+ *
+ * ---
+ *
+ * Cannot Detach
+ * - 拡張が適用された後に解除されることを不可能にします。
+ *
+ * ---
+ *
+ * Add Attack Element: x
+ * Remove Attack Element: x
+ * - アイテムに攻撃属性 'x'を付与/解除します。
+ * 属性の名前またはIDを使用できます。
+ * 名前が使用されていて、データベースに同じ名前の属性が複数ある場合、
+ * 最も高いIDを持つ属性が優先されます。
+ *
+ * ---
+ *
+ * Add Attack State: x
+ * Add Attack State: x, y%
+ * Remove Attack State: x
+ * Remove Attack State: x, y%
+ * - アイテムにステート'x'を付与/解除します。
+ * ステートのIDか名前を使用することができます。
+ * 名前を使用していて、データベース内に同じ名前のステートが複数ある場合、
+ * 最も高いIDを持つステートが優先されます。
+ * 'y'が使用されている場合、ステートの成功率は y% になります。
+ * 'y'が使用されていない場合、ステートの成功率は100%です。
+ *
+ * ---
+ *
+ * Add Debuff Rate: param, x%
+ * Add Debuff Rate: param, +x%
+ * Add Debuff Rate: param, -x%
+ * Remove Debuff Rate: param, x%
+ * Remove Debuff Rate: param, +x%
+ * Remove Debuff Rate: param, -x%
+ * - 'param'を'MaxHP'、 'MaxMP'、 'ATK'、 'DEF'、 'MAT'、 'MDF'、 'AGI'、
+ * 'LUK'に置き換えます。
+ * アイテムのパラメータのデバフ率を 'x%'付与/解除します。
+ *
+ * ---
+ *
+ * Add Element Rate: x, y%
+ * Add Element Rate: x, +y%
+ * Add Element Rate: x, -y%
+ * Remove Element Rate: x, y%
+ * Remove Element Rate: x, +y%
+ * Remove Element Rate: x, -y%
+ * - アイテムに属性レート 'x'を付与/解除します。
+ * 属性の名前またはIDを使用できます。
+ * 名前が使用されていて、データベースに同じ名前の属性が複数ある場合、
+ * 最も高いIDを持つ属性が優先されます。
+ * 'x'に対するアイテムの属性率は 'y%'になります。
+ *
+ * ---
+ *
+ * Add Passive State: x
+ * Remove Passive State: x
+ * - YEP_AutoPassiveStates.js がインストールされている必要があります。
+ * パッシブステート 'x' をアイテムに付与/解除します。
+ * ステートの名前またはIDを使用できます。
+ * 名前が使用されていて、データベース内に同じ名前のステートが複数ある場合、
+ * 最も高いIDを持つステートが優先されます。
+ *
+ * ---
+ *
+ * Add Skill: x
+ * Remove Skill: x
+ * - スキル'x'をアイテムに付与/解除します。
+ * スキルの名前またはIDを使用できます。
+ * 名前が使用されていて、データベースに同じ名前のスキルが複数ある場合、
+ * IDが最も高いスキルが優先されます。
+ * アイテムがそれに拡張を備えている限り、
+ * そのスキルをアクターが一時的に使えるようにします。
+ *
+ * ---
+ *
+ * Add Skill Type: x
+ * Add SType: x
+ * Remove Skill Type: x
+ * Remove SType: x
+ * - スキルタイプ 'x' をアイテムに付与/解除します。
+ * スキルタイプの名前かIDを使用できます。
+ * 名前が使用されていて、データベースに同じ名前のスキルが複数ある場合、
+ * IDが最も高いスキルタイプが優先されます。
+ * アイテムがそれに拡張を備えている限り、
+ * スキルタイプを一時的にアクターに使用可能にします。
+ *
+ * ---
+ *
+ * Add State Rate: x, y%
+ * Add State Rate: x, +y%
+ * Add State Rate: x, -y%
+ * Remove State Rate: x, y%
+ * Remove State Rate: x, +y%
+ * Remove State Rate: x, -y%
+ * - ステート 'x'のステートレートをアイテムに付与/解除します。
+ * ステートの名前またはIDを使用できます。
+ * 名前が使用されていて、データベース内に同じ名前のステートが複数ある場合、
+ * 最も高いIDを持つステートが優先されます。
+ * アイテムの 'x'のステートの率は 'y%'の率になります。
+ *
+ * ---
+ *
+ * Add State Resist: x
+ * Remove State Resist: x
+ * - ステート 'x'のステートレジストをアイテムに付与/解除します。
+ * ステートの名前またはIDを使用できます。
+ * 名前が使用されていて、データベース内に同じ名前のステートが複数ある場合、
+ * 最も高いIDを持つステートが優先されます。
+ *
+ * ---
+ *
+ * Change Base Name: x
+ * Cancel Base Name: x
+ * - 拡張がアイテム上にある間、アイテムのベース名を 'x'に変更/解除します。
+ * アイテムにベース名を変更する複数の拡張がある場合、
+ * ベース名を変更する最初の拡張が優先されます。
+ *
+ * ---
+ *
+ * Change Icon: x
+ * Cancel Icon: x
+ * - 拡張がアイテム上にある間、アイテムのアイコンを 'x'に変更/解除します。
+ * アイテムにアイコンを変更する複数の拡張がある場合は、
+ * アイコンを変更する最初の拡張が優先されます。
+ *
+ * ---
+ *
+ * Change Picture Hue: x
+ * Cancel Picture Hue: x
+ * - 拡張がアイテムの上にある間、
+ * アイテムに使用された画像の色合いを 'x'に変更/解除します。
+ * 画像の色相を変更する複数の拡張要素がアイテムにある場合、
+ * 画像の色相を変更する最初の拡張要素が優先されます。
+ * これは Item Picture Images プラグインを必要とします。
+ *
+ * ---
+ *
+ * Change Picture Image: x
+ * Cancel Picture Image: x
+ * - 拡張がアイテム上にある間、
+ * アイテムに使用される画像を 'x'に変更/解除します。
+ * アイテムが、画像を変更する複数の拡張を持っている場合、
+ * 画像を変更する最初の拡張が優先されます。
+ * これは Item Picture Images プラグインを必要とします。
+ *
+ * ---
+ *
+ * Change Prefix: x
+ * Cancel Prefix: x
+ * - 拡張がアイテム上にある間、
+ * アイテムの接頭辞を 'x'に変更/解除します。
+ * 項目に接頭辞を変更する複数の拡張がある場合、
+ * 優先度を変更する最初の拡張に優先度が与えられます。
+ *
+ * ---
+ *
+ * Change Priority Name: x
+ * Cancel Priority Name: x
+ * - 拡張がアイテム上にある間、
+ * アイテムの優先順位名を 'x'に変更/解除します。
+ * 項目に優先順位名を変更する複数の拡張がある場合、
+ * 優先順位名を変更する最初の拡張に優先順位が与えられます。
+ *
+ * ---
+ *
+ * Change Suffix: x
+ * Cancel Suffix: x
+ * - 拡張がアイテム上にある間、
+ * アイテムの接尾辞を 'x'に変更/解除します。
+ * アイテムに接尾辞を変更する複数の拡張がある場合、
+ * 接尾辞を変更する最初の拡張が優先されます。
+ *
+ * ---
+ *
+ * Change Text Color: x
+ * Cancel Text Color: x
+ * - 拡張がアイテム上にある間、
+ * アイテムに使用されるテキストの色を 'x'に変更/解除します。
+ * テキストの色を変更する複数の拡張がアイテムにある場合、
+ * テキストの色を変更する最初の拡張が優先されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 付与と解除のEvalコード
+ * ===========================================================================
+ *
+ * 次のルナティックモードのメモタグに JavaScript を使って、
+ * 特定の拡張の付与と解除に関するカスタム効果を作ることができます。
+ *
+ * --- 付与 ---
+ *
+ * <Augment Attach Eval: type>
+ *  item.price += $gameParty.highestLevel();
+ *  item.params[0] += $gameParty.highestLevel();
+ * </Augment Attach Eval: type>
+ * 'type'は拡張のために使われるスロットタイプを表します。
+ * 'item'変数は拡張されているメインアイテムを参照します。
+ * 'effectItem'変数は拡張コンポーネントが使用されているアイテムを指します。
+ * この評価は、拡張が付与されている時にのみ実行されます。
+ *
+ * --- 解除 ---
+ *
+ * <Augment Detach Eval: type>
+ *  item.price -= $gameParty.highestLevel();
+ *  item.params[0] -= $gameParty.highestLevel();
+ * </Augment Detach Eval: type>
+ * 'type'は拡張のために使われるスロットタイプを表します。
+ * 'item'変数は拡張されているメインアイテムを参照します。
+ * 'effectItem'変数は、拡張コンポーネントが使用されているアイテムを指します。
+ * この評価は、拡張が解除されている時にのみ実行されます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * このプラグインで使用できるプラグインコマンドがいくつかあります。
+ *
+ * プラグインコマンド:
+ *
+ *   EnableAugments
+ *   - アイテムアクションメニューの強化を可能にします。
+ *   それらが有効になっていると、
+ *   プレイヤーは今度から自分のアイテムに拡張を付与・解除することができます。
+ *
+ *   DisableAugments
+ *   - アイテムのアクションメニューの拡張を無効にし、
+ *   プレイヤーが拡張を付与・解除ができないようにそのオプションを隠します。
+ *
+ *   ShowAugments
+ *   - アイテムの詳細を見た時、アイテム情報ウィンドウに拡張を表示します。
+ *
+ *   HideAugments
+ *   - アイテムの詳細を見た時、アイテム情報ウィンドウの拡張を隠します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.11:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.10:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.09:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.08a:
+ * - Fixed a typo within the code. Please update Item Core, Item Disassemble,
+ * Attachable Augments, and More Currencies if you are using those plugins.
+ * - Optimization update.
+ *
+ * Version 1.07:
+ * - Fixed a bug that caused adding attack state augments without a rate to
+ * not work properly.
+ *
+ * Version 1.06:
+ * - Fixed a bug that caused certain named augment settings to not work
+ * work properly upon reloading a game.
+ *
+ * Version 1.05:
+ * - Fixed a bug that specifically made the LUK: +x% and LUK: -x% augments not
+ * work properly.
+ *
+ * Version 1.04:
+ * - Added +y% and -y% versions of attachments for various augment effects.
+ *
+ * Version 1.03:
+ * - Bug fixed for Add Element Rate: x, y% not working properly.
+ *
+ * Verison 1.02a:
+ * - Fixed a bug that caused Independent Item-types to crash the game when
+ * used within the menu.
+ * - Fixed a bug that caused custom Lunatic Mode effects to not operate unless
+ * there existed basic augment effects.
+ * - Fixed a bug that caused param% changes to not function correctly.
+ *
+ * Version 1.01:
+ * - Fixed a bug that caused a crash when equipping "empty" augments.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

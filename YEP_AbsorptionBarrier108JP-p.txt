@@ -1,0 +1,476 @@
+/*:ja
+ * @plugindesc v1.08 バトラーがHPダメージを軽減するバリアを持てるシステムを追加できます
+ * @author Yanfly Engine Plugins
+ *
+ * @param Barrier State
+ * @text バリアステート
+ * @type state
+ * @desc バトラーがバリアポイントを持っている場合、影響を受けるステート。無ステートの場合は0
+ * @default 0
+ *
+ * @param Barrier Color 1
+ * @text バリア色1
+ * @type number
+ * @max 31
+ * @desc バリアに使用されるテキスト色1
+ * @default 13
+ *
+ * @param Barrier Color 2
+ * @text バリア色2
+ * @type number
+ * @max 31
+ * @desc バリアに使用されるテキスト色2
+ * @default 5
+ *
+ * @param Barrier Animation
+ * @text バリア消耗アニメーション
+ * @type animation
+ * @desc バリアポイント消耗時の再生アニメーション
+ * 再生しない場合0
+ * @default 0
+ *
+ * @param Break Animation
+ * @text バリア消失アニメーション
+ * @type animation
+ * @desc バリアポイントが尽きた時の再生アニメーション
+ * 再生しない場合0
+ * @default 0
+ *
+ * @param Barrier Popup
+ * @text バリアポップアップ色
+ * @desc YEP_BattleEngineCore使用時、バリアダメージ表示ポップアップ色。R,G,B,O
+ * @default 255, 0, 255, 160
+ *
+ * @param Display 0 HP Damage
+ * @text 0ダメージ表示
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc HPに0のダメージが与えられたら0のHPダメージを表示
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Clear Per Battle
+ * @text 戦闘毎バリア消失
+ * @type boolean
+ * @on 消失する
+ * @off 消失しない
+ * @desc 戦闘の開始時と終了時にバリアポイントを消失
+ * 消失しない:false / 消失する:true
+ * @default true
+ *
+ * @param Clear on Death
+ * @text 死亡時バリア消失
+ * @type boolean
+ * @on 消失する
+ * @off 消失しない
+ * @desc バトラーが死んだ場合、バリアポイントを消失
+ * 消失しない:false / 消失する:true
+ * @default true
+ *
+ * @param Default Penetration Rate
+ * @text デフォルトのバリア透過率
+ * @desc 全アクションのデフォルトのバリア透過率
+ * 例:50%の場合、0.50
+ * @default 0
+ *
+ * @param Default Penetration Flat
+ * @text デフォルトのバリア貫通固定値
+ * @desc 全アクションに対するデフォルトのバリア貫通固定値
+ * 例:100固定値で貫通したい場合、100
+ * @default 0
+
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * バリアは戦闘のために追加された新しいシステムです。
+ * 新しいタイプのステータスであるバリアポイントは、
+ * バトラーを保護するためのバリアを提供します。
+ * 通常HPに与えられる直接的なダメージは、
+ * まずバトラーのバリアポイントに与えられ、
+ * バトラーに与えられる本来のダメージを軽減します。
+ * 残りのダメージはバトラーに与えられます。
+ *
+ * このシステムを利用して、継続バリア、時限バリア、バリアの侵入、
+ * バリアの貫通など、様々なシステムを利用することができます。
+ * 次の章で詳しく説明します。
+ *
+ * ===========================================================================
+ * バリアポイント - 説明
+ * ===========================================================================
+ *
+ * バリアポイントは、バトラーのHPの前に置かれるバッファです。
+ * スキルやアイテムからの直接的なダメージは、バトラーのHPに与えられる前に、
+ * まずバトラーのバリアポイントに与えられます。
+ * 次の例でシステムがどのように機能するのかを見てみましょう。
+ *
+ * --- 例 1 ----
+ *
+ * 例えば、対象に100のバリアポイントがあるとします。
+ * 150のダメージはスキルやアイテムを通して対象のHPに与えられます。
+ *
+ *   150ダメージ 対 100バリアポイント : 50ダメージが貫通します
+ *
+ * その結果、対象のバリアポイントは0になり、
+ * 対象のHPは50ダメージしか被りません。
+ *
+ * --- 例 2---
+ *
+ * 目標は100バリアポイントを持っています。
+ * 50のダメージは、スキルやアイテムを通して対象のHPに与えられます。
+ *
+ *   50ダメージ 対 100バリアポイント : 0ダメージが貫通します
+ *
+ * その結果、対象のバリアポイントは50になり、
+ * 使用者のHPにダメージを与えることはありません。
+ *
+ * ===========================================================================
+ * バリア貫通 - 説明
+ * ===========================================================================
+ *
+ * いくつかのスキルとアイテムは、
+ * バリア貫通と呼ばれるユニークな特性を設定することができます。
+ * バリア貫通は、固定値/割合のダメージを貫通させ、
+ * 対象のバリアを無視することを可能にします。
+ * アクションに対するバリアの侵入が多いほど、
+ * 対象のバリアポイントの多くは無視されます。
+ *
+ * --- 例 ---
+ *
+ * 目標は500バリアポイントを持っています。
+ * 100のダメージは、スキルやアイテムを通して対象のHPに与えられます。
+ * 攻撃者は75%のバリア貫通力を持っています。
+ *
+ *   100ダメージ 対 500バリアポイント : 75ダメージが貫通します
+ *
+ * その結果、ダメージの75%が貫通します。
+ * つまり、対象となるHPに正確に75のダメージが与えられます。
+ * しかし、その25%が対象のバリアポイントに吸収され、
+ * バリアポイントは合計で475ポイントに減少します。
+ *
+ * ===========================================================================
+ * 継続バリアと時限バリア - 説明
+ * ===========================================================================
+ *
+ * バリアには、2つのタイプがあります。
+ * 継続バリアと時限バリアです。
+ * 継続バリアは戦闘の間に失効しません。
+ * 手に入れても、獲得したバリアポイントはその値のままです。
+ * その一方で、時限バリアは一定量のターンを持続します。
+ * 使用者の再生フェーズ中にターンが0になると、バリアポイントは消失されます。
+ *
+ * --- 例 ---
+ *
+ * Turn 1 - 100 Barrier Points
+ * Turn 2 - 200 Barrier Points
+ * Turn 3 - 300 Barrier Points
+ *
+ * 今のところ、使用者は合計600バリアポイントを持っています。
+ * 再生フェーズの後は、これになります。
+ *
+ * Turn 1 - 200 Barrier Points
+ * Turn 2 - 300 Barrier Points
+ *
+ * そして、使用者は合計500バリアポイントを獲得します。
+ *
+ * ---
+ *
+ * ダメージが与えられた時、バリアポイントはどのように機能しますか?
+ * それが最高に達するまで、ダメージは常に最低のターン、
+ * そして次に最低のターンなどに与えられます。
+ * 最高値を超えた後、それからバリアポイントにダメージが与えられます。
+ *
+ * --- 例 ---
+ *
+ * Turn 1 - 100 Barrier Points
+ * Turn 2 - 200 Barrier Points
+ * Unexpiring - 300 Barrier Points
+ *
+ * 今度は、500のダメージが与えられるとしましょう。
+ * これは次のようになります。
+ *
+ * Turn 1 - 0 Barrier Points
+ * Turn 2 - 0 Barrier Points
+ * Unexpiring - 100 Barrier Points
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下のメモタグを使用して、バリアポイントのシステムを変更してください。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <User Barrier: +x>
+ *   <Target Barrier: +x>
+ *   使用者 / 対象のバリアポイントが+x調整されます。
+ *   このメモタグ用に変更されたバリアポイントは、
+ *   時間が経っても消えない、継続バリアポイントです。
+ *
+ *   <User Barrier: -x>
+ *   <Target Barrier: -x>
+ *   使用者 / 対象からx個のバリアポイントが削除されます。
+ *   失効していない時限バリアポイントにも同様に当てはまります。
+ *
+ *   <User Barrier x Turns: +y>
+ *   <Target Barrier x Turns: +y>
+ *   使用者 / 対象のバリアポイントがxターンで+y量だけ調整されます。
+ *   これらのバリアポイントは、xターン後に失効します。
+ *   各ターンはバトラーの回生タイミングの間に通ります。
+ *
+ *   <User Barrier x Turns: -y>
+ *   <Target Barrier x Turns: -y>
+ *   使用者 / 対象からyバリアポイントが削除され、最大xターンになります。
+ *
+ *   <Bypass Barrier>
+ *   スキルはバリアポイントを無視して対象に直接ダメージが与えられます。
+ *
+ *   <Barrier Penetration: x%>
+ *   スキルやアイテムのダメージのx%がアクション対象の
+ *   バリアポイントを無視するようにします。
+ *   対象に十分なバリアポイントがない場合、より多くのダメージが与えられます。
+ *   これは割合の値です。
+ *
+ *   <Barrier Penetration: x>
+ *   スキル / アイテムのダメージのx値が、
+ *   アクション対象のバリアポイントを回避するようにします。
+ *   対象に十分なバリアポイントがない場合、より多くのダメージが与えられます。
+ *   これは固定的な値です。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *   <Barrier Penetration: +x%>
+ *   <Barrier Penetration: -x%>
+ *   攻撃者によるあらゆる有害な行動により、
+ *   +x% / -x%のボーナスバリア透過率が得られます。
+ *   これは乗法的なボーナスであり、固定的ボーナスが行われる前に適用されます。
+ *
+ *   <Barrier Penetration: +x>
+ *   <Barrier Penetration: -x>
+ *   攻撃者による有害な行動により、+x / -x のボーナスバリア貫通が得られます。
+ *   これは固定的ボーナスで、乗法的な変更が行われた後に適用されます。
+ *
+ *   <Barrier Points: +x>
+ *   <Barrier Points: -x>
+ *   影響を受けていない使用者のための新しい戦闘の開始時に、
+ *   価値のあるバリアポイントが獲得されます。
+ *
+ *   <Barrier Points x Turns: +y>
+ *   <Barrier Points x Turns: -y>
+ *   バリアポイントの量は、
+ *   影響を受けた使用者のための新しい戦闘の開始時にxターン継続します。
+ *
+ *   <Barrier Regen: +x>
+ *   <Barrier Regen: -x>
+ *   再生成フェーズでは、
+ *   使用者は +x / -x の有効期限が切れていないバリアポイントを再生成します。
+ *
+ *   <Barrier Regen x Turns: +y>
+ *   <Barrier Regen x Turns: -y>
+ *   再生段階では、
+ *   最後のxターンが +y / -y の値になるバリアポイントを再生します。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムバリアポイント
+ * ===========================================================================
+ *
+ * JavaScript と、これらのメモタグを活用して、
+ * スキルやアイテムでカスタムのバリアポイントの合計を
+ * 得られるようにすることができます。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   --- 対象 ---
+ *
+ *   <Custom Target Barrier>
+ *    value = target.level;
+ *   </Custom Target Barrier>
+ *   'value'変数は、対象の期限切れでないバリアポイントの合計に
+ *   追加されるバリアポイントの合計量を決定します。
+ *
+ *   <Custom Target Barrier x Turns>
+ *    value = target.level;
+ *   </Custom Target Barrier x Turns>
+ *   'value'変数はx回のターンの間対象に追加される
+ *   バリアポイントの合計量を決定します。
+ *
+ *   --- 使用者 ---
+ *
+ *   <Custom User Barrier>
+ *    value = user.level;
+ *   </Custom User Barrier>
+ *   'value'変数は、
+ *   使用者の期限切れになっていないバリアポイントの合計に追加される
+ *   バリアポイントの合計量を決定します。
+ *
+ *   <Custom User Barrier x Turns>
+ *    value = user.level;
+ *   </Custom User Barrier x Turns>
+ *   'value'変数はx回のターンの間に使用者に追加される
+ *   バリアポイントの合計量を決定します。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムバリア貫通
+ * ===========================================================================
+ *
+ * JavaScript とこれらのメモを利用してスキル、アイテム、アクター、職業、
+ * 敵、武器、防具、カスタムのバリア貫通効果を付与できます。
+ *
+ * スキル、アイテム、アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *   --- 割合 ---
+ *
+ *   <Custom Barrier Penetration Rate>
+ *    rate = target.hpRate();
+ *   </Custom Barrier Penetration Rate>
+ *   'rate'変数は、対象のバリアポイントに対して
+ *   使用者が無視するダメージの割合を決定します。
+ *   これは乗法的ボーナスであり、固定的ボーナスの前に適用されます。
+ *
+ *   --- 一定量 ---
+ *
+ *   <Custom Barrier Penetration Flat>
+ *    flat = target.level;
+ *   </Custom Barrier Penetration Flat>
+ *   'flat'変数は、対象のバリアポイントのために
+ *   使用者が無視するダメージの一定量を決定します。
+ *   これは固定的ボーナスであり、全ての乗法ボーナスの後に適用されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - 戦闘開始時のカスタムバリアポイント
+ * ===========================================================================
+ *
+ * JavaScriptとこれらのメモを利用して、
+ * 戦闘開始時に動的な量のバリアポイントを追加することができます。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *    --- 継続バリア ---
+ *
+ *    <Custom Barrier Points>
+ *     value += user.hp;
+ *    </Custom Barrier Points>
+ *    'value'変数は、
+ *    使用者が何回バリアポイントを獲得するかを決定します。
+ *    このメモタグを通して追加されたバリアポイントは、
+ *    継続バリアポイントです。
+ *
+ *    --- 時限バリア ---
+ *
+ *    <Custom Barrier Points x Turns>
+ *     value += user.hp;
+ *    </Custom Barrier Points x Turns>
+ *    'value'変数は、
+ *    使用者が何回バリアポイントを獲得するかを決定しますが、
+ *    xターン後に失効します。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムバリア再生
+ * ===========================================================================
+ *
+ * JavaScriptとこれらのメモタグを利用して、
+ * 使用者の再生段階で動的な量のバリアポイントを追加できます。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ
+ *
+ *    --- 継続バリア ---
+ *
+ *    <Custom Barrier Regen>
+ *     value += user.hp / 4;
+ *    </Custom Barrier Regen>
+ *    'value'変数は、
+ *    使用者の再生段階中に使用者が獲得するバリアポイントの数を決定します。
+ *    このメモタグで追加されたバリアポイントは、
+ *    継続バリアポイントです。
+ *
+ *    --- 時限バリア ---
+ *
+ *    <Custom Barrier Regen x Turns>
+ *     value += user.hp / 4;
+ *    </Custom Barrier Regen x Turns>
+ *    'value'変数は、
+ *    使用者の再生段階中に使用者が獲得するバリアポイントの数を決定します。
+ *    このメモタグで追加されたバリアポイントはxターン持続します。
+ *
+ * ===========================================================================
+ * ルナティックモード - 新しいJavaScript関数
+ * ===========================================================================
+ *
+ * JavaScriptに精通している人のために、
+ * ここに独自のコードやルナティックモードで使える
+ * 新しいJavaScript関数のクイックリファレンスリストがあります。
+ *
+ * JavaScript関数
+ *
+ *   battler.barrierPoints()
+ *   - バトラーが持っているバリアポイントの合計額を返します。
+ *
+ *   battler.barrierPoints(-1)
+ *   - バトラーが持っている失効していないバリアポイントの量を返します。
+ *
+ *   battler.barrierPoints(x)
+ *   - そのターンにバトラーが持っていたバリアポイントの量を返す。
+ *
+ *   battler.gainBarrier(value, turn)
+ *   - バトラーが得るバリアポイントを'turn'続く'value'にします。
+ *   ターン数が0の場合、その値は継続バリアポイントになります。
+ *
+ *   battler.loseBarrier(value)
+ *   - バトラーが'value'に相当するバリアポイントを失うようにします。
+ *
+ *   battler.startBarrierAnimation()
+ *   - バトラーにバリアを打たせてアニメーションを再生します。
+ *
+ *   battler.updateBarrierTurns()
+ *   - バトラーのバリアポイントに自分のターンを更新させる。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.08:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.06:
+ * - Fixed a bug that caused shields to regenerate outside of battle.
+ *
+ * Version 1.05:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.04:
+ * - <User Barrier: -x>, <Target Barrier: -x>, <User Barrier x Turns: -y>, and
+ * <Target Barrier x Turns: -y> notetags have been revamped. They will also
+ * show popups now. If <Target Barrier x Turns: -y> is used, it will remove y
+ * barrier points up to x turns.
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.02:
+ * - Fixed a bug where if Barrier Penetration was at 100%, it would be treated
+ * as 0%.
+ * - Added 'Barrier State' parameter. This parameter will passively apply a
+ * certain state to the battler if the battler has barrier points. This can be
+ * turned off by leaving this plugin parameter value at 0.
+ *
+ * Version 1.01:
+ * - Fixed a bug that prevented Barrier Points to be gained at the start of
+ * battle properly.
+ * - When a user grants an Absorption Barrier to itself, the user will gain 1
+ * additional turn for the Barrier to stay up so it won't dissolve
+ * immediately.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

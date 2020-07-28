@@ -1,0 +1,280 @@
+/*:ja
+ * @plugindesc v1.05 対象選択を拡張します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---バトル・エンジン---
+ * @default
+ *
+ * @param Everybody Text
+ * @text 全体のテキスト
+ * @parent ---バトル・エンジン---
+ * @desc 全体対象のヘルプテキスト
+ * @default 全ての味方と敵
+ *
+ * @param All But User Text
+ * @text 使用者以外の全体テキスト
+ * @parent ---バトル・エンジン---
+ * @desc 使用者以外の全体対象のヘルプテキスト
+ * %1:味方 / %2:使用者
+ * @default 全ての %1 , %2 以外
+ *
+ * @param Random Any Text
+ * @text 無作為ランダムのテキスト
+ * @parent ---バトル・エンジン---
+ * @desc 無作為ランダム対象に使用されるヘルプテキスト
+ * %1:数
+ * @default ランダム %1 体
+ *
+ * @param ---複数対象---
+ * @default
+ *
+ * @param Multiple Text
+ * @text 倍数能力のテキスト
+ * @parent ---複数対象---
+ * @desc xの倍数能力を対象に使用されるヘルプテキスト
+ * %1:対象   %2:能力   %3:値
+ * @default %3 の倍数の %2 がいる %1
+ *
+ * @param Multiple Everybody
+ * @text 全対象のテキスト
+ * @parent ---複数対象---
+ * @desc 全対象に使用されるヘルプテキスト
+ * @default 全対象
+ *
+ * @param Multiple Allies
+ * @text 複数味方のテキスト
+ * @parent ---複数対象---
+ * @desc 複数の味方に使用されるヘルプテキスト
+ * @default 味方数体
+ *
+ * @param Multiple Foes
+ * @text 複数敵のテキスト
+ * @parent ---複数対象---
+ * @desc 複数の敵に使用されるヘルプテキスト
+ * @default 敵数体
+ *
+ * @param ---隊列---
+ * @default
+ *
+ * @param Target Row Text
+ * @text 列対象のテキスト
+ * @parent ---隊列---
+ * @desc 列対象に使用されるヘルプテキスト
+ * %1:対象名
+ * @default %1 の列
+ *
+ * @param Front Row Text
+ * @text 最前列対象のテキスト
+ * @parent ---隊列---
+ * @desc 最前列対象に使用されるヘルプテキスト
+ * %1:対象型
+ * @default %1 最前列
+ *
+ * @param Back Row Text
+ * @text 最後列対象のテキスト
+ * @parent ---隊列---
+ * @desc 最後列対象に使用されるヘルプテキスト
+ * %1:対象型
+ * @default %1 最後列
+ *
+ * @param Specific Row Text
+ * @text 特定の列対象のテキスト
+ * @parent ---隊列---
+ * @desc 特定の列対象に使用されるヘルプテキスト
+ * %1:対象型
+ * @default %1 特定列
+ *
+ * @param Row Enemies
+ * @text 敵列対象のテキスト
+ * @parent ---隊列---
+ * @desc 敵の列対象に使用されるヘルプテキスト
+ * @default 敵
+ *
+ * @param Row Allies
+ * @text 味方列対象のテキスト
+ * @parent ---隊列---
+ * @desc 味方の列対象に使用されるヘルプテキスト
+ * @default 味方
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_BattleEngineCore とは独立して機能しますが、
+ * 特別な効果を利用したい場合、
+ * このプラグインをプラグイン管理で YEP_BattleEngineCore の下に配置します。
+ *
+ * YEP_TargetCore プラグインはRPGツクールMV既存の対象範囲を
+ * 拡張するように作られています。
+ * このプラグインを使用すると、より多くの対象範囲を使用できます。
+ * YEP_RowFormation プラグインと組み合わせると、
+ * 攻撃者や敵を対象にする方法は多種多様になります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * スキルやアイテムにカスタムの対象範囲を利用したい場合、
+ * 次のメモタグを使用できます。
+ *
+ * スキル、アイテムのメモタグ:
+ *
+ *   <Repeat: x>
+ *   各対象でアクションが繰り返し使用される回数を決定します。
+ *   デフォルトのエディタの制限である9を超えることが出来ます。
+ *
+ *   <Target: Everybody>
+ *   全ての生存敵と味方メンバーを対象にし、使用者が最後の対象になります。
+ *
+ *   <Target: x Random Any>
+ *   x 体のランダムな生存敵や味方メンバーを対象にします。
+ *
+ *   <Target: Target All Foes>
+ *   1体の敵を対象とし、その後全ての生存敵を対象にします。
+ *
+ *   <Target: Target x Random Foes>
+ *   1体の敵を対象とし、その後x体のランダムな生存敵を対象にします。
+ *
+ *   <Target: x Random Foes>
+ *   x 体のランダムな生存敵を対象にします。
+ *   エディタのデフォルトのランダム4体を超える可能性があります。
+ *
+ *   <Target: All Allies But User>
+ *   使用者以外の全ての生存味方メンバーを対象にします。
+ *
+ *   <Target: Target All Allies>
+ *   1体の味方を対象にして、
+ *   全ての生存味方メンバーを対象にします。
+ *
+ *   <Target: Target x Random Allies>
+ *   1体の味方を対象にして、
+ *   その後ランダムに生存味方 x 体を対象にします。
+ *
+ *   <Target: x Random Allies>
+ *   ランダムに生存味方メンバー x 体を対象にします。
+ *
+ *   <Target: Everybody param Multiple Of x>
+ *   'param'を'level'、'maxhp'、'maxmp'、'atk'、'mat'、'mdf'、'agi'、'luk'、
+ *   'hp'、'mp'、'tp'のいずれかに置き換えます。
+ *   スキルやアイテムは、パラメーター値が x の倍数である
+ *   生存バトラーを無差別に対象にさせます。
+ *   *注: 'level'を使用している場合は、
+ *   YEP_EnemyLevels があることを確認してください。
+ *
+ *   <Target: Allies param Multiple Of x>
+ *   'param'を'level'、'maxhp'、'maxmp'、'atk'、'mat'、'mdf'、'agi'、'luk'、
+ *   'hp'、'mp'、'tp'のいずれかに置き換えます。
+ *   スキルまたはアイテムは、そのパラメーター値がxの倍数である
+ *   全ての味方メンバーを対象とします。
+ *   *注: 'level'を使用している場合は、
+ *   YEP_EnemyLevels があることを確認してください。
+ *
+ *   <Target: Foes param Multiple Of x>
+ *   'param'を'level'、'maxhp'、'maxmp'、'atk'、'mat'、'mdf'、'agi'、'luk'、
+ *   'hp'、'mp'、'tp'のいずれかに置き換えます。
+ *   スキルやアイテムはパラメータ値がxの倍数である敵を対象とします。
+ *   *注: 'level'を使用している場合は、
+ *   YEP_EnemyLevels があることを確認してください。
+ *
+ *   --- YEP_RowFormation と YEP_BattleEngineCore が必要 ---
+ *
+ *   <Target: Enemy Row>
+ *   選択されている対象敵と同じ敵列を対象にします。
+ *   列全体が選択されます。
+ *
+ *   <Target: Enemy Row x>
+ *   特に敵ユニットの敵の列 x を対象にします。
+ *   列全体が選択されます。
+ *
+ *   <Target: Front Enemy Row>
+ *   生存メンバーがいる最前の敵の列を対象にします。
+ *   生存メンバーのいない列がある場合、
+ *   生存メンバーがいる次の列を対象にします。
+ *
+ *   <Target: Back Enemy Row>
+ *   生存メンバーがいる最後の敵の列を対象にします。
+ *   生存メンバーのいない列がある場合、
+ *   生存メンバーがいる次の列を対象にします。
+ *
+ *   <Target: Ally Row>
+ *   選択されている対象敵と同じ敵列を対象にします。
+ *   列全体が選択されます。
+ *
+ *   <Target: Ally Row x>
+ *   特に味方ユニットの隊列 x を対象とします。
+ *   列全体が選択されます。
+ *
+ *   <Target: Front Ally Row>
+ *   生存メンバーがいる最前面の味方の列を対象にします。
+ *   生存メンバーのいない列がある場合、
+ *   生存メンバーがいる次の列を対象にします。
+ *
+ *   <Target: Back Ally Row>
+ *   生存メンバーがいる最後の味方の列を対象にします。
+ *   生存メンバーのいない列がある場合、
+ *   生存メンバーがいる次の列を対象にします。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム対象ヘルプテキスト
+ * ===========================================================================
+ *
+ * YEP_BattleEngineCore を併用するなら、下記のメモタグとJavaScriptを使って、
+ * カスタムヘルプウィンドウを表示できます。
+ *
+ * スキル、アイテムのメモタグ:
+ *
+ *   <Custom Target Text>
+ *    text = $gameActors.actor(1).name();
+ *    text += ' and ' + $gameActors.actor(2).name();
+ *   </Custom Target Text>
+ *   'text'変数はヘルプウィンドウに表示されるテキストです。
+ *   それに対して行われたどんな変更も表示されます。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム対象 Eval
+ * ===========================================================================
+ *
+ * 下記のメモタグとJavaScriptを使って、カスタム対象選択をすることができます。
+ * 対象選択の場面で、スキル/アイテムの現在の範囲を参照し、
+ * 対象は範囲とは無関係に作られます。
+ * 対象が選択された場合、それは'targets'値になります。
+ *
+ *   <Custom Target Eval>
+ *   for (var i = 0; i < foes.aliveMembers().length; ++i) {
+ *     var member = foes.aliveMembers()[i];
+ *     if (member.level % 3 === 0) targets.push(member);
+ *   }
+ *   </Custom Target Eval>
+ *   'targets'変数は、選択中に使用される対象を決定する配列です。
+ *   目的の対象を'targets'配列に Push します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.03:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.02a:
+ * - <Target: Everybody> will now have allies highlighted as well.
+ * - <Target: Enemy Row> and <Target: Ally Row> will no longer highlight edead
+ * enemies causing them to reappear.
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

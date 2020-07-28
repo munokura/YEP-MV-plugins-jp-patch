@@ -1,0 +1,3372 @@
+/*:ja
+ * @plugindesc v1.01 (要YEP_EnhancedTP) TPモード21から40を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---モード21設定---
+ * @default
+ *
+ * @param Mode 21 Name
+ * @text モード名
+ * @parent ---モード21設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 21 Icon
+ * @text モードのアイコン
+ * @parent ---モード21設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 21 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード21設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 21 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード21設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 21 Max TP
+ * @text 最大TP
+ * @parent ---モード21設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 21 Preserve
+ * @text TP引継
+ * @parent ---モード21設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 21 Initial TP
+ * @text 開始時
+ * @parent ---モード21設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Regen TP
+ * @text 再生時
+ * @parent ---モード21設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 21 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード21設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード21設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード21設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード21設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード21設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード21設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード21設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード21設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Deal State
+ * @text 与ステート
+ * @parent ---モード21設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Gain State
+ * @text 被ステート
+ * @parent ---モード21設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード21設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード21設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード21設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード21設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード21設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Crisis HP
+ * @text HP残少
+ * @parent ---モード21設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Crisis MP
+ * @text MP残少
+ * @parent ---モード21設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Only Member
+ * @text 生存アクター
+ * @parent ---モード21設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 21 Evasion
+ * @text 攻撃回避
+ * @parent ---モード21設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード22設定---
+ * @default
+ *
+ * @param Mode 22 Name
+ * @text モード名
+ * @parent ---モード22設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 22 Icon
+ * @text モードのアイコン
+ * @parent ---モード22設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 22 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード22設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 22 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード22設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 22 Max TP
+ * @text 最大TP
+ * @parent ---モード22設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 22 Preserve
+ * @text TP引継
+ * @parent ---モード22設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 22 Initial TP
+ * @text 開始時
+ * @parent ---モード22設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Regen TP
+ * @text 再生時
+ * @parent ---モード22設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 22 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード22設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード22設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード22設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード22設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード22設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード22設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード22設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード22設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Deal State
+ * @text 与ステート
+ * @parent ---モード22設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Gain State
+ * @text 被ステート
+ * @parent ---モード22設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード22設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード22設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード22設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード22設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード22設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Crisis HP
+ * @text HP残少
+ * @parent ---モード22設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Crisis MP
+ * @text MP残少
+ * @parent ---モード22設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Only Member
+ * @text 生存アクター
+ * @parent ---モード22設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 22 Evasion
+ * @text 攻撃回避
+ * @parent ---モード22設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード23設定---
+ * @default
+ *
+ * @param Mode 23 Name
+ * @text モード名
+ * @parent ---モード23設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 23 Icon
+ * @text モードのアイコン
+ * @parent ---モード23設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 23 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード23設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 23 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード23設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 23 Max TP
+ * @text 最大TP
+ * @parent ---モード23設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 23 Preserve
+ * @text TP引継
+ * @parent ---モード23設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 23 Initial TP
+ * @text 開始時
+ * @parent ---モード23設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Regen TP
+ * @text 再生時
+ * @parent ---モード23設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 23 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード23設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード23設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード23設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード23設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード23設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード23設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード23設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード23設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Deal State
+ * @text 与ステート
+ * @parent ---モード23設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Gain State
+ * @text 被ステート
+ * @parent ---モード23設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード23設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード23設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード23設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード23設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード23設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Crisis HP
+ * @text HP残少
+ * @parent ---モード23設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Crisis MP
+ * @text MP残少
+ * @parent ---モード23設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Only Member
+ * @text 生存アクター
+ * @parent ---モード23設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 23 Evasion
+ * @text 攻撃回避
+ * @parent ---モード23設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード24設定---
+ * @default
+ *
+ * @param Mode 24 Name
+ * @text モード名
+ * @parent ---モード24設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 24 Icon
+ * @text モードのアイコン
+ * @parent ---モード24設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 24 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード24設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 24 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード24設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 24 Max TP
+ * @text 最大TP
+ * @parent ---モード24設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 24 Preserve
+ * @text TP引継
+ * @parent ---モード24設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 24 Initial TP
+ * @text 開始時
+ * @parent ---モード24設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Regen TP
+ * @text 再生時
+ * @parent ---モード24設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 24 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード24設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード24設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード24設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード24設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード24設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード24設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード24設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード24設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Deal State
+ * @text 与ステート
+ * @parent ---モード24設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Gain State
+ * @text 被ステート
+ * @parent ---モード24設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード24設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード24設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード24設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード24設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード24設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Crisis HP
+ * @text HP残少
+ * @parent ---モード24設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Crisis MP
+ * @text MP残少
+ * @parent ---モード24設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Only Member
+ * @text 生存アクター
+ * @parent ---モード24設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 24 Evasion
+ * @text 攻撃回避
+ * @parent ---モード24設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード25設定---
+ * @default
+ *
+ * @param Mode 25 Name
+ * @text モード名
+ * @parent ---モード25設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 25 Icon
+ * @text モードのアイコン
+ * @parent ---モード25設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 25 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード25設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 25 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード25設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 25 Max TP
+ * @text 最大TP
+ * @parent ---モード25設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 25 Preserve
+ * @text TP引継
+ * @parent ---モード25設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 25 Initial TP
+ * @text 開始時
+ * @parent ---モード25設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Regen TP
+ * @text 再生時
+ * @parent ---モード25設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 25 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード25設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード25設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード25設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード25設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード25設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード25設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード25設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード25設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Deal State
+ * @text 与ステート
+ * @parent ---モード25設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Gain State
+ * @text 被ステート
+ * @parent ---モード25設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード25設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード25設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード25設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード25設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード25設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Crisis HP
+ * @text HP残少
+ * @parent ---モード25設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Crisis MP
+ * @text MP残少
+ * @parent ---モード25設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Only Member
+ * @text 生存アクター
+ * @parent ---モード25設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 25 Evasion
+ * @text 攻撃回避
+ * @parent ---モード25設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード26設定---
+ * @default
+ *
+ * @param Mode 26 Name
+ * @text モード名
+ * @parent ---モード26設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 26 Icon
+ * @text モードのアイコン
+ * @parent ---モード26設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 26 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード26設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 26 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード26設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 26 Max TP
+ * @text 最大TP
+ * @parent ---モード26設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 26 Preserve
+ * @text TP引継
+ * @parent ---モード26設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 26 Initial TP
+ * @text 開始時
+ * @parent ---モード26設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Regen TP
+ * @text 再生時
+ * @parent ---モード26設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 26 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード26設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード26設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード26設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード26設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード26設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード26設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード26設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード26設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Deal State
+ * @text 与ステート
+ * @parent ---モード26設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Gain State
+ * @text 被ステート
+ * @parent ---モード26設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード26設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード26設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード26設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード26設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード26設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Crisis HP
+ * @text HP残少
+ * @parent ---モード26設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Crisis MP
+ * @text MP残少
+ * @parent ---モード26設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Only Member
+ * @text 生存アクター
+ * @parent ---モード26設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 26 Evasion
+ * @text 攻撃回避
+ * @parent ---モード26設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード27設定---
+ * @default
+ *
+ * @param Mode 27 Name
+ * @text モード名
+ * @parent ---モード27設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 27 Icon
+ * @text モードのアイコン
+ * @parent ---モード27設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 27 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード27設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 27 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード27設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 27 Max TP
+ * @text 最大TP
+ * @parent ---モード27設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 27 Preserve
+ * @text TP引継
+ * @parent ---モード27設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 27 Initial TP
+ * @text 開始時
+ * @parent ---モード27設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Regen TP
+ * @text 再生時
+ * @parent ---モード27設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 27 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード27設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード27設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード27設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード27設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード27設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード27設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード27設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード27設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Deal State
+ * @text 与ステート
+ * @parent ---モード27設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Gain State
+ * @text 被ステート
+ * @parent ---モード27設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード27設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード27設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード27設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード27設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード27設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Crisis HP
+ * @text HP残少
+ * @parent ---モード27設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Crisis MP
+ * @text MP残少
+ * @parent ---モード27設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Only Member
+ * @text 生存アクター
+ * @parent ---モード27設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 27 Evasion
+ * @text 攻撃回避
+ * @parent ---モード27設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード28設定---
+ * @default
+ *
+ * @param Mode 28 Name
+ * @text モード名
+ * @parent ---モード28設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 28 Icon
+ * @text モードのアイコン
+ * @parent ---モード28設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 28 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード28設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 28 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード28設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 28 Max TP
+ * @text 最大TP
+ * @parent ---モード28設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 28 Preserve
+ * @text TP引継
+ * @parent ---モード28設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 28 Initial TP
+ * @text 開始時
+ * @parent ---モード28設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Regen TP
+ * @text 再生時
+ * @parent ---モード28設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 28 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード28設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード28設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード28設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード28設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード28設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード28設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード28設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード28設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Deal State
+ * @text 与ステート
+ * @parent ---モード28設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Gain State
+ * @text 被ステート
+ * @parent ---モード28設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード28設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード28設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード28設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード28設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード28設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Crisis HP
+ * @text HP残少
+ * @parent ---モード28設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Crisis MP
+ * @text MP残少
+ * @parent ---モード28設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Only Member
+ * @text 生存アクター
+ * @parent ---モード28設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 28 Evasion
+ * @text 攻撃回避
+ * @parent ---モード28設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード29設定---
+ * @default
+ *
+ * @param Mode 29 Name
+ * @text モード名
+ * @parent ---モード29設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 29 Icon
+ * @text モードのアイコン
+ * @parent ---モード29設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 29 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード29設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 29 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード29設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 29 Max TP
+ * @text 最大TP
+ * @parent ---モード29設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 29 Preserve
+ * @text TP引継
+ * @parent ---モード29設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 29 Initial TP
+ * @text 開始時
+ * @parent ---モード29設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Regen TP
+ * @text 再生時
+ * @parent ---モード29設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 29 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード29設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード29設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード29設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード29設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード29設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード29設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード29設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード29設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Deal State
+ * @text 与ステート
+ * @parent ---モード29設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Gain State
+ * @text 被ステート
+ * @parent ---モード29設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード29設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード29設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード29設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード29設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード29設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Crisis HP
+ * @text HP残少
+ * @parent ---モード29設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Crisis MP
+ * @text MP残少
+ * @parent ---モード29設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Only Member
+ * @text 生存アクター
+ * @parent ---モード29設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 29 Evasion
+ * @text 攻撃回避
+ * @parent ---モード29設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード30設定---
+ * @default
+ *
+ * @param Mode 30 Name
+ * @text モード名
+ * @parent ---モード30設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 30 Icon
+ * @text モードのアイコン
+ * @parent ---モード30設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 30 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード30設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 30 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード30設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 30 Max TP
+ * @text 最大TP
+ * @parent ---モード30設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 30 Preserve
+ * @text TP引継
+ * @parent ---モード30設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 30 Initial TP
+ * @text 開始時
+ * @parent ---モード30設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Regen TP
+ * @text 再生時
+ * @parent ---モード30設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 30 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード30設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード30設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード30設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード30設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード30設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード30設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード30設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード30設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Deal State
+ * @text 与ステート
+ * @parent ---モード30設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Gain State
+ * @text 被ステート
+ * @parent ---モード30設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード30設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード30設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード30設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード30設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード30設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Crisis HP
+ * @text HP残少
+ * @parent ---モード30設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Crisis MP
+ * @text MP残少
+ * @parent ---モード30設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Only Member
+ * @text 生存アクター
+ * @parent ---モード30設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 30 Evasion
+ * @text 攻撃回避
+ * @parent ---モード30設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード31設定---
+ * @default
+ *
+ * @param Mode 31 Name
+ * @text モード名
+ * @parent ---モード31設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 31 Icon
+ * @text モードのアイコン
+ * @parent ---モード31設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 31 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード31設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 31 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード31設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 31 Max TP
+ * @text 最大TP
+ * @parent ---モード31設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 31 Preserve
+ * @text TP引継
+ * @parent ---モード31設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 31 Initial TP
+ * @text 開始時
+ * @parent ---モード31設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Regen TP
+ * @text 再生時
+ * @parent ---モード31設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 31 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード31設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード31設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード31設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード31設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード31設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード31設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード31設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード31設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Deal State
+ * @text 与ステート
+ * @parent ---モード31設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Gain State
+ * @text 被ステート
+ * @parent ---モード31設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード31設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード31設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード31設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード31設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード31設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Crisis HP
+ * @text HP残少
+ * @parent ---モード31設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Crisis MP
+ * @text MP残少
+ * @parent ---モード31設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Only Member
+ * @text 生存アクター
+ * @parent ---モード31設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 31 Evasion
+ * @text 攻撃回避
+ * @parent ---モード31設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード32設定---
+ * @default
+ *
+ * @param Mode 32 Name
+ * @text モード名
+ * @parent ---モード32設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 32 Icon
+ * @text モードのアイコン
+ * @parent ---モード32設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 32 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード32設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 32 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード32設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 32 Max TP
+ * @text 最大TP
+ * @parent ---モード32設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 32 Preserve
+ * @text TP引継
+ * @parent ---モード32設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 32 Initial TP
+ * @text 開始時
+ * @parent ---モード32設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Regen TP
+ * @text 再生時
+ * @parent ---モード32設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 32 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード32設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード32設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード32設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード32設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード32設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード32設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード32設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード32設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Deal State
+ * @text 与ステート
+ * @parent ---モード32設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Gain State
+ * @text 被ステート
+ * @parent ---モード32設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード32設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード32設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード32設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード32設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード32設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Crisis HP
+ * @text HP残少
+ * @parent ---モード32設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Crisis MP
+ * @text MP残少
+ * @parent ---モード32設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Only Member
+ * @text 生存アクター
+ * @parent ---モード32設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 32 Evasion
+ * @text 攻撃回避
+ * @parent ---モード32設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード33設定---
+ * @default
+ *
+ * @param Mode 33 Name
+ * @text モード名
+ * @parent ---モード33設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 33 Icon
+ * @text モードのアイコン
+ * @parent ---モード33設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 33 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード33設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 33 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード33設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 33 Max TP
+ * @text 最大TP
+ * @parent ---モード33設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 33 Preserve
+ * @text TP引継
+ * @parent ---モード33設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 33 Initial TP
+ * @text 開始時
+ * @parent ---モード33設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Regen TP
+ * @text 再生時
+ * @parent ---モード33設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 33 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード33設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード33設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード33設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード33設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード33設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード33設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード33設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード33設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Deal State
+ * @text 与ステート
+ * @parent ---モード33設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Gain State
+ * @text 被ステート
+ * @parent ---モード33設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード33設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード33設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード33設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード33設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード33設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Crisis HP
+ * @text HP残少
+ * @parent ---モード33設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Crisis MP
+ * @text MP残少
+ * @parent ---モード33設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Only Member
+ * @text 生存アクター
+ * @parent ---モード33設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 33 Evasion
+ * @text 攻撃回避
+ * @parent ---モード33設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード34設定---
+ * @default
+ *
+ * @param Mode 34 Name
+ * @text モード名
+ * @parent ---モード34設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 34 Icon
+ * @text モードのアイコン
+ * @parent ---モード34設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 34 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード34設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 34 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード34設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 34 Max TP
+ * @text 最大TP
+ * @parent ---モード34設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 34 Preserve
+ * @text TP引継
+ * @parent ---モード34設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 34 Initial TP
+ * @text 開始時
+ * @parent ---モード34設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Regen TP
+ * @text 再生時
+ * @parent ---モード34設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 34 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード34設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード34設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード34設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード34設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード34設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード34設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード34設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード34設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Deal State
+ * @text 与ステート
+ * @parent ---モード34設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Gain State
+ * @text 被ステート
+ * @parent ---モード34設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード34設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード34設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード34設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード34設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード34設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Crisis HP
+ * @text HP残少
+ * @parent ---モード34設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Crisis MP
+ * @text MP残少
+ * @parent ---モード34設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Only Member
+ * @text 生存アクター
+ * @parent ---モード34設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 34 Evasion
+ * @text 攻撃回避
+ * @parent ---モード34設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード35設定---
+ * @default
+ *
+ * @param Mode 35 Name
+ * @text モード名
+ * @parent ---モード35設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 35 Icon
+ * @text モードのアイコン
+ * @parent ---モード35設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 35 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード35設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 35 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード35設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 35 Max TP
+ * @text 最大TP
+ * @parent ---モード35設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 35 Preserve
+ * @text TP引継
+ * @parent ---モード35設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 35 Initial TP
+ * @text 開始時
+ * @parent ---モード35設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Regen TP
+ * @text 再生時
+ * @parent ---モード35設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 35 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード35設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード35設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード35設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード35設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード35設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード35設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード35設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード35設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Deal State
+ * @text 与ステート
+ * @parent ---モード35設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Gain State
+ * @text 被ステート
+ * @parent ---モード35設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード35設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード35設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード35設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード35設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード35設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Crisis HP
+ * @text HP残少
+ * @parent ---モード35設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Crisis MP
+ * @text MP残少
+ * @parent ---モード35設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Only Member
+ * @text 生存アクター
+ * @parent ---モード35設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 35 Evasion
+ * @text 攻撃回避
+ * @parent ---モード35設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード36設定---
+ * @default
+ *
+ * @param Mode 36 Name
+ * @text モード名
+ * @parent ---モード36設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 36 Icon
+ * @text モードのアイコン
+ * @parent ---モード36設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 36 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード36設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 36 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード36設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 36 Max TP
+ * @text 最大TP
+ * @parent ---モード36設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 36 Preserve
+ * @text TP引継
+ * @parent ---モード36設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 36 Initial TP
+ * @text 開始時
+ * @parent ---モード36設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Regen TP
+ * @text 再生時
+ * @parent ---モード36設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 36 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード36設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード36設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード36設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード36設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード36設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード36設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード36設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード36設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Deal State
+ * @text 与ステート
+ * @parent ---モード36設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Gain State
+ * @text 被ステート
+ * @parent ---モード36設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード36設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード36設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード36設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード36設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード36設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Crisis HP
+ * @text HP残少
+ * @parent ---モード36設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Crisis MP
+ * @text MP残少
+ * @parent ---モード36設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Only Member
+ * @text 生存アクター
+ * @parent ---モード36設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 36 Evasion
+ * @text 攻撃回避
+ * @parent ---モード36設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード37設定---
+ * @default
+ *
+ * @param Mode 37 Name
+ * @text モード名
+ * @parent ---モード37設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 37 Icon
+ * @text モードのアイコン
+ * @parent ---モード37設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 37 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード37設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 37 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード37設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 37 Max TP
+ * @text 最大TP
+ * @parent ---モード37設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 37 Preserve
+ * @text TP引継
+ * @parent ---モード37設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 37 Initial TP
+ * @text 開始時
+ * @parent ---モード37設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Regen TP
+ * @text 再生時
+ * @parent ---モード37設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 37 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード37設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード37設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード37設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード37設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード37設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード37設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード37設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード37設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Deal State
+ * @text 与ステート
+ * @parent ---モード37設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Gain State
+ * @text 被ステート
+ * @parent ---モード37設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード37設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード37設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード37設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード37設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード37設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Crisis HP
+ * @text HP残少
+ * @parent ---モード37設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Crisis MP
+ * @text MP残少
+ * @parent ---モード37設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Only Member
+ * @text 生存アクター
+ * @parent ---モード37設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 37 Evasion
+ * @text 攻撃回避
+ * @parent ---モード37設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード38設定---
+ * @default
+ *
+ * @param Mode 38 Name
+ * @text モード名
+ * @parent ---モード38設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 38 Icon
+ * @text モードのアイコン
+ * @parent ---モード38設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 38 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード38設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 38 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード38設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 38 Max TP
+ * @text 最大TP
+ * @parent ---モード38設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 38 Preserve
+ * @text TP引継
+ * @parent ---モード38設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 38 Initial TP
+ * @text 開始時
+ * @parent ---モード38設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Regen TP
+ * @text 再生時
+ * @parent ---モード38設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 38 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード38設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード38設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード38設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード38設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード38設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード38設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード38設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード38設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Deal State
+ * @text 与ステート
+ * @parent ---モード38設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Gain State
+ * @text 被ステート
+ * @parent ---モード38設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード38設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード38設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード38設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード38設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード38設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Crisis HP
+ * @text HP残少
+ * @parent ---モード38設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Crisis MP
+ * @text MP残少
+ * @parent ---モード38設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Only Member
+ * @text 生存アクター
+ * @parent ---モード38設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 38 Evasion
+ * @text 攻撃回避
+ * @parent ---モード38設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード39設定---
+ * @default
+ *
+ * @param Mode 39 Name
+ * @text モード名
+ * @parent ---モード39設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 39 Icon
+ * @text モードのアイコン
+ * @parent ---モード39設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 39 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード39設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 39 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード39設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 39 Max TP
+ * @text 最大TP
+ * @parent ---モード39設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 39 Preserve
+ * @text TP引継
+ * @parent ---モード39設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 39 Initial TP
+ * @text 開始時
+ * @parent ---モード39設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Regen TP
+ * @text 再生時
+ * @parent ---モード39設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 39 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード39設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード39設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード39設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード39設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード39設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード39設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード39設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード39設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Deal State
+ * @text 与ステート
+ * @parent ---モード39設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Gain State
+ * @text 被ステート
+ * @parent ---モード39設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード39設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード39設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード39設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード39設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード39設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Crisis HP
+ * @text HP残少
+ * @parent ---モード39設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Crisis MP
+ * @text MP残少
+ * @parent ---モード39設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Only Member
+ * @text 生存アクター
+ * @parent ---モード39設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 39 Evasion
+ * @text 攻撃回避
+ * @parent ---モード39設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @param ---モード40設定---
+ * @default
+ *
+ * @param Mode 40 Name
+ * @text モード名
+ * @parent ---モード40設定---
+ * @desc このTPモードに使用される名前
+ * @default 未定義
+ *
+ * @param Mode 40 Icon
+ * @text モードのアイコン
+ * @parent ---モード40設定---
+ * @desc このTPモードに使用されるアイコン
+ * @default 0
+ *
+ * @param Mode 40 Help Line 1
+ * @text ヘルプ1行目
+ * @parent ---モード40設定---
+ * @desc このTPモードに使用されるヘルプ記述1行目
+ * @default -
+ *
+ * @param Mode 40 Help Line 2
+ * @text ヘルプ2行目
+ * @parent ---モード40設定---
+ * @desc このTPモードに使用されるヘルプ記述2行目
+ * @default -
+ *
+ * @param Mode 40 Max TP
+ * @text 最大TP
+ * @parent ---モード40設定---
+ * @desc このモードの最大TPを決定するために使用される式
+ * @default 100
+ *
+ * @param Mode 40 Preserve
+ * @text TP引継
+ * @parent ---モード40設定---
+ * @desc true - 次の戦闘へTPを引き継ぎ
+ * false - 各戦闘で初期TPカウントをリセット
+ * @type boolean
+ * @default true
+ *
+ * @param Mode 40 Initial TP
+ * @text 開始時
+ * @parent ---モード40設定---
+ * @desc 戦闘の開始時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Regen TP
+ * @text 再生時
+ * @parent ---モード40設定---
+ * @desc 再生時に得られるTPの式
+ * @default 100user.trg
+ *
+ * @param Mode 40 Take HP DMG
+ * @text HPダメージ
+ * @parent ---モード40設定---
+ * @desc HPのダメージを受けることで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Deal HP DMG
+ * @text HP与ダメージ
+ * @parent ---モード40設定---
+ * @desc HPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Heal HP DMG
+ * @text HP回復
+ * @parent ---モード40設定---
+ * @desc HPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Ally HP DMG
+ * @text 味方HPダメージ
+ * @parent ---モード40設定---
+ * @desc 味方HPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Take MP DMG
+ * @text MPダメージ
+ * @parent ---モード40設定---
+ * @desc MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Deal MP DMG
+ * @text MP与ダメージ
+ * @parent ---モード40設定---
+ * @desc MPダメージを与えて得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Heal MP DMG
+ * @text MP回復
+ * @parent ---モード40設定---
+ * @desc MPのダメージ回復で得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Ally MP DMG
+ * @text 味方MPダメージ
+ * @parent ---モード40設定---
+ * @desc 味方MPのダメージで得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Deal State
+ * @text 与ステート
+ * @parent ---モード40設定---
+ * @desc 使用者が敵にステートを与えた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Gain State
+ * @text 被ステート
+ * @parent ---モード40設定---
+ * @desc 使用者が敵からステートを受けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Kill Ally
+ * @text 味方死亡
+ * @parent ---モード40設定---
+ * @desc 味方が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Kill Enemy
+ * @text 敵死亡
+ * @parent ---モード40設定---
+ * @desc 敵が殺された時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Win Battle
+ * @text 戦闘勝利
+ * @parent ---モード40設定---
+ * @desc 戦闘に勝った時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Flee Battle
+ * @text 戦闘逃走
+ * @parent ---モード40設定---
+ * @desc 戦闘から逃げた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Lose Battle
+ * @text 戦闘敗北
+ * @parent ---モード40設定---
+ * @desc 戦闘で負けた時に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Crisis HP
+ * @text HP残少
+ * @parent ---モード40設定---
+ * @desc HPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Crisis MP
+ * @text MP残少
+ * @parent ---モード40設定---
+ * @desc MPが危機的な時にTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Only Member
+ * @text 生存アクター
+ * @parent ---モード40設定---
+ * @desc 戦闘不能ではない味方がTP再生タイミングの間に得られるTPの式
+ * @default 0
+ *
+ * @param Mode 40 Evasion
+ * @text 攻撃回避
+ * @parent ---モード40設定---
+ * @desc 使用者が攻撃を回避した時に得られるTPの式
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_EnhancedTPを必要とします。
+ * プラグイン管理のYEP_EnhancedTPの下に
+ * このプラグインがあることを確認してください。
+ *
+ * 他にYEP_X_MoreTPModeプラグインがある場合は、それらを順番に並べます。
+ *
+ * 20TPモードでは不十分な場合に、
+ * ゲームのTPモードの量を合計40のTPモードに20増やします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

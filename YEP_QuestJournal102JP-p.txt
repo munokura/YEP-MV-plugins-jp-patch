@@ -1,0 +1,2839 @@
+/*:ja
+ * @plugindesc v1.02 クエストジャーナルシステムを導入します。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * このプラグインを日本語で使用するには YEP_MessageCore
+ * で提供される WordWrap タグ機能はほとんど役に立ちません。
+ * 公式で配布されている YED_WordWrap の使用を推奨します。
+ * YED_WordWrap を使用する前提で、翻訳設定を済ませてあります。
+ * 変更されている箇所は、このプラグインの下記のパラメーター内です。
+ * データウィンドウ＞クエスト表示形式
+ *
+ * YED_WordWrap の使用方法は、下記になります。
+ *   1.YED_WordWrapプラグインを入れます。
+ *   2.プラグイン設定内の「Break Word」を「false」から「true」に書き換えます。
+ *   3.クエスト表示形式の最初に <wrap> タグを入れます。(このパッチは設定済み)
+ * 文章が表示幅からはみ出ると改行されるようになります。
+ * 表示幅以外で強制的に改行したり、空行を入れたい箇所には
+ * <br> タグを入れてください。
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * 警告：このプラグインはRPGツクールMV 1.5.0以降で使用できます。
+ * MV 1.5.0エディタでこのプラグインを正常に動作するためです。
+ * このプラグインを使用する前に、RPGツクールMVのバージョンを確認してください。
+ *
+ * ---
+ *
+ * クエストジャーナルは、プレイヤーにとって非常に重要なツールです。
+ * ゲームを進めるためにプレイヤーが追求することができる
+ * クエスト、ミッション、目的を表示します。
+ * 広大なRPGの世界でプレイヤーがしていることを忘れる可能性がある場合、
+ * プレイヤーが何をする必要があるのかを思い出すのに役立ちます。
+ *
+ * このプラグインはクエストジャーナルシステムを追加します。
+ * クエストジャーナルの表示方法を設定、
+ * ウィンドウを移動、形状を変更したりできます。
+ * このプラグインには100のクエストスロットがあり、
+ * （拡張プラグインを通してより多くを得ることができます）、
+ * それらを個別に構築するには開発者の注意を必要とします。
+ *
+ * クエストのタイトル、難易度、依頼者、場所、説明、目的、報酬のリスト、
+ * サブテキストを見ることができます。
+ *
+ * ---
+ *
+ * このプラグインはクエストジャーナルシステムを追加しますが、
+ * このプラグインは何も自動化しません。
+ * クエストを有効にしている場合でも、そのクエストをジャーナルに適切に追加し、
+ * その多くの目的を設定し、他の目的が現れた時に、
+ * 報酬を何にするか、そして報酬を与えるのは開発者の設定次第です。
+ * このプラグインの目的は、
+ * プレイヤーにどんなクエストが伝えられたのかを視覚的に記録することです。
+ *
+ * ===========================================================================
+ * 説明 - クエストカテゴリウィンドウの設定
+ * ===========================================================================
+ *
+ * プラグインのパラメータ 'Quest Category Window'は、
+ * デフォルトのままにしておくことができますが、
+ * カスタマイズしたい場合、知っておくべきことがあります。
+ *
+ * ---
+ *
+ * Category Order
+ * - カテゴリがメニューに表示される順序です。
+ * 進行中、完了、失敗、すべて、キャンセル。
+ * これらを動かすと、メニューの構成を調整できます。
+ * 移動した場合、デフォルトでは最初の項目が最初に選択されます。
+ * デフォルト:["available","completed","failed","all"]
+ *
+ * Available Text
+ * - 「進行中」カテゴリの表示テキスト。
+ * 制御文字を使ってアイコンや色の外観を指定できます。
+ * %1は、進行中クエストの数を表示するためのフォーマットオプションです。
+ * デフォルト:\i[192]Available (%1)
+ *
+ * Completed Text
+ * - 「完了」カテゴリの表示テキスト。
+ * 制御文字を使ってアイコンや色の外観を指定できます。
+ * %1は、完了したクエストの数を表示するためのフォーマットオプションです。
+ * デフォルト:\i[191]Completed (%1)
+ *
+ * Failed Text
+ * - 「失敗」カテゴリの表示テキスト。
+ * 制御文字を使ってアイコンや色の外観を指定できます。
+ * %1は、失敗したクエストの数を表示するためのフォーマットオプションです。
+ * デフォルト:\i[194]Failed (%1)
+ *
+ * All Text
+ * - 「全て」カテゴリの表示テキスト。
+ * 制御文字を使ってアイコンや色の外観を指定できます。
+ * %1は、全てのクエストの数を表示するためのフォーマットオプションです。
+ * デフォルト:\i[189]All Quests (%1)
+ *
+ * Cancel Text
+ * - 「キャンセル」オプションのエントリの表示テキスト。
+ * 制御文字を使ってアイコンや色の外観を指定できます。
+ * このテキストで使用するフォーマットオプションはありません。
+ * デフォルト:\i[161]Close
+ *
+ * ---
+ *
+ * Window Settings
+ * - カテゴリウィンドウをカスタマイズしたい場合、設定で詳細を調整できます。
+ * 
+ * ただし、JavaScript を使えない限り、
+ * エラーを発生させてウィンドウがゲーム内で機能しなくなる可能性があることに
+ * 注意してください。
+ *
+ * デフォルト:
+ *
+ * X: 0
+ * Y: 0
+ * Width: Graphics.boxWidth / 3
+ * Height: this.fittingHeight(this.numVisibleRows())
+ * Rows: 4
+ * Columns: 1
+ * Line Height: 36
+ * Font Face: GameFont
+ * Font Size: 28
+ * Standard Padding: 18
+ * Text Padding: 6
+ * Text Alignment: left
+ * Standard Opacity: 255
+ * Back Opacity: 192
+ * Window Skin: Window
+ *
+ * ===========================================================================
+ * 説明 - クエストリストウィンドウの設定
+ * ===========================================================================
+ *
+ * プラグインパラメータ'Quest List Window'は、
+ * 様々なクエストタイプを表示するように修正することができます。
+ * デフォルトでは、プラグインは以下のクエストタイプを持ちます。
+ * メイン、サイド、人物、指導。
+ * クエストリストウィンドウについて知っておくべきことです。
+ *
+ * ---
+ *
+ * Show Types
+ * - 有効になっていると、
+ * Quest Listウィンドウに様々なクエストタイプを表示することができます。
+ * 無効になっていると、それらのクエストタイプは表示されず、
+ * すべてのクエストは個々のヘッダとしてのクエストタイプなしで表示されます。
+ * デフォルト:true
+ *
+ * Type Order
+ * - クエストリストのタイプの順番であり、
+ * クエストジャーナルでどのタイプを表示するかを指定することもできます。
+ * 制御文字を使って、
+ * クエストタイプにアイコンや色を追加することができます。
+ * 個々のクエストタイプのクエストタイプ名の入力には、
+ * \i[x] と \c[x] のコードを省略することができますが、
+ * それ以外はすべて正しくなければなりません。
+ * デフォルト:
+ * ["\\c[6]Main Quests","\\c[4]Side Quests","\\c[3]Character Quests",
+ * "\\c[5]Tutorial Quests"]
+ *
+ * List Open Symbol
+ * - クエストタイプを表示するために使用されるシンボルは開かれ
+ * （その下にリストされているすべてのクエストを表示して）、
+ * 閉じられません（その下にリストされているクエストを一切表示しません）。
+ * デフォルト:-
+ *
+ * List Closed Symbol
+ * - クエストタイプを表示するために使用されるシンボルは閉じられ
+ * （その下にリストされているクエストのいずれも表示されていない）、
+ * 開かれません（その下にリストされているクエストのすべてを表示します）。
+ * デフォルト:+
+ *
+ * Type Text Format
+ * - テキスト形成タイプは、Quest Listウィンドウにクエストタイプを表示します。
+ * %1は開閉記号を参照します。
+ * %2がクエストタイプの名前になります。
+ * %3はこのクエストタイプの下にリストされているクエストの数を明らかにします。
+ * デフォルト:%1%2 (%3)
+ *
+ * Quest Indent
+ * - クエストタイプが表示されている場合、
+ * 通常のクエストをどれだけインデントするかです。
+ * プレイヤーが通常のクエストとクエストのタイプを区別するのを助けるためですが、
+ * あなたがあなたのクエストのためにアイコンを使うことを計画し、
+ * あなたのクエストのタイプのためにどれも使う必要がないならば必要ない。
+ * デフォルト:0
+ *
+ * Show Empty
+ * - 有効にすると、
+ * 空で、それらの下にクエストがないクエストタイプを表示します。
+ * 無効にされていると、
+ * クエストを持たないクエストタイプはクエストリストに表示されず、
+ * 混乱を減らすのに役立ちます。
+ * デフォルト:false
+ *
+ * Read Quest
+ * - 'ReadQuest'コマンドの表示テキスト。
+ * エクストラアクションリストの表示を促す拡張プラグインがある場合のみ、
+ * リストウィンドウに表示されます。
+ * デフォルト:\i[121]Read Quest
+ *
+ * Cancel
+ * - 'Cancel'コマンドの表示テキスト。
+ * エクストラクションリストの表示を促す拡張プラグインがある場合、
+ * このコマンドはリストウィンドウにのみ表示されます。
+ * デフォルト:\i[16]Cancel
+ *
+ * ---
+ *
+ * Window Settings
+ * -カテゴリウィンドウをカスタマイズしたい場合、
+ * 様々な設定を調整してそのプロパティを調整できます。
+ * ただし、
+ * JavaScriptに精通していない限り、
+ * エラーを発生させて
+ * ウィンドウがゲーム内で機能しなくなる可能性があることに注意してください。
+ *
+ * デフォルト:
+ *
+ * X: 0
+ * Y: Graphics.boxHeight - height
+ * Width: Graphics.boxWidth / 3
+ * Height: Graphics.boxHeight - this.fittingHeight(4)
+ * Line Height: 36
+ * Font Face: GameFont
+ * Font Size: 28
+ * Standard Padding: 18
+ * Text Padding: 6
+ * Standard Opacity: 255
+ * Back Opacity: 192
+ * Type Alignment: left
+ * Quest Alignment: left
+ * Window Skin: Window
+ *
+ * ===========================================================================
+ * 説明 - クエストタイトルウィンドウの設定
+ * ===========================================================================
+ *
+ * プラグインのパラメータ'QuestTitleWindow'もデフォルトで
+ * そのままにしておくことができますが、変更したいのであれば、
+ * あなたが知っておくべきことです。
+ *
+ * ---
+ *
+ * No Quest Title
+ * -クエストリストウィンドウでクエストが選択されていない場合、
+ * このテキストはクエストタイトルウィンドウに表示されます。
+ * それ以外の場合、
+ * 選択したクエストの名前はデータウィンドウの上に表示されます。
+ * 制御文字を使用できます。
+ * デフォルト:\c[4]Quest Journal
+ *
+ * ---
+ *
+ * Window Settings
+ * -カテゴリウィンドウをカスタマイズしたい場合、
+ * 様々な設定を調整してそのプロパティを調整できます。
+ * ただし、
+ * JavaScriptに精通していない限り、
+ * エラーを発生させて
+ * ウィンドウがゲーム内で機能しなくなる可能性があることに注意してください。
+ *
+ * X: Graphics.boxWidth - width
+ * Y: 0
+ * Width: Graphics.boxWidth2 / 3
+ * Height: this.fittingHeight(1)
+ * Line Height: 36
+ * Font Face: GameFont
+ * Font Size: 28
+ * Standard Padding: 18
+ * Text Padding: 6
+ * Text Alignment: center
+ * Standard Opacity: 255
+ * Back Opacity: 192
+ * Window Skin: Window
+ *
+ * ===========================================================================
+ * 説明 - クエストデータウィンドウの設定
+ * ===========================================================================
+ *
+ * プラグインパラメータ'QuestDataWindow'は、
+ * クエスト内に含まれる様々な情報を表示するように修正することができます。
+ * このデータは、
+ * プレイヤーがクエストを遂行し完了するために
+ * 必要なことを理解するために使用されます。
+ * このウィンドウの設定はそのままにしておくことができますが、
+ * 変更したいと思うでしょう。
+ *
+ * ---
+ *
+ * No Data Text
+ * - クエストリストウィンドウで現在選択されているクエストがない時、
+ * データウィンドウに表示されるテキストです。
+ * 制御文字を使用して、
+ * テキストがプレーヤーにとってより鮮明に見えるようにすることができます。
+ *
+ * デフォルト:
+ * Welcome to the \c[4]Quest Journal\c[0].
+ *
+ * 世界中の人々から受けたクエストを確認できます。
+ *
+ * Word Wrap Version (Requires YEP_MessageCore.js):
+ * <WordWrap>Welcome to the \c[4]Quest Journal\c[0].
+ * <br>
+ * <br>世界中の人々から受けたクエストを確認できます。
+ *
+ * Quest Data Format
+ * - このフォーマットは、
+ * クエストデータウィンドウのデータがプレイヤーに表示される形式です。
+ * 様々な制御文字を使用して、
+ * クエストデータウィンドウをプレイヤーにとってより明確にすることができます。
+ * 以下は、各データを参照します。
+ * %1 - アイコンや色付きの制御文字なしでタイトル
+ * %2 - クエストの難易度
+ * %3 - 依頼者
+ * %4 - 依頼場所
+ * %5 - クエストの現在の説明、クエストの途中で変更することができます。
+ * %6 - 達成に必要な目的
+ * %7 - 報酬
+ * %8 - クエストのサブテキスト
+ *
+ * デフォルト:
+ * \{%1\}
+ * \c[4]Level:\c[0] %2
+ * \c[4]From:\c[0] %3
+ * \c[4]Location:\c[0] %4
+ *
+ * \c[4]Description:\c[0]
+ * %5
+ *
+ * \c[4]Objectives:\c[0]
+ * %6
+ *
+ * \c[4]Rewards:\c[0]
+ * %7
+ *
+ * %8
+ *
+ * Word Wrap Version (Requires YEP_MessageCore.js):
+ * <WordWrap>\{%1\}
+ * <br>\c[4]Level:\c[0] %2
+ * <br>\c[4]From:\c[0] %3
+ * <br>\c[4]Location:\c[0] %4
+ * <br>
+ * <br>\c[4]Description:\c[0]
+ * <br>%5
+ * <br>
+ * <br>\c[4]Objectives:\c[0]
+ * <br>%6
+ * <br>
+ * <br>\c[4]Rewards:\c[0]
+ * <br>%7
+ * <br>
+ * <br>%8
+ *
+ * Uncleared Objective
+ * - 各目的について表示されるテキスト形式で、
+ * 未完了でも失敗でもありません。
+ * %1は目的のテキストに置き換えられます。
+ * デフォルト:\i[160]%1
+ *
+ * Completed Objective
+ * - 目的が完了している場合、
+ * 代わりにこのテキストフォーマットが使用されます。
+ * %1は目的のテキストに置き換えられます。
+ * デフォルト:\i[165]%1
+ *
+ * Failed Objective
+ * - 目的が失敗した場合、
+ * 代わりにこのテキストフォーマットが使用されます。
+ * %1は目的のテキストに置き換えられます。
+ * デフォルト:\i[162]%1
+ *
+ * Unclaimed Reward
+ * - 請求も拒否もされていない各報酬アイテムに表示されるテキスト形式です。
+ * %1は報酬のテキストに置き換えられます。
+ * デフォルト:\i[160]%1
+ *
+ * Claimed Reward
+ * - 報酬が請求された場合、
+ * 代わりにこのテキストフォーマットが使用され、
+ * %1は報酬のテキストに置き換えられます。
+ * デフォルト:\i[163]%1
+ *
+ * Denied Reward
+ * - 報酬が拒否された場合、
+ * 代わりにこのテキストフォーマットが使用されます。
+ * %1は報酬のテキストに置き換えられます。
+ * デフォルト:\i[161]%1
+ *
+ * Load Delay
+ * - 要求のデータをウィンドウ自体にロードする前に
+ * データウィンドウが待機するフレームの量です。
+ * カーソルが通過する全てのクエストをロードすることによって
+ * ゲームエンジンに過度の負担をかけることを防ぐためであり、
+ * カーソルが特定のクエストエントリにxフレーム分落ち着くまで待機します。
+ * デフォルト:30
+ *
+ * ---
+ *
+ * Window Settings
+ * - カテゴリウィンドウをカスタマイズしたい場合、
+ * 様々な設定を調整してそのプロパティを調整できます。
+ * ただし、
+ * JavaScriptに精通していない限り、
+ * エラーを発生させて
+ * ウィンドウがゲーム内で機能しなくなる可能性があることに注意してください。
+ *
+ * X: Graphics.boxWidth - width
+ * Y: Graphics.boxHeight - height
+ * Width: Graphics.boxWidth2 / 3
+ * Height: Graphics.boxHeight - this.fittingHeight(1)
+ * Line Height: 36
+ * Font Face: GameFont
+ * Font Size: 28
+ * Standard Padding: 18
+ * Text Padding: 6
+ * Standard Opacity: 255
+ * Back Opacity: 192
+ * Window Skin: Window
+ * Scroll Speed: 4
+ *
+ * ===========================================================================
+ * 説明 - 新しいクエストの設定
+ * ===========================================================================
+ *
+ * デフォルトでは、作られたクエストはありません。
+ * 1つずつ設定しなければなりません。
+ * YEP_QuestJournal.jsのプラグインパラメータに行き、
+ * ---QuestList---セクションを見てください。
+ * これらのエントリはそれぞれ空から始まります。
+ * ただし、変更する場合、
+ * クエストの設定方法を説明するテンプレートが表示されます。
+ * 各パラメータの機能は次のとおりです。
+ *
+ * ---
+ *
+ * Title
+ * - クエストのタイトルです。
+ * それは3つの場所に現れます。クエストリスト、クエストタイトルウィンドウ、
+ * それをデータウィンドウに表示するためにフォーマットするならば、
+ * それは同様にそこに現れるでしょう。
+ * 制御文字を使ってクエストの色を変えたり、
+ * クエストのアイコンを付けたりすることができます。
+ *
+ * Type
+ * - クエストタイプです。
+ * リストウィンドウからクエストタイプを表示することにした場合、
+ * このクエストがその下に表示される場所になります。
+ * テンプレートにはいくつかの人気のあるクエストタイプの
+ * ドロップダウンウィンドウがありますが、
+ * 自由なクエストタイプを入力することができます。
+ * 大文字と小文字を区別し、
+ * クエストタイプを正しくタイプする必要があることを覚えておいてください。
+ * ただし、
+ * \i[x]・\c[x]の制御文字は省略できます。
+ *
+ * Difficulty
+ * - 実効的な影響はありません。
+ * クエストの難易度を表示するためだけのものです
+ * ここに望むどんなタイプのテキストでも挿入することができます。
+ * クエストデータウィンドウに表示されます。
+ *
+ * From
+ * - 実効的な影響はありません。
+ * どの人物が
+ * このクエストを発行したかを述べるために使うことができるので、
+ * プレイヤーはクエストの結果を出す時間になった時、
+ * 誰に戻るべきかを知るための基準点を持つことができます。
+ *
+ * Location
+ * - 実効的な影響はありません。
+ * クエストがどの場所から来たのかを伝えるために使うことができ、
+ * プレイヤーの労力を減らすことができます。
+ *
+ * Description
+ * - 実効的な影響はありません。
+ * プレイヤーにクエストの内容を説明し、
+ * プレイヤーが実際にしなければならないことに関する
+ * 一連の一般的な指示を提供するためによく使用されます。
+ * 複数の説明を入力できます。
+ * ただし、最初の説明だけがデフォルトで表示されます。
+ * 複数の説明を入力する場合、
+ * プラグインコマンドを使用してエントリを変更できます。
+ * 'Quest x Change Description Entry To y'
+ * 説明エントリを変更し、クエストの途中で他の何かを表示する。
+ *
+ * Objectives List
+ * - 実効的な影響はありません。
+ * 目的リストは一般に、プレイヤーがクエストを完了するために行う必要がある
+ * 特定の命令のセットを表示するために使用されます。
+ * プレーヤーによって達成される必要がある複数の目的を示すために、
+ * 複数セットの目的を表示することができます。
+ *
+ * Visible Objectives
+ * - クエストがゲームのクエストジャーナルに追加された時、
+ * デフォルトで表示されることになる一連の目的のリストです。
+ * 内部の各番号エントリは、
+ * 'ObjectivesList'プラグインパラメータにある
+ * 目的ID(それらの注文位置)を参照します。
+ *
+ * Rewards List
+ * - 実効的な影響はありません。
+ * このリストは、クエストを終えた結果としてプレイヤーが
+ * 何を得なければならないかを示します。
+ * プレーヤが1タイプ以上の報酬を受け取ることを示すために、
+ * 複数組の報酬を表示することができます。
+ *
+ * Visible Rewards
+ * - クエストがゲームのクエストジャーナルに追加された時、
+ * デフォルトで表示される報酬のセットのリストです。
+ * その中のそれぞれの番号エントリは、
+ * 'RewardsList'プラグインパラメータにある
+ * 報酬ID(それらの注文ポジション)を参照します。
+ *
+ * Subtext
+ * - 実効的な影響はありません。
+ * データウィンドウの他の場所に収まらないメッセージを
+ * プレーヤーに提供するためのフッターとして使用されます。
+ * これを使用するかどうかは開発者の自由です。
+ * 途中でサブテキストを更新したい場合、
+ * 複数セットのサブテキストを使用できます。
+ *
+ * ===========================================================================
+ * Main Menu Manager - クエストジャーナルコマンドの配置
+ * ===========================================================================
+ *
+ * MainMenuManager.js を使用していて、
+ * Questコマンドを好きな場所に配置したい場合、
+ * 次の形式を使用してください。
+ *
+ *       Name: Yanfly.Param.QuestCmdName
+ *     Symbol: quest
+ *       Show: $gameSystem.isShowQuest()
+ *    Enabled: $gameSystem.isEnableQuest()
+ *        Ext:
+ *  Main Bind: this.commandQuest.bind(this)
+ * Actor Bind:
+ *
+ * MainMenuManagerのスロットに上記の設定を挿入します。
+ * 正確な設定を必要な場所にコピーすると、
+ * 全ての命名の使用、
+ * 有効化、
+ * 無効化、
+ * 非表示、
+ * 及びプラグインパラメータによる効果の表示中にその設定が表示されます。
+ *
+ * プラグインパラメータから 'Auto Place Command'を
+ * オフにするのを忘れないでください。
+ *
+ * ===========================================================================
+ * スクリプトコール
+ * ===========================================================================
+ *
+ * このプラグインでは、
+ * 特定のイベントに対して様々なスクリプトコールを使用して、
+ * クエストの進行状況を確認できます。
+ * 様々なイベントタイプと、
+ * それらと共に使用できる様々なスクリプトコールです。
+ *
+ * --- イベントの変数の操作で使えるスクリプト ---
+ *
+ * $gameSystem.totalQuestsAvailable()
+ *  - 変数の値を進行中クエストの数に設定します。
+ *
+ * $gameSystem.totalQuestsCompleted()
+ *  - 変数の値を完了したクエストの数に設定します。
+ *
+ * $gameSystem.totalQuestsFailed()
+ *  - 変数の値を失敗したクエストの数に設定します。
+ *
+ * $gameSystem.totalQuestsKnown()
+ *  - 変数の値を既知のクエストの総数に設定します。
+ *
+ * $gameSystem.totalQuestsInGame()
+ *  - 変数の値をゲーム内のクエストの総数に設定します。
+ *
+ * $gameSystem.totalQuestTypes(category, type)
+ * - カテゴリを指定するには、
+ * 'category'を'available'、'completed'、'failed'、'all'
+ * のいずれかに置き換えます。
+ * 'type'をクエストタイプに置き換えます。
+ * ('Main Quest'、'Side Quest'、'Character Quest'など)
+ * カテゴリとタイプの前後に引用符を含める
+ * 例: $gameSystem.totalQuestTypes('all', 'Main Quests')
+ *
+ * $gameSystem.getQuestDescriptionIndex(questId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * どの説明が現在使用されているかを示すために変数を設定します。
+ * 例: $gameSystem.getQuestDescriptionIndex(50)
+ *
+ * $gameSystem.totalVisibleQuestObjectives(questId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 現在選択されているクエストに対して、
+ * いくつのクエスト目的が現在表示されているかを示す変数を設定します。
+ * 例: $gameSystem.totalVisibleQuestObjectives(50)
+ *
+ * $gameSystem.totalQuestObjectives(questId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 選択されたクエストの設定に対して、
+ * いくつのクエスト目的が合計されているかを示す変数を設定します。
+ * 例: $gameSystem.totalQuestObjectives(50)
+ *
+ * $gameSystem.totalVisibleQuestRewards(questId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 選択されたクエストに対して、
+ * 現在いくつのクエスト報酬が表示されているかを示す変数を設定します。
+ * 例: $gameSystem.totalVisibleQuestRewards(50)
+ *
+ * $gameSystem.totalQuestRewards(questId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 変数を設定して、
+ * 選択されたクエストの設定に対して
+ * どれだけのクエスト報酬があるかを示します。
+ * 例: $gameSystem.totalQuestRewards(50)
+ *
+ * $gameSystem.getQuestSubtextIndex(questId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 現在使用されているサブテキストを示す変数を設定します。
+ * 例: $gameSystem.getQuestSubtextIndex(50)
+ *
+ * --- イベントの条件分岐で使えるスクリプト ---
+ *
+ * $gameSystem.isQuestObjectiveCompleted(questId, objectiveId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 'objectiveId'を、
+ * チェックしようとしている目的のIDに置き換えます。
+ * 条件付きブランチのスクリプトコールを調べて、
+ * 目的の状況が完了したか(true)、
+ * そうでないか(false)を確認します。
+ * 例: $gameSystem.isQuestObjectiveCompleted(50, 1)
+ *
+ * $gameSystem.isQuestObjectiveFailed(questId, objectiveId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 'objectiveId'を、
+ * チェックしようとしている目的のIDに置き換えます。
+ * 条件付きブランチのスクリプトコールで、
+ * 目的のステータスが失敗したか(true)、
+ * そうでないか(false)を確認します。
+ * 例: $gameSystem.isQuestObjectiveFailed(50, 1)
+ *
+ * $gameSystem.isQuestObjectiveUncleared(questId, objectiveId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 'objectiveId'を、
+ * チェックしようとしている目的のIDに置き換えます。
+ * 条件付きブランチのスクリプトコールをチェックして、
+ * 目的の状況が完了も失敗もしていない(true)か、
+ * どちらか(false)かを確認します。
+ * 例: $gameSystem.isQuestObjectiveUncleared(50, 1)
+ *
+ * $gameSystem.isQuestRewardClaimed(questId, rewardId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 'rewardId'を、
+ * チェックしようとしている報酬のIDに置き換えます。
+ * 条件付きブランチのスクリプトコールをチェックして、
+ * 報酬のステータスが主張されている(true)か否か(false)を確認します。
+ * 例: $gameSystem.isQuestRewardClaimed(50, 1)
+ *
+ * $gameSystem.isQuestRewardDenied(questId, rewardId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 'rewardId'を、
+ * チェックしようとしている報酬のIDに置き換えます。
+ * 条件付きブランチのスクリプトコールをチェックして、
+ * 報酬のステータスが拒否されるか(true)、
+ * 否か(false)を確認します。
+ * 例: $gameSystem.isQuestRewardDenied(50, 1)
+ *
+ * $gameSystem.isQuestRewardUnclaimed(questId, rewardId)
+ * - 'questId'を探しているクエストのIDに置き換えます。
+ * 'rewardId'を、
+ * チェックしようとしている報酬のIDに置き換えます。
+ * 条件付きブランチのスクリプトコールをチェックして、
+ * 報酬のステータスが主張も拒否もされていないか(true)、
+ * どちらか(false)を確認します。
+ * 例: $gameSystem.isQuestRewardUnclaimed(50, 1)
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲームの中でクエストジャーナルシステムを制御するために使用できる
+ * 様々なプラグインコマンドがあります。
+ *
+ * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ * プラグインコマンド:
+ * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ *
+ *   Quest Journal Open
+ *   - クエストが選択されていない状態で
+ *   クエストジャーナルシステムメニューを開きます。
+ *
+ *   Quest Journal Open To x
+ *   - 'x'をクエストジャーナルで開きたいクエストIDに置き換えます。
+ *   このプラグインコマンドが実行された時点で
+ *   クエストがプレイヤーに知られていない場合、
+ *   クエストはプレイヤーのクエストジャーナルに追加されます。
+ *
+ *   ---
+ *
+ *   Quest Journal Show
+ *   Quest Journal Hide
+ *   - メインメニューからクエストジャーナルオプションを
+ *   表示または非表示にします。
+ *
+ *   Quest Journal Enable
+ *   Quest Journal Disable
+ *   - メインメニューのQuest Journalオプションを有効または無効にします。
+ *
+ *   ---
+ *
+ *   Quest Add x
+ *   - 'x'を整数に置き換えます。
+ *   進行中クエストとしてクエストID'x'をクエストジャーナルに追加します。
+ *   ゲーム内のクエストジャーナルシステムのメニューから見ることができます。
+ *
+ *   Quest Add x to y
+ *   - 'x'と'y'を、クエストジャーナルに追加したいクエストIDの範囲を
+ *   決定する整数値に置き換えます。
+ *
+ *   Quest Add x, x, x
+ *   - クエストジャーナルに追加したいクエストIDを表す整数値で'x'値を
+ *   置き換えます。
+ *
+ *   ---
+ *
+ *   Quest Remove x
+ *   - 'x'を整数に置き換えます。
+ *   クエストジャーナルからクエストID'x'が削除されます。
+ *
+ *   Quest Remove x to y
+ *   - 'x'と'y'を、クエストジャーナルから削除したいクエストIDの範囲を
+ *   決定する整数値に置き換えます。
+ *
+ *   Quest Remove x, x, x
+ *   - クエストジャーナルから削除したいクエストIDを表す整数値で
+ *   'x'値を置き換えます。
+ *
+ *   ---
+ *
+ *   Quest Set Completed x
+ *   Quest Set Failed x
+ *   Quest Set Available x
+ *   - 'x'をクエストステータスを'完了'、
+ *   '失敗'、'進行中'に変更したいクエストIDに置き換えます。
+ *
+ *   Quest Set Completed x to y
+ *   Quest Set Failed x to y
+ *   Quest Set Available x to y
+ *   - 'x'と'y'を、
+ *   完了、失敗、進行中として設定するクエストIDの範囲を
+ *   決定する整数値に置き換えます。
+ *
+ *   Quest Set Completed x, x, x
+ *   Quest Set Failed x, x, x
+ *   Quest Set Available x, x, x
+ *   - 'x'の値を、完了、失敗、進行中として
+ *   設定したいクエストIDを表す整数値に置き換えます。
+ *
+ *   ---
+ *
+ *   Quest x Change Description Entry To y
+ *   - 'x'を説明を修正したいQuestIDに置き換えます。
+ *   'y'をクエストを変更したい説明エントリIDに置き換えます。
+ *   クエストジャーナルでゲーム内で表示された時、
+ *   クエスト'x'のプラグインパラメータにある説明エントリID'y'が表示されます。
+ *   クエストの途中で説明文を更新したい時、使います。
+ *
+ *   ---
+ *
+ *   Quest x Show Objective y
+ *   Quest x Hide Objective y
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   表示/非表示にする対物レンズIDで'y'を置き換えます。
+ *   クエストは一度に複数の目的を示すことができます。
+ *
+ *   Quest x Show Objective y to z
+ *   Quest x Hide Objective y to z
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   'y'と'z'を、
+ *   表示/非表示にする目的のID範囲に置き換えます。
+ *   クエストは一度に複数の目的を示すことができます。
+ *
+ *   Quest x Show Objective y, y, y
+ *   Quest x Hide Objective y, y, y
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   表示/非表示にするオブジェクトIDを表す整数値で'y'値を置き換えます。
+ *   クエストは一度に複数の目的を示すことができます。
+ *
+ *   Quest X Show All Objectives
+ *   Quest X Hide All Objectives
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   クエストの目的の全てを表示/非表示にします。
+ *
+ *   Quest x Complete Objective y
+ *   Quest x Fail Objective y
+ *   Quest x Normalize Objective y
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   'y'を、状況を変更したい目的IDに置き換えます。
+ *   'Complete'を使用すると、目的は完了としてマークされます。
+ *   'Fail'を使用すると、目的は失敗としてマークされます。
+ *   'Normalize'を使用すると、
+ *   対物レンズのステータスが'未完了'・'失敗'に設定されます。
+ *
+ *   Quest x Complete Objective y to z
+ *   Quest x Fail Objective y to z
+ *   Quest x Normalize Objective y to z
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   'Complete'を使用すると、目的は完了としてマークされます。
+ *   'Fail'を使用すると、目的は失敗としてマークされます。
+ *   'Normalize'を使用すると、
+ *   対物レンズのステータスが'未完了'・'失敗'に設定されます。
+ *
+ *   Quest x Complete Objective y, y, y
+ *   Quest x Fail Objective y, y, y
+ *   Quest x Normalize Objective y, y, y
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   'y'の値を、ステータスを変更したい客観的IDを表す整数値に置き換えます。
+ *   'Complete'を使用すると、目的は完了としてマークされます。
+ *   'Fail'を使用すると、目的は失敗としてマークされます。
+ *   'Normalize'を使用すると、
+ *   対物レンズのステータスが'未完了'・'失敗'に設定されます。
+ *
+ *   Quest x Complete All Objectives
+ *   Quest x Fail All Objectives
+ *   Quest x Normalize All Objectives
+ *   - 'x'を目的を変更したいQuestIDに置き換えます。
+ *   クエストの目的の全てを完了/失敗/正規化します。
+ *
+ *   ---
+ *
+ *   Quest x Show Reward y
+ *   Quest x Hide Reward y
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   表示/非表示にする報酬IDで'y'を置き換えます。
+ *   クエストは一度に複数の報酬を見せることができます。
+ *
+ *   Quest x Show Reward y to z
+ *   Quest x Hide Reward y to z
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   'y'と'z'を、表示/非表示にする報酬IDの範囲に置き換えます。
+ *   クエストは一度に複数の報酬を見せることができます。
+ *
+ *   Quest x Show Reward y, y, y
+ *   Quest x Hide Reward y, y, y
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   表示/非表示にする報酬IDを表す整数値で'y'値を置き換えます。
+ *   クエストは一度に複数の報酬を見せることができます。
+ *
+ *   Quest x Show All Rewards
+ *   Quest x Hide All Rewards
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   クエストの報酬を全て表示/非表示にします。
+ *
+ *   Quest x Claim Reward y
+ *   Quest x Deny Reward y
+ *   Quest x Normalize Reward y
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   ステータスを変更したい報酬IDで'y'を置き換えます。
+ *   'Claim'を使用すると、報酬に請求のマークが付けられます。
+ *   'Deny'を使用すると、報酬に拒否のマークが付けられます。
+ *   'Normalize'を使用すると、報酬のステータスは請求も拒否もされません。
+ *
+ *   Quest x Claim Reward y to z
+ *   Quest x Deny Reward y to z
+ *   Quest x Normalize Reward y to z
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   'y'と'z'を、ステータスを変更したい報酬IDの範囲に置き換えます。
+ *   'Claim'を使用すると、報酬に請求のマークが付けられます。
+ *   'Deny'を使用すると、報酬に拒否のマークが付けられます。
+ *   'Normalize'を使用すると、報酬のステータスは請求も拒否もされません。
+ *
+ *   Quest x Claim Reward y, y, y
+ *   Quest x Deny Reward y, y, y
+ *   Quest x Normalize Reward y, y, y
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   ステータスを変更したい報酬IDを表す整数値で'y'値を置き換えます。
+ *   'Claim'を使用すると、報酬に請求のマークが付けられます。
+ *   'Deny'を使用すると、報酬に拒否のマークが付けられます。
+ *   'Normalize'を使用すると、報酬のステータスは請求も拒否もされません。
+ *
+ *   Quest x Claim All Rewards
+ *   Quest x Deny All Rewards
+ *   Quest x Normalize All Rewards
+ *   - 報酬を変更したいクエストIDで'x'を置き換えます。
+ *   クエストの報酬を全て主張/拒否/正規化します。
+ *
+ *   ---
+ *
+ *   Quest x Change Subtext Entry To y
+ *   - 'x'をサブテキストを変更したいQuestIDに置き換えます。
+ *   クエストを変更したいサブテキストエントリIDで'y'を置き換えます。
+ *   クエストジャーナルでゲーム内で表示された時、
+ *   サブテキストは、クエスト'x'のプラグインパラメータにある
+ *   サブテキストエントリID'y'を表示します。
+ *   クエストの途中でサブテキストのテキストを更新したい場合に使用されます。
+ *
+ *   ---
+ *
+ * ===========================================================================
+ * 説明 - ルナティックモード
+ * ===========================================================================
+ *
+ * プラグインパラメータ'LunaticMode'は、
+ * JavaScriptに精通している使用者向けに作られています。
+ * これらのパラメータは、
+ * それぞれのクエストジャーナル機能がゲーム内で発生した時、
+ * それぞれの機能に追加のコード行を追加することを可能にします。
+ * タイミングは機能が起こった後、
+ * そして、それが変更を提供することに成功した場合だけ起こるでしょう。
+ *
+ *   ---
+ *
+ *   Before Create Windows
+ *   After Create Windows
+ *   Close Quest Menu
+ *
+ *   ---
+ *
+ *   Quest Add
+ *   Quest Remove
+ *   Quest Complete
+ *   Quest Fail
+ *   Quest Available
+ *
+ *   ---
+ *
+ *   Change Description
+ *
+ *   ---
+ *
+ *   Show Objective
+ *   Hide Objective
+ *   Complete Objective
+ *   Fail Objective
+ *   Normalize Objective
+ *
+ *   ---
+ *
+ *   Show Reward
+ *   Hide Reward
+ *   Claim Reward
+ *   Deny Reward
+ *   Normalize Reward
+ *
+ *   ---
+ *
+ *   Change Subtext
+ *
+ *   ---
+ *
+ * 注意すべきいくつかの規則があります。
+ * これらの各プラグイン機能のコードは、
+ * 次の規則を満たしている場合のみ実行されます。
+ *
+ * 1.変更されたクエスト・クエストプロパティ毎にコードが実行されます。
+ * 一度に一連のクエスト・クエストプロパティを変更する
+ * プラグインコマンドを使用した場合、
+ * コードは各クエスト・クエストプロパティに対して個別に複数回実行されます。
+ *
+ * 2.コードはクエスト・クエストプロパティへの変更が
+ * 成功した場合のみ実行されます。
+ * 例えば、クエストがすでに'失敗'に設定されている場合、
+ * そのクエストを再度失敗させるためにプラグインコマンドを実行しても、
+ * ルナティックモードコードが再度実行されることはありません。
+ *
+ * 3.クエストが最初に追加された時、
+ * そのクエストに追加されたデフォルトのプロパティは
+ * ルナティックモードの実行をトリガーしません。
+ * 例えば、
+ * 追加されているクエストが最初から目に見える目的1と2を持っている場合、
+ * ルナティックモードコードは1と2に対して実行されません。
+ *
+ * カスタムコードが実行されるかどうかを決定するものがわかるように、
+ * 必ずこれらの規則を理解してください。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.02:
+ * - Fixed a bug that caused a game freeze when using the Quest Journal Open
+ * plugin command.
+ *
+ * Version 1.01:
+ * - Fixed some bugs regarding certain plugin commands not working properly.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Help
+ * ===========================================================================
+ *
+ * @param ---メインメニュー---
+ * @text ---メインメニュー---
+ * @default
+ *
+ * @param Quest Command
+ * @text コマンド表示テキスト
+ * @parent ---メインメニュー---
+ * @desc メインメニューコマンドでの表示テキスト
+ * @default クエスト
+ *
+ * @param Show Command
+ * @text コマンド表示有効化
+ * @parent ---メインメニュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc クエストコマンドをメインメニューへデフォルト表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Command
+ * @text コマンド有効化
+ * @parent ---メインメニュー---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc クエストコマンドをメインメニューでデフォルト有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Auto Place Command
+ * @text コマンド自動配置
+ * @parent ---メインメニュー---
+ * @type boolean
+ * @on 自動
+ * @off 手動
+ * @desc メニュー配置位置を自動化
+ * 手動:false / 自動:true
+ * @default true
+ *
+ * @param ---クエストメニュー---
+ * @default
+ *
+ * @param Quest Category Window
+ * @text カテゴリウィンドウ
+ * @parent ---クエストメニュー---
+ * @type struct<CategoryWindow>
+ * @desc クエストカテゴリウィンドウのプロパティを調整してください。
+ * @default {"---カテゴリ---":"","Category Order":"[\"available\",\"completed\",\"failed\",\"all\"]","Available Text":"\\i[192]進行中 (%1)","Completed Text":"\\i[191]完了 (%1)","Failed Text":"\\i[194]失敗 (%1)","All Text":"\\i[189]全クエスト (%1)","Cancel Text":"\\i[161]閉じる","---ウィンドウ---":"","X":"0","Y":"0","Width":"Graphics.boxWidth / 3","Height":"this.fittingHeight(this.numVisibleRows())","Rows":"4","Columns":"1","Line Height":"36","Font Face":"GameFont","Font Size":"28","Standard Padding":"18","Text Padding":"6","Text Alignment":"left","Standard Opacity":"255","Back Opacity":"192","Window Skin":"Window"}
+ *
+ * @param Quest List Window
+ * @text リストウィンドウ
+ * @parent ---クエストメニュー---
+ * @type struct<ListWindow>
+ * @desc クエストリストウィンドウのプロパティを調整してください。
+ * @default {"---タイプ---":"","Show Types":"true","Type Order":"[\"\\\\c[6]メイン\",\"\\\\c[4]サイド\",\"\\\\c[3]人物\",\"\\\\c[5]指導\"]","List Open Symbol":"-","List Closed Symbol":"+","Type Text Format":"%1%2 (%3)","Quest Indent":"0","Show Empty":"false","Read Quest":"\\i[121]クエストを見る","Cancel":"\\i[16]閉じる","---ウィンドウ---":"","X":"0","Y":"Graphics.boxHeight - height","Width":"Graphics.boxWidth / 3","Height":"Graphics.boxHeight - this.fittingHeight(4)","Line Height":"36","Font Face":"GameFont","Font Size":"28","Standard Padding":"18","Text Padding":"6","Standard Opacity":"255","Back Opacity":"192","Type Alignment":"left","Quest Alignment":"left","Window Skin":"Window"}
+ *
+ * @param Quest Title Window
+ * @text タイトルウィンドウ
+ * @parent ---クエストメニュー---
+ * @type struct<TitleWindow>
+ * @desc クエストタイトルウィンドウのプロパティを調整します。
+ * @default {"---ウィンドウ---":"","No Quest Title":"\\c[4]クエストジャーナル","X":"Graphics.boxWidth - width","Y":"0","Width":"Graphics.boxWidth * 2 / 3","Height":"this.fittingHeight(1)","Line Height":"36","Font Face":"GameFont","Font Size":"28","Standard Padding":"18","Text Padding":"6","Text Alignment":"center","Standard Opacity":"255","Back Opacity":"192","Window Skin":"Window"}
+ *
+ * @param Quest Data Window
+ * @text データウィンドウ
+ * @parent ---クエストメニュー---
+ * @type struct<DataWindow>
+ * @desc クエストデータウィンドウのプロパティを調整します。
+ * @default {"---データ---":"","No Data Text":"\"\\\\c[4]クエストジャーナル\\\\c[0]では、\\n世界中の人々から受けたクエストを\\n確認できます。\"","Quest Data Format":"\"<wrap>\\\\{%1\\\\}\\n<br>\\\\c[4]難易度:\\\\c[0] %2\\n<br>\\\\c[4]依頼者:\\\\c[0] %3\\n<br>\\\\c[4]場所:\\\\c[0] %4\\n<br>\\n<br>\\\\c[4]説明:\\\\c[0]\\n<br>%5\\n<br>\\n<br>\\\\c[4]目的:\\\\c[0]\\n<br>%6\\n<br>\\n<br>\\\\c[4]報酬:\\\\c[0]\\n<br>%7\\n<br>\\n<br>%8\"","Uncleared Objective":"\\i[160]%1","Completed Objective":"\\i[165]%1","Failed Objective":"\\i[162]%1","Unclaimed Reward":"\\i[160]%1","Claimed Reward":"\\i[163]%1","Denied Reward":"\\i[161]%1","Load Delay":"30","---ウィンドウ---":"","X":"Graphics.boxWidth - width","Y":"Graphics.boxHeight - height","Width":"Graphics.boxWidth * 2 / 3","Height":"Graphics.boxHeight - this.fittingHeight(1)","Line Height":"36","Font Face":"GameFont","Font Size":"28","Standard Padding":"18","Text Padding":"6","Standard Opacity":"255","Back Opacity":"192","Window Skin":"Window","Scroll Speed":"4"}
+ *
+ * @param Lunatic Mode
+ * @text ルナティックモード
+ * @parent ---クエストメニュー---
+ * @type struct<LunaticMode>
+ * @desc プラグインの各主要機能にカスタムコードを追加します。
+ * @default {"---クエストメニュー---":"","Before Create Windows":"\"// Variables\\n//   background - background image used for the menu\\n//   windowLayer - sprite layer that contains all windows\\n//\\n// background.bitmap = ImageManager.loadTitle1(\\\"Book\\\");\\n// this.fitScreen(background);\"","After Create Windows":"\"// Variables\\n//   background - background image used for the menu\\n//   windowLayer - sprite layer that contains all windows\"","Close Quest Menu":"\"// Variables\\n//   background - background image used for the menu\\n//   windowLayer - sprite layer that contains all windows\"","---クエスト状況---":"","Quest Add":"\"// Variables:\\n//   questId - ID of the quest being added\\n//\\n// console.log('Quest ' + questId + ' successfully added!')\"","Quest Remove":"\"// Variables:\\n//   questId - ID of the quest being removed\\n//\\n// console.log('Quest ' + questId + ' successfully removed!')\"","Quest Complete":"\"// Variables:\\n//   questId - ID of the quest set to completed\\n//\\n// console.log('Quest ' + questId + ' status changed to Completed!')\"","Quest Fail":"\"// Variables:\\n//   questId - ID of the quest set to failed\\n//\\n// console.log('Quest ' + questId + ' status changed to Failed!')\"","Quest Available":"\"// Variables:\\n//   questId - ID of the quest set to available\\n//\\n// console.log('Quest ' + questId + ' status changed to Available!')\"","---説明文---":"","Change Description":"\"// Variables:\\n//   questId - ID of the quest whose description is changed\\n//   index - Description index being changed to\\n//\\n// console.log('Quest ' + questId + ' description index changed to ' + index)\"","---目的---":"","Show Objective":"\"// Variables:\\n//   questId - ID of the quest whose objectives are altered\\n//   objectiveId - ID of the objective being shown\\n//\\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to shown!')\"","Hide Objective":"\"// Variables:\\n//   questId - ID of the quest whose objectives are altered\\n//   objectiveId - ID of the objective being hidden\\n//\\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to hidden!')\"","Complete Objective":"\"// Variables:\\n//   questId - ID of the quest whose objectives are altered\\n//   objectiveId - ID of the objective being completed\\n//\\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to completed!')\"","Fail Objective":"\"// Variables:\\n//   questId - ID of the quest whose objectives are altered\\n//   objectiveId - ID of the objective having failed\\n//\\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to failed!')\"","Normalize Objective":"\"// Variables:\\n//   questId - ID of the quest whose objectives are altered\\n//   objectiveId - ID of the objective normalized\\n//\\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to normal!')\"","---報酬---":"","Show Reward":"\"// Variables:\\n//   questId - ID of the quest whose rewards are altered\\n//   rewardId - ID of the reward being shown\\n//\\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' becomes shown!')\"","Hide Reward":"\"// Variables:\\n//   questId - ID of the quest whose rewards are altered\\n//   rewardId - ID of the reward being hidden\\n//\\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' becomes hidden!')\"","Claim Reward":"\"// Variables:\\n//   questId - ID of the quest whose rewards are altered\\n//   rewardId - ID of the reward becoming claimed\\n//\\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' is now claimed!')\"","Deny Reward":"\"// Variables:\\n//   questId - ID of the quest whose rewards are altered\\n//   rewardId - ID of the reward becoming denied\\n//\\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' is now denied!')\"","Normalize Reward":"\"// Variables:\\n//   questId - ID of the quest whose rewards are altered\\n//   rewardId - ID of the reward normalized\\n//\\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' is normalized!')\"","---サブテキスト---":"","Change Subtext":"\"// Variables:\\n//   questId - ID of the quest whose subtext is changed\\n//   index - Subtext index being changed to\\n//\\n// console.log('Quest ' + questId + ' subtext index changed to ' + index)\""}
+ *
+ * @param ---クエストリスト---
+ * @default
+ *
+ * @param Quest 1
+ * @text クエスト1
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 2
+ * @text クエスト2
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 3
+ * @text クエスト3
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 4
+ * @text クエスト4
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 5
+ * @text クエスト5
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 6
+ * @text クエスト6
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 7
+ * @text クエスト7
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 8
+ * @text クエスト8
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 9
+ * @text クエスト9
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 10
+ * @text クエスト10
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 11
+ * @text クエスト11
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 12
+ * @text クエスト12
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 13
+ * @text クエスト13
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 14
+ * @text クエスト14
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 15
+ * @text クエスト15
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 16
+ * @text クエスト16
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 17
+ * @text クエスト17
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 18
+ * @text クエスト18
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 19
+ * @text クエスト19
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 20
+ * @text クエスト20
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 21
+ * @text クエスト21
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 22
+ * @text クエスト22
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 23
+ * @text クエスト23
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 24
+ * @text クエスト24
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 25
+ * @text クエスト25
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 26
+ * @text クエスト26
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 27
+ * @text クエスト27
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 28
+ * @text クエスト28
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 29
+ * @text クエスト29
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 30
+ * @text クエスト30
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 31
+ * @text クエスト31
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 32
+ * @text クエスト32
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 33
+ * @text クエスト33
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 34
+ * @text クエスト34
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 35
+ * @text クエスト35
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 36
+ * @text クエスト36
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 37
+ * @text クエスト37
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 38
+ * @text クエスト38
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 39
+ * @text クエスト39
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 40
+ * @text クエスト40
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 41
+ * @text クエスト41
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 42
+ * @text クエスト42
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 43
+ * @text クエスト43
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 44
+ * @text クエスト44
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 45
+ * @text クエスト45
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 46
+ * @text クエスト46
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 47
+ * @text クエスト47
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 48
+ * @text クエスト48
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 49
+ * @text クエスト49
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 50
+ * @text クエスト50
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 51
+ * @text クエスト51
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 52
+ * @text クエスト52
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 53
+ * @text クエスト53
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 54
+ * @text クエスト54
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 55
+ * @text クエスト55
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 56
+ * @text クエスト56
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 57
+ * @text クエスト57
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 58
+ * @text クエスト58
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 59
+ * @text クエスト59
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 60
+ * @text クエスト60
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 61
+ * @text クエスト61
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 62
+ * @text クエスト62
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 63
+ * @text クエスト63
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 64
+ * @text クエスト64
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 65
+ * @text クエスト65
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 66
+ * @text クエスト66
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 67
+ * @text クエスト67
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 68
+ * @text クエスト68
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 69
+ * @text クエスト69
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 70
+ * @text クエスト70
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 71
+ * @text クエスト71
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 72
+ * @text クエスト72
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 73
+ * @text クエスト73
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 74
+ * @text クエスト74
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 75
+ * @text クエスト75
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 76
+ * @text クエスト76
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 77
+ * @text クエスト77
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 78
+ * @text クエスト78
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 79
+ * @text クエスト79
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 80
+ * @text クエスト80
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 81
+ * @text クエスト81
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 82
+ * @text クエスト82
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 83
+ * @text クエスト83
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 84
+ * @text クエスト84
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 85
+ * @text クエスト85
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 86
+ * @text クエスト86
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 87
+ * @text クエスト87
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 88
+ * @text クエスト88
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 89
+ * @text クエスト89
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 90
+ * @text クエスト90
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 91
+ * @text クエスト91
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 92
+ * @text クエスト92
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 93
+ * @text クエスト93
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 94
+ * @text クエスト94
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 95
+ * @text クエスト95
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 96
+ * @text クエスト96
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 97
+ * @text クエスト97
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 98
+ * @text クエスト98
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 99
+ * @text クエスト99
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ *
+ * @param Quest 100
+ * @text クエスト100
+ * @parent ---クエストリスト---
+ * @type struct<Quest>
+ * @desc このクエストエントリで使用されるデータを変更します。各設定の詳細については、ヘルプを参照してください。
+ * @default
+ */
+//============================================================================
+/* プラグインのパラメーター構造の設定
+ *============================================================================
+ */
+/* ---------------------------------------------------------------------------
+ * カテゴリウィンドウのパラメーター構造
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~CategoryWindow:ja
+ * @param ---カテゴリ---
+ * @default
+ *
+ * @param Category Order
+ * @text オーダー
+ * @parent ---カテゴリ---
+ * @type string[]
+ * @desc クエストタイプのカテゴリのオーダーリスト。
+ * Options: available, completed, failed, all, cancel
+ * @default ["available","completed","failed","all"]
+ *
+ * @param Available Text
+ * @text 進行中表示形式
+ * @parent ---カテゴリ---
+ * @desc '進行中'クエストの表示テキスト。制御文字使用可(%1:クエスト番号)
+ * @default \i[192]進行中 (%1)
+ *
+ * @param Completed Text
+ * @text 完了表示形式
+ * @parent ---カテゴリ---
+ * @desc '完了'クエストの表示テキスト。制御文字使用可(%1:クエスト番号)
+ * @default \i[191]完了 (%1)
+ *
+ * @param Failed Text
+ * @text 失敗表示形式
+ * @parent ---カテゴリ---
+ * @desc '失敗'クエストの表示テキスト。制御文字使用可(%1:クエスト番号)
+ * @default \i[194]失敗 (%1)
+ *
+ * @param All Text
+ * @text 全て表示形式
+ * @parent ---カテゴリ---
+ * @desc '全て'クエストの表示テキスト。制御文字使用可(%1:クエスト番号)
+ * @default \i[189]全て (%1)
+ *
+ * @param Cancel Text
+ * @text キャンセル表示形式
+ * @parent ---カテゴリ---
+ * @desc 'キャンセル'オプションの表示テキスト。制御文字使用可
+ * @default \i[161]キャンセル
+ *
+ * @param ---ウィンドウ---
+ * @default
+ *
+ * @param X
+ * @text X位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxWidth - width
+ * @desc ウィンドウのX位置の計算式
+ * @default 0
+ *
+ * @param Y
+ * @text Y位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxHeight - height
+ * @desc ウィンドウのY位置の計算式
+ * @default 0
+ *
+ * @param Width
+ * @text 幅
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option Graphics.boxWidth
+ * @option Graphics.boxWidth / 2
+ * @option Graphics.boxWidth / 3
+ * @option Graphics.boxWidth * 2 / 3
+ * @option Graphics.boxWidth / 4
+ * @option Graphics.boxWidth * 3 / 4
+ * @option Graphics.boxWidth / 5
+ * @option Graphics.boxWidth * 4 / 5
+ * @desc ウィンドウ幅の計算式
+ * @default Graphics.boxWidth / 3
+ *
+ * @param Height
+ * @text 高さ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option this.fittingHeight(1)
+ * @option this.fittingHeight(2)
+ * @option this.fittingHeight(3)
+ * @option this.fittingHeight(4)
+ * @option this.fittingHeight(5)
+ * @option this.fittingHeight(this.numVisibleRows())
+ * @desc ウィンドウ高の計算式
+ * @default this.fittingHeight(this.numVisibleRows())
+ *
+ * @param Rows
+ * @text 行数
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 1
+ * @option 2
+ * @option 3
+ * @option 4
+ * @desc ウィンドウ行数の式
+ * @default 4
+ *
+ * @param Columns
+ * @text 列数
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 1
+ * @option 2
+ * @option 3
+ * @option 4
+ * @desc ウィンドウの列数の式
+ * @default 1
+ *
+ * @param Line Height
+ * @text 行高
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 各エントリの行高
+ * @default 36
+ *
+ * @param Font Face
+ * @text フォント
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option GameFont
+ * @option Arial
+ * @option Courier New
+ * @option SimHei
+ * @option Heiti TC
+ * @option Dotum
+ * @option AppleGothic
+ * @desc 使用フォント
+ * @default GameFont
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 20
+ * @option 28
+ * @option Window_Base.prototype.standardFontSize.call(this);
+ * @desc フォントサイズの式
+ * @default 28
+ *
+ * @param Standard Padding
+ * @text 余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 10
+ * @option 18
+ * @option 24
+ * @desc ウィンドウ余白の式
+ * @default 18
+ *
+ * @param Text Padding
+ * @text テキスト前余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 6
+ * @option 12
+ * @desc テキスト表示する前余白の式
+ * @default 6
+ *
+ * @param Text Alignment
+ * @text テキスト配置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc ウィンドウ内のテキスト配置
+ * 左:left / 中央:center / 右:right
+ * @default left
+ *
+ * @param Standard Opacity
+ * @text 標準不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ標準の不透明度の式
+ * @default 255
+ *
+ * @param Back Opacity
+ * @text 背景不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ不透明度の式
+ * @default 192
+ *
+ * @param Window Skin
+ * @text ウィンドウスキン
+ * @parent ---ウィンドウ---
+ * @type file
+ * @dir img/system/
+ * @desc ウィンドウスキン
+ * @default Window
+ *
+ */
+/* ---------------------------------------------------------------------------
+ * リストウィンドウのパラメーター構造
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~ListWindow:ja
+ * @param ---タイプ---
+ * @default
+ *
+ * @param Show Types
+ * @text タイプ表示
+ * @parent ---タイプ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc クエストリストにタイプを表示
+ * @default true
+ *
+ * @param Type Order
+ * @text タイプリスト
+ * @parent ---タイプ---
+ * @type string[]
+ * @desc クエストタイプのリスト。好きな名前をつけてください。制御文字使用可
+ * @default ["\\c[6]メイン","\\c[4]サイド","\\c[3]人物","\\c[5]指導"]
+ *
+ * @param List Open Symbol
+ * @text 開いたリストのシンボル
+ * @parent ---タイプ---
+ * @desc タイプが開かれている時に表示されるインジケータ。開かれたタイプは内の全てのクエストを表示します。
+ * @default -
+ *
+ * @param List Closed Symbol
+ * @text 閉じたリストのシンボル
+ * @parent ---タイプ---
+ * @desc タイプが閉じている時に表示されるインジケータ。閉じられたタイプは内の全てのクエストを表示しません。
+ * @default +
+ *
+ * @param Type Text Format
+ * @text タイプ表示形式
+ * @parent ---タイプ---
+ * @desc クエストタイプの表示形式。制御文字使用可
+ * %1:リストの状態シンボル / %2:タイプ名 / %3:クエスト番号
+ * @default %1%2 (%3)
+ *
+ * @param Quest Indent
+ * @text インデント
+ * @parent ---タイプ---
+ * @number
+ * @number 0
+ * @desc クエストをインデントするピクセル数
+ * @default 0
+ *
+ * @param Show Empty
+ * @text 空の表示
+ * @parent ---タイプ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 空のクエストタイプを表示しますか？しない場合、クエストのないタイプはリストから隠されます。
+ * @default false
+ *
+ * @param Read Quest
+ * @text クエスト確認
+ * @parent ---タイプ---
+ * @desc 'ReadQuest'オプションの表示テキスト。制御文字使用可
+ * @default \\i[121]クエスト確認
+ *
+ * @param Cancel
+ * @text キャンセル
+ * @parent ---タイプ---
+ * @desc 'Cancel'オプションの表示テキスト。制御文字使用可
+ * @default \\i[16]キャンセル
+ *
+ * @param ---ウィンドウ---
+ * @default
+ *
+ * @param X
+ * @text X位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxWidth - width
+ * @desc ウィンドウのX位置の計算式
+ * @default 0
+ *
+ * @param Y
+ * @text Y位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxHeight - height
+ * @desc ウィンドウのY位置の計算式
+ * @default Graphics.boxHeight - height
+ *
+ * @param Width
+ * @text 幅
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option Graphics.boxWidth
+ * @option Graphics.boxWidth / 2
+ * @option Graphics.boxWidth / 3
+ * @option Graphics.boxWidth * 2 / 3
+ * @option Graphics.boxWidth / 4
+ * @option Graphics.boxWidth * 3 / 4
+ * @option Graphics.boxWidth / 5
+ * @option Graphics.boxWidth * 4 / 5
+ * @desc ウィンドウ幅の計算式
+ * @default Graphics.boxWidth / 3
+ *
+ * @param Height
+ * @text 高さ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option Graphics.boxHeight - this.fittingHeight(1)
+ * @option Graphics.boxHeight - this.fittingHeight(2)
+ * @option Graphics.boxHeight - this.fittingHeight(3)
+ * @option Graphics.boxHeight - this.fittingHeight(4)
+ * @option Graphics.boxHeight - this.fittingHeight(5)
+ * @desc ウィンドウ高の計算式
+ * @default Graphics.boxHeight - this.fittingHeight(4)
+ *
+ * @param Line Height
+ * @text 行高
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 各エントリの行高
+ * @default 36
+ *
+ * @param Font Face
+ * @text フォント
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option GameFont
+ * @option Arial
+ * @option Courier New
+ * @option SimHei
+ * @option Heiti TC
+ * @option Dotum
+ * @option AppleGothic
+ * @desc 使用フォント
+ * @default GameFont
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 20
+ * @option 28
+ * @option Window_Base.prototype.standardFontSize.call(this);
+ * @desc フォントサイズの式
+ * @default 28
+ *
+ * @param Standard Padding
+ * @text 余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 10
+ * @option 18
+ * @option 24
+ * @desc ウィンドウ余白の式
+ * @default 18
+ *
+ * @param Text Padding
+ * @text テキスト前余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 6
+ * @option 12
+ * @desc テキスト表示する前余白の式
+ * @default 6
+ *
+ * @param Standard Opacity
+ * @text 不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ標準の不透明度の式
+ * @default 255
+ *
+ * @param Back Opacity
+ * @text 背景不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ不透明度の式
+ * @default 192
+ *
+ * @param Type Alignment
+ * @text タイプのテキスト配置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc クエストタイプのテキスト配置
+ * 左:left / 中央:center / 右:right
+ * @default left
+ *
+ * @param Quest Alignment
+ * @text クエストのテキスト配置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc クエスト自体のテキスト配置
+ * 左:left / 中央:center / 右:right
+ * @default left
+ *
+ * @param Window Skin
+ * @text ウィンドウスキン
+ * @parent ---ウィンドウ---
+ * @type file
+ * @dir img/system/
+ * @desc ウィンドウスキン
+ * @default Window
+ *
+ */
+/* ---------------------------------------------------------------------------
+ * タイトルウィンドウのパラメーター構造
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~TitleWindow:ja
+ * @param ---ウィンドウ---
+ * @default
+ *
+ * @param No Quest Title
+ * @text クエストタイトルなし
+ * @parent ---ウィンドウ---
+ * @desc クエストが選択されていない表示
+ * 制御文字使用可
+ * @default \\c[4]クエストジャーナル
+ *
+ * @param X
+ * @text X位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxWidth - width
+ * @desc ウィンドウのX位置の計算式
+ * @default Graphics.boxWidth - width
+ *
+ * @param Y
+ * @text Y位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxHeight - height
+ * @desc ウィンドウのY位置の計算式
+ * @default 0
+ *
+ * @param Width
+ * @text 幅
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option Graphics.boxWidth
+ * @option Graphics.boxWidth / 2
+ * @option Graphics.boxWidth / 3
+ * @option Graphics.boxWidth * 2 / 3
+ * @option Graphics.boxWidth / 4
+ * @option Graphics.boxWidth * 3 / 4
+ * @option Graphics.boxWidth / 5
+ * @option Graphics.boxWidth * 4 / 5
+ * @desc ウィンドウ幅の計算式
+ * @default Graphics.boxWidth * 2 / 3
+ *
+ * @param Height
+ * @text 高さ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option this.fittingHeight(1)
+ * @option this.fittingHeight(2)
+ * @option this.fittingHeight(3)
+ * @option this.fittingHeight(4)
+ * @option this.fittingHeight(5)
+ * @desc ウィンドウ高の計算式
+ * @default this.fittingHeight(1)
+ *
+ * @param Line Height
+ * @text 行高
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 各エントリの行高
+ * @default 36
+ *
+ * @param Font Face
+ * @text フォント
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option GameFont
+ * @option Arial
+ * @option Courier New
+ * @option SimHei
+ * @option Heiti TC
+ * @option Dotum
+ * @option AppleGothic
+ * @desc 使用フォント
+ * @default GameFont
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 20
+ * @option 28
+ * @option Window_Base.prototype.standardFontSize.call(this);
+ * @desc フォントサイズの式
+ * @default 28
+ *
+ * @param Standard Padding
+ * @text 余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 10
+ * @option 18
+ * @option 24
+ * @desc ウィンドウ余白の式
+ * @default 18
+ *
+ * @param Text Padding
+ * @text テキスト前余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 6
+ * @option 12
+ * @desc テキスト表示する前余白の式
+ * @default 6
+ *
+ * @param Text Alignment
+ * @text テキスト配置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc ウィンドウのテキスト配置
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Standard Opacity
+ * @text 不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ標準の不透明度の式
+ * @default 255
+ *
+ * @param Back Opacity
+ * @text 背景不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ不透明度の式
+ * @default 192
+ *
+ * @param Window Skin
+ * @text ウィンドウスキン
+ * @parent ---ウィンドウ---
+ * @type file
+ * @dir img/system/
+ * @desc ウィンドウスキン
+ * @default Window
+ *
+ */
+/* ---------------------------------------------------------------------------
+ * データウィンドウのパラメーター構造
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~DataWindow:ja
+ * @param ---データ---
+ * @default
+ *
+ * @param No Data Text
+ * @text 無データ時テキスト
+ * @parent ---データ---
+ * @type note
+ * @desc 進行中クエストがない場合の表示テキスト
+ * @default "\\c[4]クエストジャーナル\\c[0]へようこそ。\n\nここでは、世界中の人々から与えられた\n様々なクエストを確認できます。"
+ *
+ * @param Quest Data Format
+ * @text クエスト表示形式
+ * @parent ---データ---
+ * @type note
+ * @desc %1:タイトル / %2:難易度 / %3:依頼者 / %4:場所 / %5:説明 / %6:目的 / %7:報酬 / %8:サブテキスト
+ * @default "\\{%1\\}\n\\c[4]難易度:\\c[0] %2\n\\c[4]依頼者:\\c[0] %3\n\\c[4]場所:\\c[0] %4\n\n\\c[4]説明:\\c[0]\n%5\n\n\\c[4]目的:\\c[0]\n%6\n\n\\c[4]報酬:\\c[0]\n%7\n\n%8"
+ *
+ * @param Uncleared Objective
+ * @text 未確認クエスト
+ * @parent ---データ---
+ * @desc 未確認クエストの表示形式
+ * %1 - クエスト目的
+ * @default \i[160]%1
+ *
+ * @param Completed Objective
+ * @text 完了クエスト
+ * @parent ---データ---
+ * @desc 完了クエストの表示形式
+ * %1 - クエスト目的
+ * @default \i[165]%1
+ *
+ * @param Failed Objective
+ * @text 失敗クエスト
+ * @parent ---データ---
+ * @desc 失敗クエストの表示形式
+ * %1 - クエスト目的
+ * @default \i[162]%1
+ *
+ * @param Unclaimed Reward
+ * @text 未請求クエスト
+ * @parent ---データ---
+ * @desc 未請求クエストの報酬の表示形式
+ * %1 - 報酬
+ * @default \i[160]%1
+ *
+ * @param Claimed Reward
+ * @text クエスト報酬
+ * @parent ---データ---
+ * @desc 要求されたクエスト報酬の表示形式
+ * %1 - 報酬
+ * @default \i[163]%1
+ *
+ * @param Denied Reward
+ * @text 拒否クエスト報酬
+ * @parent ---データ---
+ * @desc 拒否されたクエスト報酬の表示形式
+ * %1 - 報酬
+ * @default \i[161]%1
+ *
+ * @param Load Delay
+ * @text 読込待ち時間
+ * @parent ---データ---
+ * @type number
+ * @desc フレーム単位のデータの読み込み待ち時間。エンジンの過負荷を防ぐためです。
+ * @default 30
+ *
+ * @param ---ウィンドウ---
+ * @default
+ *
+ * @param X
+ * @text X位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxWidth - width
+ * @desc ウィンドウのX位置の計算式
+ * @default Graphics.boxWidth - width
+ *
+ * @param Y
+ * @text Y位置
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option Graphics.boxHeight - height
+ * @desc ウィンドウのY位置の計算式
+ * @default Graphics.boxHeight - height
+ *
+ * @param Width
+ * @text 幅
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option Graphics.boxWidth
+ * @option Graphics.boxWidth / 2
+ * @option Graphics.boxWidth / 3
+ * @option Graphics.boxWidth * 2 / 3
+ * @option Graphics.boxWidth / 4
+ * @option Graphics.boxWidth * 3 / 4
+ * @option Graphics.boxWidth / 5
+ * @option Graphics.boxWidth * 4 / 5
+ * @desc ウィンドウ幅の計算式
+ * @default Graphics.boxWidth * 2 / 3
+ *
+ * @param Height
+ * @text 高さ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option Graphics.boxHeight - this.fittingHeight(1)
+ * @option Graphics.boxHeight - this.fittingHeight(2)
+ * @option Graphics.boxHeight - this.fittingHeight(3)
+ * @option Graphics.boxHeight - this.fittingHeight(4)
+ * @option Graphics.boxHeight - this.fittingHeight(5)
+ * @desc ウィンドウ高の計算式
+ * @default Graphics.boxHeight - this.fittingHeight(1)
+ *
+ * @param Line Height
+ * @text 行数
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 各エントリの行高
+ * @default 36
+ *
+ * @param Font Face
+ * @text フォント
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option GameFont
+ * @option Arial
+ * @option Courier New
+ * @option SimHei
+ * @option Heiti TC
+ * @option Dotum
+ * @option AppleGothic
+ * @desc 使用フォント
+ * @default GameFont
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 20
+ * @option 28
+ * @option Window_Base.prototype.standardFontSize.call(this);
+ * @desc フォントサイズの式
+ * @default 28
+ *
+ * @param Standard Padding
+ * @text 余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 10
+ * @option 18
+ * @option 24
+ * @desc ウィンドウ余白の式
+ * @default 18
+ *
+ * @param Text Padding
+ * @text テキスト前余白
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 6
+ * @option 12
+ * @desc テキスト表示する前パディングの式
+ * @default 6
+ *
+ * @param Standard Opacity
+ * @text 標準不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ標準の不透明度の式
+ * @default 255
+ *
+ * @param Back Opacity
+ * @text 背景不透明度
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option 0
+ * @option 128
+ * @option 192
+ * @option 255
+ * @desc ウィンドウ不透明度の式
+ * @default 192
+ *
+ * @param Window Skin
+ * @text ウィンドウスキン
+ * @parent ---ウィンドウ---
+ * @type file
+ * @dir img/system/
+ * @desc ウィンドウスキン
+ * @default Window
+ *
+ * @param Scroll Speed
+ * @text スクロール速度
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc ウィンドウの上下スクロール速度
+ * @default 4
+ *
+ */
+/* ---------------------------------------------------------------------------
+ * ルナティックモードのパラメーター構造
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~LunaticMode:ja
+ * @param ---クエストメニュー---
+ * @default
+ *
+ * @param Before Create Windows
+ * @text ウィンドウ作成前
+ * @parent ---クエストメニュー---
+ * @type note
+ * @desc このコードは、シーン用のクエストメニューが作成される前に実行されます。
+ * @default "// Variables\n//   background - background image used for the menu\n//   windowLayer - sprite layer that contains all windows\n//\n// background.bitmap = ImageManager.loadTitle1(\"Book\");\n// this.fitScreen(background);"
+ *
+ * @param After Create Windows
+ * @text ウィンドウ作成後
+ * @parent ---クエストメニュー---
+ * @type note
+ * @desc このコードは、すべてのクエストメニューがシーン用に作成された後に実行されます。
+ * @default "// Variables\n//   background - background image used for the menu\n//   windowLayer - sprite layer that contains all windows"
+ *
+ * @param Close Quest Menu
+ * @text メニューを閉じる時
+ * @parent ---クエストメニュー---
+ * @type note
+ * @desc このコードは、クエストメニューが閉じられた時に実行されます。
+ * @default "// Variables\n//   background - background image used for the menu\n//   windowLayer - sprite layer that contains all windows"
+ *
+ * @param ---クエスト状況---
+ * @default
+ *
+ * @param Quest Add
+ * @text 追加
+ * @parent ---クエスト状況---
+ * @type note
+ * @desc このコードは、クエストがクエストジャーナルに追加されたときに実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest being added\n//\n// console.log('Quest ' + questId + ' successfully added!')"
+ *
+ * @param Quest Remove
+ * @text 削除
+ * @parent ---クエスト状況---
+ * @type note
+ * @desc このコードは、クエストがクエストジャーナルから削除されたときに実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest being removed\n//\n// console.log('Quest ' + questId + ' successfully removed!')"
+ *
+ * @param Quest Complete
+ * @text 完了
+ * @parent ---クエスト状況---
+ * @type note
+ * @desc このコードは、クエストのステータスが完了に変わる度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest set to completed\n//\n// console.log('Quest ' + questId + ' status changed to Completed!')"
+ *
+ * @param Quest Fail
+ * @text 失敗
+ * @parent ---クエスト状況---
+ * @type note
+ * @desc このコードは、クエストのステータスが失敗に変わる度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest set to failed\n//\n// console.log('Quest ' + questId + ' status changed to Failed!')"
+ *
+ * @param Quest Available
+ * @text 進行中
+ * @parent ---クエスト状況---
+ * @type note
+ * @desc このコードは、クエストのステータスが進行中に変わる度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest set to available\n//\n// console.log('Quest ' + questId + ' status changed to Available!')"
+ *
+ * @param ---説明文---
+ * @default
+ *
+ * @param Change Description
+ * @text 変更
+ * @parent ---説明文---
+ * @type note
+ * @desc このコードは、クエストの説明が特定のインデックスに変更される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose description is changed\n//   index - Description index being changed to\n//\n// console.log('Quest ' + questId + ' description index changed to ' + index)"
+ *
+ * @param ---目的---
+ * @default
+ *
+ * @param Show Objective
+ * @text 表示
+ * @parent ---目的---
+ * @type note
+ * @desc このコードは、クエストの目的が示される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose objectives are altered\n//   objectiveId - ID of the objective being shown\n//\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to shown!')"
+ *
+ * @param Hide Objective
+ * @text 非表示
+ * @parent ---目的---
+ * @type note
+ * @desc このコードは、クエストの目的が隠される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose objectives are altered\n//   objectiveId - ID of the objective being hidden\n//\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to hidden!')"
+ *
+ * @param Complete Objective
+ * @text 達成
+ * @parent ---目的---
+ * @type note
+ * @desc このコードは、クエストの目的が達成される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose objectives are altered\n//   objectiveId - ID of the objective being completed\n//\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to completed!')"
+ *
+ * @param Fail Objective
+ * @text 失敗
+ * @parent ---目的---
+ * @type note
+ * @desc このコードは、クエストの目的が失敗する度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose objectives are altered\n//   objectiveId - ID of the objective having failed\n//\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to failed!')"
+ *
+ * @param Normalize Objective
+ * @text 正規化
+ * @parent ---目的---
+ * @type note
+ * @desc このコードは、クエストの目的が正規化される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose objectives are altered\n//   objectiveId - ID of the objective normalized\n//\n// console.log('Quest ' + questId + ' objective ' + objectiveId + ' changed to normal!')"
+ *
+ * @param ---報酬---
+ * @default
+ *
+ * @param Show Reward
+ * @text 表示
+ * @parent ---報酬---
+ * @type note
+ * @desc このコードは、クエストの報酬が表示される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose rewards are altered\n//   rewardId - ID of the reward being shown\n//\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' becomes shown!')"
+ *
+ * @param Hide Reward
+ * @text 非表示
+ * @parent ---報酬---
+ * @type note
+ * @desc このコードは、クエストの報酬が隠される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose rewards are altered\n//   rewardId - ID of the reward being hidden\n//\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' becomes hidden!')"
+ *
+ * @param Claim Reward
+ * @text 請求
+ * @parent ---報酬---
+ * @type note
+ * @desc このコードは、クエストの報酬が請求される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose rewards are altered\n//   rewardId - ID of the reward becoming claimed\n//\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' is now claimed!')"
+ *
+ * @param Deny Reward
+ * @text 拒否
+ * @parent ---報酬---
+ * @type note
+ * @desc このコードは、クエストの報酬が拒否される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose rewards are altered\n//   rewardId - ID of the reward becoming denied\n//\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' is now denied!')"
+ *
+ * @param Normalize Reward
+ * @text 正規化
+ * @parent ---報酬---
+ * @type note
+ * @desc このコードは、クエストの報酬が正規化される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose rewards are altered\n//   rewardId - ID of the reward normalized\n//\n// console.log('Quest ' + questId + ' reward ' + rewardId + ' is normalized!')"
+ *
+ * @param ---サブテキスト---
+ * @default
+ *
+ * @param Change Subtext
+ * @text サブテキスト変更
+ * @parent ---サブテキスト---
+ * @type note
+ * @desc このコードは、クエストのサブテキストが特定のインデックスに変更される度に実行されます。
+ * @default "// Variables:\n//   questId - ID of the quest whose subtext is changed\n//   index - Subtext index being changed to\n//\n// console.log('Quest ' + questId + ' subtext index changed to ' + index)"
+ *
+ */
+/* ---------------------------------------------------------------------------
+ * クエストのパラメーター構造
+ * ---------------------------------------------------------------------------
+ */
+/*~struct~Quest:ja
+ *
+ * @param Title
+ * @text タイトル
+ * @desc クエストのタイトル
+ * 制御文字使用可
+ * @default \i[87]無題のクエスト
+ *
+ * @param Type
+ * @text タイプ
+ * @parent Title
+ * @type combo
+ * @option メイン
+ * @option サイド
+ * @option 人物
+ * @option 指導
+ * @desc クエストのタイプ
+ * @default メイン
+ *
+ * @param Difficulty
+ * @text 難易度
+ * @parent Title
+ * @desc このクエストの難易度
+ * 制御文字使用可
+ * @default \i[87]\i[87]\i[87]
+ *
+ * @param From
+ * @text 依頼者
+ * @parent Title
+ * @desc このクエストを発行したNPCの名前
+ * 制御文字使用可
+ * @default NPCの名前
+ *
+ * @param Location
+ * @text 場所
+ * @parent Title
+ * @desc このクエストを発行したNPCの場所
+ * 制御文字使用可
+ * @default NPCの場所
+ *
+ * @param Description
+ * @text 説明
+ * @parent Title
+ * @type note[]
+ * @desc このクエストの説明
+ * 制御文字使用可
+ * @default ["\"\\\\c[4]デフォルト\\\\c[0]クエスト説明\"","\"\\\\c[4]デフォルト\\\\c[0]クエスト説明です。\\n\\nクエストの進行中に途中でクエストの説明を更新したい場合、\\複数の説明エントリを挿入できます。\""]
+ *
+ * @param Objectives List
+ * @text 目的リスト
+ * @type note[]
+ * @desc このクエストのために達成されるべき目的
+ * 制御文字使用可
+ * @default ["\"\\\\c[4]最初に\\\\c[0]クリアする目的\"","\"\\\\c[4]第2の\\\\c[0]隠された目的\"","\"他の目的を表示するには、\\nプラグインパラメータ\\n\\\\c[4]'Visible Objectives'\\\\c[0]を使用するか、\\nプラグインコマンドを使用します。\""]
+ *
+ * @param Visible Objectives
+ * @text 提示目的
+ * @parent Objectives List
+ * @type number[]
+ * @min 1
+ * @desc 最初の提示目的
+ * @default ["1"]
+ *
+ * @param Rewards List
+ * @text 報酬リスト
+ * @type note[]
+ * @desc このクエストの報酬リスト
+ * 制御文字使用可
+ * @default ["\"\\\\i[176]ポーション x5\"","\"\\\\i[178]エーテル x3\"","\"他の報酬を表示するには、\\nプラグインパラメータ\\n\\\\c[4]'提示報酬'\\\\c[0]を使用するか、\\nプラグインコマンドを使用します。\""]
+ *
+ * @param Visible Rewards
+ * @text 提示報酬
+ * @parent Rewards List
+ * @type number[]
+ * @min 1
+ * @desc 最初の提示報酬
+ * @default ["1"]
+ *
+ * @param Subtext
+ * @text サブテキスト
+ * @type note[]
+ * @desc クエストと共に表示されるサブテキスト
+ * @default ["\"\"","\"サブテキストです。\\nクエストジャーナルに表示する説明文とは\\n別の付属文として表示されます。\""]
+ */

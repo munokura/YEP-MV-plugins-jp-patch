@@ -1,0 +1,1876 @@
+/*:ja
+ * @plugindesc v1.03 プレイヤーが特定のリージョンIDを踏んだ時、指定のコモンイベントを発動させます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param--リージョン1から20-
+ * @default
+ *
+ * @param Region 1
+ * @text リージョン1
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 2
+ * @text リージョン2
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 3
+ * @text リージョン3
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 4
+ * @text リージョン4
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 5
+ * @text リージョン5
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 6
+ * @text リージョン6
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 7
+ * @text リージョン7
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 8
+ * @text リージョン8
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 9
+ * @text リージョン9
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 10
+ * @text リージョン10
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 11
+ * @text リージョン11
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 12
+ * @text リージョン12
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 13
+ * @text リージョン13
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 14
+ * @text リージョン14
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 15
+ * @text リージョン15
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 16
+ * @text リージョン16
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 17
+ * @text リージョン17
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 18
+ * @text リージョン18
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 19
+ * @text リージョン19
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 20
+ * @text リージョン20
+ * @parent--リージョン1から20-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン21から40-
+ * @default
+ *
+ * @param Region 21
+ * @text リージョン21
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 22
+ * @text リージョン22
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 23
+ * @text リージョン23
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 24
+ * @text リージョン24
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 25
+ * @text リージョン25
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 26
+ * @text リージョン26
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 27
+ * @text リージョン27
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 28
+ * @text リージョン28
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 29
+ * @text リージョン29
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 30
+ * @text リージョン30
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 31
+ * @text リージョン31
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 32
+ * @text リージョン32
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 33
+ * @text リージョン33
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 34
+ * @text リージョン34
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 35
+ * @text リージョン35
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 36
+ * @text リージョン36
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 37
+ * @text リージョン37
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 38
+ * @text リージョン38
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 39
+ * @text リージョン39
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 40
+ * @text リージョン40
+ * @parent--リージョン21から40-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン41から60-
+ * @default
+ *
+ * @param Region 41
+ * @text リージョン41
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 42
+ * @text リージョン42
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 43
+ * @text リージョン43
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 44
+ * @text リージョン44
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 45
+ * @text リージョン45
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 46
+ * @text リージョン46
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 47
+ * @text リージョン47
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 48
+ * @text リージョン48
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 49
+ * @text リージョン49
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 50
+ * @text リージョン50
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 51
+ * @text リージョン51
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 52
+ * @text リージョン52
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 53
+ * @text リージョン53
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 54
+ * @text リージョン54
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 55
+ * @text リージョン55
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 56
+ * @text リージョン56
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 57
+ * @text リージョン57
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 58
+ * @text リージョン58
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 59
+ * @text リージョン59
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 60
+ * @text リージョン60
+ * @parent--リージョン41から60-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン61から80-
+ * @default
+ *
+ * @param Region 61
+ * @text リージョン61
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 62
+ * @text リージョン62
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 63
+ * @text リージョン63
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 64
+ * @text リージョン64
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 65
+ * @text リージョン65
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 66
+ * @text リージョン66
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 67
+ * @text リージョン67
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 68
+ * @text リージョン68
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 69
+ * @text リージョン69
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 70
+ * @text リージョン70
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 71
+ * @text リージョン71
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 72
+ * @text リージョン72
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 73
+ * @text リージョン73
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 74
+ * @text リージョン74
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 75
+ * @text リージョン75
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 76
+ * @text リージョン76
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 77
+ * @text リージョン77
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 78
+ * @text リージョン78
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 79
+ * @text リージョン79
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 80
+ * @text リージョン80
+ * @parent--リージョン61から80-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン81から100-
+ * @default
+ *
+ * @param Region 81
+ * @text リージョン81
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 82
+ * @text リージョン82
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 83
+ * @text リージョン83
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 84
+ * @text リージョン84
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 85
+ * @text リージョン85
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 86
+ * @text リージョン86
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 87
+ * @text リージョン87
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 88
+ * @text リージョン88
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 89
+ * @text リージョン89
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 90
+ * @text リージョン90
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 91
+ * @text リージョン91
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 92
+ * @text リージョン92
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 93
+ * @text リージョン93
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 94
+ * @text リージョン94
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 95
+ * @text リージョン95
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 96
+ * @text リージョン96
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 97
+ * @text リージョン97
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 98
+ * @text リージョン98
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 99
+ * @text リージョン99
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 100
+ * @text リージョン100
+ * @parent--リージョン81から100-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン101から120-
+ * @default
+ *
+ * @param Region 101
+ * @text リージョン101
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 102
+ * @text リージョン102
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 103
+ * @text リージョン103
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 104
+ * @text リージョン104
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 105
+ * @text リージョン105
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 106
+ * @text リージョン106
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 107
+ * @text リージョン107
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 108
+ * @text リージョン108
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 109
+ * @text リージョン109
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 110
+ * @text リージョン110
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 111
+ * @text リージョン111
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 112
+ * @text リージョン112
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 113
+ * @text リージョン113
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 114
+ * @text リージョン114
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 115
+ * @text リージョン115
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 116
+ * @text リージョン116
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 117
+ * @text リージョン117
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 118
+ * @text リージョン118
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 119
+ * @text リージョン119
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 120
+ * @text リージョン120
+ * @parent--リージョン101から120-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン121から140-
+ * @default
+ *
+ * @param Region 121
+ * @text リージョン121
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 122
+ * @text リージョン122
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 123
+ * @text リージョン123
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 124
+ * @text リージョン124
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 125
+ * @text リージョン125
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 126
+ * @text リージョン126
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 127
+ * @text リージョン127
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 128
+ * @text リージョン128
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 129
+ * @text リージョン129
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 130
+ * @text リージョン130
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 131
+ * @text リージョン131
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 132
+ * @text リージョン132
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 133
+ * @text リージョン133
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 134
+ * @text リージョン134
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 135
+ * @text リージョン135
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 136
+ * @text リージョン136
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 137
+ * @text リージョン137
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 138
+ * @text リージョン138
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 139
+ * @text リージョン139
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 140
+ * @text リージョン140
+ * @parent--リージョン121から140-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン141から160-
+ * @default
+ *
+ * @param Region 141
+ * @text リージョン141
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 142
+ * @text リージョン142
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 143
+ * @text リージョン143
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 144
+ * @text リージョン144
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 145
+ * @text リージョン145
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 146
+ * @text リージョン146
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 147
+ * @text リージョン147
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 148
+ * @text リージョン148
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 149
+ * @text リージョン149
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 150
+ * @text リージョン150
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 151
+ * @text リージョン151
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 152
+ * @text リージョン152
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 153
+ * @text リージョン153
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 154
+ * @text リージョン154
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 155
+ * @text リージョン155
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 156
+ * @text リージョン156
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 157
+ * @text リージョン157
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 158
+ * @text リージョン158
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 159
+ * @text リージョン159
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 160
+ * @text リージョン160
+ * @parent--リージョン141から160-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン161から180-
+ * @default
+ *
+ * @param Region 161
+ * @text リージョン161
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 162
+ * @text リージョン162
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 163
+ * @text リージョン163
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 164
+ * @text リージョン164
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 165
+ * @text リージョン165
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 166
+ * @text リージョン166
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 167
+ * @text リージョン167
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 168
+ * @text リージョン168
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 169
+ * @text リージョン169
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 170
+ * @text リージョン170
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 171
+ * @text リージョン171
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 172
+ * @text リージョン172
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 173
+ * @text リージョン173
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 174
+ * @text リージョン174
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 175
+ * @text リージョン175
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 176
+ * @text リージョン176
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 177
+ * @text リージョン177
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 178
+ * @text リージョン178
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 179
+ * @text リージョン179
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 180
+ * @text リージョン180
+ * @parent--リージョン161から180-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン181から200-
+ * @default
+ *
+ * @param Region 181
+ * @text リージョン181
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 182
+ * @text リージョン182
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 183
+ * @text リージョン183
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 184
+ * @text リージョン184
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 185
+ * @text リージョン185
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 186
+ * @text リージョン186
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 187
+ * @text リージョン187
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 188
+ * @text リージョン188
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 189
+ * @text リージョン189
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 190
+ * @text リージョン190
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 191
+ * @text リージョン191
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 192
+ * @text リージョン192
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 193
+ * @text リージョン193
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 194
+ * @text リージョン194
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 195
+ * @text リージョン195
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 196
+ * @text リージョン196
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 197
+ * @text リージョン197
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 198
+ * @text リージョン198
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 199
+ * @text リージョン199
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 200
+ * @text リージョン200
+ * @parent--リージョン181から200-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン201から220-
+ * @default
+ *
+ * @param Region 201
+ * @text リージョン201
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 202
+ * @text リージョン202
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 203
+ * @text リージョン203
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 204
+ * @text リージョン204
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 205
+ * @text リージョン205
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 206
+ * @text リージョン206
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 207
+ * @text リージョン207
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 208
+ * @text リージョン208
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 209
+ * @text リージョン209
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 210
+ * @text リージョン210
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 211
+ * @text リージョン211
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 212
+ * @text リージョン212
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 213
+ * @text リージョン213
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 214
+ * @text リージョン214
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 215
+ * @text リージョン215
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 216
+ * @text リージョン216
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 217
+ * @text リージョン217
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 218
+ * @text リージョン218
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 219
+ * @text リージョン219
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 220
+ * @text リージョン220
+ * @parent--リージョン201から220-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン221から240-
+ * @default
+ *
+ * @param Region 221
+ * @text リージョン221
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 222
+ * @text リージョン222
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 223
+ * @text リージョン223
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 224
+ * @text リージョン224
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 225
+ * @text リージョン225
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 226
+ * @text リージョン226
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 227
+ * @text リージョン227
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 228
+ * @text リージョン228
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 229
+ * @text リージョン229
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 230
+ * @text リージョン230
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 231
+ * @text リージョン231
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 232
+ * @text リージョン232
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 233
+ * @text リージョン233
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 234
+ * @text リージョン234
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 235
+ * @text リージョン235
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 236
+ * @text リージョン236
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 237
+ * @text リージョン237
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 238
+ * @text リージョン238
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 239
+ * @text リージョン239
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 240
+ * @text リージョン240
+ * @parent--リージョン221から240-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param--リージョン241から255-
+ * @default
+ *
+ * @param Region 241
+ * @text リージョン241
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 242
+ * @text リージョン242
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 243
+ * @text リージョン243
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 244
+ * @text リージョン244
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 245
+ * @text リージョン245
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 246
+ * @text リージョン246
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 247
+ * @text リージョン247
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 248
+ * @text リージョン248
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 249
+ * @text リージョン249
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 250
+ * @text リージョン250
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 251
+ * @text リージョン251
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 252
+ * @text リージョン252
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 253
+ * @text リージョン253
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 254
+ * @text リージョン254
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @param Region 255
+ * @text リージョン255
+ * @parent--リージョン241から255-
+ * @type common_event
+ * @desc このリージョンを踏んだ時の発動コモンイベントを指定。不要な場合は0
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入と説明
+ * ===========================================================================
+ *
+ * マップには、255のリージョンがあります。
+ * パラメータ内のリージョン番号に、イベントのIDを紐づけることで、
+ * プレイヤーがリージョンを踏む度に、コモンイベントを実行します。
+ * 特定のリージョンIDをもったタイルをトリガーにして、
+ * タッチイベントを実行することができます。
+ *
+ * タッチインプット中にコモンイベントが起こった場合、
+ * ゲームエンジンによりタッチ入力は無効化されることに気を付けてください。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * マップ内でこのメモタグを使用することができます。
+ *
+ * マップのメモタグ:
+ *   <Region x Event: y>
+ *   プレイヤーがリージョンx を踏んだ時 y というコモンイベントを実行します。
+ *   これはパラメータの設定を上書きします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.03:
+ * - Corrected an issue that would cause a region eventからrepeatedly trigger
+ * if the mouse button is held down on the player.
+ *
+ * Version 1.02:
+ * - Fixed a bug that prevented region events from trigger if the mouse button
+ * is held down longer than usual.
+ *
+ * Version 1.01a:
+ * - Fixed a bug with region event notetags that stopped working if it was
+ * used to teleport onto the same map.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

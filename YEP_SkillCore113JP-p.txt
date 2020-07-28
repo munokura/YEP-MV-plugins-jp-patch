@@ -1,0 +1,459 @@
+/*:ja
+ * @plugindesc v1.13 スキルのコスト等の詳細設定ができるようになります。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Cost Padding
+ * @text コスト間余白
+ * @parent ---一般---
+ * @type number
+ * @desc 1つのスキルが複数コストの場合、コスト間の余白ピクセル数
+ * @default 4
+ *
+ * @param Command Alignment
+ * @text 文字揃え
+ * @parent ---一般---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc スキルタイプウィンドウでの文字揃え
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Window Columns
+ * @text ウィンドウ列数
+ * @parent ---一般---
+ * @type number
+ * @min 1
+ * @desc スキルウィンドウの列数
+ * デフォルト:2
+ * @default 2
+ *
+ * @param ---HP消費---
+ * @default
+ *
+ * @param HP Format
+ * @text コスト表示形式
+ * @parent ---HP消費---
+ * @desc スキル一覧ウィンドウでのHPコストの表示形式
+ * コスト:%1 / HP:%2
+ * @default %1%2
+ *
+ * @param HP Font Size
+ * @text フォントサイズ
+ * @parent ---HP消費---
+ * @type number
+ * @min 1
+ * @desc HPコストのフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param HP Text Color
+ * @text テキスト色
+ * @parent ---HP消費---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc HPコストのテキスト色
+ * デフォルト:21
+ * @default 18
+ *
+ * @param HP Icon
+ * @text コストアイコン
+ * @parent ---HP消費---
+ * @type number
+ * @min 0
+ * @desc HPコストを表すアイコン
+ * アイコン非表示は0を入力
+ * @default 162
+ *
+ * @param ---MP消費---
+ * @default
+ *
+ * @param MP Format
+ * @text コスト表示形式
+ * @parent ---MP消費---
+ * @desc スキル一覧ウィンドウでのMPコストの表示形式
+ * コスト:%1 / MP:%2
+ * @default %1%2
+ *
+ * @param MP Font Size
+ * @text フォントサイズ
+ * @parent ---MP消費---
+ * @type number
+ * @min 1
+ * @desc MPコストのフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param MP Text Color
+ * @text テキスト色
+ * @parent ---MP消費---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc MPコストのテキスト色
+ * デフォルト:23
+ * @default 23
+ *
+ * @param MP Icon
+ * @text コストアイコン
+ * @parent ---MP消費---
+ * @type number
+ * @min 0
+ * @desc MPコストを表すアイコン
+ * アイコン非表示は0を入力
+ * @default 165
+ *
+ * @param ---TP消費---
+ * @default
+ *
+ * @param TP Format
+ * @text コスト表示形式
+ * @parent ---TP消費---
+ * @desc スキル一覧ウィンドウでのTPコストの表示形式
+ * コスト:%1 / TP:%2
+ * @default %1%2
+ *
+ * @param TP Font Size
+ * @text フォントサイズ
+ * @parent ---TP消費---
+ * @type number
+ * @min 1
+ * @desc TPコストのフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param TP Text Color
+ * @text テキスト色
+ * @parent ---TP消費---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc TPコストのテキスト色
+ * デフォルト:29
+ * @default 29
+ *
+ * @param TP Icon
+ * @text コストアイコン
+ * @parent ---TP消費---
+ * @type number
+ * @min 0
+ * @desc TPコストを表すアイコン
+ * アイコン非表示は0を入力
+ * @default 164
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGにおいてスキルは、コスト・ダメージ・エフェクトの3つで構成されています。
+ * 全てが必須というわけではありませんが、
+ * これらの要素はスキルを構成する上で、大きな役割を占めています。
+ * このプラグインでは上記3つのうち、コストとエフェクトの調整を行います。
+ *
+ * またこのプラグインでは、HP、MP、TPゲージの表示を入れ替えて、
+ * バトラーそれぞれの特徴により適した表示を行うことができます。
+ * (MPやTPゲージを元々持たないクラスが居るため)
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 下記のメモタグはスキルコスト・特殊スキルエフェクトの両方に設定できます。
+ *
+ * スキルのメモタグ:
+ *   <HP Cost: x>
+ *   スキル使用時に x だけHPを消費させます。
+ *
+ *   <HP Cost: x%>
+ *   スキル使用時に、キャラクターの最大HPに対して x % を消費させます。
+ *
+ *   <MP Cost: x>
+ *   スキル使用時に x だけMPを消費させます。
+ *   この際、データベースの制限値である9999を無視することができます。
+ *
+ *   <MP Cost: x%>
+ *   スキル使用時に、キャラクターの最大MPに対して x % を消費させます。
+ *
+ *   <TP Cost: x>
+ *   スキル使用時に x だけTPを消費させます。
+ *   この際、データベースの制限値である99を無視することができます。
+ *
+ *   <TP Cost: x%>
+ *   スキル使用時に、キャラクターの最大TPに対して x % を消費させます。
+ *   デフォルトの最大TPは100ですが、この最大値を変更させる
+ *   プラグインに対してもこのタグは有効です。
+ *
+ *   <Hide in Battle>
+ *   スキルを無効にし、バトル時に隠すようにします。
+ *
+ *   <Hide in Field>
+ *   スキルを無効にし、バトルをしていない時に隠すようにします。
+ *
+ *   <Hide if Learned Skill: x>
+ *   <Hide if Learned Skill: x, x, x>
+ *   <Hide if Learned Skill: x to y>
+ *   スキル x を覚えたらそのスキルを隠し、無効にします。
+ *   複数のスキルが書かれた場合、書かれたスキルのうち1つでも覚えたら、
+ *   スキルを隠し無効にします。
+ *   これは習得されたスキルにのみ適用され、
+ *   特性を通して追加されたスキルには適用されません。
+ *
+ * ===========================================================================
+ * ゲージ交換
+ * ===========================================================================
+ *
+ * 全てのプラグインがHP/MP/TPを同様の法則で扱っており、かつ
+ * デフォルトのゲージ描画処理を上書きしないという前提であれば、
+ * HP/MP/TPゲージを好きな順番に入れ替えることができます。
+ * 拡張プラグインを使っている場合でも、同様に入れ替えを行うことができます。
+ *
+ * 注:データベースのシステムタブで「バトル画面で TP を表示」を
+ * 有効にしていない場合、3つ目のスロットには何も表示されません。
+ *
+ * 職業のメモタグ:
+ *   <Swap Gauge x: y>
+ *   ゲージ x (1,2,3)を y に変更します。 y の部分を'HP' 'MP' 'TP'
+ *   に変更することで、ゲージスロットにゲージの種類を表示できます。
+ *   スロットに何も表示させたくない場合は、y の部分に
+ *   'Nothing' か 'Null' と入力してください。
+ *
+ * 武器、防具、ステートのメモタグ:
+ *   <Swap Gauge x: y>
+ *   これらのタグを含む装備やステートを持っているアクターや敵については、
+ *   デフォルトセッティングや、クラス/敵のNotetagで設定されたゲージの代わりに、
+ *   カスタムされたゲージを表示できます。
+ *
+ *   下記の順序で優先順位付けが行われます:
+ *     武器＞防具＞ステート＞クラス＞敵
+ *
+ * ===========================================================================
+ * ルナティックモード - スキルコスト
+ * ===========================================================================
+ *
+ * スキルコストとエフェクトについて、より高度な操作を行いたい場合、
+ * それらに適用できるメモタグを以下に記します。
+ * エフェクトについては、アイテムコントロール向けに拡張することもできます。
+ *
+ *   <Custom HP Cost>
+ *    code
+ *    code
+ *   </Custom HP Cost>
+ *
+ *   例:
+ *       <Custom HP Cost>
+ *        cost += $gameVariables.value(1);
+ *       </Custom HP Cost>
+ *
+ *   スキルに、コードに基づいたカスタムHPコストを持たせることができます。
+ *   'cost'はHPコストとHPコスト%によって定義済みの変数です。
+ *
+ *   <Custom MP Cost>
+ *    code
+ *    code
+ *   </Custom MP Cost>
+ *
+ *   例:
+ *       <Custom MP Cost>
+ *        cost += $gameVariables.value(1);
+ *       </Custom MP Cost>
+ *
+ *   スキルに、コードに基づいたカスタムMPコストを持たせることができます。
+ *   'cost'はMPコストとMPコスト%によって定義済みの変数です。
+ *
+ *   <Custom TP Cost>
+ *    code
+ *    code
+ *   </Custom TP Cost>
+ *
+ *   例:
+ *      <Custom TP Cost>
+ *       cost += $gameVariables.value(1);
+ *      </Custom TP Cost>
+ *
+ *   スキルに、コードに基づいたカスタムTPコストを持たせることができます。
+ *   'cost'はTPコストとTPコスト%によって定義済みの変数です。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム有効条件
+ * ===========================================================================
+ *
+ * JavaScriptを使って特定のスキルを、決められた条件で無効にしたい方は
+ * 以下を使用してください。
+ *
+ * スキルのメモタグ:
+ *   <Custom Show Eval>
+ *   if (user.level > 50) {
+ *     visible = true;
+ *   } else {
+ *     visible = false;
+ *   }
+ *   </Custom Show Eval>
+ *
+ *   「visible」を「true」に設定している場合、
+ *   他の条件を満たしていればスキルは有効にされ、表示されます。
+ *   「visible」を「false」に設定している場合、
+ *   スキルは無効にされ、リストには表示されません。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム条件と実行
+ * ===========================================================================
+ *
+ * 以下のメモタグを使ってスキルを制限し、
+ * 発動時にどのようなコードを実行するかを、入れる事が出来ます。
+ *
+ * スキルのメモタグ:
+ *   <Custom Requirement>
+ *    if ($gameParty.gold() > 1000) {
+ *      value = true;
+ *    } else {
+ *      value = false;
+ *    }
+ *   </Custom Requirement>
+ *
+ *   「value」を「true」に設定している場合、
+ *   他の条件を満たしてれば、スキルは有効にされます。
+ *   「value」を「false」に設定している場合、スキルは無効にされます。
+ *
+ *   <Custom Execution>
+ *    $gameParty.loseGold(1000);
+ *   </Custom Execution>
+ *
+ *   スキルを発動した時、メモタグの間に入っているコードを実行します。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムコスト表示
+ * ===========================================================================
+ *
+ * スキルのコストの表示の仕方を変える事ができます。
+ * 実行するかどうかも、指定する事が出来ます。
+ *
+ * スキルのメモタグ:
+ *   <Cost Display Eval>
+ *    var variableId = 1;
+ *    var value = 1000;
+ *    $gameVariables.setValue(variableId, value);
+ *   </Cost Display Eval>
+ *
+ *   このメモタグはスキルを実行する前にEvalを実行します。これを使うと
+ *   スキルコストに表示するテキストの変数をよりカスタマイズ出来ます。
+ *
+ *   <Custom Cost Display>
+ *    \c[4]\v[1]\c[0] Gold
+ *   </Custom Cost Display>
+ *
+ *   ここのテキストはスキルのコストの他の部分より前に表示されます。この
+ *   メモタグにより、テキストの中に制御文字を書くことが可能です。
+ *
+ * ===========================================================================
+ * ルナティックモード - スキルフェーズ
+ * ===========================================================================
+ *
+ * スキルに対して、複数のエフェクトがいくつかの段階で適用されます。
+ * 各段階について以下に記します。
+ *
+ *    Before Effect Phase (このプラグインにより作用)
+ *    スキルがヒットした場合:
+ *    - Pre-Damage Effect Phase (このプラグインにより作用)
+ *    - Damage Phase
+ *    - Post-Damage Effect Phase (このプラグインにより作用)
+ *    - Item Trait Effects Phase
+ *    After Effect Phase (このプラグインにより作用)
+ *
+ * 上記のうち4段階がこのプラグインの影響を受けます。
+ * そのうち2つは、スキルがヒットするか否かには左右されません。
+ *
+ * スキル、アイテムのメモタグ:
+ *   <Before Eval>
+ *    code
+ *    code
+ *   </Before Eval>
+ *
+ *   <Pre-Damage Eval>
+ *    code
+ *    code
+ *   </Pre-Damage Eval>
+ *
+ *   <Post-Damage Eval>
+ *    code
+ *    code
+ *   </Post-Damage Eval>
+ *
+ *   <After Eval>
+ *    code
+ *    code
+ *   </After Eval>
+ *
+ *   スキルに対してカスタムエフェクトを利用したい場合、
+ *   メモタグをスキル/アイテムのメモ欄に挿入し、タグ間のコードを実行できます。
+ *   このタグ内に、どのような形式であれコメントを挿入してしまうと、
+ *   後に続くコードは遮断されてしまいます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.13:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.12:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.11a:
+ * - Lunatic Mode fail safes added.
+ * - Documentation fix for the help file. Lunatic Mode tags didn't end right.
+ * The help file is now updated to show the correct notetags.
+ *
+ * Version 1.10b:
+ * - Fixed a visual bug when using text code font changing for custom skill
+ * cost display.
+ * - <Hide if Learned Skill: x> documentation updated.
+ * - Compatibility update for future plugins.
+ *
+ * Version 1.09:
+ * - The <Pre-Damage Eval> notetag now has the ability alter damage dealt. The
+ * 'value' variable refers to and returns the damage affected by the action.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.07:
+ * - Fixed a bug that prevented immortal actors at 0 HP from using skills.
+ *
+ * Version 1.06a:
+ * - Added <Hide in Battle> and <Hide in Field> notetags.
+ * - Added a failsafe to check for undefined skills.
+ *
+ * Version 1.05:
+ * - Added <Hide if Learned Skill: x> notetags.
+ * - Added <Custom Show Eval> Lunatic Mode notetag.
+ *
+ * Version 1.04:
+ * - Added four Lunatic Modes notetags: Custom Requirement, Custom Execution,
+ * Cost Display Eval, Custom Cost Display.
+ *
+ * Version 1.03:
+ * - Fixed a bug with the Lunatic Mode notetags not working.
+ *
+ * Version 1.02:
+ * - Added 'Window Columns' parameter to let users adjust the number of
+ * columns used for the skill window.
+ *
+ * Version 1.01:
+ * - Fixed a mathematical error for skill cost padding.
+ * - Added return for drawSkillCost to assist others scripters when making
+ * compatibility notes.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

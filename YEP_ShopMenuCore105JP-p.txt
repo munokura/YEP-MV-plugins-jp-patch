@@ -1,0 +1,235 @@
+/*:ja
+ * @plugindesc v1.05 ショップメニューの外観を大きく変え、ショップオプションのフレームワークを提供します。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Command Order
+ * @text コマンド表示順
+ * @parent ---一般---
+ * @desc コマンドメニューの表示順。コマンド区切はスペース
+ * @default Buy Sell Equip Custom Cancel
+ *
+ * @param Shop List Width
+ * @text ショップリスト幅
+ * @parent ---一般---
+ * @desc リストウィンドウ幅。計算式を使用可
+ * @default Graphics.boxWidth / 2 + Graphics.boxWidth / 10
+ *
+ * @param Command Alignment
+ * @text テキスト揃え
+ * @parent ---一般---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc コマンドウィンドウのテキスト揃え
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param ---ステータスウィンドウ---
+ * @default
+ *
+ * @param Default Mode
+ * @text 表示形式
+ * @parent ---ステータスウィンドウ---
+ * @type select
+ * @option 個別アクター
+ * @value actor
+ * @option 全アクター
+ * @value default
+ * @desc 比較表示の形式
+ * 全アクター:default / 個別アクター:actor
+ * @default actor
+ *
+ * @param Stat Switching
+ * @text 比較切替
+ * @parent ---ステータスウィンドウ---
+ * @type boolean
+ * @on 許可
+ * @off 禁止
+ * @desc 左右ボタンでの比較切替
+ * 禁止:false / 許可:true
+ * @default true
+ *
+ * @param Cannot Equip
+ * @text 装備不可テキスト
+ * @parent ---ステータスウィンドウ---
+ * @desc アクターが装備できないアイテムの表示テキスト
+ * @default 装備不可
+ *
+ * @param Stat Font Size
+ * @text 能力値フォントサイズ
+ * @parent ---ステータスウィンドウ---
+ * @desc 能力値の比較フォントサイズ
+ * Default: 28
+ * @default 20
+ *
+ * @param Cannot Equip Font Size
+ * @text 装備不可フォントサイズ
+ * @parent ---ステータスウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 装備不可に使用されるフォントサイズ
+ * Default: 28
+ * @default 20
+ *
+ * @param ---情報ウィンドウ---
+ * @default
+ *
+ * @param Show Icon
+ * @text 表示アイコン
+ * @parent ---情報ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 情報ウィンドウの表示アイコン
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Icon Size
+ * @text アイコンサイズ
+ * @parent ---情報ウィンドウ---
+ * @type number
+ * @desc 表示アイコンのサイズ。通常はデフォルトのアイコンの4倍
+ * @default 128
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---情報ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 説明項目のフォントサイズ
+ * Default: 28
+ * @default 20
+ *
+ * @param Recovery Format
+ * @text 回復の表示形式
+ * @parent ---情報ウィンドウ---
+ * @desc HP/MP 回復の表示形式
+ * @default %1 回復
+ *
+ * @param Add State
+ * @text 加算ステート
+ * @parent ---情報ウィンドウ---
+ * @desc 加算ステートの表示テキスト
+ * @default +ステート
+ *
+ * @param Add Buff
+ * @text 加算バフ
+ * @parent ---情報ウィンドウ---
+ * @desc 加算バフの表示テキスト
+ * @default +バフ
+ *
+ * @param Remove State
+ * @text 減算ステート
+ * @parent ---情報ウィンドウ---
+ * @desc 減算ステートの表示テキスト
+ * @default -ステート
+ *
+ * @param Remove Buff
+ * @text 減算バフ
+ * @parent ---情報ウィンドウ---
+ * @desc 減算バフの表示テキスト
+ * @default -バフ
+ *
+ * @param Maximum Icons
+ * @text アイコンの最大数
+ * @parent ---情報ウィンドウ---
+ * @type number
+ * @desc ステータス/バフの表示アイコンの最大数
+ * @default 4
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * RPGツクールMVのショップメニューは、VXとVX Aceのメニューと同じです。
+ * それは比較的基本的なもので十分な情報を提供しますが、
+ * 実際に何を売っているのか、
+ * プレイヤーに知らせるのに十分な情報ではありません。
+ * このプラグインを使用すると、デフォルトで表示される基本的な情報だけでなく、
+ * ショップでも詳細表示できる他、カスタムコマンドをコマンドウィンドウに
+ * 表示することもできます。
+ *
+ * このプラグインは、変化量の一覧をパーティ全体のモードと
+ * 個々のアクター間をタブを切り替えるモードを選ぶオプションを提供します。
+ * プレイヤーは、キーボードの 'tab'ボタンを押すか、
+ * アクターの名前または能力値をタッチ入力することで、
+ * 2つのモードを切り替えることができます。
+ *
+ * ===========================================================================
+ * 説明
+ * ===========================================================================
+ *
+ * 'Command Order'パラメータを変更することで、
+ * コマンドウィンドウにコマンドを追加/削除できます。
+ * 下記があなたが使用するかもしれないコマンドのリストです。
+ *
+ *   Buy
+ *   - 商品購入コマンド
+ *
+ *   Sell
+ *   - 商品販売コマンド
+ *
+ *   Equip
+ *   - アクターの装備に直接アクセスする装備コマンド
+ *
+ *   Custom
+ *   - カスタムショップメニュー項目がある場合、それらがここに表示されます。
+ *
+ *   Cancel
+ *   - ショップを出ます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * ショップの表示を変えるために次のメモタグを使用してください。
+ *
+ * アイテム、武器、防具のメモタグ
+ *
+ *   <Price: x>
+ *   商品価格価格を x に設定します。
+ *   デフォルトのエディタ制限を超えることができます。
+ *
+ *   <Sell Price: x>
+ *   商品の売却価格を x に設定します。
+ *
+ *   <Cannot Sell>
+ *   アイテムを売却不可にします。
+ *
+ *   <Can Sell>
+ *   売却価格が0ゴールドであってもアイテムを売却できるようになります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.04:
+ * - Compatibility Update with YEP_X_ItemPictureImg.js
+ *
+ * Version 1.03:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.02:
+ * - Fixed a visual bug that listed actor stats in the wrong order.
+ *
+ * Version 1.01a:
+ * - Disabled LEFT/RIGHT movement from the status window while inputting an
+ * item quantity to buy.
+ * - Added a font reset on the number window upon refresh.
+ * - Fixed a visual error with MP recovery displaying a 0 instead of ---.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

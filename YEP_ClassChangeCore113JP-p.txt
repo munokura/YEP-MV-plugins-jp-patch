@@ -1,0 +1,371 @@
+/*:ja
+ * @plugindesc v1.13 職業変更のコマンドをメインメニューに追加し、レベルの管理方式を指定できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Class Command
+ * @text コマンド表示テキスト
+ * @parent ---一般---
+ * @desc メニューコマンドの表示テキスト
+ * @default 職業
+ *
+ * @param Auto Add Menu
+ * @text メニュー追加
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc メインメニューに職業コマンドを追加
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Command
+ * @text コマンド表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでメインメニューに職業コマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Command
+ * @text コマンド有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトでメインメニューの職業コマンドを有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Auto Place Command
+ * @text コマンド自動配置
+ * @parent ---一般---
+ * @type boolean
+ * @on 自動
+ * @off 手動
+ * @desc メニューの配置位置。YEP_MainMenuManagerで指定する場合、false。 手動:false / 自動:true
+ * @default true
+ *
+ * @param Default Icon
+ * @text デフォルトアイコン
+ * @parent ---一般---
+ * @desc 全ての職業のデフォルトアイコン
+ * @default 78
+ *
+ * @param Maintain Levels
+ * @text レベル管理
+ * @parent ---一般---
+ * @type boolean
+ * @on 全職業共通
+ * @off 各職業個別
+ * @desc 全ての職業に共通したレベルを維持
+ * 各職業個別:false / 全職業共通:true / デフォルト:false
+ * @default false
+ *
+ * @param Unlocked Classes
+ * @text ロック解除職業
+ * @parent ---一般---
+ * @desc デフォルトでロック解除されている職業。
+ * 複数の職業IDはスペース区切り
+ * @default 1 2 3 4
+ *
+ * @param ---コマンド・ウィンドウ---
+ * @default
+ *
+ * @param Class Change Command
+ * @text 職業変更表示テキスト
+ * @parent ---コマンド・ウィンドウ---
+ * @desc 基本職業を変更するコマンドの表示テキスト
+ * @default 職業変更
+ *
+ * @param Show Class Change
+ * @text 職業変更を表示
+ * @parent ---コマンド・ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトで職業変更コマンドを表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Class Change
+ * @text 職業変更を有効化
+ * @parent ---コマンド・ウィンドウ---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトで職業変更コマンドを有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param Show Skill Learn
+ * @text スキル習得を表示
+ * @parent ---コマンド・ウィンドウ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc YEP_SkillLearnSystemを使っている場合、'Learn Skill'を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Finish Command
+ * @text 終了コマンド
+ * @parent ---コマンド・ウィンドウ---
+ * @desc 職業シーンを終了する表示テキスト
+ * @default 完了
+ *
+ * @param Text Alignment
+ * @text テキスト配置
+ * @parent ---コマンド・ウィンドウ---
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc コマンドウィンドウのテキスト配置
+ * 左:left / 中央:center / 右:right / デフォルト:left
+ * @default left
+ *
+ * @param ---ウィンドウ設定---
+ * @default
+ *
+ * @param Current Class Color
+ * @text 現在職業色
+ * @parent ---ウィンドウ設定---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 職業表示に使用されるテキスト色
+ * @default 17
+ *
+ * @param Class Level Format
+ * @text 職業レベル形式
+ * @parent ---ウィンドウ設定---
+ * @desc 職業レベルの表示形式
+ * @default Lv %1
+ *
+ * @param Class Level Font Size
+ * @text 職業レベルフォントサイズ
+ * @parent ---ウィンドウ設定---
+ * @type number
+ * @min 1
+ * @desc 職業レベルのフォントサイズ
+ * @default 20
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはプレーヤーがメインメニューからアクターの職業を
+ * 自由に変える機能を追加します。
+ * 職業を変更する時、このスクリプトはゲーム制作者が
+ * 職業毎にレベルを保持する
+ * (アクターのレベルを職業のレベルに再設定)か
+ * 現在のレベルを維持するかを選択するオプションを与えます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下はClass Change Coreプラグインで使えるメモタグです。
+ *
+ * アクターのメモタグ:
+ *   <Unlock Class: x>
+ *   <Unlock Class: x, x, x>
+ *   <Unlock Class: x to y>
+ *   アクターの職業 x のロックを解除します。
+ *
+ *   <Cannot Change Class>
+ *   アクターが主職業を変更できなくします。
+ *   ただし、これはプラグインコマンドで逆になる可能性があります。
+ *
+ *   <Class x Character: filename y>
+ *   アクターの職業が x の場合、
+ *   アクターの歩行キャラ画像は'filename'内の y 番目にします。
+ *
+ *   <Hero Character: filename y>
+ *   <Warrior Character: filename y>
+ *   職業IDの代わりに職業名を使用したい場合、上記の形式を使用してください。
+ *   アクターがこの職業の場合、
+ *   アクターの歩行キャラ画像は'filename'内の y 番目にします。
+ *
+ *   <Class x Face: filename y>
+ *   アクターの職業がxの場合、アクターの顔画像を'filename'内の y番目にします。
+ *
+ *   <Hero Face: filename y>
+ *   <Warrior Face: filename y>
+ *   職業IDの代わりに職業名を使用したい場合、上記の形式を使用してください。
+ *   アクターがこの職業の場合、
+ *   アクターの顔画像を 'filename' 内の y 番目にします。
+ *
+ *   <Class x Battler: filename>
+ *   アクターの職業がxの場合、アクターのSV戦闘キャラ画像は'filename'にします。
+ *
+ *   <Hero Battler: filename>
+ *   <Warrior Battler: filename>
+ *   職業IDの代わりに職業名を使用したい場合、上記の形式を使用してください。
+ *   アクターがこの職業の場合、
+ *   アクターのSV戦闘キャラ画像を'filename'にします。
+ *
+ * 職業のメモタグ:
+ *   <Icon: x>
+ *   この職業のアイコンを x に設定します。
+ *   このアイコンはClass Changeメニューリストで使用されています。
+ *
+ *   <Use Nickname>
+ *   職業は、職業名の代わりにアクターのニックネームを使用します。
+ *
+ *   <Help Description>
+ *    Text
+ *    Text
+ *   </Help Description>
+ *   職業のヘルプの説明を指定されたテキストに設定します。
+ *
+ *   <Level Unlock Requirements>
+ *    Class x: Level y
+ *    Class x: Level y
+ *   </Level Unlock Requirements>
+ *   特定の職業をロック解除するための要件を設定します。
+ *   職業のロックを解除するには、職業 x をレベル y にする必要があります。
+ *   開始と終了の2つのメモタグの間に複数の文字列を挿入し、
+ *   全ての職業レベルを満たすことを要求します。
+ *
+ *   <Level Unlock Requirements>
+ *    Hero: Level y
+ *    Warrior: Level y
+ *   </Level Unlock Requirements>
+ *   職業IDの代わりに職業名を使用したい場合、上記の形式を使用してください。
+ *   指定した職業のレベル要件を y に設定します。
+ *   同じ名前の職業が複数ある場合、最も高いID値を持つ職業が採用されます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲームの職業変更を支援するための複数のプラグインコマンドがあります。
+ *
+ * Plugin Command
+ *   OpenClass
+ *   - 職業変更メニューを開きます。
+ *
+ *   ShowClass
+ *   HideClass
+ *   - メインメニューから職業オプションを表示/非表示にします。
+ *
+ *   EnableClass
+ *   DisableClass
+ *   - 職業オプションが有効/無効にします。
+ *
+ *   UnlockClass 5 6
+ *   - アクター5の職業6のロックを解除します。
+ *
+ *   RemoveClass 5 7
+ *   - アクター5が職業7に職業変更できなくします。
+ *
+ *   UnlockClassAll 8
+ *   - 全アクターの職業8のロックを解除します。
+ *
+ *   RemoveClassAll 9
+ *   - 全アクターが職業9に職業変更できなくします。
+ *
+ *   EnablePrimaryClassChange 5
+ *   DisablePrimaryClassChange 5
+ *   - アクター5の基本職業の変更を許可/禁止にします。
+ *
+ * ===========================================================================
+ * Main Menu Manager - 職業コマンドの配置
+ * ===========================================================================
+ *
+ * Main Menu Manager を使用していて、コマンドを好きな場所に配置したい場合、
+ * 次の形式を使用します。
+ *
+ *       Name: Yanfly.Param.CCCCmdName
+ *     Symbol: class
+ *       Show: $gameSystem.isShowClass()
+ *    Enabled: $gameSystem.isEnableClass()
+ *        Ext:
+ *  Main Bind: this.commandPersonal.bind(this)
+ * Actor Bind: SceneManager.push(Scene_Class)
+ *
+ * Main Menu Manager のスロットに上記の設定を挿入します。
+ * 正確な設定を必要な場所にコピーすると、
+ * 全ての命名の使用、有効化、無効化、非表示、
+ * プラグインパラメータによって行われた効果の表示中にその設定が表示されます。
+ *
+ * 必ず、プラグインパラメータ 'Auto Add Menu'(コマンド自動配置) を
+ * オフにしてください。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.13:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.12:
+ * - Optimization update.
+ *
+ * Version 1.11:
+ * - Added <Use Nickname> notetag for classes. This will cause the class to
+ * use the actor's nickname instead when listed in the class list.
+ *
+ * Version 1.10:
+ * - Added <Cannot Change Class> notetag for actors and two plugin commands:
+ * EnablePrimaryClassChange and DisablePrimaryClassChange for actors.
+ * - Added 'Auto Add Menu' to plugin parameters. This way, users don't have to
+ * make conflict with it if manually positioning the command with the Main
+ * Menu Manager plugin.
+ *
+ * Version 1.09a:
+ * - Optimization update.
+ * - When switching classes to a globally unlocked class, actors won't unlock
+ * those classes anymore. This is to keep the RemoveClassAll working without
+ * having to manually use RemoveClass for all classes individually.
+ *
+ * Version 1.08:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.07:
+ * - Fixed a bug that carried over a previously changed actor's stats into the
+ * stat comparison window.
+ *
+ * Version 1.06:
+ * - Made an update to the 'Change Actor Images' to give changes to actor
+ * images priority over class images. Setting the 'Change Actor Images' to
+ * (None) will return it back to using class images.
+ *
+ * Version 1.05:
+ * - If using the Skill Learn System and Skill Menu Integration, the
+ * "Learn Skill" command now carries over to the Skill menu itself to utilize
+ * the integrated system.
+ *
+ * Version 1.04:
+ * - Fixed a bug that would revive dead party members by changing their class.
+ *
+ * Version 1.03:
+ * - Fixed a bug that would duplicate non-independent items.
+ * - Fixed a bug that prevented visual appearances from updating until
+ * entering a new map.
+ *
+ * Version 1.02a:
+ * - Added a failsafe for users to prevent them from attempting to learn
+ * skills from classes that don't exist.
+ *
+ * Version 1.01:
+ * - Fixed an asynch issue with changing class images when moving to another
+ * face graphic that isn't on the same image.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

@@ -1,0 +1,119 @@
+/*:ja
+ * @plugindesc v1.04 リージョンでイベントやプレイヤーの移動制限を行います。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Player Restrict
+ * @text プレイヤー制限
+ * @desc ここで指定したリージョンIDは、プレイヤーの進入を制限します。不要な場合は0を入力
+ * @default 0
+ *
+ * @param Event Restrict
+ * @text イベント制限
+ * @desc ここで指定したリージョンIDは、全てのイベントの進入を制限します。不要な場合は0を入力
+ * @default 0
+ *
+ * @param All Restrict
+ * @text プレイヤーとイベント制限
+ * @desc ここで指定したリージョンIDは、プレイヤーとイベント両方の進入を制限します。不要な場合は0を入力
+ * @default 0
+ *
+ * @param Player Allow
+ * @text プレイヤー許可
+ * @desc ここで指定したリージョンIDは、プレイヤーの進入を許可します。不要な場合は0を入力
+ * @default 0
+ *
+ * @param Event Allow
+ * @text イベント許可
+ * @desc ここで指定したリージョンIDは、常にイベントの進入を許可します。不要な場合は0を入力
+ * @default 0
+ *
+ * @param All Allow
+ * @text プレイヤーとイベント許可
+ * @desc ここで指定したリージョンIDは、常にプレイヤーとイベント両方の進入を許可します。不要な場合は0を入力
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入と説明
+ * ===========================================================================
+ *
+ * このプラグインでは、リージョンIDによってマークされたタイルを使って
+ * NPCの行動範囲を制限することが出来ます。
+ * 任意の範囲を指定することで、NPCをその範囲内に留めることができます。
+ * 同様に、プレイヤーにも行動範囲の制限を設けることもできます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * マップ中でメモタグを使うことができます。
+ *
+ * マップのメモタグ:
+ *
+ *   <Player Restrict Region: x>
+ *   <Player Restrict Region: x, x, x>
+ *   <Player Restrict Region: x to y>
+ *   特定のマップでプレイヤーにリージョンxを制限します。
+ *   より多くのリージョンを設定するには複数のxを使用してください。
+ *   xからyまで、多数のリージョンを設定することができます。
+ *
+ *   <Event Restrict Region: x>
+ *   <Event Restrict Region: x, x, x>
+ *   <Event Restrict Region: x to y>
+ *   特定のマップで全てのイベントにリージョンxを制限します。
+ *   より多くのリージョンを設定するには複数のxを使用してください。
+ *   xからyまで、多数のリージョンを設定することができます。
+ *
+ *   <All Restrict Region: x>
+ *   <All Restrict Region: x, x, x>
+ *   <All Restrict Region: x to y>
+ *   特定のマップでプレーヤーと全てのイベントにリージョンxを制限します。
+ *   より多くのリージョンを設定するには複数のxを使用してください。
+ *   xからyまで、多数のリージョンを設定することができます。
+ *
+ *   <Player Allow Region: x>
+ *   <Player Allow Region: x, x, x>
+ *   <Player Allow Region: x to y>
+ *   特定のマップでプレイヤーにリージョンxを許可します。
+ *   より多くのリージョンを設定するには複数のxを使用してください。
+ *   xからyまで、多数のリージョンを設定することができます。
+ *
+ *   <Event Allow Region: x>
+ *   <Event Allow Region: x, x, x>
+ *   <Event Allow Region: x to y>
+ *   特定のマップで全てのイベントにリージョンxを許可します。
+ *   より多くのリージョンを設定するには複数のxを使用してください。
+ *   xからyまで、多数のリージョンを設定することができます。
+ *
+ *   <All Allow Region: x>
+ *   <All Allow Region: x, x, x>
+ *   <All Allow Region: x to y>
+ *   特定のマップでプレーヤーと全てのイベントにリージョンxを許可します。
+ *   より多くのリージョンを設定するには複数のxを使用してください。
+ *   xからyまで、あなたは多数のリージョンを設定することができます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.03:
+ * - Fixed an issue with vehicles being capable of landing the player in
+ * region restricted zones.
+ *
+ * Version 1.02:
+ * - Plugin parameters have been upgraded to now accept multiple region ID's.
+ * Insert a space in between them to add more than one region ID.
+ *
+ * Version 1.01:
+ * - Added new notetags to allow for more region restriction settings!
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

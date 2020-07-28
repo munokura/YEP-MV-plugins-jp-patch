@@ -1,0 +1,186 @@
+/*:ja
+ * @plugindesc v1.05 (要YEP_StatusMenuCore) 各アクターの変数をステータスメニューに表示できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Command Name
+ * @text コマンド名
+ * @parent ---一般---
+ * @desc ステータスメニューコマンドリストの表示テキスト
+ * @default 変数
+ *
+ * @param ---カラム---
+ * @text ---カラム---
+ * @default
+ *
+ * @param Global Column 1
+ * @text グローバルカラム1
+ * @parent ---カラム---
+ * @desc 全アクターに表示される変数のリスト。各変数IDは半角スペース区切り
+ * @default 1 2 3 4
+ *
+ * @param Global Column 2
+ * @text グローバルカラム2
+ * @parent ---カラム---
+ * @desc 全アクターに表示される変数のリスト。各変数IDは半角スペース区切り
+ * @default 5 6 7 8
+ *
+ * @param Global Column 3
+ * @text グローバルカラム3
+ * @parent ---カラム---
+ * @desc 全アクターに表示される変数のリスト。各変数IDは半角スペース区切り
+ * @default
+ *
+ * @param Global Column 4
+ * @text グローバルカラム4
+ * @parent ---カラム---
+ * @desc 全アクターに表示される変数のリスト。各変数IDは半角スペース区切り
+ * @default
+ *
+ * @param Hidden Variables
+ * @text 非表示変数
+ * @parent ---カラム---
+ * @desc ゲーム開始時にステータスメニューからこれらの変数を隠します。各変数IDは半角スペース区切り
+ * @default
+ *
+ * @param ---MV 1.5.0---
+ * @text --- MV ---
+ * @default
+ *
+ * @param Global Column 1 1.5.0
+ * @text グローバルカラム1
+ * @parent ---MV 1.5.0---
+ * @type variable[]
+ * @desc 全アクターに表示される変数のリスト
+ * MV 1.5.0以降で使用
+ * @default ["1","2","3","4"]
+ *
+ * @param Global Column 2 1.5.0
+ * @text グローバルカラム2
+ * @parent ---MV 1.5.0---
+ * @type variable[]
+ * @desc 全アクターに表示される変数のリスト
+ * MV 1.5.0以降で使用
+ * @default ["5","6","7","8"]
+ *
+ * @param Global Column 3 1.5.0
+ * @text グローバルカラム3
+ * @parent ---MV 1.5.0---
+ * @type variable[]
+ * @desc 全アクターに表示される変数のリスト
+ * MV 1.5.0以降で使用
+ * @default []
+ *
+ * @param Global Column 4 1.5.0
+ * @text グローバルカラム4
+ * @parent ---MV 1.5.0---
+ * @type variable[]
+ * @desc 全アクターに表示される変数のリスト
+ * MV 1.5.0以降で使用
+ * @default []
+ *
+ * @param Hidden Variables 1.5.0
+ * @text 非表示変数1.5.0
+ * @parent ---MV 1.5.0---
+ * @type variable[]
+ * @desc ゲーム開始時にステータスメニューからこれらの変数を隠します。MV 1.5.0以降で使用
+ * @default []
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_StatusMenuCoreを必要とします。
+ * プラグイン管理のYEP_StatusMenuCoreの下に
+ * このプラグインを置きます。
+ *
+ * このプラグインを使用すると、
+ * アクターデータとして表示するための固有のページで、
+ * YEP_StatusMenuCoreに変数を配置できます。
+ * これらの変数は、
+ * アクター毎にグローバル・個別のソースから取得できます。
+ * パラメータにあるグローバルカラムにリストされている変数は、
+ * 全てのアクターに対してリストされます。
+ * アクターのメモ欄で定義された変数は、
+ * 表示時にそのアクターに対して一覧表示されます。
+ *
+ * ステータスメニューのActorVariablesタブを特定の場所に配置したい場合、
+ * StatusMenuCoreのCommand Order(コマンド表示順)パラメータに引用符(')なしで
+ * 'Variables'を配置します。
+ * 配置されていない場合、自動的にキャンセルの前に追加表示されます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * ステータスメニューに変数を表示するには、次のメモタグを使用します。
+ *
+ * アクターのメモタグ
+ *   <Column x Variables: y>
+ *   <Column x Variables: y, y, y>
+ *   <Column x Variables: y to z>
+ * カラムx(1から4)に変数yが表示されます。
+ * yからzまでのメモタグを使用する場合、yからzまでの全ての変数を表示します。
+ *
+ * ===========================================================================
+ * 変数アイコンと表示
+ * ===========================================================================
+ *
+ * アイコンを表示して変数の表示を変更するには、
+ * 変数エディタに制御文字などの変数の名前を入力します。
+ *
+ * \i[42]Variable Name はアイコンと変数が一緒に表示されます。
+ *
+ * 表示されないメモを作成する場合、<< >> の間にメモを配置できます。
+ * 以下は例です。
+ *
+ * Hello <<You can't see me>>World!
+ *
+ * Hello World!と表示されます。 << >>マーカーがあるためです。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 特定の変数を隠す/表示することを可能にするプラグインコマンドです。
+ *
+ * プラグインコマンド
+ *
+ * HideActorVariable 1
+ * 変数1をアクターステータスメニューから非表示にします。
+ *
+ * ShowActorVariable 2
+ * アクターステータスメニューの変数2を非表示から表示にします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.04:
+ * - Plugin fixed to be standalone if you wish to use the x to y notetags.
+ *
+ * Version 1.03:
+ * - Fixed a bug that prevented custom positioning with the Status Menu Core's
+ * command order parameter.
+ *
+ * Version 1.02:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.01a:
+ * - Added 'Hidden Variables' plugin parameter.
+ * - Added 'HideActorVariable' and 'ShowActorVariable' plugin command.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

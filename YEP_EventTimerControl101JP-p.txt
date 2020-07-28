@@ -1,0 +1,186 @@
+/*:ja
+ * @plugindesc v1.01 イベントタイマー機能を拡張し、詳細に制御できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * イベントタイマーはカウントダウンの目的でよく使用されます。
+ * ただし、タイマーを一時停止して再開したり、タイマーの秒数、
+ * 分数、さらには数時間を増減したりできるように、
+ * もう少し制御したい場合があります。
+ * カウントダウンタイマーは不要ですか？
+ * 代わりにそれを上向きに数えないようにしませんか？
+ * 経験豊富なルナティックモードのコーダーも
+ * 自分のプラグインコマンドを追加することができるでしょう。
+ *
+ * 注目すべき変更点
+ * - スプライトセットからタイマースプライトを分離する機能
+ * - タイマーは時間を表示できるようになりました
+ * - タイマーの一時停止/再開機能
+ * - タイマーからの増減秒
+ * - 単なるカウントダウンではなくカウントアップ
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下のプラグインコマンドを使用して、イベントタイマーを制御します。
+ *
+ * プラグインコマンド
+ *
+ *   --- 一時停止/再開 ---
+ *
+ *   EventTimer Pause
+ *   - イベントタイマーを一時停止します。
+ *
+ *   EventTimer Resume
+ *   - イベントタイマーが一時停止されている場合は再開します。
+ *
+ *   --- COUNT DOWN/UP ---
+ *
+ *   EventTimer Countdown
+ *   - イベントタイマーをカウントダウンするように変更します。
+ *
+ *   EventTimer Count Up
+ *   - 手動で停止するまで、
+ *   イベントタイマーをカウントアップするように変更します。
+ *
+ *   EventTimer Count Toggle
+ *   - イベントタイマーの方向を、増減方向を逆に切り替えます。
+ *
+ *   --- 増加/減少 ---
+ *
+ *   EventTimer Increase x Frames
+ *   EventTimer Decrease x Frames
+ *   - イベントタイマーを増減するフレーム数を'x'を数値で置き換えます。
+ *
+ *   EventTimer Increase x Seconds
+ *   EventTimer Decrease x Seconds
+ *   - 'x'を数値で置き換えて、イベントタイマーを増減する秒数を決定します。
+ *
+ *   EventTimer Increase x Minutes
+ *   EventTimer Decrease x Minutes
+ *   - 'x'を数値で置き換えて、イベントタイマーを増減する分数を決定します。
+ *
+ *   EventTimer Increase x Hours
+ *   EventTimer Decrease x Hours
+ *   - 'x'を数値で置き換えて、イベントタイマーを増減する時間数を決定します。
+ *
+ *   これらを組み合わせることもできます。
+ *
+ *   EventTimer Increase x Hours, y Seconds
+ *   EventTimer Increase x Hours, y Minutes
+ *   EventTimer Increase x Minutes, y Seconds
+ *   EventTimer Increase x Hours, y Minutes, z Seconds
+ *
+ * ===========================================================================
+ * ルナティックモード - エフェクトコード
+ * ===========================================================================
+ *
+ * JavaScriptを使って、このプラグインにプラグインコマンドを追加するか、
+ * プラグインパラメータエントリから現在存在するプラグインコマンドの
+ * コードを変更することができます。
+ * これは次のようになります。
+ *
+ * ---
+ *
+ * // ------------
+ * // Pause/Resume
+ * // ------------
+ * if (data.match(/PAUSE/i)) {
+ *   $gameTimer.pause();
+ *
+ * } else if (data.match(/RESUME/i)) {
+ *   $gameTimer.resume();
+ *
+ * ...
+ *
+ * // --------------------------------
+ * // Add new commands above this data
+ * // --------------------------------
+ * } else {
+ *   // Do nothing
+ * }
+ *
+ * ---
+ *
+ * 'data'変数は、
+ * 'EventTimer'キーワードの後のプラグインコマンドの残りの部分を指します。
+ * 例えば:
+ *
+ *   EventTimer Increase 2 Hours, 30 Minutes, 15 Seconds
+ *
+ * 'data'は'Increase 2 Hours, 30 Minutes, 15 Seconds'となり、
+ * 'EffectCode'パラメータの行をチェックする時、文字列'data'が使用されます。
+ *
+ * ---
+ *
+ * エフェクトコードを元に戻す必要がある場合、
+ * プラグイン管理からプラグインを削除してから、もう一度追加してください。
+ * コードはデフォルトに戻ります。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ *
+ * ===========================================================================
+ * End of Helpfile
+ * ===========================================================================
+ *
+ * @param ---メカニカル---
+ *
+ * @param SpritesetSplit
+ * @text スプライトセットから分離
+ * @parent ---メカニカル---
+ * @type boolean
+ * @on 分離する
+ * @off 分離しない
+ * @desc ゲームタイマーをスプライトセットから分離
+ * 分離する:true / 分離しない:false / デフォルト:true
+ * @default true
+ *
+ * @param TextAlign
+ * @text タイマーテキスト行揃え
+ * @parent ---メカニカル---
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc テキスト行揃え
+ * デフォルト:中央
+ * @default center
+ *
+ * @param ---ルナティックモード---
+ *
+ * @param Effect Code
+ * @text エフェクトコード
+ * @parent ---ルナティックモード---
+ * @type note
+ * @desc 各プラグインコマンドに使用されるコードです。
+ * @default "// ------------\n// Pause/Resume\n// ------------\nif (data.match(/PAUSE/i)) {\n  $gameTimer.pause();\n\n} else if (data.match(/RESUME/i)) {\n  $gameTimer.resume();\n\n// -------------\n// Count Down/Up\n// -------------\n} else if (data.match(/(?:COUNTDOWN|COUNT DOWN)/i)) {\n  $gameTimer.changeDirection(-1);\n\n} else if (data.match(/(?:COUNTUP|COUNT UP)/i)) {\n  $gameTimer.changeDirection(1);\n\n} else if (data.match(/(?:COUNTOGGLE|COUNT TOGGLE)/i)) {\n  $gameTimer.changeDirection(-1 * $gameTimer._direction);\n\n// -----------------\n// Increase/Decrease\n// -----------------\n} else if (data.match(/(?:INCREASE|DECREASE)/i)) {\n  if (data.match(/DECREASE/i)) {\n    var direction = -1;\n  } else {\n    var direction = 1;\n  }\n  var frames = 0;\n  if (data.match(/(\\d+)[ ]FRAME/i)) {\n    frames += parseInt(RegExp.$1);\n  }\n  if (data.match(/(\\d+)[ ]SEC/i)) {\n    frames += parseInt(RegExp.$1) * 60;\n  }\n  if (data.match(/(\\d+)[ ]MIN/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60;\n  }\n  if (data.match(/(\\d+)[ ](?:HR|HOUR)/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60;\n  }\n  if (data.match(/(\\d+)[ ]DAY/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60 * 24;\n  }\n  if (data.match(/(\\d+)[ ]WEEK/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60 * 24 * 7;\n  }\n  if (data.match(/(\\d+)[ ]MONTH/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60 * 24 * 30;\n  }\n  if (data.match(/(\\d+)[ ](?:YR|YEAR)/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60 * 24 * 365;\n  }\n  if (data.match(/(\\d+)[ ]DECADE/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60 * 24 * 365 * 10;\n  }\n  if (data.match(/(\\d+)[ ]CENTUR/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60 * 24 * 365 * 100;\n  }\n  if (data.match(/(\\d+)[ ]MILLEN/i)) {\n    frames += parseInt(RegExp.$1) * 60 * 60 * 60 * 24 * 365 * 1000;\n  }\n  frames *= direction;\n  $gameTimer.gainFrames(frames);\n\n// --------------------------------\n// Add new commands above this data\n// --------------------------------\n} else {\n  // Do nothing\n}"
+ *
+ * @param Expire Code
+ * @text 期限切れコード
+ * @parent ---ルナティックモード---
+ * @type note
+ * @desc カウントダウンタイマーが切れると実行されることができるユニークなコード。
+ * @default "BattleManager.abort();"
+ *
+ */

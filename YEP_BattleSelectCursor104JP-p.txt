@@ -1,0 +1,153 @@
+/*:ja
+ * @plugindesc v1.04 戦闘中に味方や敵を選択する時のカスタムカーソルを設定できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param Ally Cursor
+ * @text 味方カーソル
+ * @type file
+ * @dir img/pictures/
+ * @require 1
+ * @desc 使用する画像のファイル名。ファイル拡張子は無し
+ * /img/pictures/ 内
+ * @default Crystal_Blue_3x2
+ *
+ * @param Enemy Cursor
+ * @text 敵カーソル
+ * @type file
+ * @dir img/pictures/
+ * @require 1
+ * @desc 使用する画像のファイル名。ファイル拡張子は無し
+ * /img/pictures/ 内
+ * @default Crystal_Red_3x2
+ *
+ * @param Anchor X
+ * @text 原点X
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc 原点のデフォルトのX位置
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Anchor Y
+ * @text 原点Y
+ * @type select
+ * @value top
+ * @option 上
+ * @value middle
+ * @option 中央
+ * @value bottom
+ * @option 下
+ * @desc 原点のデフォルトのY位置
+ * 上:top / 中央:middle / 下:bottom
+ * @default bottom
+ *
+ * @param Position X
+ * @text X位置
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc 対象上のデフォルトのX位置
+ * 左:left / 中央:center / 右:right
+ * @default center
+ *
+ * @param Position Y
+ * @text Y位置
+ * @type select
+ * @option 上
+ * @value top
+ * @option 中央
+ * @value middle
+ * @option 下
+ * @value bottom
+ * @desc 対象上のデフォルトのY位置
+ * 上:top / 中央:middle / 下:bottom
+ * @default top
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインを使用すると、戦闘中に味方や敵を選択する時の
+ * カスタムカーソルを設定できます。
+ * 対象を選ぶ時、視覚的な手助けするためです。
+ *
+ * ===========================================================================
+ * 説明 - カーソルのファイル名
+ * ===========================================================================
+ *
+ * カーソルをプロジェクトの img/pictures フォルダに保存します。
+ * これはプロジェクトが画像を取得する場所になります。
+ *
+ * ファイル名は、カーソルに重要な役割を果たします。
+ * カーソルによって使用されるフレーム数を決定するために使用されます。
+ * それは以下のフォーマットで動作します。
+ *
+ *      filename_WidthxHeight
+ *
+ * 'Crystal_Blue_3x2'を使用する時、
+ * 左から右へ使用可能な3フレームと
+ * 上から下へ使用可能な2フレームがあることを意味します。
+ * 幅は4フレーム、高さは2フレームです。
+ *
+ * フォーマットが使用されていない場合、寸法はデフォルトで1x1になります。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * アクターと敵のカーソル設定に以下のメモタグを使うことができます。
+ *
+ * アクター、敵のメモタグ
+ *
+ *   <Battle Select Cursor: filename>
+ *   - アクター・敵に使用されるカーソル画像のファイル名が変わります。
+ *   Cursor Filenames の章のヘルプと同じ規則が適用されます。
+ *
+ *   <Battle Select Cursor Anchor X: Left>
+ *   <Battle Select Cursor Anchor X: Center>
+ *   <Battle Select Cursor Anchor X: Right>
+ *   <Battle Select Cursor Anchor Y: Top>
+ *   <Battle Select Cursor Anchor Y: Middle>
+ *   <Battle Select Cursor Anchor Y: Bottom>
+ *   - カーソル画像の原点を指定します。
+ *
+ *   <Battle Select Cursor Position X: Left>
+ *   <Battle Select Cursor Position X: Center>
+ *   <Battle Select Cursor Position X: Right>
+ *   <Battle Select Cursor Position Y: Top>
+ *   <Battle Select Cursor Position Y: Middle>
+ *   <Battle Select Cursor Position Y: Bottom>
+ *   - 選択カーソルがアクター・敵に現れる位置を決定します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.03:
+ * - Updated plugin to keep the battle select cursor on top of animated
+ * enemies from the YEP_X_AnimatedSVEnemies plugin.
+ *
+ * Version 1.02:
+ * - Optimized plugin to use less resources.
+ *
+ * Version 1.01a:
+ * - Fixed a bug that caused the game to crash if an actor leaves mid-battle.
+ * - Fixed a documentation error for the notetags.
+ */

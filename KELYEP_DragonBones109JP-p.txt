@@ -1,0 +1,503 @@
+/*:ja
+ * @plugindesc v1.09 DragonBonesとYEPライブラリの互換性の統合。DragonBonesアセットをあなたのバトラーと一緒に使ってください。
+ * @author Yanfly Engine Plugins + TheGreenKel Collaboration
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Assets Path
+ * @text アセットパス
+ * @parent ---一般---
+ * @desc DragonBonesソフトウェア5.2(またはそれ以降)からエクスポートされた全てのファイルを格納するフォルダー
+ * @default ./dragonbones_assets/
+ *
+ * @param Support UpperCase Animation Names
+ * @text 大文字のアニメーション名をサポート
+ * @parent ---一般---
+ * @type boolean
+ * @on 大文字対応
+ * @off 小文字のみ
+ * @desc アニメーションの名前が全て小文字の場合、オフにするとパフォーマンスが大幅に向上します。 大文字対応:true / 小文字のみ:false
+ * @default true
+ *
+ * @param Debug Console Text
+ * @text デバッグコンソールテキスト
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc コンソールに様々なステータスの更新を表示
+ * 表示:true / 非表示:false
+ * @default false
+ *
+ * @param ---プリロード---
+ * @text ---プリロード---
+ * @default
+ *
+ * @param Preload Assets
+ * @text アセットのプリロード
+ * @parent ---プリロード---
+ * @type text[]
+ * @desc データベースが完全にロードされた後にゲーム起動時にプリロードされる全てのDragonBonesアセットのリスト
+ * @default []
+ *
+ * @param Auto-Preload Battlers
+ * @text 戦闘自動プリロード
+ * @parent ---プリロード---
+ * @type boolean
+ * @on 自動
+ * @off 手動
+ * @desc メモタグからアセットを割り当てた時、自動的にバトラーをプリロード。推奨:true / 自動:true / 手動:false
+ * @default true
+ *
+ * @param ---デフォルト---
+ * @text ---デフォルト---
+ * @default
+ *
+ * @param Replace Battler Sprite
+ * @text 戦闘スプライト置換
+ * @parent ---デフォルト---
+ * @type boolean
+ * @on 置き換え
+ * @off 保持
+ * @desc DragonBonesアセットが関連付けられている場合、戦闘のスプライトを完全に置き換え。置き換え:true / 保持:false
+ * @default true
+ *
+ * @param Default ScaleX
+ * @text デフォルト拡縮X
+ * @parent ---デフォルト---
+ * @type number
+ * @decimals 1
+ * @desc DragonBonesのバトラーのXプロパティを拡大縮小するデフォルト量
+ * @default 0.5
+ *
+ * @param Default ScaleY
+ * @text デフォルト拡縮Y
+ * @parent ---デフォルト---
+ * @type number
+ * @decimals 1
+ * @desc DragonBonesのバトラーのYプロパティを拡大縮小するデフォルト量
+ * @default 0.5
+ *
+ * @param Default Width
+ * @text デフォルト幅
+ * @parent ---デフォルト---
+ * @type number
+ * @desc DragonBonesのバトラーの幅を設定するデフォルト量
+ * @default 100
+ *
+ * @param Default Height
+ * @text デフォルト高
+ * @parent ---デフォルト---
+ * @type number
+ * @desc DragonBonesのバトラーの高さを設定するデフォルト量
+ * @default 100
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * DragonBonesを使用すると、ゲームで骨格アニメーションを使用できます。
+ * キャラクター(オブジェクト)をスキン/テクスチャで表現した
+ * コンピュータアニメーションの一種と、
+ * 相互に連結した骨のデジタルセット(スケルトンと呼ばれます)です。
+ * 一連の指示を使用して、ゲームはこれらのスキン、スケルトン、
+ * および指示に基づいてアニメーションを作成し、
+ * 美しく滑らかで軽量な動きを作り出します。
+ *
+ * TheGreenKelによって作られ、Yanflyと共同で作られたこのプラグインは、
+ * 戦闘システムにDragonBonesによって作られた
+ * 骨格アニメーションを使うことを可能にするでしょう。
+ * 18以上の可能なモーション、
+ * より速いロード時間のためのスプライトベースのリソース、
+ * より小さいファイルサイズを取り除きます。
+ * 言い換えれば、
+ * リソースがあればそれを使用しても実質的に問題はありません。
+ *
+ * YanflyEnginePluginsライブラリとの互換性を保証するための
+ * TheGreenKelとYanflyによるコラボレーションプラグインです。
+ *
+ * ===========================================================================
+ * MITライセンスと利用規約
+ * ===========================================================================
+ *
+ * MIT License for the remaining code of the Plugin
+ *
+ * Copyright 2017 TheGreenKel
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ *
+ * Yanfly Engine Plugins Terms of Use
+ *
+ * Any original material made by Yanfly is free for use with both free and
+ * commercial RPG Maker games unless specified otherwise. I do not demand
+ * royalties or special liberties if you choose to use Yanfly original content
+ * in your commercial games. (Although a free copy of your game would be nice!)
+ * I only ask that you provide 'Yanfly' or 'Yanfly Engine' a spot in your
+ * game’s credits.
+ *
+ * Any edits made to Yanfly original material are okay as long as you still
+ * provide the proper credit. Any non-Original content posted, linked, or
+ * shared on my website and channel will still require you to contact the
+ * respective parties for permission of use.
+ *
+ * ===========================================================================
+ * インストール手順
+ * ===========================================================================
+ *
+ * DragonBonesをゲームに統合するには、以下の手順に従ってください。
+ *
+ * 1.RPGツクールMVのバージョンが1.4.0以上であることを確認してください。
+ * 推奨バージョンは1.5.0以上です。
+ *
+ * 2. Yanfly.moeまたは以下からインストールパックをダウンロードします。
+ *    https://thegreenkel.itch.io/dragonbones-rpg-maker-mv-plugin
+ *
+ * 3. WinZipまたはWinRarを使用してインストールパックを解凍します。
+ *
+ * 4. 'js'フォルダの内容を、ディレクトリ構造とファイルに一致する
+ * プロジェクトのフォルダにコピーします。
+ *
+ * 5. メモ帳/ HTMLエディタでゲームプロジェクトのindex.htmlファイルを開きます。
+ *
+ * 6. <script type="text/javascript" src="js/libs/pixi-picture.js">
+ * を見つけて、その下に次の行を挿入します。
+ *
+ * <script type="text/javascript" src="js/libs/dragonbones/dragonBones.js">
+ * </script>
+ * <script type="text/javascript" src="js/libs/dragonbones/dragonBonesPixi.js">
+ * </script>
+ *
+ * 7. プラグイン管理でプラグインを追加します。
+ *
+ * 8. このプラグインが以下のプラグインの下にあることを確認してください。
+ *      YEP_BattleEngineCore
+ *      YEP_X_ActSeqPack1
+ *      YEP_X_ActSeqPack2
+ *      YEP_X_ActSeqPack3
+ *      YEP_X_AnimatedSVEnemies
+ *
+ * 9. インストールパックのDragonBoneアセットをゲームプロジェクトに必要な
+ *    それぞれのフォルダにコピーします。
+ *    フォルダパスと一致するように 'Assets Path'プラグインパラメータを
+ *    調整します。
+ *
+ * 10. ゲームプロジェクトを保存します。
+ *
+ * ===========================================================================
+ * TheGreenKelの一般的な使用法
+ * ===========================================================================
+ *
+ * プラグインはDragonBones5.2および5.3でのみテストされています。
+ * 私はそれをYanflyプラグインと互換性を持たせるために、
+ * おそらくそれ以上のプラグイン郡を書き直しました。
+ *
+ * 使用法
+ *    1) DragonBonesArmature/SkeletonがBattlerの名前を
+ *       共有していることを確認したら、
+ *       DragonBonesデータ(データバージョンが5.0に設定されている)を
+ *       'AssetsPath'パラメータにエクスポートします。
+ *       デフォルトは'dragonbones_assets'です。
+ *
+ *    2）新しいアーマチュアデータを'Preload Assets'パラメータに追加します
+ *
+ *    3) プラグインはアーマチュア内の18のデフォルトアニメーションを探します。
+ *           [walk, swing, damage, dead, wait, chant, guard, etc.]
+ *
+ *    4) メモタグ'dragonbone_ani_'を使ってデフォルトのアニメーションを
+ *       上書きすることができます。
+ *       例:'dragonbone_ani_walk:steady'、
+ *       'steady'アニメーションは'walk'の代わりに再生されます。
+ *
+ *    5) バニラアクター/敵はデフォルトで表示されます。
+ *       空白の画像に置き換える必要があります。
+ *       空白の画像がどのように見えるかについては
+ *       デモプロジェクトをチェックしてください。
+ *       変更により、プラグインはUIを変更するプラグインとの互換性が増します。
+ *
+ *    6) YanflyActionSequence2を使用している場合、
+ *       'motion'コマンドを使用してドラゴンボーンの
+ *       アニメーションを再生できます。
+ *       例:'モーションダンス'ゲームはドラゴンボーンアーマチュアを調べて、
+ *       それが'ダンス'アニメーションを持っているかどうかを確認します。
+ *       アニメーションがある場合、アニメーションが再生されます。
+ *
+ *    7) Dragonbonesエディタ内で'PlayTimes'変数を設定することで、
+ *       アニメーションをループするかどうかを
+ *       コントロールできるようになりました。
+ *
+ *    8) フォーラムリンクでより多くの情報/チュートリアルを入手してください。
+ *        https://forums.rpgmakerweb.com/index.php?threads/81027/
+ *
+ * 重要なDragonBonesアニメーションノート：
+ * DragonBonesDataバージョン5.0の制限は、
+ * 位置/回転/スケールキーに同じアニメーションカーブを使う必要があります。
+ * 以下は、
+ * DragonBonesとエクスポートされたバージョンが
+ * ポジションアニメーションカーブを優先したためにどのように異なるかの例です。
+ *        https://gyazo.com/fd3539028c0ecadd2a727b99ac8398a4
+ *        https://gyazo.com/e79427f5f5b5e4b56a15dfc2bf76253f
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * このプラグインを最大限に活用するために以下のメモタグを使ってください。
+ *
+ * アクターと敵のメモタグ
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   <DragonBone: name>
+ *   <DragonBone Battler: name>
+ * - このアクター/敵に関連したDragonBonesを"name"に設定します。
+ * 名前は使用されるアセットに関連付けられます。
+ * _ske.json、_tex.json、_tex.png
+ * で終わる関連ファイル名を確認するために使用されます。
+ * リストされているアセットはアセットフォルダーになければなりません。
+ *
+ * 注:名前は大文字と小文字が区別されます。
+ * 注:プラグインのパラメータ'Auto-PreloadBattlers'が'true'の場合、
+ * 事前にロードされるアセットのリストにバトラーを追加します。
+ *
+ *  *例**
+ *
+ *   <DragonBone: Demon>
+ *   <DragonBone: DragonBoy>
+ *   <DragonBone: Swordsman>
+ *   <DragonBone: Ubbie>
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * DragonBonesのバトラーがここで検出されない場合、
+ * 以下のメモタグとその効果を利用することはできません。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   <DragonBone ScaleX: n>
+ *   <DragonBone ScaleY: n>
+ *   -'n'を数字に置き換えます。
+ *   正数でも負数でも、
+ *   整数でも10進数でもかまいません。
+ *   バトラーがどれだけ拡大縮小されるかに影響します。
+ *   1より小さい数は基本資産自体よりも小さくなりますが、
+ *   1より大きい数は基本資産よりも大きくなります。
+ *   数値が負の場合、
+ *   ScaleXとScaleYのどちらが使用されているかに応じて、
+ *   水平・垂直にミラーリングされます。
+ *
+ *   注:'DefaultScaleX'と'DefaultScaleY'のプラグインパラメータで
+ *   設定された設定を上書きします。
+ *
+ *  *例**
+ *
+ *   <DragonBone ScaleX: -0.3>
+ *   <DragonBone ScaleY: 0.3>
+ *
+ *   <DragonBone ScaleX: 1.2>
+ *   <DragonBone ScaleY: 1.2>
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   <DragonBone Width: x>
+ *   <DragonBone Height: x>
+ *   - 'x'を整数値に置き換えることでDragonBonesのバトラーの
+ *   'width'と'height'を設定 することを可能にします。
+ *   この値は主に衝突の目的とマウスクリックのアクティブ化に使用されます。
+ *   これらの値は、
+ *   各バトラーが動的な幅/高さになる可能性があるので調整できるので、
+ *   それらを適切に調整することが重要です。
+ *   調整されていない場合、
+ *   プラグインパラメータにあるデフォルトの幅/高さの値が使用されます。
+ *
+ *  *例**
+ *
+ *   <DragonBone Width: 150>
+ *   <DragonBone Height: 180>
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   <DragonBone Keep Sprite>
+ *   <DragonBone Replace Sprite>
+ *   - アクター/敵に使用されている元のスプライトをそのまま使用するか、
+ *   DragonBoneのバトラーに完全に置き換えさせるかを決定できます。
+ *   あなたがスプライトを交換することを選択した場合、
+ *   その代わりにDragonBoneのバトラーがいる限り、
+ *   スプライトは戦闘中に隠されます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *   <DragonBone Ani motion: animation>
+ *   - 'motion'を適切なバトラーのモーション名に置き換えてください。
+ *   'animation'はDragonBonesの骨格アニメーションの名前に
+ *   置き換えてください。
+ *   DragonBonesで同じ名前の骨格アニメーションが
+ *   指定されていないモーション用です。
+ *
+ *   'motion'を次のいずれかに置き換えます。
+ *                  attack
+ *     walk         thrust        escape
+ *     wait         swing         victory
+ *     chant        missile       dying
+ *     guard        skill         abnormal
+ *     damage       spell         sleep
+ *     evade        item          dead
+ *
+ *  注:置き換えられる'animation'は大文字と小文字が区別されます。
+ *
+ *  *例**
+ *
+ *   <DragonBone Ani Attack: normalAttack>
+ *   <DragonBone Ani Walk: steady>
+ *   <DragonBone Ani Damage: hit>
+ *   <DragonBone Ani Dead: dead>
+ *   <DragonBone Ani Wait: steady>
+ *   <DragonBone Ani Chant: stun>
+ *   <DragonBone Ani Swing: stun>
+ *   <DragonBone Ani Evade: stun>
+ *   <DragonBone Ani Thrust: stun>
+ *   <DragonBone Ani Missile: stun>
+ *   <DragonBone Ani Skill: stun>
+ *   <DragonBone Ani Spell: stun>
+ *   <DragonBone Ani Item: stun>
+ *   <DragonBone Ani Victory: stun>
+ *   <DragonBone Ani Dying: stun>
+ *   <DragonBone Ani Abnormal: stun>
+ *   <DragonBone Ani Sleep: stun>
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * DragonBoneのバトラーの設定をもっと簡潔に調整したい人は、
+ * 次のようなメモタグ形式を使うことができます。
+ *
+ *   <DragonBone Settings>
+ *    Battler: name             // DragonBone(DB)バトラーの名前
+ *
+ *    ScaleX: 0.3               // DBバトラーのスケールX
+ *    ScaleY: 0.3               // DBバトラーのスケールY
+ *    Width: 150                // DBバトラーの幅
+ *    Height: 180               // DBバトラーの高さ
+ *
+ *    // 以下は、骨格アニメーションに関連した一連のバトラーの動きです。
+ *
+ *    Ani Attack: 通常攻撃
+ *    Ani Walk: 前進
+ *    Ani Damage: ダメージ
+ *    Ani Dead: 戦闘不能
+ *    Ani Wait: 待機
+ *    Ani Chant: 魔法
+ *    Ani Swing: 振り
+ *    Ani Evade: 回避
+ *    Ani Thrust: 突き
+ *    Ani Missile: 飛び道具
+ *    Ani Skill: スキル
+ *    Ani Spell: 詠唱
+ *    Ani Item: アイテム
+ *    Ani Victory: 勝利
+ *    Ani Dying: 瀕死
+ *    Ani Abnormal: 状態異常
+ *    Ani Sleep: 睡眠
+ *
+ *    Keep Sprite         // DBバトラーとスプライトを並べて表示する
+ *    Replace Sprite      // DBバトラーがアクティブな間、スプライトを隠します
+ *   </DragonBone Settings>
+ *
+ *  - メモタグの間にあるものは全て、
+ *  <DragonBoneSettings>と</DragonBoneSettings>を使用して、
+ *  アクター/敵に使用されるDragonBoneのバトラーに設定されたプロパティを
+ *  決定します。
+ *  'name'プロパティを除いて、他の全てのプロパティはオプションであり、
+ *  リストから省略することができます。
+ *
+ *  *例**
+ *
+ *   <DragonBone Settings>
+ *    Battler: Ubbie
+ *    Replace Sprite
+ *    ScaleX: -0.2
+ *    ScaleY: 0.2
+ *    Width: 150
+ *    Height: 100
+ *   </DragonBone Settings>
+ *
+ *   <DragonBone Settings>
+ *    Battler: Demon
+ *    Replace Sprite
+ *    ScaleX: 0.3
+ *    ScaleY: 0.3
+ *    Width: 140
+ *    Height: 140
+ *   </DragonBone Settings>
+ *
+ *   <DragonBone Settings>
+ *    Battler: Swordsman
+ *    Replace Sprite
+ *    ScaleX: -0.4
+ *    ScaleY: 0.4
+ *    Width: 150
+ *    Height: 180
+ *   </DragonBone Settings>
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.09;
+ * - Bugfix updated by SwiftIllusion to make sure blend color are inherited
+ * by actor Dragonbones sprites.
+ *
+ * Version 1.08:
+ * - Bugfix by Irina & SwiftIllusion for Flash Colors on Dragonbones battlers
+ *
+ * Version 1.07:
+ * - Bugfixed for animation height rate for Dragonbones battlers.
+ *
+ * Version 1.06:
+ * - Bugfix for Action Sequences for Jump and Float not affecting units with
+ * DragonBones battlers.
+ *
+ * Version 1.05:
+ * - Bugfix provided for crashes made by animations played on non-battler
+ * sprites.
+ *
+ * Version 1.04:
+ * - Bugfix provided by SwiftIllusion regarding the animation positioning on
+ * DragonBones battlers.
+ *
+ * Version 1.03:
+ * - Fixed an issue with state sprites appearing behind DragonBones assets.
+ *
+ * Version 1.02:
+ * - Change to collapse effect occuring after death animation is completed so
+ * that it fades away like normal instead of being stuck on the field.
+ * Credits: Swift Illusion
+ *
+ * Version 1.01:
+ * - If using YEP_X_AnimatedSVEnemies, enemies with DragonBones battlers will
+ * be considered animated enemies, too.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

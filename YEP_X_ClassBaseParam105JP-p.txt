@@ -1,0 +1,95 @@
+/*:ja
+ * @plugindesc v1.05 (要YEP_BaseParamControl) 職業の能力値増加量を独自の式にできます
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは YEP_BaseParamControl を必要とします。
+ * このプラグインがプラグイン管理の YEP_BaseParamControl の下にあることを
+ * 確認してください。
+ *
+ * 通常能力値がエディタによって決定される方法が気に入らない場合、
+ * このプラグインを使用して、
+ * 各職業の能力値増加量を決定するために独自の式を使用できます。
+ * また、職業毎に各レベルに必要な経験値を調整することを可能にします。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム職業能力値
+ * ===========================================================================
+ *
+ * 式が短くて単純な場合、
+ * このメモタグを使用してすべての通常能力値の全体をカバーできます。
+ *
+ * 職業のメモタグ
+ *
+ *   <Custom Class Parameters>
+ *    maxhp = level * 30 + 300;
+ *    maxmp = level * 20 + 150;
+ *    atk = level * 15 + 15;
+ *    def = level * 11 + 16;
+ *    mat = level * 12 + 14;
+ *    mdf = level * 10 + 13;
+ *    agi = level * 14 + 15;
+ *    luk = level * 13 + 12;
+ *    exp = level * 100;
+ *   </Custom Class Parameters>
+ *   'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'、'exp'変数は
+ *   それぞれ個々の能力値を参照します。
+ *   'level'変数はアクターの現在のレベルを表します。
+ *   式は、それが正当な数を返す限り、あなたが好きなように作ることができます。
+ *   *注: ここでの'exp'能力値とは、
+ *   次のレベルに達するために必要な経験値の量を指します。
+ *
+ * ===========================================================================
+ * ルナティックモード - 詳細なカスタム能力値式
+ * ===========================================================================
+ *
+ * 各能力値の計算式をもう少し詳しく知りたい場合、次のメモタグ設定を使用できます。
+ *
+ * 職業のメモタグ
+ *
+ *   <Custom Param Formula>
+ *    if (this.name() === 'Harold') {
+ *      value = level * 30 + 300;
+ *    } else {
+ *      value = level * 25 + 250;
+ *    }
+ *   </Custom Param Formula>
+ *   'Param'を'maxhp'、'maxmp'、'atk'、'def'、'mat'、'mdf'、'agi'、'luk'、
+ *   'exp'に置き換えてください。
+ *   'value'変数は、職業の通常能力値としてcountに返される最終結果です。
+ *   'level'変数はアクターの現在のレベルを表します。
+ *   式は、それが正当な数を返す限り、あなたが好きなように作ることができます。
+ *   *注: ここでの'exp'能力値とは、
+ *   次のレベルに達するために必要な経験値の量を指します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.04:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.03:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.02:
+ * - Fixed a bug that caused the <Custom Param Formula> notetag to not work.
+ *
+ * Version 1.01:
+ * - Fixed a bug that caused errors on loading up a game with the EXP formula.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

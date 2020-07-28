@@ -1,0 +1,263 @@
+/*:ja
+ * @plugindesc v1.18 装備のシステムをより柔軟にし、職業毎に独自の装備スロットを作成できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Text Align
+ * @text 文字揃え
+ * @parent ---一般---
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc コマンドウィンドウでのテキスト配置
+ * 左:left / 中央:center / 右:right
+ * @default left
+ *
+ * @param Finish Command
+ * @text 完了テキスト
+ * @parent ---一般---
+ * @desc 装備シーンを終了するコマンドの表示テキスト
+ * @default 完了
+ *
+ * @param Remove Text
+ * @text 外すテキスト
+ * @parent ---一般---
+ * @desc 装備シーンで"外す"コマンドの表示テキスト
+ * @default 外す
+ *
+ * @param Remove Icon
+ * @text 外すアイコン
+ * @parent ---一般---
+ * @type number
+ * @desc 装備シーンで"外す"コマンドのアイコン
+ * @default 16
+ *
+ * @param Empty Text
+ * @text 空テキスト
+ * @parent ---一般---
+ * @desc 装備シーンで装備品が空のテキスト
+ * @default <空き>
+ *
+ * @param Empty Icon
+ * @text 空アイコン
+ * @parent ---一般---
+ * @type number
+ * @desc 装備シーンで装備品が空のアイコン
+ * @default 16
+ *
+ * @param ---ルール---
+ * @default
+ *
+ * @param Non-Removable Types
+ * @text 必須装備タイプ
+ * @parent ---ルール---
+ * @type number
+ * @max 100
+ * @desc 常に何か装備する必要がある装備タイプ。複数のタイプIDを指定する場合、スペース区切り。無効にする場合、0
+ * @default 1
+ *
+ * @param Non-Optimized Types
+ * @text 最強無視装備タイプ
+ * @parent ---ルール---
+ * @type number
+ * @max 100
+ * @desc 最強装備の機能使用時、無視する装備タイプ。複数のタイプIDを指定する場合、スペース区切り。無効にする場合、0
+ * @default 5
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインでは、装備のハンドリングに関するいくつかの要素を変更します。
+ * 詳細は下記を参照してください:
+ * 
+ * 1. Scene_Equip
+ * Scene_Equipは見た目の変更を行います。
+ * 主にメインメニューの見た目を統一し、
+ * プレイヤーにとって親しみやすいものへと変更します。
+ * 今後リリースされる拡張プラグインに対応できるように、
+ * コマンドウィンドウについても最適化されています。
+ * 
+ * 
+ * 2. 装備タイプの扱い
+ * 職業のメモ欄にメモタグを加えると、職業毎に異なる設定ができます。
+ * 同じ名前を持った装備タイプは、単独としてバラバラに扱われていました。
+ * このプラグインでは、同じタイプとして扱うことができます。
+ * 
+ * 3. 装備ルール
+ * 特定の装備タイプは外すことができなくなります。
+ * 例えば'武器は常に何かしら装備していなくてはならない'という設定が可能で、
+ * プレイヤーは武器を勝手に外すことはできなくなります。
+ * (イベントを通して解除させることもできます。)
+ * それに加えて、特定の装備タイプを指定して、最強装備の制限もできます。
+ * 装飾品のような装備タイプに関しては手動で決定させた方が良いでしょう。
+ * 
+ * 4. パラメータコントロール
+ * メモタグを用いることで、装備パラメータに、
+ * 大きな値やカスタマイズされた値を付与することができます。
+ * (コードを通して実行されます)
+ * 装備品は固定の性能を持ったアイテムではなくなり、
+ * ゲームを通して性能が変動するようなものとなります。
+ * 
+ * 注: アイテムコア（Item Core）を使用してる方々
+ * アイテムコアのプラグイン、Item Sceneレイアウトオプションを使っている方へ。
+ * 「Item Info Window」は「Equip Scene」に移動されました。
+ * 左・右キー、タブキー、それぞれのウィンドウをクリックすると
+ * パラメータを比べるウィンドウと情報ウィンドウが表示されます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 職業の装備設定を変更するには、下記のメモタグを用いてください。
+ *
+ * 職業のメモタグ:
+ *   <Equip Slot: x>
+ *   <Equip Slot: x, x, x>
+ *
+ *   例:
+ *   <Equip Slot: 1, 2, 3, 4, 5, 5, 5, 5>
+ *   職業の装備スロットを x に変更します。
+ *   繰り返し同じ番号を使うことにより装備タイプを複製し、
+ *   その職業は同タイプの装備を複数着けることができます。
+ *   タイプIDは、データベースのタイプタブを確認してください。
+ *
+ *   上記の方法が気に入らない場合、下記のメモタグを代わりに用いてください。
+ *
+ *   <Equip Slot>
+ *    string
+ *    string
+ *    string
+ *    string
+ *   </Equip Slot>
+ *
+ *   例:
+ *   <Equip Slot>
+ *    Weapon
+ *    Armor
+ *    Accessory
+ *    Accessory
+ *   </Equip Slot>
+ *   'string'を装備タイプの名前に変えてください。
+ *   正確な照合のため、名前が完全に合致しない場合、
+ *   スロットは動作しません。
+ *   複数コピーされた名前は、
+ *   その職業がそのタイプの装備を複数着けることができます。
+ *   全て、前述のメモタグと同様に動作します。
+ *
+ * 武器、防具のメモタグ:
+ *   <stat: +x>
+ *   <stat: -x>
+ *   武器・防具で能力値を、 x だけ増加・減少させます。
+ *   "stat"の部分を"hp", "mp", "atk", "def", "mat", "mdf", "agi", "luk"
+ *   のような特定のステータスに変更してください。
+ *   この機能は、デフォルトの最大値の上限を無視して使うことができます。
+ *   ここで成された変更は、通常能力値を上書きします。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタム能力値
+ * ===========================================================================
+ *
+ *   <Custom Parameters>
+ *    code
+ *    code
+ *    code
+ *    code
+ *   </Custom Parameters>
+ *
+ *   例:
+ *   <Custom Parameters>
+ *    atk = $gameVariables.value(1);
+ *    mat = atk / 2;
+ *    all = $gameParty.members().length;
+ *   </Custom Parameters>
+ *   パラメータに、コードによって適用されたレートを設定することができます。
+ *   次のパラメータが定義されます:
+ *   'maxhp', 'maxmp', 'atk', 'def', 'mat', 'mdf', 'agi', 'luk', and 'all'
+ *   'all' のパラメータは、全てのパラメータに作用します。
+ *   ここでの変更は通常能力値を上書きしませんが、追加保存されます。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.18:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.17:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.16:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.15:
+ * - Optimization update.
+ *
+ * Version 1.14:
+ * - Added an actor refresh upon listing the various equip slots to ensure
+ * that all slots are updated in case any cache'd instances may have been
+ * missed.
+ *
+ * Version 1.13:
+ * - Fixed a bug that caused a crash for those who weren't using the Item Core
+ * in addition to this plugin.
+ *
+ * Version 1.12:
+ * - Added optional functionality. Leaving 'Finish Command' empty will remove
+ * it from being added to the command list.
+ *
+ * Version 1.11:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.10:
+ * - Fixed a bug that did not clear changes made to an actor's stats after
+ * having unequipped them and then switching actors.
+ *
+ * Version 1.09:
+ * - For users using the Item Core plugin and the new Item Scene layout
+ * option,
+ * the Item Info Window is now added to the Equip Scene. Pressing Left/Right
+ * will toggle the stat comparison window with the info window. Pressing Tab
+ * on the keyboard will also switch them as well as clicking on those windows.
+ *
+ * Version 1.08:
+ * - Fixed a bug where changing an actor's equips would revive them if dead.
+ *
+ * Version 1.07:
+ * - Fixed a bug with 'Optimize' and 'Remove All' not refreshing windows.
+ *
+ * Version 1.06:
+ * - Fixed a bug with 'Change Equipment' event where it would only change the
+ * slot of the marked equipment rather than the slot type.
+ *
+ * Version 1.05:
+ * - Fixed an issue where unequipping items can kill actors.
+ *
+ * Version 1.04a:
+ * - Fixed a bug and rewrote the initializing equipment process.
+ *
+ * Version 1.03:
+ * - Fixed an bug that resulted in null object errors.
+ *
+ * Version 1.02:
+ * - Fixed an issue that did not keep HP and MP rates the same when using the
+ * optimize and clear commands.
+ *
+ * Version 1.01:
+ * - Fixed a bug that did not update the stats properly when compared.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

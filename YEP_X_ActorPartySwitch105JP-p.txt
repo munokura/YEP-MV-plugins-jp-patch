@@ -1,0 +1,167 @@
+/*:ja
+ * @plugindesc v1.05 (要YEP_PartySystem、YEP_BattleEngineCore)アクターが戦闘中に他のパーティメンバーと交代できるシステムを導入
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @text ---一般---
+ * @default
+ *
+ * @param Switch Command
+ * @text 交代表示テキスト
+ * @parent ---一般---
+ * @desc 仲間を切り替える表示テキスト
+ * @default 交代
+ *
+ * @param Switch Cooldown
+ * @text 交代クールダウン
+ * @parent ---一般---
+ * @type number
+ * @desc アクターが離脱した後、復帰に必要なターン数。無効にするには0
+ * @default 1
+ *
+ * @param Show Command
+ * @text 交代表示
+ * @parent ---一般---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc デフォルトでパーティの交代を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Enable Command
+ * @text 交代有効化
+ * @parent ---一般---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトでパーティの交代を有効化
+ * 無効:false / 有効:true
+ * @default true
+ *
+ * @param ---ウィンドウ---
+ * @text ---ウィンドウ---
+ * @default
+ *
+ * @param Window X
+ * @text X位置
+ * @parent ---ウィンドウ---
+ * @desc パーティ交代ウィンドウのX位置。式が使えます
+ * @default 0
+ *
+ * @param Window Y
+ * @text Y位置
+ * @parent ---ウィンドウ---
+ * @desc パーティ交代ウィンドウのY位置。式が使えます
+ * @default 0
+ *
+ * @param Window Width
+ * @text ウィンドウ幅
+ * @parent ---ウィンドウ---
+ * @desc パーティ交代ウィンドウの幅。式が使えます
+ * @default Graphics.boxWidth / 2
+ *
+ * @param Window Height
+ * @text ウィンドウ高
+ * @parent ---ウィンドウ---
+ * @desc パーティ交代ウィンドウの高さ。式が使えます
+ * This is a formula.
+ * @default Graphics.boxHeight - this.fittingHeight(4)
+ *
+ * @param Actor Graphic
+ * @text アクター画像
+ * @parent ---ウィンドウ---
+ * @type select
+ * @option なし
+ * @value 0
+ * @option 歩行画像
+ * @value 1
+ * @option 顔画像
+ * @value 2
+ * @option SV戦闘キャラ
+ * @value 3
+ * @desc アクターを表示する画像
+ * 0:なし / 1:歩行画像 / 2:顔画像 / 3:SV戦闘キャラ
+ * @default 2
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc フォントサイズ
+ * Default: 28
+ * @default 20
+ *
+ * @param Rect Height
+ * @text エントリ高
+ * @parent ---ウィンドウ---
+ * @type number
+ * @desc 各アクターエントリの高さ(ピクセル単位)。自動検出は0
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_PartySystemとYEP_BattleEngineCoreを必要とします。
+ * プラグイン管理で両方のプラグインの下に
+ * このプラグインがあることを確認してください。
+ *
+ * このプラグインはプレイヤーに戦闘の途中でパーティ全体ではなく
+ * 個人ベースでパーティメンバーを交代するシステムを与えます。
+ * ただし、交代した直後でクールダウンしているアクターは、交代できません。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * ゲームの途中で設定を変更したい場合、
+ * 以下のプラグインコマンドを使ってください。
+ *
+ * プラグインコマンド
+ *
+ *   ShowActorPartySwitch
+ *   HideActorPartySwitch
+ *   - アクターコマンドウィンドウの'Switch Command'(交代)の
+ *   表示/非表示を切り替えます。
+ *
+ *   EnableActorPartySwitch
+ *   DisableActorPartySwitch
+ *   - アクターコマンドウィンドウの'Switch Command'(交代)を
+ *   有効/無効にします。
+ *
+ *   ResetActorPartySwitchCooldowns
+ *   - パーティの全員の'Switch Command'(交代)クールダウンをリセットします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.05:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.04:
+ * - Fixed a bug that caused the on-map party layout to not update if
+ * switching has been used in battle.
+ *
+ * Version 1.03:
+ * - Fixed a bug that prevented 'HideActorPartySwitch' from working properly.
+ *
+ * Version 1.02:
+ * - Fixed a bug that caused subsequent battles to have actors appear in the
+ * wrong positions.
+ *
+ * Version 1.01:
+ * - Added compatibility check for people who weren't using Row Formations.
+ * - Turning of 'Display TP in Battle' from the Database > System tab will now
+ * turn off TP from displaying in the party list, too.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

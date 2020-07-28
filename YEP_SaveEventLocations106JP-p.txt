@@ -1,0 +1,71 @@
+/*:ja
+ * @plugindesc v1.06 マップに出入りした後に、マップ上のイベントの位置を保存・維持させることができます。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ *  RPGツクールMVでは通常、マップから出る際/マップに入る際には
+ * マップ上の全てのイベント位置がリセットされます。
+ * パズルのような特定のマップ作成においては、上記の機能は煩わしいものでした。
+ *
+ * このプラグインでは、マップ上の全て/指定の
+ * イベントの位置を保持することが可能になります
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * マップのメモタグ:
+ *   <Save Event Locations>
+ *   マップ上の全てのイベント位置をマップに保存させます。
+ *   マップに入り直すと、イベントは最後に保存された
+ *   元の位置/元の向きでロードされます。
+ *
+ * イベントのメモタグ:
+ *   <Save Event Location>
+ *   マップ上の特定のイベント位置をマップに保存させます。
+ *   マップに入り直すと、イベントは最後に保存された
+ *   元の位置/元の向きでロードされます。
+ *
+ * イベントの位置をリセットしたい場合、イベントエディタを開いて、
+ * 通常通り「イベント位置を設定する」を選んでください。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * プラグインコマンド
+ *   ResetAllEventLocations
+ *   - マップ上の全てのイベント位置をリセットします。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.06:
+ * - Fixed an issue where using an event to instantly move an event would not
+ * save the event's location.
+ *
+ * Version 1.05:
+ * - Fixed a bug where if an event whose location is to be saved starts with a
+ * direction other than down, the direction would be overwritten when loaded.
+ *
+ * Version 1.04:
+ * - Updated the <Save Event Location> to save an event's direction even if it
+ * didn't move.
+ *
+ * Version 1.03:
+ * - Fixed a bug where reset locations would not save properly.
+ *
+ * Version 1.02:
+ * - Fixed a bug where battles would reset saved location notetags.
+ *
+ * Version 1.01:
+ * - Fixed an incompatibility with the Set Event Location event command.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */

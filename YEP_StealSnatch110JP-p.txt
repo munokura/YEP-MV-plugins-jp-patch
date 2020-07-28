@@ -1,0 +1,595 @@
+/*:ja
+ * @plugindesc v1.10 アクターが敵からアイテムを奪えるシステムを追加します
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Bonus Formula
+ * @text ボーナス式
+ * @parent ---一般---
+ * @desc スティール成功率ボーナスを決定するカスタム式
+ * @default (user.luk / (512 + user.luk)) / 3
+ *
+ * @param ---自動設定---
+ * @default
+ *
+ * @param Gold Drop
+ * @text 所持金ドロップ
+ * @parent ---自動設定---
+ * @type boolean
+ * @on 対象
+ * @off 非対象
+ * @desc 敵の所持金ドロップをスティール対象
+ * 非対象:false / 対象:true
+ * @default true
+ *
+ * @param Gold Rate
+ * @text 所持金成功率
+ * @parent ---自動設定---
+ * @type number
+ * @decimals 2
+ * @desc 所持金ドロップを含める場合のスティール成功率
+ * 0.00:0% / 1.00:100%
+ * @default 0.50
+ *
+ * @param Gold Removal
+ * @text 所持金除外
+ * @parent ---自動設定---
+ * @type boolean
+ * @on 除外する
+ * @off 除外しない
+ * @desc 所持金スティールを使用した場合、倒した敵の報酬から所持金を除外。除外しない:false / 除外する:true
+ * @default true
+ *
+ * @param Drop Items
+ * @text ドロップアイテム
+ * @parent ---自動設定---
+ * @type boolean
+ * @on 対象
+ * @off 非対象
+ * @desc ドロップ可能なアイテムをスティール対象
+ * 非対象:false / 対象:true
+ * @default true
+ *
+ * @param Drop Rates
+ * @text ドロップ成功率
+ * @parent ---自動設定---
+ * @type number
+ * @decimals 2
+ * @desc ドロップアイテムが対象の場合、スティール成功率
+ * 0.00:0% / 1.00:100%
+ * @default 0.80
+ *
+ * @param Drop Removal
+ * @text ドロップ除外
+ * @parent ---自動設定---
+ * @type boolean
+ * @on 除外する
+ * @off 除外しない
+ * @desc ドロップスティールに成功した場合、倒した敵の報酬からドロップを除外。除外しない:false / 除外する:true
+ * @default true
+ *
+ * @param Automatic Debuff
+ * @text 装備品デバフ
+ * @parent ---自動設定---
+ * @type boolean
+ * @on デバフする
+ * @off デバフしない
+ * @desc 武器や防具のスティールに成功した場合、装備品の能力値分を敵にデバフ。デバフしない:false / デバフする:true
+ * @default true
+ *
+ * @param ---戦闘ログ----
+ * @default
+ *
+ * @param Center Text
+ * @text テキスト中央配置
+ * @parent ---戦闘ログ----
+ * @type boolean
+ * @on 中央
+ * @off デフォルト
+ * @desc YEP_BattleEngineCore を使用している場合のテキスト配置
+ * デフォルト:false / 中央:true
+ * @default false
+ *
+ * @param Fail Text
+ * @text 失敗テキスト
+ * @parent ---戦闘ログ----
+ * @desc スティールに失敗した場合の表示テキスト
+ * %1:アクター / %2:対象
+ * @default %1 は %2 から奪えなかった
+ *
+ * @param Success Text
+ * @text 成功テキスト
+ * @parent ---戦闘ログ----
+ * @desc スティールに成功した場合の表示テキスト
+ * %1:アクター / %2:対象 / %3:アイテム / %4:アイコン
+ * @default %1 は %2 から %4%3 を奪った！
+ *
+ * @param Steal Empty
+ * @text 無所持テキスト
+ * @parent ---戦闘ログ----
+ * @desc 対象に盗むものが何もない場合の表示テキスト
+ * %1:対象
+ * @default %1 は何も持っていない
+ *
+ * @param Gold Format
+ * @text 所持金の表示形式
+ * @parent ---戦闘ログ----
+ * @desc 所持金の表示形式
+ * %1:量 / %2:所持金単位
+ * @default %1 %2
+ *
+ * @param Steal Wait
+ * @text 待機フレーム
+ * @parent ---戦闘ログ----
+ * @type number
+ * @desc YEP_BattleEngineCore を使用している場合、メッセージが待機するフレーム数
+ * @default 60
+ *
+ * @param ---スナッチウィンドウ---
+ * @default
+ *
+ * @param Gold Help Text
+ * @text 所持金ヘルプ表示
+ * @parent ---スナッチウィンドウ---
+ * @desc 所持金についてヘルプウィンドウ表示テキスト
+ * %1:量 / %2:所持金単位
+ * @default %1 %2 奪えます
+ *
+ * @param Success Font Size
+ * @text 成功率フォントサイズ
+ * @parent ---スナッチウィンドウ---
+ * @type number
+ * @min 1
+ * @desc 成功率に使用されるフォントサイズ
+ * デフォルト:28
+ * @default 20
+ *
+ * @param Decimal Places
+ * @text 表示成功率の桁数
+ * @parent ---スナッチウィンドウ---
+ * @type number
+ * @desc 成功率に表示する小数点以下の桁数
+ * @default 0
+ *
+ * @param Already Stolen
+ * @text 奪ったタイトル
+ * @parent ---スナッチウィンドウ---
+ * @desc 既に奪ったアイテムのタイトル
+ * @default 奪ったアイテム
+ *
+ * @param ---音響効果---
+ * @default
+ *
+ * @param Failure Sound
+ * @text スティール失敗SE
+ * @parent ---音響効果---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc スティールを失敗した場合、SEが鳴ります。SEを再生しない場合、無入力に
+ * @default Buzzer2
+ *
+ * @param Failure Volume
+ * @text スティール失敗SE音量
+ * @parent ---音響効果---
+ * @desc SEの音量
+ * @default 80
+ *
+ * @param Failure Pitch
+ * @text スティール失敗SEピッチ
+ * @parent ---音響効果---
+ * @desc SEのピッチ
+ * @default 120
+ *
+ * @param Failure Pan
+ * @text スティール失敗SEパン
+ * @parent ---音響効果---
+ * @desc SEのパン
+ * @default 0
+ *
+ * @param Empty Sound
+ * @text 無所持SE
+ * @parent ---音響効果---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc 奪うものが何もない時、SEが再生されます。SEを再生しない場合、無入力に
+ * @default Evasion1
+ *
+ * @param Empty Volume
+ * @text 無所持SE音量
+ * @parent ---音響効果---
+ * @desc SEの音量
+ * @default 80
+ *
+ * @param Empty Pitch
+ * @text 無所持SEピッチ
+ * @parent ---音響効果---
+ * @desc SEのピッチ
+ * @default 120
+ *
+ * @param Empty Pan
+ * @text 無所持SEパン
+ * @parent ---音響効果---
+ * @desc SEのパン
+ * @default 0
+ *
+ * @param Item Sound
+ * @text アイテムSE
+ * @parent ---音響効果---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc スティールが成功した時に再生されるSE。SEを再生しない場合、無入力に
+ * @default Item1
+ *
+ * @param Item Volume
+ * @text アイテムSE音量
+ * @parent ---音響効果---
+ * @desc SEの音量
+ * @default 80
+ *
+ * @param Item Pitch
+ * @text アイテムSEピッチ
+ * @parent ---音響効果---
+ * @desc SEのピッチ
+ * @default 120
+ *
+ * @param Item Pan
+ * @text アイテムSEパン
+ * @parent ---音響効果---
+ * @desc SEのパン
+ * @default 0
+ *
+ * @param Weapon Sound
+ * @text 武器SE
+ * @parent ---音響効果---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc スティールが成功した時に再生されるSE。SEを再生しない場合、無入力に
+ * @default Equip1
+ *
+ * @param Weapon Volume
+ * @text 武器SE音量
+ * @parent ---音響効果---
+ * @desc SEの音量
+ * @default 80
+ *
+ * @param Weapon Pitch
+ * @text 武器SEピッチ
+ * @parent ---音響効果---
+ * @desc SEのピッチ
+ * @default 120
+ *
+ * @param Weapon Pan
+ * @text 武器SEパン
+ * @parent ---音響効果---
+ * @desc SEのパン
+ * @default 0
+ *
+ * @param Armor Sound
+ * @text 防具SE
+ * @parent ---音響効果---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc スティールが成功した時に再生されるSE。SEを再生しない場合、無入力に
+ * @default Equip2
+ *
+ * @param Armor Volume
+ * @text 防具SE音量
+ * @parent ---音響効果---
+ * @desc SEの音量
+ * @default 80
+ *
+ * @param Armor Pitch
+ * @text 防具SEピッチ
+ * @parent ---音響効果---
+ * @desc SEのピッチ
+ * @default 150
+ *
+ * @param Armor Pan
+ * @text 防具SEパン
+ * @parent ---音響効果---
+ * @desc SEのパン
+ * @default 0
+ *
+ * @param Gold Sound
+ * @text 所持金SE
+ * @parent ---音響効果---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc スティールが成功した時に再生されるSE。SEを再生しない場合、無入力に
+ * @default Shop2
+ *
+ * @param Gold Volume
+ * @text 所持金SE音量
+ * @parent ---音響効果---
+ * @desc SEの音量
+ * @default 80
+ *
+ * @param Gold Pitch
+ * @text 所持金SEピッチ
+ * @parent ---音響効果---
+ * @desc SEのピッチ
+ * @default 120
+ *
+ * @param Gold Pan
+ * @text 所持金SEパン
+ * @parent ---音響効果---
+ * @desc SEのパン
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * スティール(盗む)は、多くの伝統的なRPGに見られる、よく使われるスキルです。
+ * このプラグインを使用すると、そのシステムを導入することができます。
+ *
+ * 敵はデフォルトドロップに加えて、
+ * スティールできる複数のアイテムを持つことができます。
+ * アクターが敵からスティールを試みる時、
+ * そのアクターは成功するための、確率判定を受けます。
+ * 成功した場合、アクターはスティールできるアイテム候補から
+ * ランダムなアイテムを取得し、パーティはそのアイテムを獲得します。
+ *
+ * スティールに加えて、'スナッチ'と呼ばれる新しいシステムがあります。
+ * スティールでアクターは敵から無作為のアイテムを得ることができますが、
+ * スナッチでアクターは得たいアイテムを対象にし、
+ * そのアイテムだけに集中することができます。
+ *
+ * このプラグインのもう1つの特徴は、
+ * 装備の一部を盗んで敵を'デバフ'できることです。
+ * アクターが10の攻撃力を与える刀を盗むと、敵は10の攻撃力を失います。
+ * この機能は無効にもできます。
+ * また新機能（およびオプション）は、敵のドロップアイテムを盗む機能です。
+ * 敵が敗北した後にそれらのアイテムをドロップするとは限りませんが、
+ * 直接盗むことで、プレイヤーはアイテムを確保することができます。
+ * 盗まれたアイテムは、戦闘終了時に再びドロップすることはありません。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * スティール効果を設定するには、以下のメモタグを使用してください。
+ *
+ * 敵のメモタグ
+ *   <Steal Item x: y%>
+ *   <Steal Weapon x: y%>
+ *   <Steal Armor x: y%>
+ *   <Steal Gold x: y%>
+ *   盗まれる特別なアイテムを敵に与えます。
+ *   xはアイテムのID、y％はアイテムの盗難率です。
+ *
+ *   <Steal Potion: y%>
+ *   <Steal Short Sword: y%>
+ *   <Steal Round Shield: y%>
+ *   アイテムIDの代わりに名前を使用する場合、上記のメモタグを使用できます。
+ *   同じ名前のアイテムが複数ある場合、アイテム、武器、防具の順に、
+ *   アイテムIDが最も高いアイテムが優先されます。
+ *
+ *   <Steal Resist: +x%>
+ *   <Steal Resist: -x%>
+ *   敵のスティールに対する抵抗率です。
+ *
+ * スキル、アイテムのメモタグ
+ *   <Steal>
+ *   <Steal: +x%>
+ *   <Steal: -x%>
+ *   スキル/アイテムでスティールの確率を変更できます。
+ *   このメモタグは全てのアイテムタイプに適用されます。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スティール率はx%ずつ増減します。
+ *
+ *   <Steal Item>
+ *   <Steal Item: +x%>
+ *   <Steal Item: -x%>
+ *   スキル/アイテムでスティールの確率を変更できます。
+ *   このメモタグはアイテムタイプをスティール対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スティール率はx%ずつ増減します。
+ *
+ *   <Steal Weapon>
+ *   <Steal Weapon: +x%>
+ *   <Steal Weapon: -x%>
+ *   スキル/アイテムでスティールの確率を変更できます。
+ *   このメモタグは武器をスティール対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スティール率はx%ずつ増減します。
+ *
+ *   <Steal Armor>
+ *   <Steal Armor: +x%>
+ *   <Steal Armor: -x%>
+ *   スキル/アイテムでスティールの確率を変更できます。
+ *   このメモタグは防具をスティール対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スティール率はx%ずつ増減します。
+ *
+ *   <Steal Gold>
+ *   <Steal Gold: +x%>
+ *   <Steal Gold: -x%>
+ *   スキル/アイテムでスティールの確率を変更できます。
+ *   このメモタグは所持金をスティール対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スティール率はx%ずつ増減します。
+ *
+ *   <Snatch>
+ *   <Snatch: +x%>
+ *   <Snatch: -x%>
+ *   スキル/アイテムでスナッチの確率を変更できます。
+ *   スナッチは盗みたいアイテムを選択することができます。
+ *   このメモタグは全てのアイテムタイプをスナッチ対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スナッチ率はx%ずつ増減します。
+ *   *注: スナッチは対象とするスキル/アイテムに対してのみ有効です。
+ *
+ *   <Snatch Item>
+ *   <Snatch Item: +x%>
+ *   <Snatch Item: -x%>
+ *   スキル/アイテムでスナッチの確率を変更できます。
+ *   スナッチは盗みたいアイテムを選択することができます。
+ *   このメモタグは指定のアイテムをスナッチ対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スナッチ率はx%ずつ増減します。
+ *   *注: スナッチは対象とするスキル/アイテムに対してのみ有効です。
+ *
+ *   <Snatch Weapon>
+ *   <Snatch Weapon: +x%>
+ *   <Snatch Weapon: -x%>
+ *   スキル/アイテムでスナッチの確率を変更できます。
+ *   スナッチは盗みたい武器を選択することができます。
+ *   このメモタグは指定の武器をスナッチ対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スナッチ率はx%ずつ増減します。
+ *   *注: スナッチは対象とするスキル/アイテムに対してのみ有効です。
+ *
+ *   <Snatch Armor>
+ *   <Snatch Armor: +x%>
+ *   <Snatch Armor: -x%>
+ *   スキル/アイテムでスナッチの確率を変更できます。
+ *   スナッチは盗みたい防具を選択することができます。
+ *   このメモタグは指定の防具をスナッチ対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スナッチ率はx%ずつ増減します。
+ *   *注: スナッチは対象とするスキル/アイテムに対してのみ有効です。
+ *
+ *   <Snatch Gold>
+ *   <Snatch Gold: +x%>
+ *   <Snatch Gold: -x%>
+ *   スキル/アイテムでスナッチの確率を変更できます。
+ *   スナッチは盗みたい所持金を選択することができます。
+ *   このメモタグは指定の所持金をスナッチ対象アイテムに追加します。
+ *   メモタグに +x% / -x% を使用すると、
+ *   スナッチ率はx%ずつ増減します。
+ *   *注: スナッチは対象とするスキル/アイテムに対してのみ有効です。
+ *
+ * アイテム、武器、防具のメモタグ
+ *   <Enable Automatic Debuff>
+ *   <Disable Automatic Debuff>
+ *   盗まれたアイテムの影響としてパラメータに'自動効果'設定を
+ *   上書きすることができます。
+ *   これを設定すると、武器、防具、装備品に関連して
+ *   敵の能力値をデバフさせます。
+ *   無効にした場合は起こりません。
+ *   自動デバフは武器と防具にのみ適用されます。
+ *
+ *   <Steal Sound Name: filename>
+ *   スティール成功時、独自のSEを出したい場合、
+ *   このメモタグを使用してそれを実現します。
+ *   ファイル名からファイル拡張子を除外してください。
+ *
+ *   <Steal Sound Volume: x>
+ *   スティール成功時の交換の音量を変更するには、
+ *   このタグを使用してxを希望の音量に置き換えます。
+ *
+ *   <Steal Sound Pitch: x>
+ *   スティール成功時の交換のピッチを変更するには、
+ *   このタグを使用してxを希望のピッチに置き換えます。
+ *
+ *   <Steal Sound Pan: x>
+ *   スティール成功時の交換のパンを変更するには、
+ *   このタグを使用してxを希望のパンに置き換えます。
+ *
+ * アクター、職業、武器、防具、ステートのメモタグ
+ *   <Steal Rate: +x%>
+ *   <Steal Rate: -x%>
+ *   <Steal Type Rate: +x%>
+ *   <Steal Type Rate: -x%>
+ *   スティール成功率をx%増減します。
+ *   このメモタグを使うには
+ *   'Type' を 'Item', 'Weapon', 'Armor', or 'Gold'に置き換えて、
+ *   それらのタイプに個々のスティール成功率ボーナスを適用してください。
+ *
+ * ===========================================================================
+ * ルナティックモード - カスタムスティール効果
+ * ===========================================================================
+ *
+ * JavaScriptを使って、スキルやアイテムに対して
+ * 独自のスティール成功率を作成したい場合、
+ * このメモタグを使用して次のことを実現できます。
+ *
+ * スキル、アイテムのメモタグ
+ *   <Custom Steal Rate>
+ *   rate += user.hp / user.mhp;
+ *   rate += user.level * 0.01;
+ *   </Custom Steal Rate>
+ *   'rate'変数は、デフォルトの計算で既に事前定義されています。
+ *   それに追加することも上書きすることもできます。
+ *   その後、'rate'変数がレート計算用に返されます。
+ *   この式はスティールとスナッチの両方に適用されます。
+ *
+ *   <Custom Steal Success Effect>
+ *   if (item) {
+ *     user.gainHp(item.price);
+ *   }
+ *   </Custom Steal Success Effect>
+ *   スティールが成功した後のカスタム効果を発生させることができます。
+ *   'item'変数は盗まれたアイテムを参照します。
+ *
+ * アイテム、武器、防具のメモタグ
+ *   <After Steal Effect>
+ *   target.atk -= 10;
+ *   user.addBuff(3, 5);
+ *   </After Steal Effect>
+ *   このアイテム・武器・防具が盗まれると、
+ *   コードは盗まれた対象の敵に影響を及ぼします。
+ *   'item'は盗まれたアイテムを指します。
+ *   'target'は、アクターが盗んだ敵を指します。
+ *   'user'はそのアイテムを盗んだアクターを指します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.10:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.09:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.08:
+ * - Lunatic Mode fail safes added.
+ *
+ * Version 1.07:
+ * - Fixed a bug with the <Steal Rate: +/-x%> notetags not working.
+ *
+ * Version 1.06:
+ * - Added <Custom Steal Success Effect> Lunatic Mode notetag for skills and
+ * item usage.
+ *
+ * Version 1.05a:
+ * - Updated for RPG Maker MV version 1.1.0.
+ * - Updated Imported name to YEP_StealSnatch.
+ *
+ * Version 1.04:
+ * - Fixed a bug with <Steal Rate: +x%> notetag that caused the game to
+ * freeze.
+ *
+ * Version 1.03:
+ * - Added 'Steal Wait' plugin parameter to add a wait time for those using
+ * the Battle Engine Core.
+ *
+ * Version 1.02:
+ * - Message Core's WordWrap will now apply to snatch item descriptions.
+ *
+ * Version 1.01:
+ * - 'Success Text' plugin parameter now has %4 for you to add in an icon for
+ * the item you just stole. This requires the most recent Battle Engine Core
+ * if you are using it.
+ * - If enemies have 0 gold, they will not be automatically included in the
+ * list of stealable items.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

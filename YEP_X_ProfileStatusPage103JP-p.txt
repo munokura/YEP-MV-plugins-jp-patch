@@ -1,0 +1,140 @@
+/*:ja
+ * @plugindesc v1.03 (要YEP_StatusMenuCore) アクターのステータスメニューにプロフィールページを追加します。
+ *
+ * @author Yanfly Engine Plugins
+ *
+ * @param Command Name
+ * @text コマンド表示テキスト
+ * @desc [ステータスメニュー]コマンドリストの表示テキスト
+ * @default プロフィール
+ *
+ * @param Default Profile
+ * @text デフォルトプロフィール
+ * @type boolean
+ * @on 設定する
+ * @off 設定しない
+ * @desc データベースプロフィールをデフォルトプロフィールとして設定
+ * 設定しない:false / 設定する:true
+ * @default true
+ *
+ * @param Image Align
+ * @text 画像配置
+ * @type select
+ * @option 左
+ * @value left
+ * @option 中央
+ * @value center
+ * @option 右
+ * @value right
+ * @desc プロフィール画像の配置
+ * 左:left / 中央:center / 右:right
+ * @default right
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインはYEP_StatusMenuCoreを必要とします。
+ * プラグイン管理のYEP_StatusMenuCoreの下にこのプラグインを置きます。
+ *
+ * このプラグインは、
+ * プレイヤーがアクターの経歴を読むことができるステータスメニューに
+ * 新しい'Profile'コマンドを追加します。
+ * 画像を追加することができます。
+ * テキストもゲームの途中で更新することができます。
+ *
+ * ===========================================================================
+ * メモタグ
+ * ===========================================================================
+ *
+ * 以下のメモタグは、
+ * ステータスメニューのプロフィールページプロパティを変更するために
+ * アクターに使用されます。
+ *
+ * アクターのメモタグ
+ *   <Profile Text>
+ *    text
+ *    text
+ *   </Profile Text>
+ * プロフィールテキストをデフォルトのプロフィールテキストから、
+ * 2つのメモタグの間に使用されているテキストに変更します。
+ * ここでテキストに制御文字を使用することができます。
+ * ワードラップはサポートされていません。
+ *
+ *   <Profile Image: filename>
+ * アクターのプロフィール画像を関連付けたい場合、
+ * 'filename'をあなたのimg/picturesフォルダにある画像のファイル名に
+ * 置き換えてください。
+ * ファイル拡張子を含めないでください。
+ * 画像がAldo.pngの場合、'Aldo'を使用し、'png'拡張子を含めないでください。
+ *
+ *   <Profile Image Align: Left>
+ *   <Profile Image Align: Center>
+ *   <Profile Image Align: Right>
+ * プラグインのパラメータ設定とは異なる配置を使用したい場合、
+ * これらのメモタグを使用できます。
+ * 存在しない単語を使用すると、デフォルトで正しい配置が決定されます。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 以下のプラグインコマンドは、
+ * アクターのプロフィールページを変更するために使用することができます。
+ *
+ * プラグインコマンド
+ *
+ * ClearProfileText actorId
+ * - actorIdのプロフィールテキストが全て消去されます。
+ *
+ * AddProfileText actorId text
+ * - actorIdのプロフィールテキストにテキスト行を追加します。
+ *
+ * ProfileTextLine lineIndex actorId text
+ * - actorIdのプロフィールテキストの特定のlineIndexが
+ * 特定のテキストを表示するように変更されます。
+ * 例えば、アクター3のプロフィールテキストの50行目を'HelloWorld'にしたい場合、
+ * 次のように書きます。
+ *
+ * ProfileTextLine 49 3 Hello World
+ *
+ *
+ * ProfileImage actorId filename
+ * - actorIdのプロフィール画像をファイル拡張子なしのfilenameに変更します。
+ * 例えば、アクター3のプロフィール画像をAldo.pngに変更したい場合、
+ * 次のように書きます。
+ *
+ * ProfileImage 3 Aldo
+ *
+ *
+ * ProfileImageAlign actorId align
+ * - actorIdのプロフィール画像の配置を変更します。
+ * 引用符を除いて、'align'を'left'、'center'、・'right'に置き換えます。
+ * 存在しない単語がアライメントに使用される場合、
+ * 正しいアライメントが使用されます。
+ * アクター3のために画像を左に揃えて配置したい場合、
+ * 次のように書きます。
+ *
+ * ProfileImageAlign 3 Left
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.02:
+ * - Fixed a bug twhere the status window was not calling the right arguments.
+ *
+ * Version 1.01:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */

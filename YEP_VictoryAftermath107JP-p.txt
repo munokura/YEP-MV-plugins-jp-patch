@@ -1,0 +1,257 @@
+/*:ja
+ * @plugindesc v1.07 戦闘勝利時の情報表示をカスタムします
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Victory Order
+ * @text 情報表示順
+ * @parent ---一般---
+ * @desc 勝利時の情報表示順。パート区切りは半角スペースで
+ * @default exp custom drops
+ *
+ * @param ---BGM---
+ * @default
+ *
+ * @param Victory BGM
+ * @text BGM
+ * @parent ---BGM---
+ * @type file
+ * @dir audio/bgm/
+ * @require 1
+ * @desc 戦闘勝利時のBGM
+ * @default Ship3
+ *
+ * @param BGM Volume
+ * @text ボリューム
+ * @parent ---BGM---
+ * @desc 戦闘勝利時のBGMボリューム
+ * @default 90
+ *
+ * @param BGM Pitch
+ * @text ピッチ
+ * @parent ---BGM---
+ * @desc 戦闘勝利時のBGMピッチ
+ * @default 100
+ *
+ * @param BGM Pan
+ * @text パン
+ * @parent ---BGM---
+ * @desc 戦闘勝利時のBGMパン
+ * @default 0
+ *
+ * @param ---勝利結果---
+ * @default
+ *
+ * @param Cheer Wait
+ * @text アクターが喜ぶフレーム数
+ * @parent ---勝利結果---
+ * @type number
+ * @min 0
+ * @desc 勝利結果ウィンドウの表示前に、アクターが喜ぶフレーム数
+ * @default 90
+ *
+ * @param Battle Results Text
+ * @text ウィンドウテキスト
+ * @parent ---勝利結果---
+ * @desc 勝利結果表示のウィンドウテキスト
+ * @default 勝利結果
+ *
+ * @param Battle Drops Text
+ * @text 獲得アイテムテキスト
+ * @parent ---勝利結果---
+ * @desc 戦闘で獲得したアイテムの表示テキスト
+ * @default 獲得アイテム
+ *
+ * @param ---経験値---
+ * @default
+ *
+ * @param Font Size
+ * @text フォントサイズ
+ * @parent ---経験値---
+ * @type number
+ * @min 1
+ * @desc EXPウィンドウに使用されるフォントサイズ
+ * デフォルト:28
+ * @default 28
+ *
+ * @param Level Up Text
+ * @text レベルアップテキスト
+ * @parent ---経験値---
+ * @desc レベルアップ時の表示テキスト
+ * @default LEVEL UP!
+ *
+ * @param Max Level Text
+ * @text 最大レベルテキスト
+ * @parent ---経験値---
+ * @desc アクターが最大レベルの時の表示テキスト
+ * @default MAX LEVEL
+ *
+ * @param Show Skills Learned
+ * @text 習得スキル表示
+ * @parent ---経験値---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc レベルアップで習得したスキルの表示有効化
+ * 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Gained EXP Text
+ * @text 経験値表示テキスト
+ * @parent ---経験値---
+ * @desc 戦闘で得られた経験値の表示テキスト
+ * @default 獲得経験値
+ *
+ * @param Gained EXP Format
+ * @text 経験値量の表示形式
+ * @parent ---経験値---
+ * @desc 戦闘で得られた経験値量の表示形式
+ * @default +%1
+ *
+ * @param EXP Gauge Color 1
+ * @text 経験値ゲージ色1
+ * @parent ---経験値---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 勝利結果ウィンドウの経験値ゲージに使われる色1
+ * @default 30
+ *
+ * @param EXP Gauge Color 2
+ * @text 経験値ゲージ色2
+ * @parent ---経験値---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc 勝利結果ウィンドウの経験値ゲージに使われる色2
+ * @default 31
+ *
+ * @param Level Gauge Color 1
+ * @text レベルアップ経験値ゲージ色1
+ * @parent ---経験値---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターがレベルアップ時に、経験値ゲージに使われる色1
+ * @default 14
+ *
+ * @param Level Gauge Color 2
+ * @text レベルアップ経験値ゲージ色2
+ * @parent ---経験値---
+ * @type number
+ * @min 0
+ * @max 31
+ * @desc アクターがレベルアップ時に、経験値ゲージに使われる色2
+ * @default 6
+ *
+ * @param Gauge Ticks
+ * @text チック数
+ * @parent ---経験値---
+ * @type number
+ * @min 0
+ * @desc 獲得経験値が満たされるまでに起こるチック数
+ * 1チック = 4フレーム
+ * @default 15
+ *
+ * @param Tick SE
+ * @text チックSE
+ * @parent ---経験値---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc 経験値ゲージが上昇時に鳴る音
+ * @default Absorb2
+ *
+ * @param Tick Volume
+ * @text チック音量
+ * @parent ---経験値---
+ * @desc 経験値ゲージが上昇時に鳴る音量
+ * @default 90
+ *
+ * @param Tick Pitch
+ * @text チックピッチ
+ * @parent ---経験値---
+ * @desc 経験値ゲージが上昇時に鳴る音のピッチ
+ * @default 150
+ *
+ * @param Tick Pan
+ * @text チックパン
+ * @parent ---経験値---
+ * @desc 経験値ゲージが上昇時に鳴る音のパン
+ * @default 0
+ *
+ * @help
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインでは、デフォルトの勝利メッセージの代わりに、
+ * より有益な情報ウィンドウを表示させることができます。
+ * パラメータを調整し、ゲームに合わせて設定を変更してください。
+ *
+ * ===========================================================================
+ * 勝利結果
+ * ===========================================================================
+ *
+ * 'Victory Order'というパラメータがあります。
+ * ここで勝利結果画面での表示順序を指定することができます。
+ *
+ * デフォルトの順序は下記のようになっています:
+ *           exp         経験値画面の表示
+ *           custom      カスタムプラグインによる画面の表示
+ *           drops       獲得物画面の表示
+ *
+ * これらの順序を変更/追加/削除すると、勝利結果画面は変更を反映します。
+ *
+ * ===========================================================================
+ * プラグインコマンド
+ * ===========================================================================
+ *
+ * 勝利結果の順序を少し変更したい時は、下記のコマンドを使用してください。
+ *
+ * プラグインコマンド:
+ *   DisableVictoryAftermath   - 勝利結果表示とその音楽を無効化します。
+ *   EnableVictoryAftermath    - 無効化された勝利結果を再度有効化します。
+ *   DisableVictoryMusic       - 勝利BGMを無効化し、その時に流れている音楽を
+ *                               優先して再生し続けます。
+ *   EnableVictoryMusic        - 無効化された勝利BGMを、再度有効化します。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.07:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.06:
+ * - Updated for RPG Maker MV version 1.3.2.
+ *
+ * Version 1.05a:
+ * - Added 'Font Size' plugin parameter to alter the font size for the battle
+ * results page.
+ * - Fixed a graphical issue where an actor in crisis would display its level
+ * in the crisis color.
+ * - Changed the Victory Aftermath sequence so that the player can hold down a
+ * button to quickly go through all the Victory Sequence menus.
+ *
+ * Version 1.04:
+ * - Updated the plugin so it doesn't break visually when party sizes are too
+ * large. That said, if the party size is beyond a certain amount, this plugin
+ * will not support that many faces for it and will fit just the bare minimum.
+ *
+ * Version 1.03:
+ * - Added parameter 'Show Skills Learned'.
+ *
+ * Version 1.02:
+ * - If the Battle HUD has been hidden for whatever reason during the victory
+ * sequence, it will be returned.
+ *
+ * Version 1.01:
+ * - Fixed a bug plugin commands that would cause some victory sequences to
+ * loop forever.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */
