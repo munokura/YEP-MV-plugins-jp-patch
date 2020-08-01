@@ -1,0 +1,500 @@
+/*:ja
+ * @plugindesc v1.13 (要YEP_BattleEngineCore) 戦闘に大幅な視覚的カスタマイズ機能を追加します。
+ * @author Yanfly Engine Plugins
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * Battle Engine Coreには "Melody's Battle Engine"が含まれており、
+ * スキルとアイテムエフェクトの色々な側面を制御します。
+ * これらをアクションシーケンスと呼び、独特のアクションを提供します。
+ *
+ * 各スキルとアイテムは、5つの異なるアクションシーケンスから構成されます。
+ *
+ * 1. セットアップアクション
+ *   一連のアクションとエフェクトが実行される前に、アクティブバトラーは、
+ * 一歩前進したり、武器を抜くなどの準備アクションを行います。
+ * このステップは、バトラーがアイテムやスキルを使う前に起こります。
+ *
+ *    <setup action>
+ *     action list
+ *     action list
+ *    </setup action>
+ *
+ *
+ * 2. 全体アクション
+ *   これらのアクションは、対象全体に対して同時に働きます。
+ * このセクションを必ず使う必要はありませんが、
+ * 敵の頭上にアニメーションを表示するために、
+ * 大抵のアクションで使われています。
+ * このステップは、スキル/アイテム使用後に起こります。
+ *
+ *    <whole action>
+ *     action list
+ *     action list
+ *    </whole action>
+ *
+ *
+ * 3. 対象アクション
+ *   このセクションは、全対象に対して個々に働きます。
+ * 主に、個別のダメージを与えるような物理攻撃に使われます。
+ * ここで起こるアクションは、そのような設定をしない限りは
+ * 他の対象に影響することはありません。
+ *
+ *    <target action>
+ *     action list
+ *     action list
+ *    </target action>
+ *
+ *
+ * 4. 追随アクション
+ *   このセクションは、個別対象アクション後の
+ * クリーンアップとして使います。
+ * これは永続フラグの消去や、コモンイベントの実行などを行います。
+ *
+ *    <follow action>
+ *     action list
+ *     action list
+ *    </follow action>
+ *
+ *
+ * 5. 完了アクション
+ *   このセクションは、アクティブバトラーの一連のアクションの締めに使います。
+ * 例えば元の位置に戻ったりなどのアクションが挙げられます。
+ *
+ *    <finish action>
+ *     action list
+ *     action list
+ *    </finish action>
+ *
+ * 上記がアクションシーケンスにおける5ステップです。
+ * 各タグは、スキルとアイテム内に挿入して使えるタグです。
+ * それぞれのタグ名に注意してください。
+ *
+ * これらのタグは、それぞれのアクションを実行します。
+ * アクション一覧を挿入する方法は、ヘルプ中に記載されています。
+ *
+ * 更に、アクションシーケンス毎に
+ * 全てのアイテムのメモ欄を呼び出さずに済むように、
+ * 前述の5ステップをコピーするショートカットがあります。
+ *
+ * <action copy: x:y>
+ *
+ *  x を"item"か"skill"と置き換えて、
+ * アクション一覧のコードを直接コピーしてください。
+ * 整数の y は各オブジェクトタイプ毎に指定されたIDとなります。
+ * 例えば、45番目のスキルアクションシーケンスをコピーしたい場合、
+ * 次のコードになります。
+ *   <action copy: skill:45>
+ * このメモタグを使う場合、メモ欄内では最も優先されるものとなります。
+ *
+ * ===========================================================================
+ * Target Typing
+ * ===========================================================================
+ *
+ * 下記で紹介するアクション内では、"対象を参照"という表記が出てきます。
+ * 以下に、対象の一覧を記載します。
+ *
+ *   user; アクティブバトラーを選択
+ *   target, targets; アクティブ対象を選択
+ *   actors, existing actors; 生存している全てのアクターを選択
+ *   all actors; 死亡アクターも含めて、全てのアクターを選択
+ *   dead actors: 死亡アクターのみを選択
+ *   actors not user; 使用者以外の全ての生存アクターを選択
+ *   actor x; スロット x のアクターを選択
+ *   character x; アクターID x を持つ特定のキャラクターを選択
+ *   enemies, existing enemies; 生存している全ての敵を選択
+ *   all enemies; 死亡した敵も含めて、全ての敵を選択
+ *   dead enemies: 死亡した敵のみを選択
+ *   enemies not user; 使用者以外の全ての敵を選択
+ *   enemy x; スロット x の敵を選択
+ *   friends; 生存しているバトラーの仲間を全て選択
+ *   all friends; 生死に関わらず、バトラーの仲間を全て選択
+ *   dead friends; 死亡しているバトラーの仲間を全て選択
+ *   friends not user; 使用者を除き、バトラーの仲間を選択
+ *   friend x: スロット x 内の、バトラーの仲間を選択
+ *   opponents; 生存している、バトラーの相手を選択
+ *   all opponents; バトラーの全ての相手を選択
+ *   dead opponents; 死亡している、バトラーの相手を選択
+ *   opponent x: スロット x 内のバトラーの相手を選択
+ *   all alive; 全ての生存アクターと敵を選択
+ *   all members; 全ての生存/死亡アクターと敵を選択
+ *   all dead; 全ての死亡アクターと敵を選択
+ *   all not user; 使用者を除き、全ての生存バトラーを選択
+ *   focus; アクティブバトラーおよびその対象を選択
+ *   not focus; アクティブバトラーおよびその対象以外を全て選択
+ *
+ * ===========================================================================
+ * Action Sequences - アクション一覧
+ * ===========================================================================
+ *
+ * 下記の一覧は、5段階のアクションシーケンス内で使えるアクション一覧です。
+ * 各アクションは独自の機能を持ち、
+ * 正常に動作するために正しい記入形式が必須となっています。
+ *
+ * ===========================================================================
+ * ATTACK ANIMATION: target, (mirror)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * アクティブなバトラーの攻撃アニメーションを、対象に表示します。
+ * アクターの持つ武器によってアニメーションが決定されます。
+ * それが敵だった場合、敵の攻撃アニメーションによって決定されます。
+ *  'mirror' を使用した場合、そのアニメーションを反転します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: attack animation: target
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * ENEMY EFFECT: target, effect-type
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * これは敵にのみ有効です。対象を白く表示、もしくは点滅させます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: enemy effect: targets, whiten
+ *         enemy effect: targets, blink
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * FACE target: args
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * FACE target1: FORWARD
+ * FACE target1: BACKWARD
+ * FACE target1: HOME
+ * FACE target1: AWAY FROM HOME
+ * FACE target1: POINT, x coordinate, y coordinate
+ * FACE target1: AWAY FROM POINT, x coordinate, y coordinate
+ * FACE target1: target2
+ * FACE target1: AWAY FROM target2
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * バトラーを任意の方向に向けます。
+ * 上記のフォーマット内では引数を使うこともできます。
+ * このアクションシーケンスコマンドは、target1 を
+ * 上記のどの方向にも向かせることができます。
+ * もし target2 を使えば、target1 を target2 に基づいた方向に
+ * 向かせることができます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: face user: forward
+ *         face target: backward
+ *         face enemies: home
+ *         face allies: away from home
+ *         face target: point, 20, 40
+ *         face target: away from point, 500, 600
+ *         face user: target
+ *         face target: away from user
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * FADE OUT: (frames)
+ * FADE IN: (frames)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 画面をフェードアウト/インすることができます。
+ * フェードの設定でフレーム数を指定することもできます。
+ * 空欄にすると、60フレームがデフォルトで適用されます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: fade out
+ *         fade in: 10
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * FLASH SCREEN: args
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * FLASH SCREEN: WHITE, (frames)
+ * FLASH SCREEN: RED, (frames)
+ * FLASH SCREEN: ORANGE, (frames)
+ * FLASH SCREEN: YELLOW, (frames)
+ * FLASH SCREEN: GREEN, (frames)
+ * FLASH SCREEN: BLUE, (frames)
+ * FLASH SCREEN: PURPLE, (frames)
+ * FLASH SCREEN: MAGENTA, (frames)
+ * FLASH SCREEN: BLACK, (frames)
+ * FLASH SCREEN: (red), (green), (blue), (intensity), (frames)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 画面を任意の色に点滅させます。
+ * 引数にカラー名を指定した場合、既存のフラッシュ設定が適用されます。
+ * 自身の設定を適用したい場合、
+ * 赤・緑・青や強度を指定して好みのフラッシュを作成してください。
+ * 色や強度の設定は0～225の中で行います。
+ * framesの値を指定すると、持続時間を設定できます。
+ * 空欄の場合、60フレームのデフォルトで実行されます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: flash screen: white
+ *         flash screen: red, 45
+ *         flash screen: 128, 170, 214, 170
+ *         flash screen: 68, 68, 68, 170, 45
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * FLOAT target: (height), (frames)
+ * FLOAT target: (height%), (frames)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 対象を、任意の高度で地面から浮かび上がらせます。
+ * 高度(%)は浮かんでいる対象の高さに比例し、100% と指定すると、
+ * 対象の高さと同じだけ地面から浮かび上がります。
+ * 「%」を取れば、対象をピクセル指定で浮かすことができます。
+ * (frames)の部分で、その高さに上昇するまでにかかるフレーム数を指定できます。
+ * 「0%」を指定すると、対象を地上に戻します。
+ * 注: サイドビュー戦闘でのみ機能します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: float user: 200%
+ *         float enemies: 500, 30
+ *         float target: 0%, 30
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * HIDE BATTLE HUD
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 戦闘のhudを隠し、アニメーション再生の妨げにならないようにできます。
+ * 'show battle hud'を使えば再びhudを表示させることができます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: hide battle hud
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * JUMP target: (height), (frames)
+ * JUMP target: (height%), (frames)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 対象を、任意の高度でジャンプさせます。
+ * (height%)を 200% に指定すると対象高さの2倍分の高さジャンプします。
+ * 「%」を取れば、ピクセル指定でジャンプさせることができます。
+ * (frames)の部分では、空中に留まるフレーム数を指定できます。
+ * 'Move' のアクションシーケンスと一緒に使用すると、
+ * 一定の距離をジャンプしているように見せることができます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: jump user: 150%
+ *         jump target: 300, 60
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * MOTION type: target, (no weapon)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * MOTION WALK: target
+ * MOTION STANDBY: target
+ * MOTION CHANT: target
+ * MOTION GUARD: target
+ * MOTION DAMAGE: target
+ * MOTION EVADE: target
+ * MOTION ATTACK: target
+ * MOTION THRUST: target
+ * MOTION SWING: target
+ * MOTION MISSILE: target
+ * MOTION SKILL: target
+ * MOTION SPELL: target
+ * MOTION ITEM: target
+ * MOTION ESCAPE: target
+ * MOTION VICTORY: target
+ * MOTION DYING: target
+ * MOTION ABNORMAL: target
+ * MOTION SLEEP: target
+ * MOTION DEAD: target
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * サイドビューで対象に特定のアクションを取らせます。
+ * 対象に '攻撃'の命令をすると、対象は装備している武器によって、振ったり、
+ * 押したり、投げるといったモーションを自動的に行います。
+ * 攻撃やこれらのモーション時には、対象が所持している武器も表示されます。
+ *
+ * 対象の後に 'no weapon'が使用されている場合、武器は表示されません。
+ * この効果はTHRUST、SWING、MISSILEの動きでのみ機能します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: motion walk: user
+ *         motion thrust: user, no weapon
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * MOVE target: args
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * MOVE target1: HOME, (frames)
+ * MOVE target1: RETURN, (frames)
+ * MOVE target1: FORWARD, (distance), (frames)
+ * MOVE target1: BACKWARD, (distance), (frames)
+ * MOVE target1: POINT, x coordinate, y coordinate, (frames)
+ * MOVE target1: target2, BASE, (frames), (offset)
+ * MOVE target1: target2, CENTER, (frames), (offset)
+ * MOVE target1: target2, HEAD, (frames), (offset)
+ * MOVE target1: target2, FRONT BASE, (frames), (offset)
+ * MOVE target1: target2, FRONT CENTER, (frames), (offset)
+ * MOVE target1: target2, FRONT HEAD, (frames), (offset)
+ * MOVE target1: target2, BACK BASE, (frames), (offset)
+ * MOVE target1: target2, BACK CENTER, (frames), (offset)
+ * MOVE target1: target2, BACK HEAD, (frames), (offset)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * これは移動を指定するコマンド一覧です。
+ * 上記のフォーマットであれば、引数を使うこともできます。
+ * このアクションシーケンスコマンドは、
+ * target1 を、引数で指定した場所に移動させます。
+ * もしそれが target2 を含むものであれば、
+ * taget1 との位置関係を指定する必要があります。
+ * 注:サイドビュー戦闘でのみ機能します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * オプションの(offset)引数には以下ように引数を挿入できます。
+ *
+ *   offset x +100
+ *   offset x -200
+ *   offset y +300
+ *   offset y -400
+ *
+ * これにより、目的地までの距離を一定量ずらすことができます。
+ * 正数は前方を示し、負数は後方を示します。
+ *
+ *   auto offset x +500
+ *   auto offset x -600
+ *
+ * ただし、上記のいずれかを使用すると、ユーザーがアクターか敵か、
+ * 対象によってはアクターか敵かによって異なります。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: move user: home, 20
+ *         move target: forward, 48, 12
+ *         move enemy 1: point, 400, 300
+ *         move enemy 2: point, 500, 250, offset x -50, offset y -50
+ *         move actor 3: target, front base, 20
+ *         move user: target, front base, 20, auto offset x -100
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * OPACITY target: x, (frames)
+ * OPACITY target: x%, (frames)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 対象の不透明度をx(0から255)/x%(0%から100%)に変更します。
+ * 'frames'を使用する場合、対象の不透明度の変化にかかるフレーム数になります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: opacity user: 50%, 30
+ *         opacity not focus: 0
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * SHOW BATTLE HUD
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 戦闘のhudが隠れている時に 'show battle hud' を使うことで、
+ * プレイヤー画面にhudを再表示させます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: show battle hud
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * SHAKE SCREEN: (power), (speed), (frames)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 画面を振動させます。
+ * 0から9の間で強さとスピードを指定し、振動のフレーム数を指定します。
+ * これらを空欄にすると、デフォルト値(5の強さ/5のスピード/60フレーム)が
+ * 適用されます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: shake screen
+ *         shake screen: 9
+ *         shake screen: 3, 9, 30
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * TINT SCREEN: args
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * TINT SCREEN: NORMAL, (frames)
+ * TINT SCREEN: DARK, (frames)
+ * TINT SCREEN: SEPIA, (frames)
+ * TINT SCREEN: SUNSET, (frames)
+ * TINT SCREEN: NIGHT, (frames)
+ * TINT SCREEN: (red), (green), (blue), (gray), (frames)
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 戦闘画面に色を付けることができます。
+ * 引数、 'normal', 'dark', 'sepia','sunset', 'night' を用いると、
+ * 画面にその色のエフェクトがかかります。
+ * それ以外の場合、赤・緑・青・グレイの値を指定して色を調整してください。
+ * 赤・青・緑については-255から255の間、グレイは0から255の間で調整できます。
+ * フレームを指定すると、色の変更の持続時間を指定することができます。
+ * 空欄にすると、デフォルトである60フレームが適用されます。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: tint screen: normal
+ *         tint screen: sepia, 30
+ *         tint screen: 68, -34, -34, 0
+ *         tint screen: 68, -68, 0, 68, 45
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * WAIT FOR FLOAT
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 次のアクションに進む前に、
+ * 一旦全てのバトラーの 'float'(浮かび上がり)が終了するまで待機します。
+ * 注:サイドビュー戦闘でのみ機能します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: wait for float
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * WAIT FOR JUMP
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 次のアクションに進む前に、
+ * 一旦全てのバトラーの 'jump'(ジャンプ)が終了するまで待機します。
+ * 注:サイドビュー戦闘でのみ機能します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: wait for jump
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * WAIT FOR OPACITY
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 次のアクションに進む前に、
+ * 一旦全てのバトラーの 'opacity'(不透明度)変更が終了するまで待機します。
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 使用例: wait for opacity
+ * ===========================================================================
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.13:
+ * - Updated Float and Jump to allow for negative values.
+ *
+ * Version 1.12:
+ * - Updated for RPG Maker MV version 1.5.0.
+ * - Added new Offset X, Offset Y, arguments for the Move action sequence.
+ *   Check the helpfile for more information.
+ *
+ * Version 1.11:
+ * - Fixed a bug that caused enemies to not mirror the attack animation.
+ *
+ * Version 1.10a:
+ * - Fixed a bug that caused scaled enemies to have their state icons and
+ * overlays appear in odd places.
+ * - Documentation update for Move, Float, and Jump related action sequences
+ * as they only work in Sideview.
+ *
+ * Version 1.09:
+ * - Animations played on a floating or jumping battlers 'Feet' location will
+ * now be played at the base of the battler regardless of how high the battler
+ * is floating. This is to provide a more consistent animation image.
+ *
+ * Version 1.08a:
+ * - State Icon and State Overlays will now synch together for floating and
+ * jumping battlers.
+ *
+ * Version 1.07c:
+ * - Synchronized battle animations to floating and jumping battlers.
+ *
+ * Version 1.06:
+ * - Updated weapon motions for YEP_X_AnimatedSVEnemies to work with sideview
+ * enemies.
+ *
+ * Version 1.05:
+ * - Creating compatibility for a future plugin.
+ *
+ * Version 1.04a:
+ * - Rewrote and updated movement formulas.
+ *
+ * Version 1.03:
+ * - Made a change to Motion action sequence. 'Wait' is now substituted for
+ * 'Standby' as to not confuse it with the actual Motion Wait action sequence.
+ * - Added a 'no weapon' option to Motion action sequences. This new tag will
+ * only affect the 'Thrust', 'Swing', and 'Missile' motions.
+ *
+ * Version 1.02:
+ * - Added a check for motion attack to differentiate between actor and enemy.
+ *
+ * Version 1.01:
+ * - Updated help file to include Character X for target typing.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */
