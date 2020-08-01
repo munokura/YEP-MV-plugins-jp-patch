@@ -1,0 +1,785 @@
+/*:ja
+ * @plugindesc v1.12 (要YEP_MessageCore) レターサウンド、ネームボックスの背景タイプ、選択コントロールなどが設定できます。
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---レターサウンド---
+ * @default
+ *
+ * @param Enable Sound
+ * @parent ---レターサウンド---
+ * @type boolean
+ * @on 有効
+ * @off 無効
+ * @desc デフォルトでレターサウンドを有効にしますか？
+ * 無効 - false     有効 - true
+ * @default true
+ *
+ * @param Sound Name
+ * @parent ---レターサウンド---
+ * @type file
+ * @dir audio/se/
+ * @require 1
+ * @desc SEファイルのファイル名。 これは大文字と小文字を区別します。
+ * ファイル拡張子を含めないでください。
+ * @default Cursor1
+ *
+ * @param Sound Volume
+ * @parent ---レターサウンド---
+ * @type number
+ * @min 0
+ * @desc 効果音の音量です。
+ * @default 50
+ *
+ * @param Sound Pitch
+ * @parent ---レターサウンド---
+ * @desc 効果音のピッチ。
+ * @default 100
+ *
+ * @param Pitch Variance
+ * @parent ---レターサウンド---
+ * @desc 音のピッチの変化量。
+ * @default 10
+ *
+ * @param Sound Pan
+ * @parent ---レターサウンド---
+ * @desc 効果音のパン。
+ * @default 0
+ *
+ * @param Pan Variance
+ * @parent ---レターサウンド---
+ * @type number
+ * @min 0
+ * @desc サウンドが持つパンの変化量。
+ * @default 10
+ *
+ * @param Sound Interval
+ * @parent ---レターサウンド---
+ * @type number
+ * @min 0
+ * @desc レターサウンドが鳴る文字数間隔を設定
+ * @default 2
+ *
+ * @param Reset Sounds
+ * @parent ---レターサウンド---
+ * @type boolean
+ * @on リセット
+ * @off 保持
+ * @desc 各メッセージの先頭で文字の音をリセットしますか？
+ * 保持 - false     リセット - true
+ * @default false
+ *
+ * @param ---メッセージ位置---
+ * @default
+ *
+ * @param Default X
+ * @parent ---メッセージ位置---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc メッセージ位置Xの基準位置
+ * left     center     right
+ * @default center
+ *
+ * @param Default Y
+ * @parent ---メッセージ位置---
+ * @type combo
+ * @option top
+ * @option center
+ * @option bottom
+ * @desc メッセージ位置Yの基準位置
+ * top     center     bottom
+ * @default bottom
+ *
+ * @param Auto Row Full Face
+ * @parent ---メッセージ位置---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 自動行を使用している場合、顔グラフィックを表示しますか？
+ * 非表示 - false     表示 - true
+ * @default false
+ *
+ * @param ---メッセージ選択肢---
+ * @default
+ *
+ * @param Max Rows
+ * @parent ---メッセージ選択肢---
+ * @type number
+ * @min 1
+ * @desc 選択項目に表示する最大行数。
+ * Default: 6
+ * @default 6
+ *
+ * @param Choice 1 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 2 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 3 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 4 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 5 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 6 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 7 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 8 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 9 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 10 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 11 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 12 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 13 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 14 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 15 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 16 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 17 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 18 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 19 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 20 Show Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択項目の表示・非表示をスイッチと関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 1 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 2 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 3 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 4 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 5 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 6 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 7 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 8 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 9 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 10 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 11 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 12 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 13 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 14 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 15 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 16 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 17 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 18 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 19 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @param Choice 20 On Switch
+ * @parent ---メッセージ選択肢---
+ * @type switch
+ * @desc 選択肢の有効・無効をスイッチに関連付けることができます。
+ * 希望するスイッチIDを使用してください。 使用しない場合は0
+ * @default 0
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://munokura.tk/
+ * https://twitter.com/munokura/
+ *
+ * ============================================================================
+ * Introduction
+ * ============================================================================
+ *
+ * このプラグインを実行するにはYEP_MessageCore.jsが必要です。
+ * このプラグインをプラグインリストのYEP_MessageCore.jsの下に置きます。
+ *
+ * このプラグインは文章表示システムを拡張します。
+ * これらの機能はレターサウンド、より多くの名前ウィンドウオプション、
+ * フェイスインデックスコントロール、16進カラー、拡張選択コントロール、
+ * そしてより正確なウィンドウポジショニングコントロールに及びます。
+ * メッセージウィンドウの使用をさらに簡単にするために、
+ * 新しいテキストコードも追加されています。
+ *
+ * ============================================================================
+ * Text Codes
+ * ============================================================================
+ *
+ * メッセージに特定のテキストコードを使用することで、
+ * プレイ中には次のコードに置き換えられます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  LetterSound    Effect:
+ *  \lson          - レターサウンドをオンにします。
+ *  \lsoff         - レターサウンドをオフにします。
+ *  \lsn<filename> - ファイル名を再生するようにレターサウンドを変更します。
+ *                 これは大文字と小文字を区別します。
+ *                 ファイル拡張子を含めないでください。
+ *  \lsv[x]        - レターサウンドの音量をxに設定します。
+ *  \lspi[x]       - レターサウンドのピッチをxに設定します。
+ *  \lspiv[x]      - レターサウンドのピッチ分散をxに設定します。
+ *  \lspa[x]       - レターサウンドのパンをxに設定します。
+ *  \lspav[x]      - レターサウンドのパンの分散をxに設定します。
+ *  \lsi[x]        - レターサウンドの再生間隔をxに設定します。
+ *
+ *  注:メッセージウィンドウでのみ機能します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  Enemy Name     Effect:
+ *  \en[x]         - 敵キャラID x の名前を取得します。
+ *  \et[x]         - 敵グループID x の名前を取得します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  NameWindow: Effect:
+ *  \n<x>       - x文字列で名前ボックスを作成します。 左側。
+ *  \nc<x>      - x文字列で名前ボックスを作成します。 中央揃え
+ *  \nr<x>      - x文字列で名前ボックスを作成します。 右側。
+ *
+ *  \nd<x>      - x文字列で淡色表示の名前ボックスを作成します。 左側。
+ *  \ndc<x>     - x文字列で淡色表示の名前ボックスを作成します。 中央揃え
+ *  \ndr<x>     - x文字列で淡色表示の名前ボックスを作成します。 右側。
+ *
+ *  \nt<x>      - 透明な名前ボックスをx文字列で作成します。 左側。
+ *  \ntc<x>     - 透明な名前ボックスをx文字列で作成します。 中央揃え
+ *  \ntr<x>     - 透明な名前ボックスをx文字列で作成します。 右側。
+ *
+ *  注: メッセージウィンドウでのみ機能します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ * 
+ *  MessagePosition  Effect:
+ *  \msgposx[x]      - メッセージウィンドウのX位置をxに設定します。
+ *  \msgposx[auto]   - メッセージウィンドウのX位置をデフォルトに設定します。
+ *
+ *  \msgposy[x]      - メッセージウィンドウのY位置をxに設定します。
+ *  \msgposy[auto]   - メッセージウィンドウのY位置をデフォルトに設定します。
+ *
+ *  \msgevent[x]     - マップ画面のみで使用できます。
+ *                   イベントxの位置を基準にして
+ *                   メッセージウィンドウのXおよびY位置を配置します。
+ *                   0を使用すると、ウィンドウはプレーヤーの位置を基準にして
+ *                   配置されます。
+ *
+ *  \msgactor[x]     - YEP_BattleEngineCore.jpが必要です。
+ *                   戦闘中だけ使用できます。
+ *                   アクターがパーティーにいる場合は、
+ *                   メッセージをアクターxの頭上に表示します。
+ *                   それ以外の場合、メッセージは通常の場所に表示されます。
+ *
+ *  \msgparty[x]     - YEP_BattleEngineCore.jpが必要です。
+ *                   戦闘中だけ使用できます。
+ *                   メンバーが存在する場合、
+ *                   パーティーメンバーxの頭上にメッセージを表示します。
+ *                   それ以外の場合、メッセージは通常の場所に表示されます。
+ *
+ *  \msgenemy[x]     - YEP_BattleEngineCore.jpが必要です。
+ *                   戦闘中だけ使用できます。
+ *                   メンバーがいる場合、
+ *                   敵メンバーxの頭上にメッセージを表示します。
+ *                   それ以外の場合、メッセージは通常の場所に表示されます。
+ *
+ *  \msgwidth[x]     - メッセージウィンドウの幅をxに設定します。
+ *  \msgwidth[auto]  - メッセージウィンドウの幅をテキストに合わせて設定します。
+ *                   この機能をワードラップで使用しないでください。
+ *
+ *  \msgrows[x]      - メッセージウィンドウの行をxに設定します。
+ *  \msgrows[auto]   - メッセージウィンドウの行をテキストに設定します。
+ *                   この機能をワードラップで使用しないでください。
+ *
+ *  \auto            - 現在のメッセージウィンドウに合うように
+ *                   メッセージウィンドウの幅と行を設定します。
+ *                   この機能をワードラップで使用しないでください。
+ *
+ *  \autoevent[x]    - マップ画面のみで使用できます。
+ *                   現在のメッセージウィンドウに合わせて
+ *                   メッセージウィンドウの幅と行を設定し、
+ *                   イベントxに対して相対的に配置します。
+ *                   0を使用すると、
+ *                   ウィンドウはマップ上のプレイヤーの位置を基準にして配置されます。
+ *                   この機能をワードラップで使用しないでください。
+ *
+ *  \autoactor[x]    - YEP_BattleEngineCore.jpが必要です。
+ *                   戦闘中だけ使用できます。
+ *                   現在のメッセージウィンドウに合わせて
+ *                   メッセージウィンドウの幅と行を設定し、
+ *                   アクターがパーティーにいる場合は、
+ *                   メッセージをアクターxの頭上に置きます。
+ *                   それ以外の場合、
+ *                   メッセージは通常の場所に表示されます。
+ *                   この機能をワードラップで使用しないでください。
+
+ *
+ *  \autoparty[x]    - YEP_BattleEngineCore.jpが必要です。
+ *                   戦闘中だけ使用できます。
+ *                   現在のメッセージウィンドウに合わせて
+ *                   メッセージウィンドウの幅と行を設定し、
+ *                   メンバーが存在する場合は
+ *                   メッセージをパーティーメンバーxの頭上に表示します。
+ *                   それ以外の場合、
+ *                   メッセージは通常の場所に表示されます。
+ *                   この機能をワードラップで使用しないでください。
+ *
+ *  \autoenemy[x]    - YEP_BattleEngineCore.jpが必要です。
+ *                   戦闘中だけ使用できます。
+ *                   現在のメッセージウィンドウに合わせて
+ *                   メッセージウィンドウの幅と行を設定し、
+ *                   メンバーが存在する場合は
+ *                   メッセージを敵メンバーxの頭上に表示します。
+ *                   それ以外の場合、
+ *                   メッセージは通常の場所に表示されます。
+ *                   この機能をワードラップで使用しないでください。
+ *
+ *  \msgreset        - すべての位置決め設定をデフォルトにリセットします。
+ *
+ *  注: この設定の変更は現在のメッセージに対してのみ残ります。
+ *      次のメッセージに進むと、設定はデフォルトの設定が
+ *      Message Coreのプラグインパラメータにあるものにリセットされます。
+ *      4を超える行数を変更した場合、それ以降のメッセージは取得されません。
+ *      そのためにはプラグインコマンド'MessageRows x'を使用する必要があります。
+ *      これらの注記はメッセージウィンドウに対してのみ機能します。
+ *
+ * ワードラップで[auto] widthおよびrow関数を使用しないでください。
+ * ワードラップはそれらを不規則に振る舞わせるでしょう。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  FaceIndex       Effect:
+ *  \faceindex[x]   - メッセージの先頭で、現在使用されている顔のグラフィックの
+ *                    顔のインデックスをインデックスxに変更します。
+ *
+ *  注: メッセージウィンドウでのみ機能します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  DigitGroup   Effect:
+ *  \dg[x]       - 数値xをコンマでグループ化します。 12345は12,345になります。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  HexColor     Effect:
+ *  \hc[rrggbb]  - 赤、緑、青の形式を使用して、
+ *                 テキストの色を16進カラーコードに変更します。
+ *                 例:純粋な赤は\ hc [ff0000]です。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  PlayTime     Effect:
+ *  \playtime    - プレーヤーの現在のプレイ時間を表示します。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ *  MapName      Effect:
+ *  \map[x]      - Map ID xのマップ名を表示します。
+ *                 xが0の場合、プレイヤーが現在いるマップ名が表示されます。
+ *
+ * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ *
+ * ============================================================================
+ * Plugin Commands
+ * ============================================================================
+ *
+ * メッセージウィンドウに関するいくつか設定するために、
+ * 下記のプラグインコマンドを使用できます。 
+ *
+ * プラグインコマンド
+ *
+ *   --- レターサウンド ---
+ *
+ *   EnableLetterSound
+ *   DisableLetterSound
+ *   - これらのコマンドはそれぞれレターサウンドを有効または無効にします。
+ *
+ *   LetterSoundName Cursor2
+ *   - これは現在のレターサウンドを書かれたファイル名に置き換えます。
+ *   ファイル名は大文字と小文字が区別されます。
+ *   ファイル拡張子を使用しないでください。
+ *
+ *   LetterSoundVolume 100
+ *   - 文字の音量が100に変わります。
+ *
+ *   LetterSoundPitch 125
+ *   - 文字の音の高さが125に変わります。
+ *
+ *   LetterSoundPitchVariance 10
+ *   - レターサウンドのピッチが-10と10の間で変動します。
+ *
+ *   LetterSoundPan 0
+ *   - レターサウンドのパンが0に変わります。
+ *
+ *   LetterSoundPanVariance 10
+ *   - レターサウンドのパンが-10から10の間で変動します。
+ *
+ *   LetterSoundInterval 2
+ *   - レターサウンドが鳴る間隔を2文字に変更します。
+ *     書き出されたすべての文字を再生するには、0に変更します。
+ *
+ *   LetterSoundReset
+ *   - レターサウンドをデフォルト設定にリセットします。
+ *
+ *   --- Choice Settings ---
+ *
+ *   ChoiceRowMax 4
+ *   - 表示される選択肢の最大数が4に設定されます。
+ *
+ *   HideChoice 5
+ *   - 選択肢5が非表示になります。
+ *
+ *   ShowChoice 6
+ *   - 選択肢6が表示されます。
+ *
+ *   ClearHiddenChoices
+ *   - すべての選択肢が表示されます。
+ *
+ *   DisableChoice 1
+ *   - 選択肢1が無効になります。
+ *
+ *   EnableChoice 2
+ *   - 選択項目2が使用可能になります。
+ *
+ *   ClearDisabledChoices
+ *   - すべての選択肢が有効になります。
+ *
+ *   ClearChoiceSettings
+ *   - すべての選択肢が表示され有効になります。
+ *
+ *   --- Message Window Positions ---
+ *
+ *   MessageRows 6
+ *   - 表示されるメッセージ行を6に変更します。
+ *   継続的なテキストの表示イベントを使用している場合は、
+ *   行数の制限に達するまで次の行のテキストが表示され続けます。
+ *   それ以降は、誤って重複しないように次のメッセージが始まるまで切り捨てられます。
+ *
+ *   MessageWidth 400
+ *   - メッセージウィンドウの幅を400ピクセルに変更します。
+ *   これは、右に表示されすぎている単語を切り捨てますので、
+ *   それに応じて調整してください。
+ *
+ *   MessagePositionX 300
+ *   - メッセージウィンドウのX位置を300に設定します。
+ *   この位置は、水平方向のアンカーポイントを基準にしています。
+ *
+ *   MessagePositionY 400
+ *   - メッセージウィンドウのY位置を400に設定します。
+ *   この位置は、垂直方向のアンカーポイントを基準にしています。
+ *
+ *   MessagePositionXAuto
+ *   - メッセージウィンドウのX位置を自動的に合わせるように設定します。
+ *   水平方向のアンカーポイントに対しては設定しません。
+ *
+ *   MessagePositionYAuto
+ *   - メッセージウィンドウのY位置を自動的にフィットさせ、
+ *   垂直方向のアンカーポイントを基準にして設定しないように設定します。 
+ *
+ *   MessageAnchorX left
+ *   - 指定された座標を使用している場合、
+ *   メッセージウィンドウのxアンカーを 'left'、'center'、'right'に設定します。
+ *
+ *   MessageAnchorY bottom
+ *   - 指定された座標を使用している場合、
+ *   メッセージウィンドウのyアンカーを 'top'、'center'、'bottom'に設定します。
+ *
+ *   MessagePositionReset
+ *   - メッセージウィンドウのXとYの位置を自動位置にリセットし、
+ *   アンカーポイントのメッセージウィンドウの幅と行は調整しません。
+ *
+ * ============================================================================
+ * Lunatic Mode - New JavaScript Functions
+ * ============================================================================
+ *
+ * スクリプトコールを使用して選択設定を変更したい場合、
+ * 次のスクリプトコールを使用できます。
+ *
+ * $gameSystem.hideChoice(x)
+ * - 選択xが非表示になります。
+ *
+ * $gameSystem.showChoice(x)
+ * - 選択xが表示されます。
+ *
+ * $gameSystem.clearHiddenChoices()
+ * - 隠されていた選択肢がすべて表示されます。
+ *
+ * $gameSystem.disableChoice(x)
+ * - 選択xが無効になります。
+ *
+ * $gameSystem.enableChoice(x)
+ * - 選択xが有効になります。
+ *
+ * $gameSystem.clearDisabledChoices()
+ * - 無効になっていた選択項目がすべて有効になります。
+ *
+ * $gameSystem.clearChoiceSettings()
+ * - すべての非表示設定と無効設定がクリアされます。
+ *
+ * ============================================================================
+ * Changelog
+ * ============================================================================
+ *
+ * Version 1.12:
+ * - Updated message choices to properly show the correct number of rows if an
+ * inadequate number of rows are visible.
+ *
+ * Version 1.11:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.10a:
+ * - Fixed a bug that made auto-messages to not position themselves properly on
+ * events that are using tiles for their images.
+ * - Documentation update to fix documentation errors.
+ *
+ * Version 1.09:
+ * - Fixed a bug with the pitch and pan variance doubling its value.
+ *
+ * Version 1.08:
+ * - Fixed a bug that caused choices from 20 and onward to be hidden/disabled.
+ *
+ * Version 1.07:
+ * - Plugin commands for hiding, showing, enabling, and disabling choices will
+ * now synch with the appropriate switch if there is a switch involved.
+ *
+ * Version 1.06:
+ * - Fixed a width issue with namebox windows used for clear and dimmed
+ * nameboxes.
+ *
+ * Version 1.05:
+ * - Added new plugin commands: HideChoice x, ShowChoice x, ClearHiddenChoices,
+ * DisableChoice x, EnableChoice x, ClearDisabledChoices, ClearChoiceSettings
+ * for those who wish to have more than 20 choices.
+ * - Added new script calls. You can find them in the Lunatic Mode section
+ * under Lunatic Mode - New JavaScript Functions. These are for people who want
+ * to use more than 20 choices.
+ *
+ * Version 1.04a:
+ * - Updated the Autosizing feature to work with \{ and \} text codes. Requires
+ * v1.10 of Message Core.
+ * - Fixed a bug that caused \msgRows[auto] to crash.
+ *
+ * Version 1.03:
+ * - Fixed a bug that caused \., \|, \w[x] to not stall the \auto notetags.
+ * - Fixed a bug involving show/enable switches.
+ *
+ * Version 1.02:
+ * - Added \en[x] and \et[x] text codes to display database enemy names and
+ * troop position enemy names respectively.
+ *
+ * Version 1.01:
+ * - Fixed a bug where using an \auto text code with a \! in the same message
+ * would cause a pause with an empty message.
+ * - When using \|, \., or \w[x], the Letter Sound intervals will reset to 0 to
+ * keep the Letter Sound feeling more natural.
+ *
+ * Version 1.00:
+ * - Finished Plugin!
+ */
