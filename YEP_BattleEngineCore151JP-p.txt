@@ -1,0 +1,1207 @@
+/*:ja
+ * @plugindesc v1.51 戦闘システムをカスタムし、様々な要素を変更することができます
+ * @author Yanfly Engine Plugins
+ *
+ * @param ---一般---
+ * @default
+ *
+ * @param Action Speed
+ * @text 行動速度
+ * @parent ---一般---
+ * @desc 行動順の基本となる俊敏性を変更する式
+ * デフォルト:agi + Math.randomInt(Math.floor(5 + agi / 4))
+ * @default agi
+ *
+ * @param Default System
+ * @text 戦闘システム
+ * @parent ---一般---
+ * @type select
+ * @option デフォルト・ターン戦闘
+ * @value dtb
+ * @option アクティブ・ターン戦闘(要別プラグイン)
+ * @value atb
+ * @option チャージ・ターン戦闘(要別プラグイン)
+ * @value ctb
+ * @option スタンダード・ターン戦闘(要別プラグイン)
+ * @value stb
+ * @desc デフォルト:dtb
+ * @default dtb
+ *
+ * @param ---逃走---
+ * @default
+ *
+ * @param Escape Ratio
+ * @text 逃走成功率
+ * @parent ---逃走---
+ * @desc 逃走の成功率を変更する式
+ * デフォルト:0.5 * $gameParty.agility() / $gameTroop.agility()
+ * @default 0.5 * $gameParty.agility() / $gameTroop.agility()
+ *
+ * @param Fail Escape Boost
+ * @text 逃走失敗時ブースト
+ * @parent ---逃走---
+ * @type number
+ * @decimals 2
+ * @desc 逃走を失敗する度に、この確率だけ成功率を上げます。
+ * @default 0.10
+ *
+ * @param ---アニメーション---
+ * @default
+ *
+ * @param Animation Base Delay
+ * @text 基本ディレイ
+ * @parent ---アニメーション---
+ * @type number
+ * @min 0
+ * @desc アニメーション間の基本ディレイ量
+ * デフォルト:8
+ * @default 0
+ *
+ * @param Animation Next Delay
+ * @text 連続ディレイ
+ * @parent ---アニメーション---
+ * @type number
+ * @min 0
+ * @desc アニメーション間の連続的な遅延量
+ * デフォルト:12
+ * @default 0
+ *
+ * @param Certain Hit Animation
+ * @text 必中アニメ
+ * @parent ---アニメーション---
+ * @type number
+ * @min 0
+ * @desc 命中タイプが必中のスキルのデフォルトアニメ。不要な場合は0
+ * @default 0
+ *
+ * @param Physical Animation
+ * @text 物理アニメ
+ * @parent ---アニメーション---
+ * @type number
+ * @min 0
+ * @desc 命中タイプが物理のスキルのデフォルトアニメ。不要な場合は0
+ * @default 52
+ *
+ * @param Magical Animation
+ * @text 魔法アニメ
+ * @parent ---アニメーション---
+ * @type number
+ * @min 0
+ * @desc 命中タイプが魔法のスキルのデフォルトアニメ。不要な場合は0
+ * @default 51
+ *
+ * @param Enemy Attack Animation
+ * @text 敵の攻撃アニメ
+ * @parent ---アニメーション---
+ * @type number
+ * @min 0
+ * @desc 敵のデフォルト攻撃アニメ
+ * デフォルト:0
+ * @default 39
+ *
+ * @param Reflect Animation
+ * @text 反射アニメ
+ * @parent ---アニメーション---
+ * @type number
+ * @min 0
+ * @desc 魔法攻撃の反射時アニメ
+ * @default 42
+ *
+ * @param Motion Waiting
+ * @text 再生タイミング
+ * @parent ---アニメーション---
+ * @type boolean
+ * @on 行動後
+ * @off 行動中
+ * @desc 行動中:false / 行動後:true / デフォルト:false
+ * @default false
+ *
+ * @param ---フロントビュー---
+ * @default
+ *
+ * @param Front Actor Sprite
+ * @text アクター[SV]戦闘キャラ表示
+ * @parent ---フロントビュー---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc フロントビューでのアクター[SV]戦闘キャラ表示
+ * 非表示:false / 表示:true / デフォルト:false
+ * @default false
+ *
+ * @param Front Position X
+ * @text 基本位置X軸
+ * @parent ---フロントビュー---
+ * @desc アクター基本位置 X 軸の式
+ * デフォルト:0
+ * @default Graphics.boxWidth / 8 + Graphics.boxWidth / 4 * index
+ *
+ * @param Front Position Y
+ * @text 基本位置Y軸
+ * @parent ---フロントビュー---
+ * @desc アクター基本位置 Y 軸の式
+ * デフォルト:0
+ * @default Graphics.boxHeight - 180
+ *
+ * @param Front Sprite Priority
+ * @text スプライトの優先度
+ * @parent ---フロントビュー---
+ * @type select
+ * @option 通常
+ * @value 0
+ * @option アクターがトップ
+ * @value 1
+ * @option 敵がトップ
+ * @value 2
+ * @desc 0:通常 / 1:アクターが手前 / 2:敵が手前
+ * @default 1
+ *
+ * @param ---サイドビュー---
+ * @default
+ *
+ * @param Home Position X
+ * @text 基本位置X軸
+ * @parent ---サイドビュー---
+ * @desc アクター基本位置 X 軸の式
+ * デフォルト:600 + index * 32
+ * @default screenWidth - 16 - (maxSize + 2) * 32 + index * 32
+ *
+ * @param Home Position Y
+ * @text 基本位置Y軸
+ * @parent ---サイドビュー---
+ * @desc アクター基本位置 Y 軸の式
+ * デフォルト:280 + index * 48
+ * @default screenHeight - statusHeight - maxSize * 48 + (index+1) * 48 - 32
+ *
+ * @param Side Sprite Priority
+ * @text スプライトの優先度
+ * @parent ---サイドビュー---
+ * @type select
+ * @option 通常
+ * @value 0
+ * @option アクターが手前
+ * @value 1
+ * @option 敵が手前
+ * @value 2
+ * @desc 0:通常   1:アクターが手前   2:敵が手前
+ * @default 1
+ *
+ * @param ---スプライト---
+ * @default
+ *
+ * @param Default X Anchor
+ * @text 固定位置X軸
+ * @parent ---スプライト---
+ * @type number
+ * @decimals 2
+ * @desc スプライトを固定するX軸の値
+ * デフォルト:0.50
+ * @default 0.50
+ *
+ * @param Default Y Anchor
+ * @text 固定位置Y軸
+ * @parent ---スプライト---
+ * @type number
+ * @decimals 2
+ * @desc スプライトを固定するY軸の値
+ * デフォルト:1.00
+ * @default 1.00
+ *
+ * @param Step Distance
+ * @text 踏み出し距離
+ * @parent ---スプライト---
+ * @type number
+ * @desc アクション時、ユニットが前に踏み出す距離
+ * デフォルト:48
+ * @default 48
+ *
+ * @param Flinch Distance
+ * @text 後退距離
+ * @parent ---スプライト---
+ * @type number
+ * @desc 被ダメージ時、ユニットが後退する距離
+ * @default 12
+ *
+ * @param Show Shadows
+ * @text 影の表示
+ * @parent ---スプライト---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクター下に影を表示
+ * 非表示:false / 表示:true
+ * @default true
+ *
+ * @param ---ダメージポップアップ---
+ * @default
+ *
+ * @param Popup Duration
+ * @text フレーム数
+ * @parent ---ダメージポップアップ---
+ * @type number
+ * @min 1
+ * @desc ポップアップ表示のフレーム数
+ * デフォルト:90
+ * @default 128
+ *
+ * @param Newest Popup Bottom
+ * @text 表示位置
+ * @parent ---ダメージポップアップ---
+ * @type boolean
+ * @on 下
+ * @off 上
+ * @desc 最新の表示位置
+ * 下:false / 上:true
+ * @default true
+ *
+ * @param Popup Overlap Rate
+ * @text 重複バッファ
+ * @parent ---ダメージポップアップ---
+ * @type number
+ * @decimals 1
+ * @desc 複数のダメージ表示が重なった際、それぞれのスプライトのバッファ
+ * @default 0.9
+ *
+ * @param Critical Popup
+ * @text 会心点滅色
+ * @parent ---ダメージポップアップ---
+ * @desc 会心ヒットした際の、ポップアップの点滅色
+ * デフォルト:255, 0, 0, 160
+ * @default 255, 0, 0, 160
+ *
+ * @param Critical Duration
+ * @text 会心のフレーム数
+ * @parent ---ダメージポップアップ---
+ * @type number
+ * @min 1
+ * @desc 会心ヒット時の点滅フレーム数
+ * デフォルト:60
+ * @default 60
+ *
+ * @param ---ティック---
+ * @default
+ *
+ * @param Timed States
+ * @text ステートの継続計算
+ * @parent ---ティック---
+ * @type boolean
+ * @on 時間式
+ * @off ターン式
+ * @desc バトルシステムがティック制になっている時、ステートの継続計算。 時間式:false / ターン式:true
+ * @default false
+ *
+ * @param Timed Buffs
+ * @text バフの継続計算
+ * @parent ---ティック---
+ * @type boolean
+ * @on 時間式
+ * @off ターン式
+ * @desc バトルシステムがティック制になってる時、バフの継続計算。 ターン式:false / 時間式:true
+ * @default false
+ *
+ * @param Turn Time
+ * @text 1ターンのティック数
+ * @parent ---ティック---
+ * @type number
+ * @min 1
+ * @desc 1ターンに換算されるティック数
+ * @default 100
+ *
+ * @param AI Self Turns
+ * @text AI独自のターン
+ * @parent ---ティック---
+ * @type boolean
+ * @on AI独自
+ * @off デフォルト
+ * @desc AIを、AI独自のターンに基づいて行動させますか?
+ * デフォルト:false / AI独自:true
+ * @default true
+ *
+ * @param ---ウィンドウ---
+ * @default
+ *
+ * @param Lower Windows
+ * @text 表示位置
+ * @parent ---ウィンドウ---
+ * @type boolean
+ * @on 下部
+ * @off デフォルト
+ * @desc スキルとアイテムウィンドウの表示位置
+ * デフォルト:false / 下部:true
+ * @default true
+ *
+ * @param Window Rows
+ * @text 表示行数
+ * @parent ---ウィンドウ---
+ * @number
+ * @min 1
+ * @desc 下部ウィンドウを使用する際、表示行数
+ * @default 4
+ *
+ * @param Command Window Rows
+ * @text コマンド表示行数
+ * @parent ---ウィンドウ---
+ * @type number
+ * @min 1
+ * @desc コマンドウィンドウの表示行数
+ * デフォルト:4
+ * @default 4
+ *
+ * @param Command Alignment
+ * @text コマンドのテキスト揃え
+ * @parent ---ウィンドウ---
+ * @type combo
+ * @option left
+ * @option center
+ * @option right
+ * @desc パーティ/アクターコマンドのテキスト揃え
+ * デフォルト:left
+ * @default left
+ *
+ * @param Start Actor Command
+ * @text ターン開始時コマンド
+ * @parent ---ウィンドウ---
+ * @type boolean
+ * @on アクター
+ * @off パーティ
+ * @desc ターン開始時のコマンド
+ * パーティ:false / アクター:true
+ * @default true
+ *
+ * @param Current Max
+ * @text HP/MPの表示形式
+ * @parent ---ウィンドウ---
+ * @type boolean
+ * @on 現在値・最大値
+ * @off 現在値のみ
+ * @desc 現在のHP/MPの表示形式。現在値のみ:false  / 現在値・最大値:true / デフォルト:true
+ * @default false
+ *
+ * @param ---選択ヘルプ---
+ * @default
+ *
+ * @param Mouse Over
+ * @text マウスオーバー
+ * @parent ---選択ヘルプ---
+ * @type boolean
+ * @on 選択する
+ * @off 選択しない
+ * @desc マウスを敵に乗せた時に自動的に選択しますか?
+ * 選択しない:false / 選択する:true
+ * @default true
+ *
+ * @param Select Help Window
+ * @text 選択時ヘルプ表示
+ * @parent ---選択ヘルプ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc アクター、敵を選択時ヘルプウィンドウの表示。非表示:false / 表示:true
+ * @default true
+ *
+ * @param User Help Text
+ * @text ヘルプ中"使用者"表示テキスト
+ * @parent ---選択ヘルプ---
+ * @desc ヘルプウィンドウ内で"使用者"の表示テキスト
+ * @default 使用者
+ *
+ * @param Ally Help Text
+ * @text ヘルプ中"味方"表示テキスト
+ * @parent ---選択ヘルプ---
+ * @desc ヘルプウィンドウ内で"味方単体"の表示テキスト
+ * @default 味方単体
+ *
+ * @param Allies Help Text
+ * @text ヘルプ中"味方複数"表示テキスト
+ * @parent ---選択ヘルプ---
+ * @desc ヘルプウィンドウ内で"味方複数"の表示テキスト
+ * @default 味方
+ *
+ * @param Enemy Help Text
+ * @text ヘルプ中"敵単体"表示テキスト
+ * @parent ---選択ヘルプ---
+ * @desc ヘルプウィンドウ内で"敵単体"の表示テキスト
+ * @default 敵単体
+ *
+ * @param Enemies Help Text
+ * @text ヘルプ中"敵複数"表示テキスト
+ * @parent ---選択ヘルプ---
+ * @desc ヘルプウィンドウ内で"敵複数"の表示テキスト
+ * @default 敵
+ *
+ * @param All Help Text
+ * @text ヘルプ中"グループ全体"表示テキスト
+ * @parent ---選択ヘルプ---
+ * @desc 対象のグループ全体を選択した際のテキスト表示
+ * %1:対象となるグループ (味方/敵)
+ * @default 全ての%1
+ *
+ * @param Random Help Text
+ * @text ヘルプ中"ランダム"表示テキスト
+ * @parent ---選択ヘルプ---
+ * @desc ランダム対象を選択した際のテキスト表示
+ * %1:対象となるグループ (味方/敵) / %2:数
+ * @default ランダムな%1へ%2回
+ *
+ * @param ---敵選択---
+ * @default
+ *
+ * @param Visual Enemy Select
+ * @text 敵選択画面
+ * @parent ---敵選択---
+ * @type boolean
+ * @on 変更
+ * @off デフォルト
+ * @desc 敵の選択画面をより視覚的なものに変更しますか?
+ * デフォルト:false / 変更:true
+ * @default true
+ *
+ * @param Show Enemy Name
+ * @text 敵の名前表示
+ * @parent ---敵選択---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Select Box
+ * @text 選択枠の表示
+ * @parent ---敵選択---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Enemy Font Size
+ * @text 敵の名前フォントサイズ
+ * @parent ---敵選択---
+ * @type number
+ * @min 1
+ * @desc デフォルト:28
+ * @default 20
+ *
+ * @param Enemy Auto Select
+ * @text 敵の自動選択方式
+ * @parent ---敵選択---
+ * @desc 最初に自動的に選択される敵を指定
+ * 左:0 / 右:this.furthestRight()
+ * @default this.furthestRight()
+ *
+ * @param ---アクター選択---
+ * @default
+ *
+ * @param Visual Actor Select
+ * @text アクター選択画面
+ * @parent ---アクター選択---
+ * @type boolean
+ * @on クリック選択
+ * @off デフォルト
+ * @desc デフォルト:false / クリック選択:true
+ * @default true
+ *
+ * @param ---戦闘ログ---
+ * @default
+ *
+ * @param Show Emerge Text
+ * @text 戦闘開始のテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Pre-Emptive Text
+ * @text 先制攻撃のテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Surprise Text
+ * @text 不意打ちのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Optimize Speed
+ * @text ログカット分の速度
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 速度アップ
+ * @off デフォルト
+ * @desc デフォルト:false / 速度アップ:true
+ * @default true
+ *
+ * @param Show Action Text
+ * @text アクションテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on フル
+ * @off シンプル
+ * @desc シンプル:false / フル:true
+ * @default false
+ *
+ * @param Show State Text
+ * @text ステートのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Buff Text
+ * @text バフのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Counter Text
+ * @text 反撃のテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Reflect Text
+ * @text 反射のテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Substitute Text
+ * @text 置換ダメージのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default true
+ *
+ * @param Show Fail Text
+ * @text 攻撃失敗のテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Critical Text
+ * @text 会心ヒットのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Miss Text
+ * @text 攻撃失敗のテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show Evasion Text
+ * @text 攻撃回避のテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show HP Text
+ * @text HPのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show MP Text
+ * @text MPのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @param Show TP Text
+ * @text TPのテキスト表示
+ * @parent ---戦闘ログ---
+ * @type boolean
+ * @on 表示
+ * @off 非表示
+ * @desc 非表示:false / 表示:true
+ * @default false
+ *
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ *
+ * ===========================================================================
+ * 導入
+ * ===========================================================================
+ *
+ * このプラグインは、デフォルトの戦闘システムに様々な変更を行うことで、
+ * これまでのRPGとは一線を画した戦闘を可能にします。
+ * 戦闘のログウィンドウ上部に表示されるテキストを選んだり、
+ * またそれがどのように表示されるかを選ぶことができます。
+ *
+ * ===========================================================================
+ * 戦闘メッセージ
+ * ===========================================================================
+ *
+ * 戦闘時に表示される"用語"と"メッセージ"を変更する際は、
+ * 下記のタグをメッセージのどこかに挿入することで
+ * メッセージを戦闘ログの中央に表示させることができます。
+ *
+ *   <CENTER>
+ *     このタグは頭に置くようにし、戦闘ログウィンドウに、
+ *     メッセージを中央に配置する命令であると認識させるようにしてください。
+ *
+ * スキルとアイテムの表示を変えるためのメモタグが存在します。
+ * 『ハロルドの攻撃』などの表示を変更することが出来ます。
+ *
+ * スキル、アイテムのメモタグ
+ *
+ *   <Display Text: x>
+ *     表示テキストを x に変更。
+ *
+ *   <Display Icon: x>
+ *     表示アイコンを x に変更。
+ *
+ * ===========================================================================
+ * 戦闘ウィンドウ
+ * ===========================================================================
+ *
+ * 戦闘システムをより直感的にするため、ウィンドウ設定を行います。
+ * 例えば、パーティコマンドウィンドウ(戦う/逃げるウィンドウ)の代わりに
+ * アクターコマンドウィンドウでターンを開始するといった方式が可能になります。
+ * その際アクターウィンドウでキャンセルを押せば、
+ * パーティコマンドウィンドウを表示させることもできます。
+ *
+ * ===========================================================================
+ * 戦闘のターンシステム
+ * ===========================================================================
+ *
+ * 戦闘のターンシステムについても修正が成されています。
+ * 戦闘中に変化するAGI値を持ったバトラーには、
+ * その変更を現在のターンから即反映させることができます。
+ * アクションスピードの計算についても調整が成されており、
+ * ランダム要因の微調整を行い、AGIを戦略的な能力値として
+ * 有効なものにすることができます。
+ *
+ * スキル、アイテムのメモタグ
+ *   <speed: +x>
+ *   <speed: -x>
+ *     エディタで制限されてる最大(2000)・最低(-2000)の数値以外でも
+ *     設定する事が出来るようになり、
+ *     アクションをより自由にコントロール出来るようになります。
+ *
+ * ===========================================================================
+ * マルチヒット
+ * ===========================================================================
+ *
+ * マルチヒットアクションの途中で対象が死亡した場合でも、
+ * アクションが途中で終わってしまうことはありません。
+ * この機能は不死身ステートを用いることで使用可能になるため、
+ * データベース内のどこか不死身状態のIDを持っておく必要があります。
+ * この機能が不要である場合、そのIDのパラメータを0に設定してください。
+ *
+ * ===========================================================================
+ * ダメージのポップアップ
+ * ===========================================================================
+ *
+ * ダメージのポップアップについても変更が成されています。
+ * デフォルトのものと見た目の変化はありませんが、
+ * ポップアップ生成のプロセスが変更されています。
+ * これまで、ポップアップは各フレーム毎に1つずつの表示となっていましたが、
+ * 本変更では、同時に起こったアクションに対して、
+ * 同フレーム内に全てのポップアップを表示することが可能になっています。
+ * これにより、ダメージポップアップをスムーズに表示できるようになります。
+ *
+ * ===========================================================================
+ * コモンイベント
+ * ===========================================================================
+ *
+ * 敵のパーティが生存しているか否かに関わらず、
+ * 各アクションの終わりにコモンイベントを起こすことができます。
+ * アクションシークエンスのタグを用いれば、
+ * スキルのコモンイベントをアクションの途中で呼び出すこともできます。
+ * ただし、アクションの途中で別のアクションを強制的に実行した場合、
+ * 前に実行していたアクションのシークエンスリストは
+ * 無効になってしまうことに気を付けてください。
+ *
+ * ===========================================================================
+ * キャストアニメーション
+ * ===========================================================================
+ *
+ * この機能を用いると、戦闘時にどのバトラーが次に行動をするか、
+ * どのタイプのスキルを使うかという視覚的なヒントを
+ * プレイヤーに与えることができます。
+ * スキルに"振り"のアニメーションを付与することができ、
+ * スキル毎に設定することも、全体に一括設定することも可能です。
+ *
+ * スキルのメモタグ:
+ *   <Cast Animation: x>
+ *     アニメーションID x に、振りのアニメーションを付与します。
+ *     xの値を0にすれば、アニメーションは設定されません。
+ *
+ * ===========================================================================
+ * 戦闘システムの変更
+ * ===========================================================================
+ *
+ * プレイヤーが戦闘中でない際でも、プラグインコマンドを使えば
+ * 戦闘システムを変更することができます。
+ * 現在このプラグインには、デフォルトの戦闘システムのみが含まれています。
+ *
+ * プラグインコマンド:
+ *   setBattleSys DTB      戦闘システムをデフォルトのターン制に設定します
+ *
+ * Battle Engine Coreを利用するその他の戦闘システムは、
+ * 今後リリースされるプラグインに収録される予定です。
+ *
+ * ===========================================================================
+ * サイドビューアクション
+ * ===========================================================================
+ *
+ * RPGツクールMVのサイドビュー/フロントビュー設定では
+ * 反撃、魔法反射、メンバー交代の表示をすることができませんでした。
+ * Battle Engine Coreを利用すれば、
+ * サイドビュー設定のゲームにアニメーションを付与し、
+ * より多くの視覚的な情報をプレイヤーに与えることができます。
+ *
+ * 反射アニメーションを使えば、そのバトラーに魔法反射能力があることを
+ * アニメーションで表すことができます。
+ * このアニメーションはパラメータによって変更することが可能です。
+ * また特定のアクター、職業、敵、武器、防具、ステートにも、
+ * アニメーションを付与することができます。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ:
+ *   <Reflect Animation ID: x>
+ *     xに対して反射のアニメーションの変更を行うことができます。
+ *     下記の優先順位で適用されます
+ *     アクター > 職業 > 敵 > 武器 > 防具 > ステート > デフォルト
+ *
+ * 敵、特定のアクターの動作を封じたい場合、
+ * 下記のメモタグを用いてください。
+ *
+ * アクター、職業、敵、武器、防具、ステートのメモタグ:
+ *   <Sprite Cannot Move>
+ *     バトラーの動きを封じます。
+ *     下記の優先順位で適用されます
+ *     アクター > 職業 > 敵 > 武器 > 防具 > ステート
+ *
+ * このステートで敵がアクションを取ると、
+ * フロントビュー表示時と同様、白く光ります。
+ *
+ * ===========================================================================
+ * サイドビュー時バトラー固定位置カスタム
+ * ===========================================================================
+ *
+ * サイドビュー時バトラーは通常、水平方向に集約され、直立して配置されますが、
+ * このカスタマイズで、通常とは異なる向きにバトラーを固定することができます。
+ *
+ * アクター、職業、武器、防具、ステートのメモタグ:
+ *   <Anchor X: y.z>
+ *   <Anchor Y: y.z>
+ *     アクターのサイドビューバトラーのアンカー固定位置を、
+ *     y.zで設定することができます。
+ *     デフォルトでは、Xアンカーは0.5、Yアンカーは1.0で設定されています。
+ *     Xアンカーを左に動かすには、数値を0.5以下に、
+ *     Yアンカーを上に動かすには、数値を1.0以下にしてください。
+ *
+ * もしアンカーが複数特性を持っていて、他のアンカーと関わってるのであれば
+ * 下記の優先順位で適用されます。
+ *
+ *   ステート
+ *   武器
+ *   防具
+ *   職業
+ *   アクター
+ *   デフォルト
+ *
+ * 優先順位は上が高く、下にいくと低くなります。
+ *
+ * ===========================================================================
+ * 敵の攻撃アニメーション
+ * ===========================================================================
+ *
+ * 以下のメモタグを使えば、敵にオリジナル攻撃アニメーションを付与できます。
+ *
+ * 敵のメモタグ:
+ *   <Attack Animation: x>
+ *     xに対して敵のデフォルト攻撃アニメーションの変更が出来ます。
+ *
+ * ===========================================================================
+ * 自動ステート解除条件
+ * ===========================================================================
+ *
+ * RPGツクールMVのデフォルトバトルシステムでは下記の3つの条件で
+ * ステートの自動解除を実行することが出来ます。
+ * :"なし"、"行動終了時"、"戦闘終了時"。
+ *
+ * "なし"と"戦闘終了時"は想定通りに動いてますが、
+ * "行動終了時"は、終了時ではなく、
+ * 行動開始時のステート解除となっていました。
+ * この仕様を変更し、終了時に動作します。
+ *
+ * 更に2つの自動解除条件も足されています。
+ * "行動開始時"と"戦闘開始時"です。
+ * 下記のメモタグを使うと実行できます。
+ *
+ * ステートのメモタグ:
+ *   <Action Start: x>
+ *   <Action Start: x to y>
+ *     このステートについては、
+ *     行動開始時に残っているターン数でアップデートされます。
+ *     x はそのターン数を表します。
+ *     "x to y"を使った場合、xからyの間で、ランダムに自動解除します。
+ *
+ *   <Turn Start: x>
+ *   <Turn Start: x to y>
+ *     このステートについては、
+ *     バトルターン開始時に残っているターン数でアップデートされます。
+ *     x はそのターン数を表します。'x to y'を使った場合、
+ *     xからyの間で、ランダムに自動解除します。
+ *
+ * "行動終了時"を選んだ場合、独特な仕様があり、
+ * もしステートのキャスターが現在のアクティブアクターであった場合、
+ * そして使用者にそのステートが適用された場合、
+ * "フリーターン"を得ることになります。
+ * この"フリーターン"は使用者が無駄に1ターンを使ってしまうことを防ぎます。
+ * そうしなければ行動終了時にターン数が減るという仕様になっていて、
+ * そのターンだけ効果が無駄になってしまいます。
+ *
+ * ===========================================================================
+ * アクションシークケンス
+ * ===========================================================================
+ *
+ * アクションシークエンスは、視覚的/機能的に
+ * カスタマイズスキルを作成できる、基本的な命令です。
+ * Battle Engine Coreには基礎的もののみが含まれていますが、
+ * 将来的には、拡張プラグインのヘルプファイル内に、
+ * カスタムアクションシークエンスの作成方法が収録される予定です。
+ *
+ * ===========================================================================
+ * Changelog
+ * ===========================================================================
+ *
+ * Version 1.51:
+ * - Fixed updateBattlerName function. Thanks to ZServ.
+ *
+ * Version 1.50:
+ * - Action sequences allow for unlimited arguments now.
+ *
+ * Version 1.49:
+ * - Added failsafe for 'furthestRight()' errors.
+ *
+ * Version 1.48:
+ * - Optimization update.
+ *
+ * Version 1.47:
+ * - Bypass the isDevToolsOpen() error when bad code is inserted into a script
+ * call or custom Lunatic Mode code segment due to updating to MV 1.6.1.
+ *
+ * Version 1.46:
+ * - Updated for RPG Maker MV version 1.6.1.
+ *
+ * Version 1.45:
+ * - Updated for RPG Maker MV version 1.5.0.
+ *
+ * Version 1.44:
+ * - Fixed a bug where the enemy name windows disappear if you change scenes
+ * mid-way through battle and return to it.
+ *
+ * Version 1.43b:
+ * - Bug fixed to prevent crash if non-existent actions are used.
+ * - Optimization update.
+ *
+ * Version 1.42:
+ * - Optimization update.
+ *
+ * Version 1.41:
+ * - Fixed a bug that allowed certain sprites to remain in the active pool
+ * while party members were removed midway through battle.
+ *
+ * Version 1.40:
+ * - Updated for RPG Maker MV version 1.3.2.
+ *
+ * Version 1.39c:
+ * - Fixed a bug that caused dead actors to not be a part of action sequence
+ * targeting for "Not Focus".
+ * - Optimization update.
+ * - Updated "queueForceAction" to utilize both numbers and actual targets.
+ *
+ * Version 1.38a:
+ * - Optimization update.
+ * - Compatibility update for Selection Control v1.08.
+ * - Bug fixed for mirrored animations on enemies.
+ *
+ * Version 1.37:
+ * - Fixed a bug where if the enemy's size is too small, the enemy's name
+ * during selection will be cut off.
+ *
+ * Version 1.36d:
+ * - Made an update for the battle background image snaps when there is no
+ * battleback being used. This will prevent the player party and enemy troop
+ * from appearing in the background snapshot when entering menus mid-battle.
+ * - 'Death Break' action sequence now only triggers upon dead status and not
+ * an 'or 0 HP' condition.
+ * - Updated Forced Action sequencing for more efficiency.
+ * - 'Action Times+' traits now work properly for DTB again.
+ * - Optimized message displaying for battle log.
+ * - Optimized z sorting algorithm for sprites.
+ *
+ * Verison 1.35d:
+ * - Scopes that target a dead ally will automatically target the first dead
+ * ally now. Scopes that target all dead allies will lock onto the first dead
+ * ally. This will hopefully provide less confusion amongst playing.
+ * - Added anti-crash measure for sprite bitmaps.
+ * - Added anti-crash measure for faux actions.
+ * - Added anti-crash measure to prevent non-existant animations from playing.
+ * - Added a check that prevents hidden battlers from appearing when using
+ * certain action sequences.
+ *
+ * Version 1.34a:
+ * - Fixed a bug where 'NOT FOCUS' targets were not including dead members.
+ * - Fixed a bug where using NOT FOCUS would cause dead targets to be visible.
+ *
+ * Version 1.33:
+ * - Updated for RPG Maker MV version 1.1.0.
+ *
+ * Version 1.32d:
+ * - Fixed a bug that caused a crash when an actor died.
+ * - Added a motion engine to be used for future plugins.
+ * - Preparation for a future plugin.
+ * - <Anchor X: y.z> and <Anchor Y: y.z> notetags for actors are now extended
+ * to actors, classes, weapons, armors, and states.
+ * - Added <Display Text: x> and <Display Icon: x> notetags for skills and
+ * items. These notetags will alter the display name shown and icon shown
+ * respectively while performing a skill.
+ * - Switched Magic Reflect checking order with Counterattack checking order.
+ * This is to give priority to reflected actions over countered actions.
+ *
+ * Version 1.31b:
+ * - States with Action End now have a unique trait to them where if the
+ * caster of the state is the current active battler (subject) and if the
+ * state is then applied on the user itself, they will gain a 'free turn'.
+ * The 'free turn' is to mitigate the user from losing 1 duration of the turn
+ * since with an Action End timing, they would lose the benefit of being under
+ * the state for that turn's timing.
+ * - Added failsafes for Free Turns in case other plugins have overwritten the
+ * on battle start functions.
+ * - Added a compatibility update to Animated SV Enemies for dead motion.
+ *
+ * Version 1.30:
+ * - Optimization update.
+ * - Fixed a bug that prevented added state effects be unable to apply if they
+ * are an added Death state.
+ * - Battlelog lines are now able to display text codes.
+ *
+ * Version 1.29:
+ * - Fixed a bug with the 'else if' action sequences not working in the right
+ * order of sequence conditions.
+ *
+ * Version 1.28d:
+ * - Fixed a bug if instant casting a skill that would make an opponent
+ * battler to force an action to end incorrectly. Thanks to DoubleX for the
+ * fix.
+ * - Fixed a bug with mouse over not working properly.
+ * - Fixed a bug regarding forced actions that will cause the battle to freeze
+ * if the forced action causes the main active subject to leave the battle.
+ * - Fixed a bug with timed states not updating their turns properly.
+ * - Changed priority of IF action sequences to higher to no longer interfere
+ * other action sequences.
+ *
+ * Version 1.27:
+ * - Mechanic change. This will only affect those using turn-based state
+ * timing mechanics. Turn End state updates are now shifted from Turn End to
+ * occur at Regeneration timing to have a more synchronized aspect. The
+ * timings are very close so there's next to no notice in difference. Buff
+ * turn updates are also moved to the regeneration timing, too.
+ *
+ * Version 1.26:
+ * - Added 'Mouse Over' parameter to Selection Help. This parameter enables
+ * mouse users to simply hover over the enemy to select them rather than
+ * having to click an enemy twice to select them.
+ *
+ * Version 1.25f:
+ * - Added failsafes for Forced Action queues.
+ * - Added 'Show Select Box' parameter when selecting enemies.
+ * - Fixed a bug that caused End Turn events to not function properly.
+ * - Battle animations, by default, are positioned relative to the base bitmap
+ * for its target sprite. However, actor sprites do not have a base bitmap and
+ * therefore, battle animations, regardless of position, will always target
+ * the actor sprite's feet. This update now gives actor sprites a base bitmap.
+ * - Readjusted sprite width and sprite height calculations.
+ * - Added a failsafe for when no sideview actor graphics are used.
+ *
+ * Version 1.24:
+ * - Implemented a Forced Action queue list. This means if a Forced Action
+ * takes place in the middle of an action, the action will resume after the
+ * forced action finishes rather than cancels it out like MV does.
+ *
+ * Version 1.23:
+ * - Fixed a bug that didn't regenerate HP/MP/TP properly for tick-based.
+ *
+ * Version 1.22:
+ * - Fixed a bug within MV that caused Forced Actions at Turn End to prompt
+ * and trigger all turn-end related activities (such as regeneration and state
+ * turn updating).
+ * - Made a mechanic change so that Action Start and Action End state turns do
+ * not update their turns through forced actions.
+ *
+ * Version 1.21:
+ * - Fixed a bug where states Action End weren't going down properly with DTB.
+ *
+ * Version 1.20:
+ * - Fixed a bug where revived actors using instant cast aren't properly set
+ * to use actions immediately.
+ *
+ * Version 1.19:
+ * - Added <Attack Animation: x> notetag for enemies.
+ * - Added 'AI Self Turns' for Tick-Based Battles. Enemies can now have their
+ * A.I. revolve around their own individual turns rather than the battle's.
+ * - Mechanic change for states. Following suit with the change to Action End
+ * removal, there are now two more conditions added: Action Start, Turn Start.
+ * - Added <Action Start: x>, <Action Start: x to y>, <Turn Start: x>, and
+ * <Turn Start: x to y> notetags for automatic state removal.
+ *
+ * Version 1.18:
+ * - Fixed a bug with irregular targeting scopes.
+ * - Fixed an MV-related bug with Recover All event not refreshing battlers.
+ *
+ * Version 1.17b:
+ * - Fixed a bug with action end states to remove multiple at once.
+ * - Fixed a visual error with flinching sprites.
+ * - Added 'Current Max' parameter to change HP current/max display in battle.
+ * - Mechanic change for states that update on Action End to end at the end of
+ * a battler's turn instead of at the start.
+ * - Began preparations for another battle system.
+ *
+ * Version 1.16:
+ * - Fixed an issue with mirrored enemies having mirrored state icons.
+ *
+ * Version 1.15a:
+ * - Fixed a bug revolving the status window not updating.
+ * - Updated default home position formula to better fit other party sizes.
+ * New Home Position X:
+ *   screenWidth - 16 - (maxSize + 2) * 32 + index * 32
+ * New Home Position Y:
+ *   screenHeight - statusHeight - maxSize * 48 + (index+1) * 48 - 16
+ *
+ * Version 1.14:
+ * - Fixed a bug with Forced Actions locking out the battle.
+ * - New mechanic: For tick-based battle systems, states with action-end will
+ * go down in turns based on how many actions took place for the actor
+ * instead.  Previously, they were indistinguishable from states with Turn End
+ * removal.
+ * - New mechanic: Using Instant Skills/Items from YEP_InstantCast.js will
+ * also cause states with action-end to go down in turns upon using actions.
+ *
+ * Version 1.13a:
+ * - Fixed a bug that made battlebacks disappear.
+ * - Reworked visual enemy selection.
+ * - Victory phase doesn't immediately display level up changes in battle
+ * status window.
+ * - Fixed a bug with the visual enemy select showing dead enemy names.
+ *
+ * Version 1.12b:
+ * - If the Battle HUD has been hidden for whatever reason during the victory
+ * sequence, it will be returned.
+ * - Added <speed: +x> and <speed: -x> notetags to break past editor limits.
+ * - Added new conditions where the battle won't end until all action
+ * sequences have been fulfilled.
+ *
+ * Version 1.11:
+ * - Fixed a bug that didn't show HP/MP Regeneration.
+ *
+ * Version 1.10:
+ * - Removed immortal state dependancy. Immortality is now its own setting.
+ * - Added more abbreviated variables for action speed calculation.
+ * - Fixed a bug where all-scope attacks would reveal Appear-Halfway enemies.
+ * - Fixed a bug where the battle wouldn't end if the final enemy was killed
+ * by state damage.
+ *
+ * Version 1.09:
+ * - Fixed a undefined actor bug for refreshing the status window.
+ * - Added 'Show Shadows' parameter to the plugin settings.
+ * - Reworked the default action sequences so that forced actions do not
+ * appear on top of each other and party-heal animations occur simultaneously.
+ *
+ * Version 1.08:
+ * - Fixed a bug where battlers gaining HP/MP in the damage formula for
+ * themselves wouldn't trigger popups.
+ * - Fixed a bug where if the party failed to escape from battle, states that
+ * would be removed by battle still get removed. *Fixed by Emjenoeg*
+ * - Fixed a bug where instant death skills didn't work.
+ * - Changed Sprite Priority settings to decide whether actors, enemies, or
+ * neither would always be on top.
+ *
+ * Version 1.07:
+ * - Optimized status window to refresh at a minimum.
+ * - Set up frame work for future plugins:
+ * - Added 'Escape Ratio' and 'Fail Escape Boost' to parameters to allow users
+ * to set the escape ratio they want.
+ * - Added 'Front Sprite Priority' and 'Side Sprite Priority' to parameters to
+ * dictate if actor sprites are always on top.
+ * - Added 'Tick-Settings' category for tick-based battle systems.
+ *
+ * Version 1.06:
+ * - Fixed a bug that causes dead actors at the start of battle to not spawn.
+ * - Fixed a bug where the help window on an empty slot would show the
+ * previous skill's message.
+ *
+ * Version 1.05:
+ * - Added new target typing: Character X, which allows you to select
+ * specifically the actor with an actor ID of X if he/she/it is in the party.
+ * - Fixed a bug that prevented Miss and Evade popups from showing.
+ *
+ * Version 1.04:
+ * - Fixed a bug where popups didn't show under certain animation types.
+ * - Fixed certain battler motions from not refreshing correctly.
+ * - Actions with no scope will not trigger the confirmation selection window.
+ *
+ * Version 1.03:
+ * - Added 'Wait for Effect' action sequence.
+ * - Actions now wait for effects (such as collapsing) to be done before
+ * continuing on with battle or to end battle.
+ *
+ * Version 1.02:
+ * - Fixed a bug where the help window would retain descriptions on no skills.
+ * - Synched up weapons with actor sprites so they would occur simultaneously.
+ * - Fixed an issue where requesting certain motions from enemies that don't
+ * exist would cause them to crash.
+ *
+ * Version 1.01:
+ * - Skills and items that affect both HP and MP will now show popups for
+ * both.
+ *
+ * Version 1.00:
+ * - Finished plugin!
+ */
