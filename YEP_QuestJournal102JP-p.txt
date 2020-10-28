@@ -9,18 +9,10 @@
  *
  * このプラグインを日本語で使用するには YEP_MessageCore
  * で提供される WordWrap タグ機能はほとんど役に立ちません。
- * 公式で配布されている YED_WordWrap の使用を推奨します。
- * YED_WordWrap を使用する前提で、翻訳設定を済ませてあります。
- * 変更されている箇所は、このプラグインの下記のパラメーター内です。
- * データウィンドウ＞クエスト表示形式
+ * Dark Plasma Word Wrap For Japanese を推奨します。
+ * https://raw.githubusercontent.com/elleonard/RPGtkoolMV-Plugins/master/plugins/DarkPlasma_WordWrapForJapanese.js
  *
- * YED_WordWrap の使用方法は、下記になります。
- *   1.YED_WordWrapプラグインを入れます。
- *   2.プラグイン設定内の「Break Word」を「false」から「true」に書き換えます。
- *   3.クエスト表示形式の最初に <wrap> タグを入れます。(このパッチは設定済み)
  * 文章が表示幅からはみ出ると改行されるようになります。
- * 表示幅以外で強制的に改行したり、空行を入れたい箇所には
- * <br> タグを入れてください。
  *
  * ===========================================================================
  * 導入
@@ -1065,7 +1057,7 @@
  * @parent ---クエストメニュー---
  * @type struct<DataWindow>
  * @desc クエストデータウィンドウのプロパティを調整します。
- * @default {"---データ---":"","No Data Text":"\"\\\\c[4]クエストジャーナル\\\\c[0]では、\\n世界中の人々から受けたクエストを\\n確認できます。\"","Quest Data Format":"\"<wrap>\\\\{%1\\\\}\\n<br>\\\\c[4]難易度:\\\\c[0] %2\\n<br>\\\\c[4]依頼者:\\\\c[0] %3\\n<br>\\\\c[4]場所:\\\\c[0] %4\\n<br>\\n<br>\\\\c[4]説明:\\\\c[0]\\n<br>%5\\n<br>\\n<br>\\\\c[4]目的:\\\\c[0]\\n<br>%6\\n<br>\\n<br>\\\\c[4]報酬:\\\\c[0]\\n<br>%7\\n<br>\\n<br>%8\"","Uncleared Objective":"\\i[160]%1","Completed Objective":"\\i[165]%1","Failed Objective":"\\i[162]%1","Unclaimed Reward":"\\i[160]%1","Claimed Reward":"\\i[163]%1","Denied Reward":"\\i[161]%1","Load Delay":"30","---ウィンドウ---":"","X":"Graphics.boxWidth - width","Y":"Graphics.boxHeight - height","Width":"Graphics.boxWidth * 2 / 3","Height":"Graphics.boxHeight - this.fittingHeight(1)","Line Height":"36","Font Face":"GameFont","Font Size":"28","Standard Padding":"18","Text Padding":"6","Standard Opacity":"255","Back Opacity":"192","Window Skin":"Window","Scroll Speed":"4"}
+ * @default {"---データ---":"","No Data Text":"\"\\\\c[4]クエストジャーナル\\\\c[0]では、\\n世界中の人々から受けたクエストを\\n確認できます。\"","Quest Data Format":"\"\\\\{%1\\\\}\\n\\\\c[4]難易度:\\\\c[0] %2\\n\\\\c[4]依頼者:\\\\c[0] %3\\n\\\\c[4]場所:\\\\c[0] %4\\n\\n\\\\c[4]説明:\\\\c[0]\\n%5\\n\\n\\\\c[4]目的:\\\\c[0]\\n%6\\n\\n\\\\c[4]報酬:\\\\c[0]\\n%7\\n\\n%8\"","Uncleared Objective":"\\i[160]%1","Completed Objective":"\\i[165]%1","Failed Objective":"\\i[162]%1","Unclaimed Reward":"\\i[160]%1","Claimed Reward":"\\i[163]%1","Denied Reward":"\\i[161]%1","Load Delay":"30","---ウィンドウ---":"","X":"Graphics.boxWidth - width","Y":"Graphics.boxHeight - height","Width":"Graphics.boxWidth * 2 / 3","Height":"Graphics.boxHeight - this.fittingHeight(1)","Line Height":"36","Font Face":"GameFont","Font Size":"28","Standard Padding":"18","Text Padding":"6","Standard Opacity":"255","Back Opacity":"192","Window Skin":"Window","Scroll Speed":"4"}
  *
  * @param Lunatic Mode
  * @text ルナティックモード
